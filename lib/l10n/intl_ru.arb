@@ -1,0 +1,28 @@
+{
+  "deleteLocation": "Удалить локацию?",
+  "cancel": "Отмена",
+  "yes": "Да",
+  "infoTitle": "О приложении",
+  "infoContent": "Текст в инфо",
+  "close": "Закрыть",
+  "renameLocationTitle": "Введите название локации",
+  "locationNameTemplate": "Новая локация №",
+  "addCurrentLocation": "Добавить текущую локацию",
+  "warningLocationServiceDisabled": "Определение геолокации отключено",
+  "warningTurnOnLocationService": "Включите опеределение геолокации",
+  "warningNoSavedLocations": "Сохраненные локации отсутствуют.",
+  "warningPleasePress": "Нажмите ",
+  "warningToSaveLocation": " чтобы сохранить текущую локацию.",
+  "warningInstruction": "После сохранения текущей локации Вы сможете в любой момент в любом месте выбрать ее из списка и увидеть в каком направлении и на каком расстоянии от Вас она находится. Также, Вы можете поделиться сохраненной локацией со своими друзьями.",
+  "warningGPSPermissionDenied": "Отсутствует разрешение для определения геолокации",
+  "warningRequestGPSPermission": "Запросить разрешение",
+  "lessThan5Metres": "Менее 5 м",
+  "metres": "м",
+  "tipCompass": "Компасс",
+  "tipLocationAccuracy": "Точность GPS:",
+  "tipDeleteLocation": "Удалить локацию",
+  "tipShareLocation": "Поделиться локацией",
+  "dateFormat": "dd/MM/yyyy H:mm",
+  "tipRenameLocation": "Изменить название"
+
+}
