@@ -30,7 +30,13 @@ class LocationList extends StatelessWidget {
                     left: BorderSide(
                         color: _applicationData.getSelectedColor(index ==
                             _applicationData.getSelectedLocationPointId),
-                        width: 5)),
+                        width: 5),
+                    // bottom: BorderSide(
+                    //     color: _applicationData.getSelectedColor(index ==
+                    //         _applicationData.getSelectedLocationPointId),
+                    //     width: 1),
+
+                ),
               ),
               child: ListTile(
                 selected: index == _applicationData.getSelectedLocationPointId,
@@ -48,11 +54,10 @@ class LocationList extends StatelessWidget {
                               _applicationData.getSelectedLocationPointId),
                         ),
                         tooltip: S.of(context).tipDeleteLocation,
-                        onPressed: () =>
-                            showDialog(
-                                context: context,
-                                builder: (_) =>
-                                    DeleteLocationAlert(context, index)),
+                        onPressed: () => showDialog(
+                            context: context,
+                            builder: (_) =>
+                                DeleteLocationAlert(context, index)),
                       ),
                       IconButton(
                         icon: Icon(
@@ -63,26 +68,16 @@ class LocationList extends StatelessWidget {
                         tooltip: S.of(context).tipShareLocation,
                         onPressed: () {
                           return Share.share(
-                              "${_locationPointListStorage
-                                  .elementAt(index)
-                                  .pointName} https://www.google.com/maps/search/?api=1&query=${_locationPointListStorage
-                                  .elementAt(index)
-                                  .pointLatitude},${_locationPointListStorage
-                                  .elementAt(index)
-                                  .pointLongitude}");
+                              "${_locationPointListStorage.elementAt(index).pointName} https://www.google.com/maps/search/?api=1&query=${_locationPointListStorage.elementAt(index).pointLatitude},${_locationPointListStorage.elementAt(index).pointLongitude}");
                         },
                       ),
                     ],
                   ),
                 ),
                 title: Text(
-                    "${_locationPointListStorage
-                        .elementAt(index)
-                        .pointName}"),
+                    "${_locationPointListStorage.elementAt(index).pointName}"),
                 subtitle: Text(
-                    "${DateFormat(S.of(context).dateFormat).format(_locationPointListStorage
-                        .elementAt(index)
-                        .getCreationTime)}"),
+                    "${DateFormat(S.of(context).dateFormat).format(_locationPointListStorage.elementAt(index).getCreationTime)}"),
               ),
             ),
             clipper: ShapeBorderClipper(

@@ -26,7 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "close" : MessageLookupByLibrary.simpleMessage("Закрыть"),
     "dateFormat" : MessageLookupByLibrary.simpleMessage("dd/MM/yyyy H:mm"),
     "deleteLocation" : MessageLookupByLibrary.simpleMessage("Удалить локацию?"),
-    "infoContent" : MessageLookupByLibrary.simpleMessage("Текст в инфо"),
+    "infoContent" : MessageLookupByLibrary.simpleMessage("Сохраняй локации и находи обратный путь к ним (работает оффлайн)"),
     "infoTitle" : MessageLookupByLibrary.simpleMessage("О приложении"),
     "lessThan5Metres" : MessageLookupByLibrary.simpleMessage("Менее 5 м"),
     "locationNameTemplate" : MessageLookupByLibrary.simpleMessage("Новая локация №"),

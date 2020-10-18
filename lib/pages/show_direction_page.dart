@@ -48,70 +48,87 @@ class ShowDirectionPage extends StatelessWidget {
         _applicationData.getLocationPoint.pointLatitude,
         _applicationData.getLocationPoint.pointLongitude);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Card(
-          elevation: 8,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Center(
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // IconButton(
-                  //   icon: Icon(
-                  //     Icons.info_outline_rounded,
-                  //     color: Colors.green,
-                  //   ),
-                  //   enableFeedback: true,
-                  //   tooltip: "Информация",
-                  //   onPressed: () => showDialog(
-                  //       context: context, builder: (_) => InfoAlert(context)),
-                  // ),
-                  IconButton(
-                    icon: Transform.rotate(
-                      angle: -compass * (pi / 180),
-                      child: Icon(Icons.keyboard_arrow_up_outlined,
-                          size: 24, color: Colors.green),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Card(
+                      elevation: 4,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                icon: Transform.rotate(
+                                  angle: -compass * (pi / 180),
+                                  child: Icon(Icons.keyboard_arrow_up_rounded, size: 30, color: Colors.green),
+                                ),
+                                tooltip: S.of(context).tipCompass,
+                                onPressed: () => showDialog(
+                                    context: context,
+                                    builder: (_) => InfoAlert(context)),
+                              ),
+                              IconButton(
+                                  icon: Icon(Icons.my_location,
+                                      size: 24,
+                                      color: _applicationData
+                                          .getAccuracyMarkerColor(
+                                              _position.accuracy)),
+                                  enableFeedback: true,
+                                  tooltip:
+                                      "${S.of(context).tipLocationAccuracy} ${_position.accuracy.toStringAsFixed(0)} ${S.of(context).metres}",
+                                  onPressed: null)
+                            ],
+                          ),
+                          showDirection(distance, result),
+                          //TestDirection(compass, bearing, result),
+                          SizedBox(height: 30),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                showDistance(context, distance),
+                                style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.green),
+                              ),
+                              PointName(),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    tooltip: S.of(context).tipCompass,
-                    onPressed: () => showDialog(
-                        context: context, builder: (_) => InfoAlert(context)),
-                  ),
-                  IconButton(
-                      icon: Icon(Icons.my_location,
-                          size: 24,
-                          color: _applicationData
-                              .getAccuracyMarkerColor(_position.accuracy)),
-                      enableFeedback: true,
-                      tooltip:
-                          "${S.of(context).tipLocationAccuracy} ${_position.accuracy.toStringAsFixed(0)} ${S.of(context).metres}",
-                      onPressed: null)
-                ],
-              ),
-              showDirection(distance, result),
-              //TestDirection(compass, bearing, result),
-              SizedBox(height: 30),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    showDistance(context, distance),
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.green),
-                  ),
-                  PointName(),
-                ],
+                    // Divider(color: Colors.green),
+                    Expanded(child: LocationList()),
+                  ],
+                ),
               ),
             ],
           ),
         ),
-        // Divider(color: Colors.green),
-        Expanded(child: LocationList()),
-      ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add_location_alt,
+          size: 30,
+        ),
+        onPressed: () {
+          context.read<ApplicationData>().setCurrentLocationAsPoint(
+              _position, S.of(context).locationNameTemplate);
+        },
+        elevation: 10,
+        tooltip: S.of(context).addCurrentLocation,
+      ),
     );
   }
 }

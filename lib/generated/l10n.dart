@@ -73,10 +73,10 @@ class S {
     );
   }
 
-  /// `Info Text`
+  /// `Save location & find your way back (works offline, no network connection needed)`
   String get infoContent {
     return Intl.message(
-      'Info Text',
+      'Save location & find your way back (works offline, no network connection needed)',
       name: 'infoContent',
       desc: '',
       args: [],

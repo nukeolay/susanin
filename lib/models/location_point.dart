@@ -5,7 +5,6 @@ class LocationPoint {
   DateTime _creationTime;
 
   void setCreationTime() {
-    //_creationTime = DateFormat('dd/MM/yyyy H:mm').format(DateTime.now());
     _creationTime = DateTime.now();
   }
 

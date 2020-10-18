@@ -8,7 +8,6 @@ import 'package:susanin/pages/home_page.dart';
 import 'package:susanin/pages/location_service_disabled.dart';
 import 'package:susanin/pages/permission_denied_page.dart';
 
-
 class StartUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -31,8 +30,7 @@ class StartUp extends StatelessWidget {
                 distanceFilter: 0),
             catchError: (_, __) => null,
           ),
-          ChangeNotifierProvider<ApplicationData>.value(value: applicationData,
-          ),
+          ChangeNotifierProvider<ApplicationData>.value(value: applicationData),
         ],
         child: HomePage(),
       );
