@@ -22,8 +22,8 @@ class StartUp extends StatelessWidget {
       applicationData.loadPrefs();
       return MultiProvider(
         providers: [
-          StreamProvider<double>.value(
-              value: FlutterCompass.events, initialData: 0.0),
+          StreamProvider<CompassEvent>.value(
+              value: FlutterCompass.events),
           StreamProvider<Position>.value(
             value: getPositionStream(
                 desiredAccuracy: LocationAccuracy.bestForNavigation,

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/alerts/info_alert.dart';
 import 'package:susanin/models/app_data.dart';
@@ -32,7 +33,7 @@ class ShowDirectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _compassDirection = context.watch<double>();
+    double _compassDirection = context.watch<CompassEvent>().heading;
     Position _position = context.watch<Position>();
     ApplicationData _applicationData = context.watch<ApplicationData>();
     double compass = _compassDirection ?? 0;
@@ -42,7 +43,7 @@ class ShowDirectionPage extends StatelessWidget {
         _applicationData.getLocationPoint.pointLatitude,
         _applicationData.getLocationPoint.pointLongitude);
     double result = compass + bearing;
-    double distance = distanceBetween(
+    double distance = Geolocator.distanceBetween(
         _position.latitude,
         _position.longitude,
         _applicationData.getLocationPoint.pointLatitude,

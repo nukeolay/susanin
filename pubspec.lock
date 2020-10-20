@@ -75,7 +75,7 @@ packages:
       name: flutter_compass
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.7"
+    version: "0.5.0"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -97,14 +97,14 @@ packages:
       name: geolocator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0+4"
+    version: "6.1.0"
   geolocator_platform_interface:
     dependency: transitive
     description:
       name: geolocator_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.5"
   intl:
     dependency: "direct main"
     description:
@@ -202,21 +202,21 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.23.1"
+    version: "0.24.1"
   share:
     dependency: "direct main"
     description:
       name: share
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.5+2"
+    version: "0.6.5+3"
   shared_preferences:
     dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.12"
+    version: "0.5.12+2"
   shared_preferences_linux:
     dependency: transitive
     description:
