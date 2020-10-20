@@ -37,7 +37,7 @@ class ShowDirectionPage extends StatelessWidget {
     Position _position = context.watch<Position>();
     ApplicationData _applicationData = context.watch<ApplicationData>();
     double compass = _compassDirection ?? 0;
-    double bearing = -bearingBetween(
+    double bearing = -Geolocator.bearingBetween(
         _position.latitude,
         _position.longitude,
         _applicationData.getLocationPoint.pointLatitude,
