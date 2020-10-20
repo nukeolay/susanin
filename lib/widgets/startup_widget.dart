@@ -25,7 +25,7 @@ class StartUp extends StatelessWidget {
           StreamProvider<CompassEvent>.value(
               value: FlutterCompass.events),
           StreamProvider<Position>.value(
-            value: getPositionStream(
+            value: Geolocator.getPositionStream(
                 desiredAccuracy: LocationAccuracy.bestForNavigation,
                 distanceFilter: 0),
             catchError: (_, __) => null,
