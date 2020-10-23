@@ -3,11 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class TestDirection extends StatelessWidget {
-  final double compass;
+  final double compassDirection;
+  final double compassAccuracy;
   final double bearing;
   final double result;
 
-  TestDirection(this.compass, this.bearing, this.result);
+  TestDirection(this.compassDirection, this.compassAccuracy, this.bearing, this.result);
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +27,12 @@ class TestDirection extends StatelessWidget {
         //--------------RESULT---------------
         //--------------COMPASS---------------
         Transform.rotate(
-          angle: -compass * (pi / 180),
+          angle: -compassDirection * (pi / 180),
           child: Icon(Icons.arrow_circle_up_rounded,
               size: 50.0, color: Colors.red[600]),
         ),
         Text(
-            "Компасс: радианы ${(compass * (pi / 180)).toStringAsFixed(3)}, градусы ${(compass).toStringAsFixed(0)}°"),
+            "Компасс: радианы ${(compassDirection * (pi / 180)).toStringAsFixed(3)}, градусы ${(compassDirection).toStringAsFixed(0)}°, точность $compassAccuracy"),
         Divider(color: Colors.black),
         //--------------COMPASS---------------
         //--------------BEARING---------------

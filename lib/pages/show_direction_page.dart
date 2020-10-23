@@ -5,9 +5,11 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/alerts/info_alert.dart';
 import 'package:susanin/models/app_data.dart';
+import 'package:susanin/widgets/accuracy_gps_widget.dart';
 import 'package:susanin/widgets/location_list.dart';
 import 'package:susanin/widgets/point_name.dart';
 import 'package:provider/provider.dart';
+import 'package:susanin/widgets/small_compass_widget.dart';
 import 'package:susanin/widgets/test_direction_widget.dart';
 import 'package:susanin/generated/l10n.dart';
 
@@ -18,6 +20,7 @@ class ShowDirectionPage extends StatelessWidget {
     else
       return "${distance.toStringAsFixed(0)} ${S.of(context).metres}";
   }
+
 
   Widget showDirection(double distance, double resultDirection) {
     if (distance < 5) {
@@ -33,16 +36,17 @@ class ShowDirectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _compassDirection = context.watch<CompassEvent>().heading;
+    double _compassDirection = context.watch<CompassEvent>().heading ?? 0;
+    //double _compassAccuracy = context.watch<CompassEvent>().accuracy;
     Position _position = context.watch<Position>();
     ApplicationData _applicationData = context.watch<ApplicationData>();
-    double compass = _compassDirection ?? 0;
-    double bearing = -Geolocator.bearingBetween(
+    //double compass = _compassDirection ?? 0;
+    double _bearing = -Geolocator.bearingBetween(
         _position.latitude,
         _position.longitude,
         _applicationData.getLocationPoint.pointLatitude,
         _applicationData.getLocationPoint.pointLongitude);
-    double result = compass + bearing;
+    double result = _compassDirection + _bearing;
     double distance = Geolocator.distanceBetween(
         _position.latitude,
         _position.longitude,
@@ -67,30 +71,12 @@ class ShowDirectionPage extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              IconButton(
-                                icon: Transform.rotate(
-                                  angle: -compass * (pi / 180),
-                                  child: Icon(Icons.keyboard_arrow_up_rounded, size: 30, color: Colors.green),
-                                ),
-                                tooltip: S.of(context).tipCompass,
-                                onPressed: () => showDialog(
-                                    context: context,
-                                    builder: (_) => InfoAlert(context)),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.my_location,
-                                      size: 24,
-                                      color: _applicationData
-                                          .getAccuracyMarkerColor(
-                                              _position.accuracy)),
-                                  enableFeedback: true,
-                                  tooltip:
-                                      "${S.of(context).tipLocationAccuracy} ${_position.accuracy.toStringAsFixed(0)} ${S.of(context).metres}",
-                                  onPressed: null)
+                              SmallCompassWidget(_applicationData, _compassDirection),
+                              AccuracyGpsWidget(_applicationData, _position),
                             ],
                           ),
                           showDirection(distance, result),
-                          //TestDirection(compass, bearing, result),
+                          //TestDirection(_compassDirection, null, _bearing, result),
                           SizedBox(height: 30),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,

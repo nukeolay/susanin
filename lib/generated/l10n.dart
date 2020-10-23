@@ -223,20 +223,20 @@ class S {
     );
   }
 
-  /// `Compass`
+  /// `North`
   String get tipCompass {
     return Intl.message(
-      'Compass',
+      'North',
       name: 'tipCompass',
       desc: '',
       args: [],
     );
   }
 
-  /// `Location accuracy:`
+  /// `GPS accuracy`
   String get tipLocationAccuracy {
     return Intl.message(
-      'Location accuracy:',
+      'GPS accuracy',
       name: 'tipLocationAccuracy',
       desc: '',
       args: [],
