@@ -223,10 +223,10 @@ class S {
     );
   }
 
-  /// `North`
+  /// `minicompass`
   String get tipCompass {
     return Intl.message(
-      'North',
+      'minicompass',
       name: 'tipCompass',
       desc: '',
       args: [],

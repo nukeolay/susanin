@@ -32,7 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "locationNameTemplate" : MessageLookupByLibrary.simpleMessage("New location №"),
     "metres" : MessageLookupByLibrary.simpleMessage("m"),
     "renameLocationTitle" : MessageLookupByLibrary.simpleMessage("Enter location name"),
-    "tipCompass" : MessageLookupByLibrary.simpleMessage("North"),
+    "tipCompass" : MessageLookupByLibrary.simpleMessage("minicompass"),
     "tipDeleteLocation" : MessageLookupByLibrary.simpleMessage("Delete location"),
     "tipLocationAccuracy" : MessageLookupByLibrary.simpleMessage("GPS accuracy"),
     "tipRenameLocation" : MessageLookupByLibrary.simpleMessage("Rename location"),
