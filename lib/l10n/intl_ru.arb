@@ -18,7 +18,7 @@
   "warningRequestGPSPermission": "Запросить разрешение",
   "lessThan5Metres": "Менее 5 м",
   "metres": "м",
-  "tipCompass": "Север",
+  "tipCompass": "миникомпасс",
   "tipLocationAccuracy": "Точность GPS",
   "tipDeleteLocation": "Удалить локацию",
   "tipShareLocation": "Поделиться локацией",

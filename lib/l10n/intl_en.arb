@@ -18,7 +18,7 @@
   "warningRequestGPSPermission": "Request permission",
   "lessThan5Metres": "Distance less than 5 m",
   "metres": "m",
-  "tipCompass": "North",
+  "tipCompass": "minicompass",
   "tipLocationAccuracy": "GPS accuracy",
   "tipDeleteLocation": "Delete location",
   "tipShareLocation": "Share location",
