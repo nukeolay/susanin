@@ -1,18 +1,15 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'package:susanin/models/app_data.dart';
+import 'package:provider/provider.dart';
 
 class SmallCompassWidget extends StatelessWidget {
-  ApplicationData _applicationData;
-  double _compassDirection;
-
-  SmallCompassWidget(this._applicationData, this._compassDirection);
-
   @override
   Widget build(BuildContext context) {
+    double _compassDirection = context.watch<CompassEvent>().heading ?? 0;
+    ApplicationData _applicationData = context.watch<ApplicationData>();
     if (_applicationData.shortCompassForm) {
       return IconButton(
         icon: Transform.rotate(

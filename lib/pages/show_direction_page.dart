@@ -21,7 +21,6 @@ class ShowDirectionPage extends StatelessWidget {
       return "${distance.toStringAsFixed(0)} ${S.of(context).metres}";
   }
 
-
   Widget showDirection(double distance, double resultDirection) {
     if (distance < 5) {
       return Icon(Icons.check_circle_rounded, size: 110.0, color: Colors.green);
@@ -37,10 +36,8 @@ class ShowDirectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _compassDirection = context.watch<CompassEvent>().heading ?? 0;
-    //double _compassAccuracy = context.watch<CompassEvent>().accuracy;
     Position _position = context.watch<Position>();
     ApplicationData _applicationData = context.watch<ApplicationData>();
-    //double compass = _compassDirection ?? 0;
     double _bearing = -Geolocator.bearingBetween(
         _position.latitude,
         _position.longitude,
@@ -71,8 +68,8 @@ class ShowDirectionPage extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SmallCompassWidget(_applicationData, _compassDirection),
-                              AccuracyGpsWidget(_applicationData, _position),
+                              SmallCompassWidget(),
+                              AccuracyGpsWidget(),
                             ],
                           ),
                           showDirection(distance, result),

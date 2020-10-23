@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'package:susanin/models/app_data.dart';
+import 'package:provider/provider.dart';
 
 class AccuracyGpsWidget extends StatelessWidget {
-  ApplicationData _applicationData;
-  Position _position;
-
-  AccuracyGpsWidget(this._applicationData, this._position);
-
   @override
   Widget build(BuildContext context) {
+    Position _position = context.watch<Position>();
+    ApplicationData _applicationData = context.watch<ApplicationData>();
     if (_applicationData.shortAccuracyForm) {
       return IconButton(
           icon: Icon(Icons.my_location,
