@@ -62,7 +62,7 @@ class ShowDirectionPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Card(
-                      elevation: 4,
+                      elevation: 7,
                       child: Column(
                         children: [
                           Row(

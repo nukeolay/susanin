@@ -21,68 +21,71 @@ class LocationList extends StatelessWidget {
       addAutomaticKeepAlives: false,
       itemExtent: 80,
       itemBuilder: (context, index) {
-        return Card(
-          elevation: 1,
-          child: ClipPath(
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                    left: BorderSide(
-                        color: _applicationData.getSelectedColor(index ==
-                            _applicationData.getSelectedLocationPointId),
-                        width: 5),
-                    // bottom: BorderSide(
-                    //     color: _applicationData.getSelectedColor(index ==
-                    //         _applicationData.getSelectedLocationPointId),
-                    //     width: 1),
+        return Padding(
+          padding: const EdgeInsets.only(left: 5, right: 5),
+          child: Card(
+            elevation: 1,
+            child: ClipPath(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                      left: BorderSide(
+                          color: _applicationData.getSelectedColor(index ==
+                              _applicationData.getSelectedLocationPointId),
+                          width: 5),
+                      // bottom: BorderSide(
+                      //     color: _applicationData.getSelectedColor(index ==
+                      //         _applicationData.getSelectedLocationPointId),
+                      //     width: 1),
 
-                ),
-              ),
-              child: ListTile(
-                selected: index == _applicationData.getSelectedLocationPointId,
-                onTap: () {
-                  context.read<ApplicationData>().setSelectLocationById(index);
-                },
-                leading: SizedBox(
-                  width: 99,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.delete_outline,
-                          color: _applicationData.getSelectedColor(index ==
-                              _applicationData.getSelectedLocationPointId),
-                        ),
-                        tooltip: S.of(context).tipDeleteLocation,
-                        onPressed: () => showDialog(
-                            context: context,
-                            builder: (_) =>
-                                DeleteLocationAlert(context, index)),
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.share,
-                          color: _applicationData.getSelectedColor(index ==
-                              _applicationData.getSelectedLocationPointId),
-                        ),
-                        tooltip: S.of(context).tipShareLocation,
-                        onPressed: () {
-                          return Share.share(
-                              "${_locationPointListStorage.elementAt(index).pointName} https://www.google.com/maps/search/?api=1&query=${_locationPointListStorage.elementAt(index).pointLatitude},${_locationPointListStorage.elementAt(index).pointLongitude}");
-                        },
-                      ),
-                    ],
                   ),
                 ),
-                title: Text(
-                    "${_locationPointListStorage.elementAt(index).pointName}"),
-                subtitle: Text(
-                    "${DateFormat(S.of(context).dateFormat).format(_locationPointListStorage.elementAt(index).getCreationTime)}"),
+                child: ListTile(
+                  selected: index == _applicationData.getSelectedLocationPointId,
+                  onTap: () {
+                    context.read<ApplicationData>().setSelectLocationById(index);
+                  },
+                  leading: SizedBox(
+                    width: 99,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete_outline,
+                            color: _applicationData.getSelectedColor(index ==
+                                _applicationData.getSelectedLocationPointId),
+                          ),
+                          tooltip: S.of(context).tipDeleteLocation,
+                          onPressed: () => showDialog(
+                              context: context,
+                              builder: (_) =>
+                                  DeleteLocationAlert(context, index)),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.share,
+                            color: _applicationData.getSelectedColor(index ==
+                                _applicationData.getSelectedLocationPointId),
+                          ),
+                          tooltip: S.of(context).tipShareLocation,
+                          onPressed: () {
+                            return Share.share(
+                                "${_locationPointListStorage.elementAt(index).pointName} https://www.google.com/maps/search/?api=1&query=${_locationPointListStorage.elementAt(index).pointLatitude},${_locationPointListStorage.elementAt(index).pointLongitude}");
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  title: Text(
+                      "${_locationPointListStorage.elementAt(index).pointName}"),
+                  subtitle: Text(
+                      "${DateFormat(S.of(context).dateFormat).format(_locationPointListStorage.elementAt(index).getCreationTime)}"),
+                ),
               ),
+              clipper: ShapeBorderClipper(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(3))),
             ),
-            clipper: ShapeBorderClipper(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(3))),
           ),
         );
       },

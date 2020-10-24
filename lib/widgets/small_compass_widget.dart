@@ -10,7 +10,7 @@ class SmallCompassWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double _compassDirection = context.watch<CompassEvent>().heading ?? 0;
     ApplicationData _applicationData = context.watch<ApplicationData>();
-    if (_applicationData.shortCompassForm) {
+    if (_applicationData.isShortCompassForm) {
       return IconButton(
         icon: Transform.rotate(
           angle: -_compassDirection * (pi / 180),

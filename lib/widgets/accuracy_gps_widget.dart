@@ -9,7 +9,7 @@ class AccuracyGpsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Position _position = context.watch<Position>();
     ApplicationData _applicationData = context.watch<ApplicationData>();
-    if (_applicationData.shortAccuracyForm) {
+    if (_applicationData.isShortAccuracyForm) {
       return IconButton(
           icon: Icon(Icons.my_location,
               size: 24,

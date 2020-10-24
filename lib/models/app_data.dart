@@ -12,8 +12,8 @@ class ApplicationData extends ChangeNotifier {
   ListQueue<LocationPoint> _locationPointListStorage;
   int _locationCounter;
   bool loaded = false;
-  bool shortAccuracyForm = true;
-  bool shortCompassForm = true;
+  bool _shortAccuracyForm = true;
+  bool _shortCompassForm = true;
 
   savePrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -107,20 +107,20 @@ class ApplicationData extends ChangeNotifier {
     if (accuracy >= 20) {
       return Colors.red;
     }
-    else if (accuracy >= 15) {
+    else if (accuracy >= 10) {
       return Colors.orangeAccent[400];
-    }
-    else if (accuracy >= 9) {
-      return Colors.yellowAccent[400];
     }
     else return Colors.green;
   }
 
   void switchShortAccuracyForm() {
-    shortAccuracyForm = !shortAccuracyForm;
+    _shortAccuracyForm = !_shortAccuracyForm;
   }
 
   void switchShortCompassForm() {
-    shortCompassForm = !shortCompassForm;
+    _shortCompassForm = !_shortCompassForm;
   }
+
+  get isShortAccuracyForm => _shortAccuracyForm;
+  get isShortCompassForm => _shortCompassForm;
 }

@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteLocation" : MessageLookupByLibrary.simpleMessage("Delete location?"),
     "infoContent" : MessageLookupByLibrary.simpleMessage("Save location & find your way back (works offline, no network connection needed)"),
     "infoTitle" : MessageLookupByLibrary.simpleMessage("About"),
-    "lessThan5Metres" : MessageLookupByLibrary.simpleMessage("Distance less than 5 m"),
+    "lessThan5Metres" : MessageLookupByLibrary.simpleMessage("Distance is less than 5 m"),
     "locationNameTemplate" : MessageLookupByLibrary.simpleMessage("New location №"),
     "metres" : MessageLookupByLibrary.simpleMessage("m"),
     "renameLocationTitle" : MessageLookupByLibrary.simpleMessage("Enter location name"),
