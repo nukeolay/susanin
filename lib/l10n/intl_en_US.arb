@@ -16,7 +16,7 @@
   "warningInstruction": "After saving the current location, you can select it from the list and see it`s direction and distance to it. Also, you can share it with your friends.",
   "warningGPSPermissionDenied": "Location permission denied",
   "warningRequestGPSPermission": "Request permission",
-  "lessThan5Metres": "Distance less than 5 m",
+  "lessThan5Metres": "Distance is less than 5 m",
   "metres": "m",
   "tipCompass": "minicompass",
   "tipLocationAccuracy": "GPS accuracy",
