@@ -7,17 +7,15 @@ import 'package:provider/provider.dart';
 class AccuracyGpsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Position _position = context.watch<Position>();
-    ApplicationData _applicationData = context.watch<ApplicationData>();
-    if (_applicationData.isShortAccuracyForm) {
+    if (context.watch<ApplicationData>().isShortAccuracyForm) {
       return IconButton(
           icon: Icon(Icons.my_location,
               size: 24,
               color:
-                  _applicationData.getAccuracyMarkerColor(_position.accuracy)),
+              context.watch<ApplicationData>().getAccuracyMarkerColor(context.watch<Position>().accuracy)),
           enableFeedback: true,
           onPressed: () {
-            _applicationData.switchShortAccuracyForm();
+            context.read<ApplicationData>().switchShortAccuracyForm();
           });
     } else {
       return TextButton(
@@ -25,16 +23,16 @@ class AccuracyGpsWidget extends StatelessWidget {
           //mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              "${S.of(context).tipLocationAccuracy} ${_position.accuracy.toStringAsFixed(0)} ${S.of(context).metres}",
+              "${S.of(context).tipLocationAccuracy} ${context.watch<Position>().accuracy.toStringAsFixed(0)} ${S.of(context).metres}",
               style: TextStyle(
                 color:
-                    _applicationData.getAccuracyMarkerColor(_position.accuracy),
+                context.watch<ApplicationData>().getAccuracyMarkerColor(context.watch<Position>().accuracy),
               ),
             )
           ],
         ),
         onPressed: () {
-          _applicationData.switchShortAccuracyForm();
+          context.read<ApplicationData>().switchShortAccuracyForm();
         },
       );
     }

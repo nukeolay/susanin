@@ -9,8 +9,7 @@ class SmallCompassWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _compassDirection = context.watch<CompassEvent>().heading ?? 0;
-    ApplicationData _applicationData = context.watch<ApplicationData>();
-    if (_applicationData.isShortCompassForm) {
+    if (context.watch<ApplicationData>().isShortCompassForm) {
       return IconButton(
         icon: Transform.rotate(
           angle: -_compassDirection * (pi / 180),
@@ -18,7 +17,7 @@ class SmallCompassWidget extends StatelessWidget {
               size: 30, color: Colors.green),
         ),
         onPressed: () {
-          _applicationData.switchShortCompassForm();
+          context.read<ApplicationData>().switchShortCompassForm();
         },
       );
     } else {
@@ -40,7 +39,7 @@ class SmallCompassWidget extends StatelessWidget {
           ],
         ),
         onPressed: () {
-          _applicationData.switchShortCompassForm();
+          context.read<ApplicationData>().switchShortCompassForm();
         },
       );
     }
