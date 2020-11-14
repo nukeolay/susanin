@@ -32,34 +32,43 @@ class NoLocationPage extends StatelessWidget {
                             color: Colors.red,
                             fontWeight: FontWeight.bold)),
                     SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(S.of(context).warningPleasePress,
-                            style: TextStyle(fontSize: 20)),
-                        CircleAvatar(
-                            child: Icon(Icons.add_location_alt,
-                                color: Colors.white),
-                            radius: 20.0,
-                            backgroundColor: Colors.green),
-                      ],
-                    ),
-                    Text(
-                      S.of(context).warningToSaveLocation,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    SizedBox(
                       height: 20,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text(
-                        S.of(context).warningInstruction,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(fontSize: 18, color: Colors.black),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(S.of(context).warningPleasePress,
+                                    style: TextStyle(fontSize: 20)),
+                                CircleAvatar(
+                                    child: Icon(Icons.add_location_alt,
+                                        color: Colors.white),
+                                    radius: 20.0,
+                                    backgroundColor: Colors.green),
+                              ],
+                            ),
+                            Text(
+                              S.of(context).warningToSaveLocation,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 6.0, bottom: 70.0),
+                              child: Text(
+                                S.of(context).warningInstruction,
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.black),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

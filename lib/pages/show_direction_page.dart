@@ -81,7 +81,7 @@ class ShowDirectionPage extends StatelessWidget {
                               Text(
                                 showDistance(context, distance),
                                 style: TextStyle(
-                                    fontSize: 30,
+                                    fontSize: 25,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.green),
                               ),
