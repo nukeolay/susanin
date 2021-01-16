@@ -1,5 +1,6 @@
+import 'package:flutter/services.dart';
 import 'package:susanin/generated/l10n.dart';
-import 'package:susanin/models/app_data.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/app_data_old.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,13 +11,18 @@ AlertDialog RenameLocationAlert(BuildContext context) {
       TextEditingController(text: pointName);
   return AlertDialog(
     title: Text(S.of(context).renameLocationTitle),
-    content: TextFormField(
-      maxLength: 20,
-      maxLengthEnforced: true,
-      controller: _textFieldController,
-      autofocus: false,
-      textInputAction: TextInputAction.go,
-      keyboardType: TextInputType.name,
+    content: Form(
+      child: TextFormField(
+        maxLength: 25,
+        maxLengthEnforced: true,
+        controller: _textFieldController,
+        autofocus: false,
+        textInputAction: TextInputAction.go,
+        keyboardType: TextInputType.name,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(25),
+        ],
+      ),
     ),
     actions: [
       FlatButton(
@@ -30,7 +36,7 @@ AlertDialog RenameLocationAlert(BuildContext context) {
       FlatButton(
         onPressed: () {
           if (_textFieldController.text == "" ||
-              _textFieldController.text.length > 20) {
+              _textFieldController.text.length > 25) {
             _textFieldController.clear();
           } else {
             context

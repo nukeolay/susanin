@@ -21,14 +21,18 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "about" : MessageLookupByLibrary.simpleMessage("О приложении"),
     "addCurrentLocation" : MessageLookupByLibrary.simpleMessage("Добавить текущую локацию"),
     "cancel" : MessageLookupByLibrary.simpleMessage("Отмена"),
+    "changeTheme" : MessageLookupByLibrary.simpleMessage("Темная/Светлая тема"),
     "close" : MessageLookupByLibrary.simpleMessage("Закрыть"),
+    "compass" : MessageLookupByLibrary.simpleMessage("компасс"),
     "dateFormat" : MessageLookupByLibrary.simpleMessage("dd/MM/yyyy H:mm"),
     "deleteLocation" : MessageLookupByLibrary.simpleMessage("Удалить локацию?"),
     "infoContent" : MessageLookupByLibrary.simpleMessage("Сохраняй локации и находи обратный путь к ним (работает оффлайн)"),
-    "infoTitle" : MessageLookupByLibrary.simpleMessage("О приложении"),
+    "kilometres" : MessageLookupByLibrary.simpleMessage("км"),
     "lessThan5Metres" : MessageLookupByLibrary.simpleMessage("Менее 5 м"),
+    "locationAccuracy" : MessageLookupByLibrary.simpleMessage("точность"),
     "locationNameTemplate" : MessageLookupByLibrary.simpleMessage("Новая локация №"),
     "metres" : MessageLookupByLibrary.simpleMessage("м"),
     "renameLocationTitle" : MessageLookupByLibrary.simpleMessage("Введите название локации"),

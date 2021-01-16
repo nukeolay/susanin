@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/alerts/info_alert.dart';
 import 'package:susanin/generated/l10n.dart';
-import 'package:susanin/models/app_data.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/app_data_old.dart';
 import 'package:susanin/widgets/top_info_page.dart';
 import 'package:provider/provider.dart';
 
@@ -37,6 +37,7 @@ class NoLocationPage extends StatelessWidget {
                     Expanded(
                       child: SingleChildScrollView(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

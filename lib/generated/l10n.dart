@@ -66,10 +66,20 @@ class S {
   }
 
   /// `About`
-  String get infoTitle {
+  String get about {
     return Intl.message(
       'About',
-      name: 'infoTitle',
+      name: 'about',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dark/Light mode`
+  String get changeTheme {
+    return Intl.message(
+      'Dark/Light mode',
+      name: 'changeTheme',
       desc: '',
       args: [],
     );
@@ -225,6 +235,16 @@ class S {
     );
   }
 
+  /// `km`
+  String get kilometres {
+    return Intl.message(
+      'km',
+      name: 'kilometres',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `minicompass`
   String get tipCompass {
     return Intl.message(
@@ -240,6 +260,26 @@ class S {
     return Intl.message(
       'GPS accuracy',
       name: 'tipLocationAccuracy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `accuracy`
+  String get locationAccuracy {
+    return Intl.message(
+      'accuracy',
+      name: 'locationAccuracy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `compass`
+  String get compass {
+    return Intl.message(
+      'compass',
+      name: 'compass',
       desc: '',
       args: [],
     );

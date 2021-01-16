@@ -4,39 +4,31 @@ class LocationPoint {
   String _pointName;
   DateTime _creationTime;
 
-  void setCreationTime() {
-    _creationTime = DateTime.now();
-  }
-
-  LocationPoint(
-      {double latitude, double longitude, String pointName, DateTime creationTime}) {
+  LocationPoint({double latitude, double longitude, String pointName, DateTime creationTime}) {
     _latitude = latitude;
     _longitude = longitude;
     _pointName = pointName;
-    if (creationTime == null) {
-      setCreationTime();
-    }
-    else {
-      _creationTime = creationTime;
-    }
+    _creationTime = creationTime;
   }
 
-  Map toJson() =>
-      {
-        'latitude': _latitude,
-        'longitude': _longitude,
-        'pointName': _pointName,
-        'creationTime': _creationTime.millisecondsSinceEpoch
-      };
+  LocationPoint.createNew({double latitude, double longitude, String pointName}) {
+    _latitude = latitude;
+    _longitude = longitude;
+    _pointName = pointName; // когда разберусь с блоком, сделать чтобы именование происходило автоматически, без передачи имени в параметр метода (сейчас не получается, потому что нужно получить из intl заготовку для имени, в зависимости от языка)
+    _creationTime = DateTime.now();
+  }
+
+  Map toJson() => {'latitude': _latitude, 'longitude': _longitude, 'pointName': _pointName, 'creationTime': _creationTime.millisecondsSinceEpoch};
 
   factory LocationPoint.fromJson(dynamic json) {
-    return LocationPoint(latitude: json["latitude"] as double,
+    return LocationPoint(
+        latitude: json["latitude"] as double,
         longitude: json["longitude"] as double,
         pointName: json["pointName"] as String,
         creationTime: DateTime.fromMillisecondsSinceEpoch(json["creationTime"] as int));
   }
 
-  String toString(){
+  String toString() {
     return "latitude: $_latitude, longitude: $_longitude, pointName: $_pointName, _creationTime: $_creationTime";
   }
 

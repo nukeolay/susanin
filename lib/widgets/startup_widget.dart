@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:susanin/models/app_data.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/app_data_old.dart';
 import 'package:susanin/models/gps_permission_stream.dart';
 import 'package:susanin/pages/home_page.dart';
 import 'package:susanin/pages/location_service_disabled.dart';

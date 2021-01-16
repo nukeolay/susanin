@@ -21,14 +21,18 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "about" : MessageLookupByLibrary.simpleMessage("About"),
     "addCurrentLocation" : MessageLookupByLibrary.simpleMessage("Add current location"),
     "cancel" : MessageLookupByLibrary.simpleMessage("Cancel"),
+    "changeTheme" : MessageLookupByLibrary.simpleMessage("Dark/Light mode"),
     "close" : MessageLookupByLibrary.simpleMessage("Close"),
+    "compass" : MessageLookupByLibrary.simpleMessage("compass"),
     "dateFormat" : MessageLookupByLibrary.simpleMessage("MM/dd/yyyy H:mm"),
     "deleteLocation" : MessageLookupByLibrary.simpleMessage("Delete location?"),
     "infoContent" : MessageLookupByLibrary.simpleMessage("Save location & find your way back (works offline, no network connection needed)"),
-    "infoTitle" : MessageLookupByLibrary.simpleMessage("About"),
+    "kilometres" : MessageLookupByLibrary.simpleMessage("km"),
     "lessThan5Metres" : MessageLookupByLibrary.simpleMessage("Distance is less than 5 m"),
+    "locationAccuracy" : MessageLookupByLibrary.simpleMessage("accuracy"),
     "locationNameTemplate" : MessageLookupByLibrary.simpleMessage("New location №"),
     "metres" : MessageLookupByLibrary.simpleMessage("m"),
     "renameLocationTitle" : MessageLookupByLibrary.simpleMessage("Enter location name"),

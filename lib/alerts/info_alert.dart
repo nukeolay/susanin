@@ -3,7 +3,7 @@ import 'package:susanin/generated/l10n.dart';
 
 AlertDialog InfoAlert(BuildContext context) {
   return AlertDialog(
-    title: Text(S.of(context).infoTitle),
+    title: Text(S.of(context).about),
     content: Text(S.of(context).infoContent),
     actions: [
       FlatButton(

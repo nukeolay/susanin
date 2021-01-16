@@ -19,7 +19,7 @@ class TopInfoPage extends StatelessWidget {
               child: Icon(
                 Icons.location_off_outlined,
                 color: Colors.red,
-                size: 200,
+                size: 100,
               ),
             ),
           ),

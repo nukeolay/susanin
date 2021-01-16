@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:susanin/alerts/delete_location_alert.dart';
 import 'package:susanin/generated/l10n.dart';
-import 'package:susanin/models/app_data.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/app_data_old.dart';
 import 'package:susanin/models/location_point.dart';
 import 'package:share/share.dart';
 
@@ -14,7 +14,7 @@ class LocationList extends StatelessWidget {
   Widget build(BuildContext context) {
     ApplicationData _applicationData = context.watch<ApplicationData>();
     ListQueue<LocationPoint> _locationPointListStorage =
-        _applicationData.getLocationPointListStorage;
+        _applicationData.getLocationPointListStorage as ListQueue<LocationPoint>;
 
     return ListView.builder(
       itemCount: _applicationData.getLocationPointListStorage.length,

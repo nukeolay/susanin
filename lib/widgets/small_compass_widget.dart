@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:susanin/generated/l10n.dart';
-import 'package:susanin/models/app_data.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/app_data_old.dart';
 import 'package:provider/provider.dart';
 
 class SmallCompassWidget extends StatelessWidget {
