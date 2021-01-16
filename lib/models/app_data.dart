@@ -32,7 +32,7 @@ class AppData {
 
 
 
-
+  // TODO проверить для чего нужны методы ниже.
 
   static LocationPoint get getLocationPoint => _locationPointListStorage.elementAt(_selectedLocationPointId);
 

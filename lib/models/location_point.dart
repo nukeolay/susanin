@@ -14,7 +14,7 @@ class LocationPoint {
   LocationPoint.createNew({double latitude, double longitude, String pointName}) {
     _latitude = latitude;
     _longitude = longitude;
-    _pointName = pointName; // когда разберусь с блоком, сделать чтобы именование происходило автоматически, без передачи имени в параметр метода (сейчас не получается, потому что нужно получить из intl заготовку для имени, в зависимости от языка)
+    _pointName = pointName; // TODO когда разберусь с блоком, сделать чтобы именование происходило автоматически, без передачи имени в параметр метода (сейчас не получается, потому что нужно получить из intl заготовку для имени, в зависимости от языка)
     _creationTime = DateTime.now();
   }
 
