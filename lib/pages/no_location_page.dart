@@ -5,7 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:susanin/alerts/info_alert.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/app_data_old.dart';
-import 'package:susanin/widgets/top_info_page.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/top_info_page.dart';
 import 'package:provider/provider.dart';
 
 class NoLocationPage extends StatelessWidget {

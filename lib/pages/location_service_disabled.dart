@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:susanin/generated/l10n.dart';
-import 'package:susanin/widgets/top_info_page.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/top_info_page.dart';
 
 class LocationServiceDisabled extends StatelessWidget {
   @override

@@ -1,33 +1,32 @@
 import 'dart:collection';
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:susanin/models/app_data.dart';
 import 'package:susanin/models/location_point.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DataLoader {
-  static void savePrefs() async {
+  Future<AppData> loadPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt("savedSelectedLocationPointId", AppData.getSelectedLocationPointId);
-    await prefs.setInt("savedLocationCounter", AppData.getLocationCounter);
-    await prefs.setString("savedLocationStorage", jsonEncode(AppData.getLocationPointListStorage.toList()));
-  }
-
-  static ListQueue<LocationPoint> jsonToLocationsList(List<dynamic> json) {
-    ListQueue<LocationPoint> locationsList = new ListQueue();
-    for (dynamic element in json) {
-      locationsList.add(LocationPoint.fromJson(element));
-    }
-    return locationsList;
-  }
-
-  static void loadPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    AppData.setSelectedLocationPointId(prefs.getInt("savedSelectedLocationPointId") ?? 0);
-    AppData.setLocationCounter(prefs.getInt("savedLocationCounter") ?? 0);
+    int selectedLocaitionPointId = prefs.getInt("savedSelectedLocationPointId") ?? 0;
+    int locationCounter = prefs.getInt("savedLocationCounter") ?? 0;
+    ListQueue<LocationPoint> locationList = new ListQueue();
     try {
-      AppData.setLocationPointListStorage(jsonToLocationsList(jsonDecode(prefs.getString("savedLocationStorage"))));
-    } catch (e) {
-      AppData.setLocationPointListStorage(new ListQueue());
-    }
+      List<dynamic> json = jsonDecode(prefs.getString("savedLocationStorage"));
+      for (dynamic element in json) {
+        locationList.add(LocationPoint.fromJson(element));
+      }
+    } catch (e) {}
+    AppData appData = AppData(selectedLocationPointId: selectedLocaitionPointId, locationCounter: locationCounter, locationPointListStorage: locationList);
+    return appData;
   }
+
+  void savePrefs(AppData appData) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt("savedSelectedLocationPointId", appData.getSelectedLocationPointId);
+    await prefs.setInt("savedLocationCounter", appData.getLocationCounter);
+    await prefs.setString("savedLocationStorage", jsonEncode(appData.getLocationPointListStorage.toList()));
+  }
+
+
+
 }

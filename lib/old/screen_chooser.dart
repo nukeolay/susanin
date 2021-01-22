@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/app_data_old.dart';
 import 'package:susanin/pages/no_location_page.dart';
 import 'package:susanin/pages/show_direction_page.dart';
-import 'package:susanin/widgets/waiting_widget.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/waiting_widget.dart';
 
 class ScreenChooser extends StatelessWidget {
   @override

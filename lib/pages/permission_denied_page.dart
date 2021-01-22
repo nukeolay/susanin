@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/generated/l10n.dart';
-import 'package:susanin/widgets/top_info_page.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/top_info_page.dart';
 
 class PermissionDeniedPage extends StatelessWidget {
   @override

@@ -5,15 +5,15 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/alerts/info_alert.dart';
 import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/app_data_old.dart';
-import 'package:susanin/widgets/accuracy_gps_widget.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/accuracy_gps_widget.dart';
 import 'package:susanin/widgets/location_list_widget.dart';
-import 'package:susanin/widgets/point_name.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/point_name.dart';
 import 'package:provider/provider.dart';
-import 'package:susanin/widgets/small_compass_widget.dart';
-import 'package:susanin/widgets/test_direction_widget.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/small_compass_widget.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/test_direction_widget.dart';
 import 'package:susanin/generated/l10n.dart';
-import 'package:susanin/widgets/top_info_page.dart';
-import 'package:susanin/widgets/waiting_widget.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/top_info_page.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/waiting_widget.dart';
 
 class ShowDirectionPage extends StatelessWidget {
   String showDistance(BuildContext context, double distance) {

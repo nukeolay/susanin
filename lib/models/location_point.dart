@@ -1,3 +1,5 @@
+import 'package:geolocator/geolocator.dart';
+
 class LocationPoint {
   double _latitude;
   double _longitude;
@@ -14,7 +16,8 @@ class LocationPoint {
   LocationPoint.createNew({double latitude, double longitude, String pointName}) {
     _latitude = latitude;
     _longitude = longitude;
-    _pointName = pointName; // TODO когда разберусь с блоком, сделать чтобы именование происходило автоматически, без передачи имени в параметр метода (сейчас не получается, потому что нужно получить из intl заготовку для имени, в зависимости от языка)
+    _pointName =
+        pointName; // TODO когда разберусь с блоком, сделать чтобы именование происходило автоматически, без передачи имени в параметр метода (сейчас не получается, потому что нужно получить из intl заготовку для имени, в зависимости от языка)
     _creationTime = DateTime.now();
   }
 
@@ -43,4 +46,14 @@ class LocationPoint {
   }
 
   DateTime get getCreationTime => _creationTime;
+
+  Future<void> getCurrentLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
+      _latitude = position.latitude;
+      _longitude = position.longitude;
+    } catch (e) {
+      throw "Error while trying to get location: $e";
+    }
+  }
 }
