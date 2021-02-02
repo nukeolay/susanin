@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:susanin/alerts/rename_location_alert.dart';
+import 'package:susanin/old/alerts/rename_location_alert.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/app_data_old.dart';
 import 'package:provider/provider.dart';

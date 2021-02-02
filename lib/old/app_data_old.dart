@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/location_point.dart';
+import 'package:susanin/domain/model/location_point.dart';
 import 'dart:convert';
 
 class ApplicationData extends ChangeNotifier {
