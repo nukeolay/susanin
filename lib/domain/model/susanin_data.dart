@@ -56,11 +56,6 @@ class SusaninData {
 
   void deleteLocationPoint(int locationPointId) {
     _locationList.remove(_locationList.elementAt(locationPointId));
-    if (locationPointId == 0) {
-      setSelectedLocationPointId(0);
-    } else {
-      setSelectedLocationPointId(locationPointId - 1);
-    }
   }
 
   @override

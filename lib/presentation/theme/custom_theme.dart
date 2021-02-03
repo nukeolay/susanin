@@ -10,6 +10,10 @@ class CustomTheme {
     _isDarkTheme = !_isDarkTheme;
     //notifyListeners();
   }
+  void setThemeMode(bool isDarkTheme) {
+    _isDarkTheme = isDarkTheme;
+    //notifyListeners();
+  }
 
   bool get getIsDarkTheme => _isDarkTheme;
 
@@ -19,9 +23,10 @@ class CustomTheme {
       accentColor: Colors.green,
       scaffoldBackgroundColor: Colors.grey[50],
       primaryColorLight: Colors.grey[50],
-      primaryColorDark: Colors.blueGrey[600],
+      primaryColorDark: Colors.black,
       secondaryHeaderColor: Colors.grey[50],
       fontFamily: 'Montserrat',
+      errorColor: Colors.red,
       cardColor: Colors.grey[300],
       cardTheme: CardTheme(
         elevation: 1,
@@ -36,10 +41,10 @@ class CustomTheme {
       accentColor: Colors.purple,
       scaffoldBackgroundColor: Colors.grey[900],
       primaryColorLight: Colors.blueGrey[50],
-      primaryColorDark: Colors.grey[600],
+      primaryColorDark: Colors.white,
       secondaryHeaderColor: Colors.white,
       fontFamily: 'Montserrat',
-      cardColor: Colors.grey[800],
+      cardColor: Colors.grey[700],
       tooltipTheme: TooltipThemeData(
         decoration: BoxDecoration(
           color: Colors.black,

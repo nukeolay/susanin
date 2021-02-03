@@ -7,16 +7,17 @@ import 'package:susanin/domain/repository/susanin_repository.dart';
 
 abstract class LocationState {}
 
+class LocationStateStart extends LocationState {}
+
 class LocationStateEmptyLocationList extends LocationState {}
 
 class LocationStateLocationListLoaded extends LocationState {
   SusaninData susaninData;
-  LocationStateLocationListLoaded(this.susaninData);
+  String option;
+  LocationStateLocationListLoaded(this.susaninData, [this.option]);
 }
 
-class LocationStateDataLoading extends LocationState {
-
-}
+class LocationStateDataLoading extends LocationState {}
 
 class LocationStateDataLoaded extends LocationState {
   // SusaninData _susaninData;
@@ -40,6 +41,8 @@ class LocationStateNewLocationAdded extends LocationState {
   SusaninData susaninData;
   LocationStateNewLocationAdded(this.susaninData);
 }
+
+class LocationStateFirstTimeStarted extends LocationState {}
 
 class LocationStatePressedShareLocation extends LocationState {}
 

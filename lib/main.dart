@@ -14,7 +14,7 @@ import 'domain/bloc/data/data_states.dart';
 import 'domain/bloc/location/location_bloc.dart';
 import 'generated/l10n.dart';
 
-void main() {
+void main() async {//сделал main async
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
@@ -42,6 +42,8 @@ class Susanin extends StatelessWidget {
       ],
       child: BlocBuilder<DataBloc, DataState>(
         builder: (context, state) {
+          final DataBloc dataBloc = BlocProvider.of<DataBloc>(context);
+          final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
           return MaterialApp(
             localizationsDelegates: [
               S.delegate,

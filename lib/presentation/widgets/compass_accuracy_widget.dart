@@ -82,7 +82,7 @@ class CompassAccuracy extends StatelessWidget {
                       "${height.truncate()} ${S
                           .of(context)
                           .metres}",
-                      style: TextStyle(fontSize: width * 0.045, fontWeight: FontWeight.w900, color: Theme
+                      style: TextStyle(fontSize: width * 0.040, fontWeight: FontWeight.w900, color: Theme
                           .of(context)
                           .primaryColor),
                     ),

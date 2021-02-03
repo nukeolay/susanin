@@ -13,9 +13,9 @@ class MainPointerEmptyList extends StatelessWidget {
       height: topWidgetHeight,
       alignment: Alignment.center,
       child: Text(
-        "No saved locations.",
+        "No saved locations",
         textAlign: TextAlign.center,
-        style: TextStyle(fontWeight: FontWeight.w500, fontSize: width * 0.05, color: Theme.of(context).secondaryHeaderColor),
+        style: TextStyle(fontWeight: FontWeight.w500, fontSize: width * 0.08, color: Theme.of(context).secondaryHeaderColor),
       ),
     );
   }

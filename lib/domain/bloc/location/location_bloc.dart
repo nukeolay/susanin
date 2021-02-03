@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/domain/model/location_point.dart';
 import 'package:susanin/domain/model/susanin_data.dart';
@@ -10,33 +11,75 @@ import 'location_states.dart';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
+  SusaninData susaninDataLocal;//тут будем хранить локальную копию и получить ее только при загрузке программы
   bool firstTime = true;
 
-  LocationBloc(this.susaninRepository) : super(LocationStateDataLoading());//todo установить init state
+  LocationBloc(this.susaninRepository) : super(LocationStateStart()); //todo установить init state
 
   @override
   Stream<LocationState> mapEventToState(LocationEvent locationEvent) async* {
-    if (locationEvent is LocationEventPressedAddNewLocation) {
-      print("add new location"); //todo удалить
-      SusaninData _susaninData = await susaninRepository.getSusaninData(); //получили синглтон репозитория
-      _susaninData.getLocationList.addFirst(new LocationPoint.createNew(latitude: 111, longitude: 222, pointName: "Name"));
-      _susaninData.increnemtLocationCounter();
-      _susaninData.setSelectedLocationPointId(0);
+    //SusaninData _susaninData = await susaninRepository.getSusaninData(); //получили синглтон репозитория
+    if (locationEvent is LocationEventStart) {
+      // когда приложение стартует, сначала передем в состояние загрузки данных, потом переходим в состояние что данные загружены
+      firstTime = false;
+      yield LocationStateDataLoading();
+      try {
+        susaninDataLocal = await susaninRepository.getSusaninData(); //получили синглтон репозитория
+        if (susaninDataLocal.getLocationList.length == 0) {
+          yield LocationStateEmptyLocationList(); // если список локаций пустой, то состояние AppStateEmptyLocationList и написать инструкцию вместо виджета со списком
+        } else {
+          yield LocationStateLocationListLoaded(susaninDataLocal); // если список локаций не пустой, то состояние AppStateLocationListLoaded и вывести список локаций
+        }
+      } catch (e) {
+        yield LocationStateFirstTimeStarted();
+      }
+    } else if (locationEvent is LocationEventPressedAddNewLocation) {
+      susaninDataLocal.getLocationList
+          .addFirst(new LocationPoint.createNew(latitude: 111, longitude: 222, pointName: "Name ${susaninDataLocal.getLocationCounter + 1}"));
+      susaninDataLocal.increnemtLocationCounter();
+      susaninDataLocal.setSelectedLocationPointId(0);
       susaninRepository.setSusaninData(
           susaninData:
-              _susaninData); // сохранили тему в Prefs (туда, куда умеет сохранять ApiUtil через репозиторий с SusaninData todo это не проверено
-      yield LocationStateNewLocationAdded(_susaninData);
+          susaninDataLocal); // сохранили тему в Prefs (туда, куда умеет сохранять ApiUtil через репозиторий с SusaninData todo это не проверено
+      yield LocationStateLocationListLoaded(susaninDataLocal);
+    } else if (locationEvent is LocationEventPressedSelectLocation) {
+      susaninDataLocal.setSelectedLocationPointId(locationEvent.index);
+      susaninRepository.setSusaninData(
+          susaninData:
+          susaninDataLocal); // сохранили тему в Prefs (туда, куда умеет сохранять ApiUtil через репозиторий с SusaninData todo это не проверено
+      yield LocationStateLocationListLoaded(susaninDataLocal);
+    } else if (locationEvent is LocationEventPressedDeleteLocation) {
+      if (locationEvent.index == susaninDataLocal.getSelectedLocationPointId) {
+        if (locationEvent.index == 0) {
+          susaninDataLocal.setSelectedLocationPointId(0);
+        } else {
+          susaninDataLocal.setSelectedLocationPointId(locationEvent.index - 1);
+        }
+      } else if (susaninDataLocal.getSelectedLocationPointId > locationEvent.index) {
+        susaninDataLocal.setSelectedLocationPointId(susaninDataLocal.getSelectedLocationPointId - 1);
+      } else if (susaninDataLocal.getSelectedLocationPointId < locationEvent.index) {}
+      susaninDataLocal.deleteLocationPoint(locationEvent.index);
+      if (susaninDataLocal.getLocationList.length == 0) {
+        yield LocationStateEmptyLocationList();
+      }
+      else {
+        yield LocationStateLocationListLoaded(susaninDataLocal, "delete");
+      }
+      Future.delayed(Duration(milliseconds: 3001), () {
+        susaninRepository.setSusaninData(susaninData: susaninDataLocal);
+      });
+    } else if (locationEvent is LocationEventPressedUndoDeletion) {
+      SusaninData oldSusaninData = await susaninRepository.getSusaninData();
+      susaninRepository.setSusaninData(susaninData: oldSusaninData);
+      susaninDataLocal = oldSusaninData;
+      yield LocationStateLocationListLoaded(susaninDataLocal);
     }
-    // else if (locationEvent is PressEventAddNewLocation) {
-    //   print("add new location"); //todo удалить
-    //   SusaninData _susaninData = await susaninRepository.getSusaninData(); //получили синглтон репозитория
-    //   _susaninData.getLocationList.addFirst(new LocationPoint.createNew(latitude: 111, longitude: 222, pointName: "Name"));
-    //   _susaninData.increnemtLocationCounter();
-    //   _susaninData.setSelectedLocationPointId(0);
-    //   susaninRepository.setSusaninData(
-    //       susaninData:
-    //           _susaninData); // сохранили тему в Prefs (туда, куда умеет сохранять ApiUtil через репозиторий с SusaninData todo это не проверено
-    //   yield AppStateNewLocationAdded();
-    // }
+     else if (locationEvent is LocationEventPressedRenameLocation) {
+       int index = locationEvent.index;
+       String pointName = locationEvent.newName;
+      susaninDataLocal.getLocationList.elementAt(index).setPointName(pointName);
+      susaninRepository.setSusaninData(susaninData: susaninDataLocal);
+       yield LocationStateLocationListLoaded(susaninDataLocal);
+    }
   }
 }
