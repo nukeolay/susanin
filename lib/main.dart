@@ -12,6 +12,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'domain/bloc/data/data_bloc.dart';
 import 'domain/bloc/data/data_states.dart';
 import 'domain/bloc/location/location_bloc.dart';
+import 'domain/bloc/location/location_states.dart';
 import 'generated/l10n.dart';
 
 void main() async {//сделал main async

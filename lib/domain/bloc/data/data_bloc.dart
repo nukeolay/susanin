@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:susanin/domain/bloc/location/location_events.dart';
 import 'package:susanin/domain/model/location_point.dart';
 import 'package:susanin/domain/model/susanin_data.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';

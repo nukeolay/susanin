@@ -11,7 +11,7 @@ import 'location_states.dart';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
-  SusaninData susaninDataLocal;//тут будем хранить локальную копию и получить ее только при загрузке программы
+  SusaninData susaninDataLocal; //тут будем хранить локальную копию и получить ее только при загрузке программы
   bool firstTime = true;
 
   LocationBloc(this.susaninRepository) : super(LocationStateStart()); //todo установить init state
@@ -25,10 +25,12 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       yield LocationStateDataLoading();
       try {
         susaninDataLocal = await susaninRepository.getSusaninData(); //получили синглтон репозитория
+        currentTheme.setThemeMode(susaninDataLocal.getIsDarkTheme);
         if (susaninDataLocal.getLocationList.length == 0) {
           yield LocationStateEmptyLocationList(); // если список локаций пустой, то состояние AppStateEmptyLocationList и написать инструкцию вместо виджета со списком
         } else {
-          yield LocationStateLocationListLoaded(susaninDataLocal); // если список локаций не пустой, то состояние AppStateLocationListLoaded и вывести список локаций
+          yield LocationStateLocationListLoaded(
+              susaninDataLocal); // если список локаций не пустой, то состояние AppStateLocationListLoaded и вывести список локаций
         }
       } catch (e) {
         yield LocationStateFirstTimeStarted();
@@ -40,13 +42,13 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       susaninDataLocal.setSelectedLocationPointId(0);
       susaninRepository.setSusaninData(
           susaninData:
-          susaninDataLocal); // сохранили тему в Prefs (туда, куда умеет сохранять ApiUtil через репозиторий с SusaninData todo это не проверено
+              susaninDataLocal); // сохранили тему в Prefs (туда, куда умеет сохранять ApiUtil через репозиторий с SusaninData todo это не проверено
       yield LocationStateLocationListLoaded(susaninDataLocal);
     } else if (locationEvent is LocationEventPressedSelectLocation) {
       susaninDataLocal.setSelectedLocationPointId(locationEvent.index);
       susaninRepository.setSusaninData(
           susaninData:
-          susaninDataLocal); // сохранили тему в Prefs (туда, куда умеет сохранять ApiUtil через репозиторий с SusaninData todo это не проверено
+              susaninDataLocal); // сохранили тему в Prefs (туда, куда умеет сохранять ApiUtil через репозиторий с SusaninData todo это не проверено
       yield LocationStateLocationListLoaded(susaninDataLocal);
     } else if (locationEvent is LocationEventPressedDeleteLocation) {
       if (locationEvent.index == susaninDataLocal.getSelectedLocationPointId) {
@@ -61,8 +63,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       susaninDataLocal.deleteLocationPoint(locationEvent.index);
       if (susaninDataLocal.getLocationList.length == 0) {
         yield LocationStateEmptyLocationList();
-      }
-      else {
+      } else {
         yield LocationStateLocationListLoaded(susaninDataLocal, "delete");
       }
       Future.delayed(Duration(milliseconds: 3001), () {
@@ -73,13 +74,13 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       susaninRepository.setSusaninData(susaninData: oldSusaninData);
       susaninDataLocal = oldSusaninData;
       yield LocationStateLocationListLoaded(susaninDataLocal);
-    }
-     else if (locationEvent is LocationEventPressedRenameLocation) {
-       int index = locationEvent.index;
-       String pointName = locationEvent.newName;
+    } else if (locationEvent is LocationEventPressedRenameLocation) {
+      int index = locationEvent.index;
+      String pointName = locationEvent.newName;
       susaninDataLocal.getLocationList.elementAt(index).setPointName(pointName);
       susaninRepository.setSusaninData(susaninData: susaninDataLocal);
-       yield LocationStateLocationListLoaded(susaninDataLocal);
+      yield LocationStateLocationListLoaded(susaninDataLocal);
     }
+
   }
 }

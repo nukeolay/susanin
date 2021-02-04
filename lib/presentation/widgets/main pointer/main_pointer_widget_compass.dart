@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:susanin/domain/model/location_point.dart';
 import 'package:susanin/generated/l10n.dart';
 
 class MainPointerOk extends StatelessWidget {
-  LocationPoint locationPoint;
-
-  MainPointerOk(this.locationPoint);
-
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width; // TODO заменить на глобальные переменные, чтобы они получались один раз
     final double height = MediaQuery.of(context).size.height;
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;
+    
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -35,7 +31,7 @@ class MainPointerOk extends StatelessWidget {
                       "${width.truncate()} ${S.of(context).metres}",
                       textAlign: TextAlign.right,
                       style: TextStyle(
-                          //fontSize: topWidgetHeight * 0.4,
+                        //fontSize: topWidgetHeight * 0.4,
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).secondaryHeaderColor),
                     ),
@@ -49,7 +45,7 @@ class MainPointerOk extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          locationPoint.pointName,
+                          "this` 20 symbol name",
                           style: TextStyle(
                             //fontSize: width * 0.04,
                             color: Theme.of(context).secondaryHeaderColor,

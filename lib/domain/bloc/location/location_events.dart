@@ -27,3 +27,7 @@ class LocationEventPressedAddNewLocation extends LocationEvent {}
 class LocationEventAutoGpsDisabled extends LocationEvent {}
 
 class LocationEventAutoGpsEnabled extends LocationEvent {}
+
+//class DataAppStartEvent extends LocationEvent {} //todo из DataBloc
+
+//class DataEventPressedToggleTheme extends LocationEvent {} //todo из DataBloc

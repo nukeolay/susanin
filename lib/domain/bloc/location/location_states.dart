@@ -55,3 +55,9 @@ class LocationStateGpsDisabled extends LocationState {}
 class LocationStateGpsEnabled extends LocationState {}
 
 class LocationStateLowAccuracy extends LocationState {}
+
+class DataStateDataLoading extends LocationState {}
+
+class DataStateEmptyLocationList extends LocationState {}
+
+class DataStateThemeToggled extends LocationState {}

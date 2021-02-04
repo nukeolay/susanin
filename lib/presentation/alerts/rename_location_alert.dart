@@ -23,7 +23,7 @@ class RenameLocationAlert extends StatelessWidget {
           return AlertDialog(
             title: Text("Rename location", style: TextStyle(color: Theme.of(context).primaryColorDark)),
             content: TextField(
-              maxLength: 25,
+              maxLength: 20,
               autofocus: true,
               decoration: InputDecoration(
                   enabledBorder: UnderlineInputBorder(
