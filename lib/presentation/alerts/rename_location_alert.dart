@@ -16,7 +16,7 @@ class RenameLocationAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
     return BlocBuilder<LocationBloc, LocationState>(
-    //todo удалил тут <LocationBloc, LocationState>, не знаю повлияет ли это на что-то, но сюда будут приходить два блока
+      //todo удалил тут <LocationBloc, LocationState>, не знаю повлияет ли это на что-то, но сюда будут приходить два блока
       builder: (context, state) {
         if (state is LocationStateLocationListLoaded) {
           TextEditingController _textFieldController = new TextEditingController(text: state.susaninData.getLocationList.elementAt(index).pointName);
@@ -24,7 +24,7 @@ class RenameLocationAlert extends StatelessWidget {
             title: Text("Rename location", style: TextStyle(color: Theme.of(context).primaryColorDark)),
             content: TextField(
               maxLength: 20,
-              autofocus: true,
+              autofocus: false,
               decoration: InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
@@ -41,16 +41,19 @@ class RenameLocationAlert extends StatelessWidget {
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             actions: [
               FlatButton(
-                color: Theme.of(context).errorColor,
-                child: Text("Cancel"),
-                onPressed: () => Navigator.pop(context),
-              ),
+                  color: Theme.of(context).errorColor,
+                  child: Text("Cancel"),
+                  onPressed: () {
+                    _textFieldController.clear();
+                    Navigator.pop(context);
+                  }),
               FlatButton(
                 color: Theme.of(context).accentColor,
                 child: Text('Rename'),
                 onPressed: () {
                   //print(_textFieldController.value.text);
                   locationBloc.add(LocationEventPressedRenameLocation(index, _textFieldController.value.text));
+                  _textFieldController.clear();
                   Navigator.pop(context);
                 },
               ),

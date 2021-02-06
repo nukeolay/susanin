@@ -61,3 +61,4 @@ class DataStateDataLoading extends LocationState {}
 class DataStateEmptyLocationList extends LocationState {}
 
 class DataStateThemeToggled extends LocationState {}
+

@@ -20,7 +20,6 @@ class LocationList extends StatelessWidget {
     final double padding = width * 0.01;
     final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
     return BlocBuilder<LocationBloc, LocationState>(
-      //todo удалил тут <LocationBloc, LocationState>, не знаю повлияет ли это на что-то, но сюда будут приходить два блока
       builder: (context, state) {
         if (state is LocationStateStart) {
           locationBloc.add(LocationEventStart());
@@ -138,7 +137,7 @@ class LocationList extends StatelessWidget {
             },
           );
         } else {
-          print(state);
+          print("Some error occurred $state");
           return Text("Some error occurred");
         }
       },

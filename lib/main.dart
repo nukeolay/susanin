@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'package:susanin/presentation/screens/home_screen.dart';
@@ -9,6 +10,7 @@ import 'package:susanin/presentation/theme/config.dart';
 import 'package:susanin/presentation/theme/custom_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'domain/bloc/compass/compass_bloc.dart';
 import 'domain/bloc/data/data_bloc.dart';
 import 'domain/bloc/data/data_states.dart';
 import 'domain/bloc/location/location_bloc.dart';
@@ -33,6 +35,7 @@ void main() async {//сделал main async
 
 class Susanin extends StatelessWidget {
   SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
+  Stream<CompassEvent> compassEvent = FlutterCompass.events;
 
   @override
   Widget build(BuildContext context) {
@@ -40,27 +43,34 @@ class Susanin extends StatelessWidget {
       providers: [
         BlocProvider<DataBloc>(create: (context) => DataBloc(susaninRepository)),
         BlocProvider<LocationBloc>(create: (context) => LocationBloc(susaninRepository)),
+        BlocProvider<CompassBloc>(create: (context) => CompassBloc(compassEvent)),
       ],
       child: BlocBuilder<DataBloc, DataState>(
         builder: (context, state) {
           final DataBloc dataBloc = BlocProvider.of<DataBloc>(context);
           final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
-          return MaterialApp(
-            localizationsDelegates: [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: S.delegate.supportedLocales,
-            theme: CustomTheme.lightTheme,
-            darkTheme: CustomTheme.darkTheme,
-            themeMode: currentTheme.currentTheme,
-            title: "Susanin",
-            debugShowCheckedModeBanner: false,
-            home: HomeScreen(),
-            // HomeScreen(),
-          );
+          if (state is DataState) {
+            return MaterialApp(
+              localizationsDelegates: [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              theme: CustomTheme.lightTheme,
+              darkTheme: CustomTheme.darkTheme,
+              themeMode: currentTheme.currentTheme,
+              title: "Susanin",
+              debugShowCheckedModeBanner: false,
+              home: HomeScreen(),
+              // HomeScreen(),
+            );
+          }
+          else {
+            print("state -=($state)=-");
+            return CircularProgressIndicator();
+          }
         },
       ),
     );

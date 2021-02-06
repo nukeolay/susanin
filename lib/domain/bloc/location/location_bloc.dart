@@ -18,7 +18,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   @override
   Stream<LocationState> mapEventToState(LocationEvent locationEvent) async* {
-    //SusaninData _susaninData = await susaninRepository.getSusaninData(); //получили синглтон репозитория
     if (locationEvent is LocationEventStart) {
       // когда приложение стартует, сначала передем в состояние загрузки данных, потом переходим в состояние что данные загружены
       firstTime = false;
@@ -81,6 +80,5 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       susaninRepository.setSusaninData(susaninData: susaninDataLocal);
       yield LocationStateLocationListLoaded(susaninDataLocal);
     }
-
   }
 }
