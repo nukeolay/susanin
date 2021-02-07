@@ -12,28 +12,21 @@ import 'data_states.dart';
 class DataBloc extends Bloc<DataEvent, DataState> {
   SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
   bool firstTime = true;
-  DataBloc(this.susaninRepository) : super(DataStateStart());
+
+  DataBloc(this.susaninRepository) : super(DataStateDataLoading());
 
   @override
   Stream<DataState> mapEventToState(DataEvent event) async* {
-    if (event is DataAppStartEvent) {
+    if (event is DataEventGetData) {
       // когда приложение стартует, сначала переходим в состояние загрузки данных, потом переходим в состояние что данные загружены
-      firstTime = false;
-      yield DataStateDataLoading();
       try {
         SusaninData _susaninData = await susaninRepository.getSusaninData(); //получили синглтон репозитория
-        if (_susaninData.getLocationList.length == 0) {
-          yield DataStateEmptyLocationList(); // если список локаций пустой, то состояние AppStateEmptyLocationList и написать инструкцию вместо виджета со списком
-        } else {
-          yield DataStateLocationListLoaded(
-              _susaninData); // если список локаций не пустой, то состояние AppStateLocationListLoaded и вывести список локаций
-          currentTheme.setThemeMode(_susaninData.getIsDarkTheme); // переключили тему
-        }
+        currentTheme.setThemeMode(_susaninData.getIsDarkTheme); // переключили тему
+        yield DataStateDataLoaded();
       } catch (e) {
-        yield DataStateFirstTimeStarted();
+        yield DataStateDataLoaded();
       }
-    }
-    else if (event is DataEventPressedToggleTheme) {
+    } else if (event is DataEventPressedToggleTheme) {
       // если нажали кнопку переключить тему, то сначала изменится значение переменной, потом эти данные запишутся в память телефона, и только потом перейдем в состояние того, что тема переключилась
       SusaninData _susaninData = await susaninRepository.getSusaninData(); //получили синглтон репозитория
       currentTheme.toggleTheme(); // переключили тему
@@ -41,7 +34,7 @@ class DataBloc extends Bloc<DataEvent, DataState> {
       susaninRepository.setSusaninData(
           susaninData:
               _susaninData); // сохранили тему в Prefs (туда, куда умеет сохранять ApiUtil через репозиторий с SusaninData todo это не проверено
-      yield DataStateThemeToggled();
+      yield DataStateDataLoaded();
     }
   }
 }

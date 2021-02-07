@@ -1,6 +1,6 @@
 abstract class LocationEvent {}
 
-class LocationEventStart extends LocationEvent {}
+class LocationEventGetData extends LocationEvent {}
 
 class LocationEventPressedSelectLocation extends LocationEvent {
   int index;
@@ -17,6 +17,10 @@ class LocationEventPressedRenameLocation extends LocationEvent {
   String newName;
   LocationEventPressedRenameLocation(this.index, this.newName);
 }
+
+class LocationEventDataLoaded extends LocationEvent {}
+
+class LocationEventPressedToggleTheme extends LocationEvent {}
 
 class LocationEventAutoLowAccuracy extends LocationEvent {}
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class WaitingWidget extends StatelessWidget {
+class WaitingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

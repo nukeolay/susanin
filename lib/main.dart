@@ -5,6 +5,7 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'package:susanin/presentation/screens/home_screen.dart';
+import 'package:susanin/presentation/screens/waiting_screen.dart';
 import 'package:susanin/test_screen.dart';
 import 'package:susanin/presentation/theme/config.dart';
 import 'package:susanin/presentation/theme/custom_theme.dart';
@@ -12,12 +13,15 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'domain/bloc/compass/compass_bloc.dart';
 import 'domain/bloc/data/data_bloc.dart';
+import 'domain/bloc/data/data_events.dart';
 import 'domain/bloc/data/data_states.dart';
 import 'domain/bloc/location/location_bloc.dart';
+import 'domain/bloc/location/location_events.dart';
 import 'domain/bloc/location/location_states.dart';
 import 'generated/l10n.dart';
 
-void main() async {//сделал main async
+void main() async {
+  //сделал main async
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
@@ -45,11 +49,26 @@ class Susanin extends StatelessWidget {
         BlocProvider<LocationBloc>(create: (context) => LocationBloc(susaninRepository)),
         BlocProvider<CompassBloc>(create: (context) => CompassBloc(compassEvent)),
       ],
-      child: BlocBuilder<DataBloc, DataState>(
+      child: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, state) {
           final DataBloc dataBloc = BlocProvider.of<DataBloc>(context);
           final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
-          if (state is DataState) {
+          if (state is LocationStateDataLoading) {
+            locationBloc.add(LocationEventGetData());
+            return MaterialApp(
+              title: "Susanin",
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              theme: CustomTheme.lightTheme,
+              home: WaitingScreen(),
+            );
+          } else if (state is LocationStateDataLoaded) {
             return MaterialApp(
               localizationsDelegates: [
                 S.delegate,
@@ -66,8 +85,7 @@ class Susanin extends StatelessWidget {
               home: HomeScreen(),
               // HomeScreen(),
             );
-          }
-          else {
+          } else {
             print("state -=($state)=-");
             return CircularProgressIndicator();
           }

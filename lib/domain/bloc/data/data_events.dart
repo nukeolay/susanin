@@ -1,5 +1,5 @@
 abstract class DataEvent {}
 
-class DataAppStartEvent extends DataEvent {}
+class DataEventGetData extends DataEvent {}
 
 class DataEventPressedToggleTheme extends DataEvent {}

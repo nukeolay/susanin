@@ -7,24 +7,23 @@ import 'package:susanin/domain/repository/susanin_repository.dart';
 
 abstract class LocationState {}
 
-class LocationStateStart extends LocationState {}
-
-class LocationStateEmptyLocationList extends LocationState {}
-
-class LocationStateLocationListLoaded extends LocationState {
-  SusaninData susaninData;
-  String option;
-  LocationStateLocationListLoaded(this.susaninData, [this.option]);
-}
-
 class LocationStateDataLoading extends LocationState {}
 
 class LocationStateDataLoaded extends LocationState {
-  // SusaninData _susaninData;
-  //
-  // AppStateDataLoaded({SusaninData susaninData}) {
-  //   _susaninData = susaninData;
-  // }
+  SusaninData susaninData;
+
+  LocationStateDataLoaded(this.susaninData);
+}
+
+class LocationStateEmptyLocationList extends LocationStateDataLoaded {
+  LocationStateEmptyLocationList(SusaninData susaninData) : super(susaninData);
+}
+
+class LocationStateLocationListLoaded extends LocationStateDataLoaded {
+  SusaninData susaninData;
+  String option;
+
+  LocationStateLocationListLoaded(this.susaninData, [this.option]) : super(susaninData);
 }
 
 class LocationStatePressedSetLocation extends LocationState {}
@@ -39,10 +38,15 @@ class LocationStatePressedNewLocation extends LocationState {}
 
 class LocationStateNewLocationAdded extends LocationState {
   SusaninData susaninData;
+
   LocationStateNewLocationAdded(this.susaninData);
 }
 
-class LocationStateFirstTimeStarted extends LocationState {}
+class LocationStateFirstTimeStarted extends LocationStateDataLoaded {
+  LocationStateFirstTimeStarted(SusaninData susaninData) : super(susaninData);
+}
+
+
 
 class LocationStatePressedShareLocation extends LocationState {}
 
@@ -56,9 +60,8 @@ class LocationStateGpsEnabled extends LocationState {}
 
 class LocationStateLowAccuracy extends LocationState {}
 
-class DataStateDataLoading extends LocationState {}
-
-class DataStateEmptyLocationList extends LocationState {}
-
-class DataStateThemeToggled extends LocationState {}
-
+// class DataStateDataLoading extends LocationState {}
+//
+// class DataStateEmptyLocationList extends LocationState {}
+//
+// class DataStateThemeToggled extends LocationState {}

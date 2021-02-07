@@ -21,12 +21,7 @@ class LocationList extends StatelessWidget {
     final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
     return BlocBuilder<LocationBloc, LocationState>(
       builder: (context, state) {
-        if (state is LocationStateStart) {
-          locationBloc.add(LocationEventStart());
-        }
-        if (state is LocationStateDataLoading) {
-          return Center(child: CircularProgressIndicator());
-        } else if (state is LocationStateEmptyLocationList) {
+        if (state is LocationStateEmptyLocationList) {
           return Text(
             "Press \"Add location\" button to save current location",
             textAlign: TextAlign.center,

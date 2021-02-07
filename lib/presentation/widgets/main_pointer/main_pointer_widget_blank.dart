@@ -58,7 +58,7 @@ class MainPointerBlank extends StatelessWidget {
               color: Theme.of(context).primaryColor,
               icon: Icons.brightness_6,
               onTap: () =>
-                  dataBloc.add(DataEventPressedToggleTheme()), //todo перенести события и состояния из ДатаБлок в ЛокейшнБлок, оставить один Блок
+                  locationBloc.add(LocationEventPressedToggleTheme()), //todo перенести события и состояния из ДатаБлок в ЛокейшнБлок, оставить один Блок
             ),
           ),
         ],

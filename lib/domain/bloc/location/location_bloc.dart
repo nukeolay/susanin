@@ -11,28 +11,38 @@ import 'location_states.dart';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
-  SusaninData susaninDataLocal; //тут будем хранить локальную копию и получить ее только при загрузке программы
-  bool firstTime = true;
+  SusaninData susaninDataLocal; //тут будем хранить локальную копию и получать ее только при загрузке программы
 
-  LocationBloc(this.susaninRepository) : super(LocationStateStart()); //todo установить init state
+  LocationBloc(this.susaninRepository) : super(LocationStateDataLoading()); //todo установить init state
 
   @override
   Stream<LocationState> mapEventToState(LocationEvent locationEvent) async* {
-    if (locationEvent is LocationEventStart) {
-      // когда приложение стартует, сначала передем в состояние загрузки данных, потом переходим в состояние что данные загружены
-      firstTime = false;
-      yield LocationStateDataLoading();
+    if (locationEvent is LocationEventGetData) {
       try {
         susaninDataLocal = await susaninRepository.getSusaninData(); //получили синглтон репозитория
         currentTheme.setThemeMode(susaninDataLocal.getIsDarkTheme);
         if (susaninDataLocal.getLocationList.length == 0) {
-          yield LocationStateEmptyLocationList(); // если список локаций пустой, то состояние AppStateEmptyLocationList и написать инструкцию вместо виджета со списком
+          yield LocationStateEmptyLocationList(
+              susaninDataLocal); // если список локаций пустой, то состояние AppStateEmptyLocationList и написать инструкцию вместо виджета со списком
         } else {
           yield LocationStateLocationListLoaded(
               susaninDataLocal); // если список локаций не пустой, то состояние AppStateLocationListLoaded и вывести список локаций
         }
       } catch (e) {
-        yield LocationStateFirstTimeStarted();
+        yield LocationStateFirstTimeStarted(susaninDataLocal);
+      }
+    }
+    else if (locationEvent is LocationEventPressedToggleTheme) {
+      // если нажали кнопку переключить тему, то сначала изменится значение переменной, потом эти данные запишутся в память телефона, и только потом перейдем в состояние того, что тема переключилась
+      currentTheme.toggleTheme(); // переключили тему
+      susaninDataLocal.setIsDarkTheme(!susaninDataLocal.getIsDarkTheme); // переключили тему
+      susaninRepository.setSusaninData(susaninData: susaninDataLocal);
+      if (susaninDataLocal.getLocationList.length == 0) {
+        yield LocationStateEmptyLocationList(
+            susaninDataLocal); // если список локаций пустой, то состояние AppStateEmptyLocationList и написать инструкцию вместо виджета со списком
+      } else {
+        yield LocationStateLocationListLoaded(
+            susaninDataLocal); // если список локаций не пустой, то состояние AppStateLocationListLoaded и вывести список локаций
       }
     } else if (locationEvent is LocationEventPressedAddNewLocation) {
       susaninDataLocal.getLocationList
@@ -61,7 +71,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       } else if (susaninDataLocal.getSelectedLocationPointId < locationEvent.index) {}
       susaninDataLocal.deleteLocationPoint(locationEvent.index);
       if (susaninDataLocal.getLocationList.length == 0) {
-        yield LocationStateEmptyLocationList();
+        yield LocationStateEmptyLocationList(susaninDataLocal);
       } else {
         yield LocationStateLocationListLoaded(susaninDataLocal, "delete");
       }
