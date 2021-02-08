@@ -34,50 +34,39 @@ class LocationList extends StatelessWidget {
             addAutomaticKeepAlives: false,
             itemExtent: 80,
             itemBuilder: (context, index) {
-              return Card(
-                //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
-                margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
-                child: Slidable(
-                  actionPane: SlidableBehindActionPane(),
-                  actionExtentRatio: 0.2,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        // border: Border(
-                        //   left: BorderSide(width: 16.0, color: Colors.lightBlue.shade50),
-                        //   right: BorderSide(width: 16.0, color: Colors.lightBlue.shade900),
-                        // ),
-                        borderRadius: BorderRadius.circular(4.0),
-                        boxShadow: [
-                          BoxShadow(
-                              color:
-                                  index == state.susaninData.getSelectedLocationPointId ? Theme.of(context).accentColor : CardTheme.of(context).color,
-                              spreadRadius: 1.0),
-                        ],
-                        color: index == state.susaninData.getSelectedLocationPointId ? Theme.of(context).accentColor : CardTheme.of(context).color),
-                    child: ListTile(
-                        selected: index == state.susaninData.getSelectedLocationPointId ? true : false,
-                        onTap: () => locationBloc.add(LocationEventPressedSelectLocation(index)),
-                        //leading: index == state.susaninData.getSelectedLocationPointId ? CircleAvatar(child: Icon(Icons.my_location), backgroundColor: Theme.of(context).accentColor) : Text(""),
-                        title: Text(
-                          "${state.susaninData.getLocationList.elementAt(index).pointName}",
-                          style: TextStyle(
-                              color: index == state.susaninData.getSelectedLocationPointId
-                                  ? Theme.of(context).primaryColorLight
-                                  : Theme.of(context).primaryColor),
-                        ),
-                        subtitle: Text(
-                            "${DateFormat(S.of(context).dateFormat).format(state.susaninData.getLocationList.elementAt(index).getCreationTime)}",
+              return Container(
+                margin: EdgeInsets.all(4.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4.0),
+                  child: Slidable(
+                    actionPane: SlidableBehindActionPane(),
+                    actionExtentRatio: 0.2,
+                    child: Container(
+                      color: index == state.susaninData.getSelectedLocationPointId ? Theme.of(context).accentColor : CardTheme.of(context).color,
+                      child: ListTile(
+                          // tileColor: index == state.susaninData.getSelectedLocationPointId
+                          //     ? Colors.black
+                          //     : Colors.blue,
+                          //tileColor: Theme.of(context).accentColor,
+                          selected: index == state.susaninData.getSelectedLocationPointId ? true : false,
+                          onTap: () => locationBloc.add(LocationEventPressedSelectLocation(index)),
+                          //leading: index == state.susaninData.getSelectedLocationPointId ? CircleAvatar(child: Icon(Icons.my_location), backgroundColor: Theme.of(context).accentColor) : Text(""),
+                          title: Text(
+                            "${state.susaninData.getLocationList.elementAt(index).pointName}",
                             style: TextStyle(
                                 color: index == state.susaninData.getSelectedLocationPointId
                                     ? Theme.of(context).primaryColorLight
-                                    : Theme.of(context).primaryColor))),
-                  ),
-                  actions: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(4.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(4.0), bottomLeft: Radius.circular(4.0)), color: Colors.red),
-                      child: IconSlideAction(
+                                    : Theme.of(context).primaryColor),
+                          ),
+                          subtitle: Text(
+                              "${DateFormat(S.of(context).dateFormat).format(state.susaninData.getLocationList.elementAt(index).getCreationTime)}",
+                              style: TextStyle(
+                                  color: index == state.susaninData.getSelectedLocationPointId
+                                      ? Theme.of(context).primaryColorLight
+                                      : Theme.of(context).primaryColor))),
+                    ),
+                    actions: <Widget>[
+                      IconSlideAction(
                         caption: 'Delete',
                         color: Colors.red,
                         icon: Icons.delete,
@@ -93,40 +82,33 @@ class LocationList extends StatelessWidget {
                             ),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          print("snack");
                           return locationBloc.add(LocationEventPressedDeleteLocation(index));
                         },
                       ),
-                    ),
-                  ],
-                  secondaryActions: <Widget>[
-                    IconSlideAction(
-                      caption: 'Rename',
-                      color: Theme.of(context).accentColor.withAlpha(120),
-                      icon: Icons.edit,
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (_) => RenameLocationAlert(index),
-                        );
-                      },
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(4.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(topRight: Radius.circular(4.0), bottomRight: Radius.circular(4.0)),
-                          color: Theme.of(context).accentColor),
-                      child: IconSlideAction(
+                    ],
+                    secondaryActions: <Widget>[
+                      IconSlideAction(
+                        caption: 'Rename',
+                        color: Theme.of(context).accentColor.withAlpha(170),
+                        icon: Icons.edit,
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (_) => RenameLocationAlert(index),
+                          );
+                        },
+                      ),
+                      IconSlideAction(
                         caption: 'Share',
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).accentColor.withAlpha(210),
                         icon: Icons.share,
                         onTap: () {
                           return Share.share(
                               "${state.susaninData.getLocationList.elementAt(index).pointName} https://www.google.com/maps/search/?api=1&query=${state.susaninData.getLocationList.elementAt(index).pointLatitude},${state.susaninData.getLocationList.elementAt(index).pointLongitude}");
                         },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

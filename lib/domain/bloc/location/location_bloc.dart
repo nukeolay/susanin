@@ -13,7 +13,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
   SusaninData susaninDataLocal; //тут будем хранить локальную копию и получать ее только при загрузке программы
 
-  LocationBloc(this.susaninRepository) : super(LocationStateDataLoading()); //todo установить init state
+  LocationBloc(this.susaninRepository) : super(LocationStateDataLoading());
 
   @override
   Stream<LocationState> mapEventToState(LocationEvent locationEvent) async* {
