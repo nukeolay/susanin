@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:susanin/generated/l10n.dart';
 
+import 'mini_compass/mini_compass_widget.dart';
+
 class CompassAccuracy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -40,9 +42,7 @@ class CompassAccuracy extends StatelessWidget {
                         .of(context)
                         .primaryColor),
                   ),
-                  Icon(Icons.arrow_circle_up_rounded, size: width * 0.095, color: Theme
-                      .of(context)
-                      .primaryColor),
+                  MiniCompass(),
                 ],
               ),
             ),

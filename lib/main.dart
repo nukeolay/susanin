@@ -39,19 +39,20 @@ void main() async {
 
 class Susanin extends StatelessWidget {
   SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
-  Stream<CompassEvent> compassEvent = FlutterCompass.events;
+  Stream<CompassEvent> compassStream = FlutterCompass.events;
+  //FlutterCompass flutterCompass = FlutterCompass;
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<DataBloc>(create: (context) => DataBloc(susaninRepository)),
+        //BlocProvider<DataBloc>(create: (context) => DataBloc(susaninRepository)),
         BlocProvider<LocationBloc>(create: (context) => LocationBloc(susaninRepository)),
-        BlocProvider<CompassBloc>(create: (context) => CompassBloc(compassEvent)),
+        BlocProvider<MyCompassBloc>(create: (context) => MyCompassBloc(compassStream)),
       ],
       child: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, state) {
-          final DataBloc dataBloc = BlocProvider.of<DataBloc>(context);
+          //final DataBloc dataBloc = BlocProvider.of<DataBloc>(context);
           final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
           if (state is LocationStateDataLoading) {
             locationBloc.add(LocationEventGetData());

@@ -1,14 +1,13 @@
 import 'package:flutter_compass/flutter_compass.dart';
 
-abstract class CompassState {}
+abstract class MyCompassState {}
 
-class CompassStateInit extends CompassState {}
+class MyCompassStateLoading extends MyCompassState {}
 
-class CompassStateCompassLoading extends CompassState {}
+class MyCompassStateLoaded extends MyCompassState {
+  Stream<CompassEvent> compassStream;
 
-class CompassErrorStateNoCompass extends CompassState {}
-
-class CompassStateOk extends CompassState {
-  Stream<CompassEvent> compassFlutterStream;
-  CompassStateOk(this.compassFlutterStream);
+  MyCompassStateLoaded(this.compassStream);
 }
+
+class MyCompassStateError extends MyCompassState {}

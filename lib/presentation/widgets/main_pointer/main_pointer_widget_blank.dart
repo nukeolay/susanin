@@ -26,7 +26,7 @@ class MainPointerBlank extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;
-    final DataBloc dataBloc = BlocProvider.of<DataBloc>(context);
+    //final DataBloc dataBloc = BlocProvider.of<DataBloc>(context);
     final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
     return Card(
       margin: EdgeInsets.only(left: 0.0, right: padding),

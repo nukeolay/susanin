@@ -44,6 +44,7 @@ class CustomTheme {
       primaryColorDark: Colors.white,
       secondaryHeaderColor: Colors.white,
       fontFamily: 'Montserrat',
+      errorColor: Colors.red[900],
       cardColor: Colors.grey[700],
       tooltipTheme: TooltipThemeData(
         decoration: BoxDecoration(

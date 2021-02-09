@@ -21,56 +21,62 @@ class MainPointerOk extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;
-    final CompassBloc compassBloc = BlocProvider.of<CompassBloc>(context);
+    final MyCompassBloc myCompassBloc = BlocProvider.of<MyCompassBloc>(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        BlocBuilder<CompassBloc, CompassState>(builder: (context, state) {
-          if (state is CompassStateInit) {
-            compassBloc.add(MyCompassEventAutoCompassLoading());
-            return Padding(
-              padding: EdgeInsets.only(left: padding * 4),
-              child: SizedBox(
-                width: topWidgetHeight - 10 * padding,
-                height: topWidgetHeight - 10 * padding,
-                child: CircularProgressIndicator(backgroundColor: Theme.of(context).primaryColorLight, strokeWidth: 10),
-              ),
-            );
-          } else if (state is CompassStateCompassLoading) {
-            return Padding(
-              padding: EdgeInsets.only(left: padding * 4),
-              child: SizedBox(
-                width: topWidgetHeight - 10 * padding,
-                height: topWidgetHeight - 10 * padding,
-                child: CircularProgressIndicator(backgroundColor: Theme.of(context).primaryColorLight, strokeWidth: 10),
-              ),
-            );
-          } else if (state is CompassErrorStateNoCompass) {
-            return Text("No compass detected");
-          } else if (state is CompassStateOk) {
-            return StreamBuilder<CompassEvent>(
-              stream: state.compassFlutterStream,
-              builder: (context, snapshot) {
-                double heading;
-                try {
-                  heading = snapshot.data.heading;
-                } catch (e) {
-                  print("error: $e");
-                }
-                return Transform.rotate(
-                  angle: ((heading ?? 0) * (math.pi / 180) * -1),
-                  child: Icon(
-                    Icons.arrow_circle_up_rounded,
-                    size: topWidgetHeight - 2 * padding,
-                    color: Theme.of(context).secondaryHeaderColor,
-                  ),
-                );
-              },
-            );
-          } else {
-            return Text("Compass Error");
-          }
-        }),
+        BlocBuilder<MyCompassBloc, MyCompassState>(
+          builder: (context, state) {
+            if (state is MyCompassStateLoading) {
+              myCompassBloc.add(MyCompassEventGetCompass());
+              return Padding(
+                padding: EdgeInsets.only(left: padding * 4),
+                child: SizedBox(
+                  width: topWidgetHeight - 10 * padding,
+                  height: topWidgetHeight - 10 * padding,
+                  child: CircularProgressIndicator(backgroundColor: Theme.of(context).primaryColorLight, strokeWidth: 10),
+                ),
+              );
+            } else if (state is MyCompassStateLoaded) {
+              return StreamBuilder<CompassEvent>(
+                  stream: state.compassStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error reading heading: ${snapshot.error}', style: TextStyle(fontSize: 15));
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Padding(
+                        padding: EdgeInsets.only(left: padding * 4),
+                        child: SizedBox(
+                          width: topWidgetHeight - 10 * padding,
+                          height: topWidgetHeight - 10 * padding,
+                          child: CircularProgressIndicator(backgroundColor: Theme.of(context).primaryColorLight, strokeWidth: 10),
+                        ),
+                      );
+                    }
+                    double heading = snapshot.data.heading;
+                    if (heading == null) {
+                      //todo при ошибке можно отправлять Event в LocationBloc и перерисовывать весь MainPointer
+                      myCompassBloc.add(MyCompassEventError());
+                    }
+                    return Transform.rotate(
+                      angle: ((heading ?? 0) * (math.pi / 180) * -1),
+                      child: Icon(
+                        Icons.arrow_circle_up_rounded,
+                        size: topWidgetHeight - 2 * padding,
+                        color: Theme.of(context).secondaryHeaderColor,
+                      ),
+                    );
+                  });
+            } else if (state is MyCompassStateError) {
+              //todo при ошибке можно отправлять Event в LocationBloc и перерисовывать весь MainPointer
+              return Text("Compass error");
+            } else {
+              return Text("Unhandled compass Error: $state");
+            }
+          },
+        ),
         Container(
           width: width * 0.03,
         ),

@@ -1,5 +1,5 @@
 abstract class MyCompassEvent {}
 
-class MyCompassEventAutoCompassLoading extends MyCompassEvent {}
+class MyCompassEventGetCompass extends MyCompassEvent {}
 
-class MyCompassErrorEventNoCompass extends MyCompassEvent {}
+class MyCompassEventError extends MyCompassEvent {}

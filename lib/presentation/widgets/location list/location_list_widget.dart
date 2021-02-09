@@ -36,78 +36,82 @@ class LocationList extends StatelessWidget {
             itemBuilder: (context, index) {
               return Container(
                 margin: EdgeInsets.all(4.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(4.0),
-                  child: Slidable(
-                    actionPane: SlidableBehindActionPane(),
-                    actionExtentRatio: 0.2,
-                    child: Container(
-                      color: index == state.susaninData.getSelectedLocationPointId ? Theme.of(context).accentColor : CardTheme.of(context).color,
-                      child: ListTile(
-                          // tileColor: index == state.susaninData.getSelectedLocationPointId
-                          //     ? Colors.black
-                          //     : Colors.blue,
-                          //tileColor: Theme.of(context).accentColor,
-                          selected: index == state.susaninData.getSelectedLocationPointId ? true : false,
-                          onTap: () => locationBloc.add(LocationEventPressedSelectLocation(index)),
-                          //leading: index == state.susaninData.getSelectedLocationPointId ? CircleAvatar(child: Icon(Icons.my_location), backgroundColor: Theme.of(context).accentColor) : Text(""),
-                          title: Text(
-                            "${state.susaninData.getLocationList.elementAt(index).pointName}",
-                            style: TextStyle(
-                                color: index == state.susaninData.getSelectedLocationPointId
-                                    ? Theme.of(context).primaryColorLight
-                                    : Theme.of(context).primaryColor),
-                          ),
-                          subtitle: Text(
-                              "${DateFormat(S.of(context).dateFormat).format(state.susaninData.getLocationList.elementAt(index).getCreationTime)}",
+                child: Card(
+                  margin: EdgeInsets.zero,
+                  elevation: index == state.susaninData.getSelectedLocationPointId ? 0 : 3,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4.0),
+                    child: Slidable(
+                      actionPane: SlidableBehindActionPane(),
+                      actionExtentRatio: 0.2,
+                      child: Container(
+                        color: index == state.susaninData.getSelectedLocationPointId ? Theme.of(context).accentColor : CardTheme.of(context).color,
+                        child: ListTile(
+                            // tileColor: index == state.susaninData.getSelectedLocationPointId
+                            //     ? Colors.black
+                            //     : Colors.blue,
+                            //tileColor: Theme.of(context).accentColor,
+                            selected: index == state.susaninData.getSelectedLocationPointId ? true : false,
+                            onTap: () => locationBloc.add(LocationEventPressedSelectLocation(index)),
+                            //leading: index == state.susaninData.getSelectedLocationPointId ? CircleAvatar(child: Icon(Icons.my_location), backgroundColor: Theme.of(context).accentColor) : Text(""),
+                            title: Text(
+                              "${state.susaninData.getLocationList.elementAt(index).pointName}",
                               style: TextStyle(
                                   color: index == state.susaninData.getSelectedLocationPointId
                                       ? Theme.of(context).primaryColorLight
-                                      : Theme.of(context).primaryColor))),
-                    ),
-                    actions: <Widget>[
-                      IconSlideAction(
-                        caption: 'Delete',
-                        color: Colors.red,
-                        icon: Icons.delete,
-                        onTap: () {
-                          final snackBar = SnackBar(
-                            duration: Duration(milliseconds: 3000),
-                            content: Text("Location deleted!"),
-                            action: SnackBarAction(
-                              label: 'Undo',
-                              onPressed: () {
-                                return locationBloc.add(LocationEventPressedUndoDeletion());
-                              },
+                                      : Theme.of(context).primaryColor),
                             ),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          return locationBloc.add(LocationEventPressedDeleteLocation(index));
-                        },
+                            subtitle: Text(
+                                "${DateFormat(S.of(context).dateFormat).format(state.susaninData.getLocationList.elementAt(index).getCreationTime)}",
+                                style: TextStyle(
+                                    color: index == state.susaninData.getSelectedLocationPointId
+                                        ? Theme.of(context).primaryColorLight
+                                        : Theme.of(context).primaryColor))),
                       ),
-                    ],
-                    secondaryActions: <Widget>[
-                      IconSlideAction(
-                        caption: 'Rename',
-                        color: Theme.of(context).accentColor.withAlpha(170),
-                        icon: Icons.edit,
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (_) => RenameLocationAlert(index),
-                          );
-                        },
-                      ),
-                      IconSlideAction(
-                        caption: 'Share',
-                        color: Theme.of(context).accentColor.withAlpha(210),
-                        icon: Icons.share,
-                        onTap: () {
-                          return Share.share(
-                              "${state.susaninData.getLocationList.elementAt(index).pointName} https://www.google.com/maps/search/?api=1&query=${state.susaninData.getLocationList.elementAt(index).pointLatitude},${state.susaninData.getLocationList.elementAt(index).pointLongitude}");
-                        },
-                      ),
-                    ],
+                      actions: <Widget>[
+                        IconSlideAction(
+                          caption: 'Delete',
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap: () {
+                            final snackBar = SnackBar(
+                              duration: Duration(milliseconds: 3000),
+                              content: Text("Location deleted!"),
+                              action: SnackBarAction(
+                                label: 'Undo',
+                                onPressed: () {
+                                  return locationBloc.add(LocationEventPressedUndoDeletion());
+                                },
+                              ),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            return locationBloc.add(LocationEventPressedDeleteLocation(index));
+                          },
+                        ),
+                      ],
+                      secondaryActions: <Widget>[
+                        IconSlideAction(
+                          caption: 'Rename',
+                          color: Theme.of(context).accentColor.withAlpha(210),
+                          icon: Icons.edit,
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (_) => RenameLocationAlert(index),
+                            );
+                          },
+                        ),
+                        IconSlideAction(
+                          caption: 'Share',
+                          color: Theme.of(context).accentColor.withAlpha(170),
+                          icon: Icons.share,
+                          onTap: () {
+                            return Share.share(
+                                "${state.susaninData.getLocationList.elementAt(index).pointName} https://www.google.com/maps/search/?api=1&query=${state.susaninData.getLocationList.elementAt(index).pointLatitude},${state.susaninData.getLocationList.elementAt(index).pointLongitude}");
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
