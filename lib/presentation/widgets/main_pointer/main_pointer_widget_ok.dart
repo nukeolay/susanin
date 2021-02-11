@@ -50,36 +50,14 @@ class MainPointerOk extends StatelessWidget {
                   ),
                 );
               } else if (state is MyCompassStateLoaded) {
-                return StreamBuilder<CompassEvent>(
-                    stream: state.compassStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return MainPointerError("Error reading heading: ${snapshot.error}");
-                      }
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Padding(
-                          padding: EdgeInsets.only(left: padding * 4),
-                          child: SizedBox(
-                            width: topWidgetHeight - 10 * padding,
-                            height: topWidgetHeight - 10 * padding,
-                            child: CircularProgressIndicator(backgroundColor: Theme.of(context).primaryColorLight, strokeWidth: 10),
-                          ),
-                        );
-                      }
-                      double heading = snapshot.data.heading;
-                      if (heading == null) {
-                        //todo при ошибке можно отправлять Event в LocationBloc и перерисовывать весь MainPointer
-                        return MainPointerError("Error reading heading: ${snapshot.error}");
-                      }
-                      return Transform.rotate(
-                        angle: ((heading ?? 0) * (math.pi / 180) * -1),
-                        child: Icon(
-                          Icons.arrow_circle_up_rounded,
-                          size: topWidgetHeight - 2 * padding,
-                          color: Theme.of(context).secondaryHeaderColor,
-                        ),
-                      );
-                    });
+                return Transform.rotate(
+                  angle: ((state.heading) * (math.pi / 180) * -1),
+                  child: Icon(
+                    Icons.arrow_circle_up_rounded,
+                    size: topWidgetHeight - 2 * padding,
+                    color: Theme.of(context).secondaryHeaderColor,
+                  ),
+                );
               } else if (state is MyCompassStateError) {
                 //todo при ошибке можно отправлять Event в LocationBloc и перерисовывать весь MainPointer
                 return Text("Compass error");

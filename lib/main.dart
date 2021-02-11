@@ -14,6 +14,7 @@ import 'package:susanin/presentation/theme/custom_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'domain/bloc/compass/compass_bloc.dart';
+import 'domain/bloc/compass/compass_events.dart';
 import 'domain/bloc/data/data_bloc.dart';
 import 'domain/bloc/data/data_events.dart';
 import 'domain/bloc/data/data_states.dart';

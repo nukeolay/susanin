@@ -5,9 +5,8 @@ abstract class MyCompassState {}
 class MyCompassStateLoading extends MyCompassState {}
 
 class MyCompassStateLoaded extends MyCompassState {
-  Stream<CompassEvent> compassStream;
-
-  MyCompassStateLoaded(this.compassStream);
+  double heading;
+  MyCompassStateLoaded({this.heading});
 }
 
 class MyCompassStateError extends MyCompassState {}
