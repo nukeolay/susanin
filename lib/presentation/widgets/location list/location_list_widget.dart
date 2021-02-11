@@ -71,7 +71,7 @@ class LocationList extends StatelessWidget {
                       actions: <Widget>[
                         IconSlideAction(
                           caption: 'Delete',
-                          color: Colors.red,
+                          color: Theme.of(context).errorColor,
                           icon: Icons.delete,
                           onTap: () {
                             final snackBar = SnackBar(

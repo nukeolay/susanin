@@ -28,6 +28,8 @@ class LocationEventPressedUndoDeletion extends LocationEvent {}
 
 class LocationEventPressedAddNewLocation extends LocationEvent {}
 
-class LocationEventAutoGpsDisabled extends LocationEvent {}
+class LocationEventError extends LocationEvent {}
 
-class LocationEventAutoGpsEnabled extends LocationEvent {}
+class LocationEventErrorPermissionDenied extends LocationEventError {}
+
+class LocationEventServiceDisabled extends LocationEventError {}

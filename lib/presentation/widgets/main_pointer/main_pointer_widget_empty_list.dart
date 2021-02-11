@@ -10,8 +10,10 @@ class MainPointerEmptyList extends StatelessWidget {
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;
     return Container(
+      padding: EdgeInsets.only(left: padding, right: 2 * padding, top: padding, bottom: padding),
       height: topWidgetHeight,
       alignment: Alignment.center,
+      color: Theme.of(context).errorColor,
       child: Text(
         "No saved locations",
         textAlign: TextAlign.center,

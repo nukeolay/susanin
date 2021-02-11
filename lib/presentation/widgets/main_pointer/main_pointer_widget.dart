@@ -13,7 +13,7 @@ import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/th
 import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/theme/custom_theme.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'package:susanin/presentation/widgets/main_pointer/main_pointer_widget_empty_list.dart';
-import 'package:susanin/presentation/widgets/main_pointer/main_pointer_widget_no_compass.dart';
+import 'package:susanin/presentation/widgets/main_pointer/main_pointer_widget_error.dart';
 import 'package:susanin/presentation/widgets/main_pointer/main_pointer_widget_ok.dart';
 
 import 'main_pointer_widget_blank.dart';

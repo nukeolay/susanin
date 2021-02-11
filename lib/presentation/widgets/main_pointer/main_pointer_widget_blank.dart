@@ -30,38 +30,31 @@ class MainPointerBlank extends StatelessWidget {
     final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
     return Card(
       margin: EdgeInsets.only(left: 0.0, right: padding),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(4),
-          topRight: Radius.circular(4),
-        ),
-      ),
-      color: Theme.of(context).accentColor,
       elevation: 5,
-      child: Slidable(
-        actionPane: SlidableBehindActionPane(),
-        actionExtentRatio: 0.2,
-        child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.0), color: Theme.of(context).accentColor),
-          child: Padding(
-            padding: EdgeInsets.only(left: padding, right: 2 * padding, top: padding, bottom: padding),
-            child: optionWidget,
-          ),
-        ),
-        secondaryActions: <Widget>[
-          Container(
-            padding: EdgeInsets.all(4.0),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(topRight: Radius.circular(4.0), bottomRight: Radius.circular(4.0)),
-                color: Theme.of(context).primaryColor),
-            child: IconSlideAction(
-              color: Theme.of(context).primaryColor,
-              icon: Icons.brightness_6,
-              onTap: () =>
-                  locationBloc.add(LocationEventPressedToggleTheme()), //todo перенести события и состояния из ДатаБлок в ЛокейшнБлок, оставить один Блок
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+         bottomRight: Radius.circular(4),
+         topRight: Radius.circular(4),
+       ),
+        child: Slidable(
+          actionPane: SlidableBehindActionPane(),
+          actionExtentRatio: 0.2,
+          child: optionWidget,
+          secondaryActions: <Widget>[
+            Container(
+              padding: EdgeInsets.all(4.0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(topRight: Radius.circular(4.0), bottomRight: Radius.circular(4.0)),
+                  color: Theme.of(context).primaryColor),
+              child: IconSlideAction(
+                color: Theme.of(context).primaryColor,
+                icon: Icons.brightness_6,
+                onTap: () =>
+                    locationBloc.add(LocationEventPressedToggleTheme()), //todo перенести события и состояния из ДатаБлок в ЛокейшнБлок, оставить один Блок
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

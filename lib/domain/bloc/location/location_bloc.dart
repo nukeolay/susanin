@@ -5,6 +5,7 @@ import 'package:susanin/domain/model/susanin_data.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'package:susanin/presentation/theme/config.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'location_events.dart';
 import 'location_states.dart';
@@ -45,8 +46,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
             susaninDataLocal); // если список локаций не пустой, то состояние AppStateLocationListLoaded и вывести список локаций
       }
     } else if (locationEvent is LocationEventPressedAddNewLocation) {
+      Position currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
+      print(currentPosition);
       susaninDataLocal.getLocationList
-          .addFirst(new LocationPoint.createNew(latitude: 111, longitude: 222, pointName: "Name ${susaninDataLocal.getLocationCounter + 1}"));
+          .addFirst(new LocationPoint.createNew(latitude: currentPosition.latitude, longitude: currentPosition.longitude, pointName: "Name ${susaninDataLocal.getLocationCounter + 1}"));
       susaninDataLocal.increnemtLocationCounter();
       susaninDataLocal.setSelectedLocationPointId(0);
       susaninRepository.setSusaninData(

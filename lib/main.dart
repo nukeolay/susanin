@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:susanin/domain/bloc/position/position_bloc.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'package:susanin/presentation/screens/home_screen.dart';
@@ -21,7 +23,7 @@ import 'domain/bloc/location/location_states.dart';
 import 'generated/l10n.dart';
 
 void main() async {
-  //сделал main async
+  //todo сделал main async, посмотреть на что влияет
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
@@ -40,6 +42,8 @@ void main() async {
 class Susanin extends StatelessWidget {
   SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
   Stream<CompassEvent> compassStream = FlutterCompass.events;
+  Stream<Position> positionStream = Geolocator.getPositionStream(desiredAccuracy: LocationAccuracy.bestForNavigation);
+
   //FlutterCompass flutterCompass = FlutterCompass;
 
   @override
@@ -49,6 +53,7 @@ class Susanin extends StatelessWidget {
         //BlocProvider<DataBloc>(create: (context) => DataBloc(susaninRepository)),
         BlocProvider<LocationBloc>(create: (context) => LocationBloc(susaninRepository)),
         BlocProvider<MyCompassBloc>(create: (context) => MyCompassBloc(compassStream)),
+        BlocProvider<PositionBloc>(create: (context) => PositionBloc(positionStream),)
       ],
       child: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, state) {
