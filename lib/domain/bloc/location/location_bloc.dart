@@ -23,7 +23,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         susaninDataLocal = await susaninRepository.getSusaninData(); //получили синглтон репозитория
         currentTheme.setThemeMode(susaninDataLocal.getIsDarkTheme);
         if (susaninDataLocal.getLocationList.length == 0) {
-          yield LocationStateEmptyLocationList(
+          yield LocationStateErrorEmptyLocationList(
               susaninDataLocal); // если список локаций пустой, то состояние AppStateEmptyLocationList и написать инструкцию вместо виджета со списком
         } else {
           yield LocationStateLocationListLoaded(
@@ -32,24 +32,22 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       } catch (e) {
         yield LocationStateFirstTimeStarted(susaninDataLocal);
       }
-    }
-    else if (locationEvent is LocationEventPressedToggleTheme) {
+    } else if (locationEvent is LocationEventPressedToggleTheme) {
       // если нажали кнопку переключить тему, то сначала изменится значение переменной, потом эти данные запишутся в память телефона, и только потом перейдем в состояние того, что тема переключилась
       currentTheme.toggleTheme(); // переключили тему
       susaninDataLocal.setIsDarkTheme(!susaninDataLocal.getIsDarkTheme); // переключили тему
       susaninRepository.setSusaninData(susaninData: susaninDataLocal);
       if (susaninDataLocal.getLocationList.length == 0) {
-        yield LocationStateEmptyLocationList(
+        yield LocationStateErrorEmptyLocationList(
             susaninDataLocal); // если список локаций пустой, то состояние AppStateEmptyLocationList и написать инструкцию вместо виджета со списком
       } else {
         yield LocationStateLocationListLoaded(
             susaninDataLocal); // если список локаций не пустой, то состояние AppStateLocationListLoaded и вывести список локаций
       }
     } else if (locationEvent is LocationEventPressedAddNewLocation) {
-      Position currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
-      print(currentPosition);
-      susaninDataLocal.getLocationList
-          .addFirst(new LocationPoint.createNew(latitude: currentPosition.latitude, longitude: currentPosition.longitude, pointName: "Name ${susaninDataLocal.getLocationCounter + 1}"));
+      Position currentPosition = await Geolocator.getLastKnownPosition();
+      susaninDataLocal.getLocationList.addFirst(new LocationPoint.createNew(
+          latitude: currentPosition.latitude, longitude: currentPosition.longitude, pointName: "Name ${susaninDataLocal.getLocationCounter + 1}"));
       susaninDataLocal.increnemtLocationCounter();
       susaninDataLocal.setSelectedLocationPointId(0);
       susaninRepository.setSusaninData(
@@ -74,7 +72,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       } else if (susaninDataLocal.getSelectedLocationPointId < locationEvent.index) {}
       susaninDataLocal.deleteLocationPoint(locationEvent.index);
       if (susaninDataLocal.getLocationList.length == 0) {
-        yield LocationStateEmptyLocationList(susaninDataLocal);
+        yield LocationStateErrorEmptyLocationList(susaninDataLocal);
       } else {
         yield LocationStateLocationListLoaded(susaninDataLocal, "delete");
       }
@@ -92,6 +90,16 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       susaninDataLocal.getLocationList.elementAt(index).setPointName(pointName);
       susaninRepository.setSusaninData(susaninData: susaninDataLocal);
       yield LocationStateLocationListLoaded(susaninDataLocal);
+    } else if (locationEvent is LocationEventServiceDisabled) {
+      //bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      //while(!serviceEnabled) {
+      //  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+        yield LocationStateErrorServiceDisabled(susaninDataLocal);
+
+      //  if (serviceEnabled) {
+      //    yield LocationStateDataLoading();
+      //  }
+      //}
     }
   }
 }

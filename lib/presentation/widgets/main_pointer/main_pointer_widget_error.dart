@@ -5,7 +5,7 @@ import 'package:susanin/generated/l10n.dart';
 class MainPointerError extends StatelessWidget {
   String errorMessage;
 
-  MainPointerError(this.errorMessage);
+  MainPointerError({this.errorMessage});
 
   @override
   Widget build(BuildContext context) {

@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: EdgeInsets.only(right: 15.0, bottom: 15.0),
-                child: FloatingActionButton(
+                child: FloatingActionButton(//todo блокировать и менять цвет кнопки есть стейт с ошибкой по локации
                   elevation: 5,
                   child: Icon(
                     Icons.add_location_alt,

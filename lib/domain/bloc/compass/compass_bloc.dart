@@ -8,16 +8,16 @@ import 'compass_events.dart';
 import 'compass_states.dart';
 
 class MyCompassBloc extends Bloc<MyCompassEvent, MyCompassState> {
-  Stream<CompassEvent> compassStream;
-  StreamSubscription<CompassEvent> compassSubscription;
+  Stream<CompassEvent> _compassStream;
+  StreamSubscription<CompassEvent> _compassSubscription;
 
-  MyCompassBloc(this.compassStream) : super(MyCompassStateLoading());
+  MyCompassBloc(this._compassStream) : super(MyCompassStateLoading());
 
   @override
   Stream<MyCompassState> mapEventToState(MyCompassEvent myCompassEvent) async* {
     if (myCompassEvent is MyCompassEventGetCompass) {
-      compassSubscription?.cancel();
-      compassSubscription = compassStream.listen(
+      _compassSubscription?.cancel();
+      _compassSubscription = _compassStream.listen(
         (CompassEvent compassEvent) => add(
           MyCompassEventHeadingChanged(heading: compassEvent.heading),
         ),

@@ -25,36 +25,38 @@ import 'generated/l10n.dart';
 
 void main() async {
   //todo сделал main async, посмотреть на что влияет
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.grey[900],
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ),
-  );
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]) // всегда портретная ориентация экрана
-      .then((_) {
-    runApp(Susanin());
-  });
+    WidgetsFlutterBinding.ensureInitialized();
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.grey[900],
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
+    );
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]) // всегда портретная ориентация экрана
+        .then((_) {
+        runApp(Susanin());
+
+    });
 }
 
 class Susanin extends StatelessWidget {
   SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
   Stream<CompassEvent> compassStream = FlutterCompass.events;
-  Stream<Position> positionStream = Geolocator.getPositionStream(desiredAccuracy: LocationAccuracy.bestForNavigation);
+  //Stream<Position> positionStream = Geolocator.getPositionStream(desiredAccuracy: LocationAccuracy.bestForNavigation);
 
   //FlutterCompass flutterCompass = FlutterCompass;
 
   @override
   Widget build(BuildContext context) {
+
     return MultiBlocProvider(
       providers: [
         //BlocProvider<DataBloc>(create: (context) => DataBloc(susaninRepository)),
         BlocProvider<LocationBloc>(create: (context) => LocationBloc(susaninRepository)),
         BlocProvider<MyCompassBloc>(create: (context) => MyCompassBloc(compassStream)),
-        BlocProvider<PositionBloc>(create: (context) => PositionBloc(positionStream),)
+        BlocProvider<PositionBloc>(create: (context) => PositionBloc(),)
       ],
       child: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, state) {
@@ -76,22 +78,22 @@ class Susanin extends StatelessWidget {
               home: WaitingScreen(),
             );
           } else if (state is LocationStateDataLoaded) {
-            return MaterialApp(
-              localizationsDelegates: [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: S.delegate.supportedLocales,
-              theme: CustomTheme.lightTheme,
-              darkTheme: CustomTheme.darkTheme,
-              themeMode: currentTheme.currentTheme,
-              title: "Susanin",
-              debugShowCheckedModeBanner: false,
-              home: HomeScreen(),
-              // HomeScreen(),
-            );
+              return MaterialApp(
+                localizationsDelegates: [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+                theme: CustomTheme.lightTheme,
+                darkTheme: CustomTheme.darkTheme,
+                themeMode: currentTheme.currentTheme,
+                title: "Susanin",
+                debugShowCheckedModeBanner: false,
+                home: HomeScreen(),
+                // HomeScreen(),
+              );
           } else {
             print("state -=($state)=-");
             return CircularProgressIndicator();
@@ -100,4 +102,5 @@ class Susanin extends StatelessWidget {
       ),
     );
   }
+
 }

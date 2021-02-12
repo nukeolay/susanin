@@ -29,7 +29,7 @@ class MainPointer extends StatelessWidget {
     final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
     return BlocBuilder<LocationBloc, LocationState>(
       builder: (context, state) {
-        if (state is LocationStateEmptyLocationList) {
+        if (state is LocationStateErrorEmptyLocationList) {
           return MainPointerBlank(MainPointerEmptyList());
         } else if (state is LocationStateLocationListLoaded) {
           Widget widget; // если делать без ty-catch то при попытке отменить удаление точки после нескольких удалений подряд виджет рушится
@@ -39,7 +39,11 @@ class MainPointer extends StatelessWidget {
             widget = MainPointerBlank(MainPointerEmptyList());
           }
           return widget;
-        } else {
+        }
+        else if (state is LocationStateErrorServiceDisabled) {
+          return MainPointerBlank(MainPointerError(errorMessage: "Service Disabled"));
+        }
+        else {
           print("state = $state");
           return Text("ERROR");
         }

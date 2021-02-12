@@ -29,6 +29,7 @@ class MainPointerOk extends StatelessWidget {
     final double padding = width * 0.01;
     final MyCompassBloc myCompassBloc = BlocProvider.of<MyCompassBloc>(context);
     final PositionBloc positionBloc = BlocProvider.of<PositionBloc>(context);
+    final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
 
     return Container(
       height: topWidgetHeight,
@@ -82,46 +83,27 @@ class MainPointerOk extends StatelessWidget {
                     child: FittedBox(
                       child: BlocBuilder<PositionBloc, PositionState>(
                         builder: (context, state) {
+                          print("state: $state");
                           if (state is PositionStateLoading) {
                             positionBloc.add(PositionEventGetLocationService());
-                            return CircularProgressIndicator();
-                          } else if (state is PositionStateLoaded){
-                            try {
-                              return StreamBuilder<Position>(
-                                  stream: state.positionStream,
-                                  builder: (context, snapshot) {
-                                    return Text(
-                                      "${Geolocator.distanceBetween(
-                                          snapshot.data.latitude ?? 0, snapshot.data.longitude ?? 0, locationPoint.pointLatitude,
-                                          locationPoint.pointLongitude)} ${S
-                                          .of(context)
-                                          .metres}",
-                                      //todo тут показывать расстояние, азимут передавать из LocationBloc в компасс. может имеет смысл объединить эти блоки?
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                        //fontSize: topWidgetHeight * 0.4,
-                                          fontWeight: FontWeight.w500,
-                                          color: Theme
-                                              .of(context)
-                                              .secondaryHeaderColor),
-                                    );
-                                  }
-                              );
-                            } catch (e) {
-                              print("Some error in PositionBloc: $e");
-                              positionBloc.add(PositionEventError());
-                              return CircularProgressIndicator();
-                            }
-                          }
-                          else if (state is PositionStateErrorPermissionDenied) {
+                            return Container(width:  width * 0.1, child: LinearProgressIndicator(backgroundColor: Theme.of(context).secondaryHeaderColor));
+                          } else if (state is PositionStateLoaded) {
+                            return Text(
+                              "${Geolocator.distanceBetween(state.currentPosition.latitude ?? 0, state.currentPosition.longitude ?? 0, locationPoint.pointLatitude, locationPoint.pointLongitude)} ${S.of(context).metres}",
+                              //todo тут показывать расстояние, азимут передавать из LocationBloc в компасс. может имеет смысл объединить эти блоки?
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                  //fontSize: topWidgetHeight * 0.4,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).secondaryHeaderColor),
+                            );
+                          } else if (state is PositionStateErrorPermissionDenied) {
                             print("PositionStateErrorPermissionDenied");
                             return Text("Permission denied");
-                          }
-                          else if (state is PositionStateErrorServiceDisabled) {
-                            print("PositionStateErrorServiceDisabled");
-                            return Text("Service disabled");
-                          }
-                          else {
+                          } else if (state is PositionStateErrorServiceDisabled) {//todo тут можно отправлять стейт о том, что сервис выключен и ставить красный виджет
+                            locationBloc.add(LocationEventServiceDisabled());
+                            return Container(width:  width * 0.1, child: LinearProgressIndicator(backgroundColor: Theme.of(context).secondaryHeaderColor));
+                          } else {
                             return Text("Unhandled error");
                           }
                         },

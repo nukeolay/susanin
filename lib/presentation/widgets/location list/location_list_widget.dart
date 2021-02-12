@@ -21,13 +21,21 @@ class LocationList extends StatelessWidget {
     final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
     return BlocBuilder<LocationBloc, LocationState>(
       builder: (context, state) {
-        if (state is LocationStateEmptyLocationList) {
+        if (state is LocationStateErrorEmptyLocationList) {
           return Text(
             "Press \"Add location\" button to save current location",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: width * 0.07, color: Theme.of(context).accentColor),
           );
-        } else if (state is LocationStateLocationListLoaded) {
+        }
+        else if (state is LocationStateErrorServiceDisabled) {
+          return Text(
+            "Please enable location service",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: width * 0.07, color: Theme.of(context).accentColor),
+          );
+        }
+        else if (state is LocationStateLocationListLoaded) {
           return ListView.builder(
             padding: EdgeInsets.only(top: topWidgetHeight * 0.5 + topWidgetHeight, bottom: topWidgetHeight * 0.5),
             itemCount: state.susaninData.getLocationList.length,

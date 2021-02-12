@@ -5,9 +5,9 @@ abstract class PositionState {}
 class PositionStateLoading extends PositionState {}
 
 class PositionStateLoaded extends PositionState {
-  Stream<Position> positionStream;
+  Position currentPosition;
 
-  PositionStateLoaded(this.positionStream);
+  PositionStateLoaded({this.currentPosition});
 }
 
 class PositionStateError extends PositionState {}

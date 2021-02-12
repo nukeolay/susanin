@@ -15,8 +15,16 @@ class LocationStateDataLoaded extends LocationState {
   LocationStateDataLoaded(this.susaninData);
 }
 
-class LocationStateEmptyLocationList extends LocationStateDataLoaded {
-  LocationStateEmptyLocationList(SusaninData susaninData) : super(susaninData);
+class LocationStateError extends LocationStateDataLoaded {
+  LocationStateError(SusaninData susaninData) : super(susaninData);
+}
+
+class LocationStateErrorEmptyLocationList extends LocationStateError {
+  LocationStateErrorEmptyLocationList(SusaninData susaninData) : super(susaninData);
+}
+
+class LocationStateErrorServiceDisabled extends LocationStateError {
+  LocationStateErrorServiceDisabled(SusaninData susaninData) : super(susaninData);
 }
 
 class LocationStateLocationListLoaded extends LocationStateDataLoaded {
@@ -45,8 +53,6 @@ class LocationStateNewLocationAdded extends LocationState {
 class LocationStateFirstTimeStarted extends LocationStateDataLoaded {
   LocationStateFirstTimeStarted(SusaninData susaninData) : super(susaninData);
 }
-
-
 
 class LocationStatePressedShareLocation extends LocationState {}
 
