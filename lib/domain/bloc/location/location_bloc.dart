@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/domain/model/location_point.dart';
@@ -45,7 +47,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
             susaninDataLocal); // если список локаций не пустой, то состояние AppStateLocationListLoaded и вывести список локаций
       }
     } else if (locationEvent is LocationEventPressedAddNewLocation) {
-      Position currentPosition = await Geolocator.getLastKnownPosition();
+      yield LocationStateLocationAddingLocation(susaninDataLocal);
+      Position currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
       susaninDataLocal.getLocationList.addFirst(new LocationPoint.createNew(
           latitude: currentPosition.latitude, longitude: currentPosition.longitude, pointName: "Name ${susaninDataLocal.getLocationCounter + 1}"));
       susaninDataLocal.increnemtLocationCounter();
@@ -90,16 +93,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       susaninDataLocal.getLocationList.elementAt(index).setPointName(pointName);
       susaninRepository.setSusaninData(susaninData: susaninDataLocal);
       yield LocationStateLocationListLoaded(susaninDataLocal);
-    } else if (locationEvent is LocationEventServiceDisabled) {
-      //bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      //while(!serviceEnabled) {
-      //  serviceEnabled = await Geolocator.isLocationServiceEnabled();
-        yield LocationStateErrorServiceDisabled(susaninDataLocal);
-
-      //  if (serviceEnabled) {
-      //    yield LocationStateDataLoading();
-      //  }
-      //}
     }
   }
 }

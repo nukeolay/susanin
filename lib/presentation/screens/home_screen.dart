@@ -6,6 +6,8 @@ import 'package:susanin/domain/bloc/data/data_events.dart';
 import 'package:susanin/domain/bloc/location/location_bloc.dart';
 import 'package:susanin/domain/bloc/location/location_events.dart';
 import 'package:susanin/domain/bloc/location/location_states.dart';
+import 'package:susanin/domain/bloc/position/position_bloc.dart';
+import 'package:susanin/domain/bloc/position/position_states.dart';
 import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/screens/waiting_screen.dart';
 import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/widgets/compass_accuracy/compass_accuracy_widget.dart';
 import 'package:susanin/presentation/widgets/location list/location_list_widget.dart';
@@ -51,7 +53,9 @@ class HomeScreen extends StatelessWidget {
                     ),
                     Container(
                       width: width * 0.2,
-                      child: CompassAccuracy(),
+                      child:
+                      //Text("Empty"),
+                      CompassAccuracy(), //todo отключил временно виджет с миникомпассом
                     ),
                   ],
                 ),
@@ -64,16 +68,41 @@ class HomeScreen extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: EdgeInsets.only(right: 15.0, bottom: 15.0),
-                child: FloatingActionButton(//todo блокировать и менять цвет кнопки есть стейт с ошибкой по локации
-                  elevation: 5,
-                  child: Icon(
-                    Icons.add_location_alt,
-                    color: Theme.of(context).secondaryHeaderColor,
-                    size: 30,
-                  ),
-                  onPressed: () => locationBloc.add(LocationEventPressedAddNewLocation()),
-                  tooltip: S.of(context).addCurrentLocation,
-                ),
+                child: BlocBuilder<PositionBloc, PositionState>(builder: (context, positionState) {
+                  return BlocBuilder<LocationBloc, LocationState>(builder: (context, locationState) {
+                    // в зависимости от доступности локации, показываю кнопку для добавления локаии или блокирую кнопку
+                    if (locationState is LocationStateLocationAddingLocation || positionState is PositionStateLoading) {
+                      return FloatingActionButton(
+                        backgroundColor: Theme.of(context).accentColor,
+                        elevation: 0,
+                        child: CircularProgressIndicator(
+                            backgroundColor: Theme.of(context).accentColor,
+                            valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).secondaryHeaderColor)),
+                        onPressed: () {},
+                      );
+                    }
+                    if (positionState is PositionStateError) {
+                      return FloatingActionButton(
+                        backgroundColor: Theme.of(context).errorColor,
+                        elevation: 0,
+                        child: CircularProgressIndicator(
+                            backgroundColor: Theme.of(context).errorColor,
+                            valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).secondaryHeaderColor)),
+                        onPressed: () {},
+                      );
+                    }
+                    return FloatingActionButton(
+                      elevation: 5,
+                      child: Icon(
+                        Icons.add_location_alt,
+                        color: Theme.of(context).secondaryHeaderColor,
+                        size: 30,
+                      ),
+                      onPressed: () => locationBloc.add(LocationEventPressedAddNewLocation()),
+                      tooltip: S.of(context).addCurrentLocation,
+                    );
+                  });
+                }),
               ),
             ),
           ), // кнопки FAB

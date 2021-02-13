@@ -32,4 +32,4 @@ class LocationEventError extends LocationEvent {}
 
 class LocationEventErrorPermissionDenied extends LocationEventError {}
 
-class LocationEventServiceDisabled extends LocationEventError {}
+//class LocationEventServiceDisabled extends LocationEventError {}

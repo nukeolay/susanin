@@ -29,7 +29,6 @@ class MainPointerOk extends StatelessWidget {
     final double padding = width * 0.01;
     final MyCompassBloc myCompassBloc = BlocProvider.of<MyCompassBloc>(context);
     final PositionBloc positionBloc = BlocProvider.of<PositionBloc>(context);
-    final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
 
     return Container(
       height: topWidgetHeight,
@@ -39,8 +38,9 @@ class MainPointerOk extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           BlocBuilder<MyCompassBloc, MyCompassState>(
-            builder: (context, state) {
-              if (state is MyCompassStateLoading) {
+            //в блок компасса вложен блок локации, чтобы можно было посчитать азимут и показать иконку в зависимости от расстояния
+            builder: (context, myCompassState) {
+              if (myCompassState is MyCompassStateLoading) {
                 myCompassBloc.add(MyCompassEventGetCompass());
                 return Padding(
                   padding: EdgeInsets.only(left: padding * 4),
@@ -50,21 +50,48 @@ class MainPointerOk extends StatelessWidget {
                     child: CircularProgressIndicator(backgroundColor: Theme.of(context).primaryColorLight, strokeWidth: 10),
                   ),
                 );
-              } else if (state is MyCompassStateLoaded) {
-                return Transform.rotate(
-                  angle: ((state.heading) * (math.pi / 180) * -1),
-                  child: Icon(
-                    Icons.arrow_circle_up_rounded,
-                    size: topWidgetHeight - 2 * padding,
-                    color: Theme.of(context).secondaryHeaderColor,
-                  ),
-                );
-              } else if (state is MyCompassStateError) {
+              }
+              if (myCompassState is MyCompassStateLoaded) {
+                return BlocBuilder<PositionBloc, PositionState>(builder: (context, positionState) {
+                  if (positionState is PositionStateLoaded) {
+                    if (Geolocator.distanceBetween(positionState.currentPosition.latitude, positionState.currentPosition.longitude,
+                            locationPoint.pointLatitude, locationPoint.pointLongitude) >
+                        5) {
+                      return Transform.rotate(
+                        angle: ((myCompassState.heading -
+                                Geolocator.bearingBetween(positionState.currentPosition.latitude, positionState.currentPosition.longitude,
+                                    locationPoint.pointLatitude, locationPoint.pointLongitude)) *
+                            (math.pi / 180) *
+                            -1),
+                        child: Icon(
+                          Icons.arrow_circle_up_rounded,
+                          size: topWidgetHeight - 2 * padding,
+                          color: Theme.of(context).secondaryHeaderColor,
+                        ),
+                      );
+                    } else {
+                      return Icon(
+                        Icons.check_circle_rounded,
+                        size: topWidgetHeight - 2 * padding,
+                        color: Theme.of(context).secondaryHeaderColor,
+                      );
+                    }
+                  }
+                  return Padding(
+                    padding: EdgeInsets.only(left: padding * 4),
+                    child: SizedBox(
+                      width: topWidgetHeight - 10 * padding,
+                      height: topWidgetHeight - 10 * padding,
+                      child: CircularProgressIndicator(backgroundColor: Theme.of(context).primaryColorLight, strokeWidth: 10),
+                    ),
+                  );
+                });
+              }
+              if (myCompassState is MyCompassStateError) {
                 //todo при ошибке можно отправлять Event в LocationBloc и перерисовывать весь MainPointer
                 return Text("Compass error");
-              } else {
-                return Text("Unhandled compass Error: $state");
               }
+              return Text("Unhandled compass Error: $myCompassState");
             },
           ),
           Container(
@@ -83,26 +110,19 @@ class MainPointerOk extends StatelessWidget {
                     child: FittedBox(
                       child: BlocBuilder<PositionBloc, PositionState>(
                         builder: (context, state) {
-                          print("state: $state");
+                          print("state in widget ok: $state"); //todo delete
                           if (state is PositionStateLoading) {
                             positionBloc.add(PositionEventGetLocationService());
-                            return Container(width:  width * 0.1, child: LinearProgressIndicator(backgroundColor: Theme.of(context).secondaryHeaderColor));
+                            return Container(width: width * 0.1, child: Text(""));
                           } else if (state is PositionStateLoaded) {
                             return Text(
-                              "${Geolocator.distanceBetween(state.currentPosition.latitude ?? 0, state.currentPosition.longitude ?? 0, locationPoint.pointLatitude, locationPoint.pointLongitude)} ${S.of(context).metres}",
-                              //todo тут показывать расстояние, азимут передавать из LocationBloc в компасс. может имеет смысл объединить эти блоки?
+                              "${Geolocator.distanceBetween(state.currentPosition.latitude, state.currentPosition.longitude, locationPoint.pointLatitude, locationPoint.pointLongitude)} ${S.of(context).metres}",
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                   //fontSize: topWidgetHeight * 0.4,
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).secondaryHeaderColor),
                             );
-                          } else if (state is PositionStateErrorPermissionDenied) {
-                            print("PositionStateErrorPermissionDenied");
-                            return Text("Permission denied");
-                          } else if (state is PositionStateErrorServiceDisabled) {//todo тут можно отправлять стейт о том, что сервис выключен и ставить красный виджет
-                            locationBloc.add(LocationEventServiceDisabled());
-                            return Container(width:  width * 0.1, child: LinearProgressIndicator(backgroundColor: Theme.of(context).secondaryHeaderColor));
                           } else {
                             return Text("Unhandled error");
                           }

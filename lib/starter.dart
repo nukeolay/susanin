@@ -16,7 +16,7 @@ import 'domain/bloc/location/location_events.dart';
 import 'domain/bloc/location/location_states.dart';
 import 'generated/l10n.dart';
 
-void main() async {
+void main() {
   //todo сделал main async, посмотреть на что влияет
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(

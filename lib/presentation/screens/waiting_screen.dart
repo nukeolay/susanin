@@ -4,23 +4,27 @@ class WaitingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
-                color: Theme.of(context).accentColor,
-                width: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(width: 300, height: 300, child: Image.asset("assets/logo.png")),
-                    CircularProgressIndicator(backgroundColor: Colors.white),
-                  ],
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  color: Colors.green,
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Image.asset("assets/logo.png"),
+                      CircularProgressIndicator(backgroundColor: Colors.white),
+                      //Text("error: $error", style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

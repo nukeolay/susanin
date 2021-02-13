@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:susanin/domain/bloc/compass/compass_bloc.dart';
+import 'package:susanin/domain/bloc/compass/compass_states.dart';
 import 'package:susanin/domain/bloc/data/data_bloc.dart';
 import 'package:susanin/domain/bloc/data/data_events.dart';
 import 'package:susanin/domain/bloc/data/data_states.dart';
 import 'package:susanin/domain/bloc/location/location_bloc.dart';
 import 'package:susanin/domain/bloc/location/location_events.dart';
 import 'package:susanin/domain/bloc/location/location_states.dart';
+import 'package:susanin/domain/bloc/position/position_bloc.dart';
+import 'package:susanin/domain/bloc/position/position_states.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/theme/config.dart';
@@ -28,25 +32,31 @@ class MainPointer extends StatelessWidget {
     //final DataBloc dataBloc = BlocProvider.of<DataBloc>(context);
     final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
     return BlocBuilder<LocationBloc, LocationState>(
-      builder: (context, state) {
-        if (state is LocationStateErrorEmptyLocationList) {
-          return MainPointerBlank(MainPointerEmptyList());
-        } else if (state is LocationStateLocationListLoaded) {
-          Widget widget; // если делать без ty-catch то при попытке отменить удаление точки после нескольких удалений подряд виджет рушится
-          try {
-            widget = MainPointerBlank(MainPointerOk(state.susaninData.getSelectedLocationPoint));
-          } catch (e) {
-            widget = MainPointerBlank(MainPointerEmptyList());
-          }
-          return widget;
-        }
-        else if (state is LocationStateErrorServiceDisabled) {
-          return MainPointerBlank(MainPointerError(errorMessage: "Service Disabled"));
-        }
-        else {
-          print("state = $state");
-          return Text("ERROR");
-        }
+      builder: (context, locationState) {
+        return BlocBuilder<PositionBloc, PositionState>(
+          builder: (context, positionState) {
+            if (positionState is PositionStateErrorServiceDisabled) {
+              return MainPointerBlank(MainPointerError(errorMessage: "Service Disabled"));
+            } else
+            if (positionState is PositionStateErrorPermissionDenied) {
+              return MainPointerBlank(MainPointerError(errorMessage: "Permission Denied"));
+            } else
+            if (locationState is LocationStateErrorEmptyLocationList) {
+              return MainPointerBlank(MainPointerEmptyList());
+            } else
+            if (locationState is LocationStateLocationListLoaded) {
+              Widget widget; // если делать без ty-catch то при попытке отменить удаление точки после нескольких удалений подряд виджет рушится
+              try {
+                widget = MainPointerBlank(MainPointerOk(locationState.susaninData.getSelectedLocationPoint));
+              } catch (e) {
+                widget = MainPointerBlank(MainPointerEmptyList());
+              }
+              return widget;
+            }
+            print("state error = $locationState");
+            return Text("ERROR");
+          },
+        );
       },
     );
   }

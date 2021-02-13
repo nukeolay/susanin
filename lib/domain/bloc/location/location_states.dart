@@ -5,7 +5,9 @@ import 'package:susanin/domain/model/location_point.dart';
 import 'package:susanin/domain/model/susanin_data.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 
-abstract class LocationState {}
+abstract class LocationState {
+
+}
 
 class LocationStateDataLoading extends LocationState {}
 
@@ -13,6 +15,7 @@ class LocationStateDataLoaded extends LocationState {
   SusaninData susaninData;
 
   LocationStateDataLoaded(this.susaninData);
+
 }
 
 class LocationStateError extends LocationStateDataLoaded {
@@ -23,15 +26,17 @@ class LocationStateErrorEmptyLocationList extends LocationStateError {
   LocationStateErrorEmptyLocationList(SusaninData susaninData) : super(susaninData);
 }
 
-class LocationStateErrorServiceDisabled extends LocationStateError {
-  LocationStateErrorServiceDisabled(SusaninData susaninData) : super(susaninData);
-}
-
 class LocationStateLocationListLoaded extends LocationStateDataLoaded {
   SusaninData susaninData;
   String option;
 
   LocationStateLocationListLoaded(this.susaninData, [this.option]) : super(susaninData);
+}
+
+class LocationStateLocationAddingLocation extends LocationStateLocationListLoaded {
+  SusaninData susaninData;
+
+  LocationStateLocationAddingLocation(this.susaninData) : super(susaninData);
 }
 
 class LocationStatePressedSetLocation extends LocationState {}
@@ -57,17 +62,3 @@ class LocationStateFirstTimeStarted extends LocationStateDataLoaded {
 class LocationStatePressedShareLocation extends LocationState {}
 
 class LocationStatePressedRenameLocation extends LocationState {}
-
-class LocationStateLocationRenamed extends LocationState {}
-
-class LocationStateGpsDisabled extends LocationState {}
-
-class LocationStateGpsEnabled extends LocationState {}
-
-class LocationStateLowAccuracy extends LocationState {}
-
-// class DataStateDataLoading extends LocationState {}
-//
-// class DataStateEmptyLocationList extends LocationState {}
-//
-// class DataStateThemeToggled extends LocationState {}

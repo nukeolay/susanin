@@ -28,13 +28,6 @@ class LocationList extends StatelessWidget {
             style: TextStyle(fontSize: width * 0.07, color: Theme.of(context).accentColor),
           );
         }
-        else if (state is LocationStateErrorServiceDisabled) {
-          return Text(
-            "Please enable location service",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: width * 0.07, color: Theme.of(context).accentColor),
-          );
-        }
         else if (state is LocationStateLocationListLoaded) {
           return ListView.builder(
             padding: EdgeInsets.only(top: topWidgetHeight * 0.5 + topWidgetHeight, bottom: topWidgetHeight * 0.5),
@@ -55,13 +48,8 @@ class LocationList extends StatelessWidget {
                       child: Container(
                         color: index == state.susaninData.getSelectedLocationPointId ? Theme.of(context).accentColor : CardTheme.of(context).color,
                         child: ListTile(
-                            // tileColor: index == state.susaninData.getSelectedLocationPointId
-                            //     ? Colors.black
-                            //     : Colors.blue,
-                            //tileColor: Theme.of(context).accentColor,
                             selected: index == state.susaninData.getSelectedLocationPointId ? true : false,
                             onTap: () => locationBloc.add(LocationEventPressedSelectLocation(index)),
-                            //leading: index == state.susaninData.getSelectedLocationPointId ? CircleAvatar(child: Icon(Icons.my_location), backgroundColor: Theme.of(context).accentColor) : Text(""),
                             title: Text(
                               "${state.susaninData.getLocationList.elementAt(index).pointName}",
                               style: TextStyle(
@@ -126,8 +114,7 @@ class LocationList extends StatelessWidget {
             },
           );
         } else {
-          print("Some error occurred $state");
-          return Text("Some error occurred");
+          return Text("Unhandeled error: $state");
         }
       },
     );
