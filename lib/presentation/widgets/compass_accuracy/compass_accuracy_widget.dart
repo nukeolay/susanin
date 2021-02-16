@@ -5,7 +5,9 @@ import 'package:susanin/domain/bloc/position/position_bloc.dart';
 import 'package:susanin/domain/bloc/position/position_states.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'package:susanin/presentation/widgets/compass_accuracy/accuracy/accuracy_widget.dart';
+import 'package:gradient_widgets/gradient_widgets.dart';
 
+import 'package:susanin/presentation/widgets/loading_indicator_widget.dart';
 import 'mini_compass/mini_compass_widget.dart';
 
 class CompassAccuracy extends StatelessWidget {
@@ -85,24 +87,49 @@ class CompassAccuracy extends StatelessWidget {
           ),
         ]);
       }
-      if (positionState is PositionStateLoading) {
-        return Container(
-          height: topWidgetHeight,
-          child: Card(
-            margin: EdgeInsets.only(left: padding, right: 0.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(4),
-                topLeft: Radius.circular(4),
+      //if (positionState is PositionStateLoading) {
+        return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Expanded(
+            //компасс
+            flex: 9,
+            child: Card(
+              margin: EdgeInsets.only(left: padding, right: 0.0, bottom: padding),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(4),
+                  topLeft: Radius.circular(4),
+                ),
+              ),
+              color: Theme.of(context).cardColor,
+              elevation: 5,
+              child: Padding(
+                padding: EdgeInsets.all(padding * 0.3),
+                child: LoadingIndicator(startColor: Theme.of(context).cardColor, endColor: Theme.of(context).primaryColor, period: 300),
               ),
             ),
-            color: Theme.of(context).cardColor,
-            elevation: 5,
-            child: LinearProgressIndicator(),
           ),
-        );
-      }
-      return Text("Error");
+          Expanded(
+            //точность GPS
+            flex: 7,
+            child: Card(
+              margin: EdgeInsets.only(left: padding, right: 0.0, top: padding),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(4),
+                  topLeft: Radius.circular(4),
+                ),
+              ),
+              color: Theme.of(context).cardColor,
+              elevation: 5,
+              child: Padding(
+                padding: EdgeInsets.all(padding * 0.3),
+                child: LoadingIndicator(startColor: Theme.of(context).cardColor, endColor: Theme.of(context).primaryColor, period: 300),
+              ),
+            ),
+          ),
+        ]);
+
+      //return Text("Error");
     });
   }
 }

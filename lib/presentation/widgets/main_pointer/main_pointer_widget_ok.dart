@@ -14,6 +14,7 @@ import 'package:susanin/domain/model/location_point.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'dart:math' as math;
 
+import '../loading_indicator_widget.dart';
 import 'main_pointer_widget_error.dart';
 
 class MainPointerOk extends StatelessWidget {
@@ -47,7 +48,7 @@ class MainPointerOk extends StatelessWidget {
                   child: SizedBox(
                     width: topWidgetHeight - 10 * padding,
                     height: topWidgetHeight - 10 * padding,
-                    child: CircularProgressIndicator(backgroundColor: Theme.of(context).primaryColorLight, strokeWidth: 10),
+                    child: LoadingIndicator(startColor: Theme.of(context).primaryColor, endColor: Theme.of(context).accentColor, period: 300),
                   ),
                 );
               }
@@ -82,7 +83,7 @@ class MainPointerOk extends StatelessWidget {
                     child: SizedBox(
                       width: topWidgetHeight - 10 * padding,
                       height: topWidgetHeight - 10 * padding,
-                      child: CircularProgressIndicator(backgroundColor: Theme.of(context).primaryColorLight, strokeWidth: 10),
+                      child: LoadingIndicator(startColor: Theme.of(context).primaryColor, endColor: Theme.of(context).accentColor, period: 300),
                     ),
                   );
                 });

@@ -13,8 +13,6 @@ import 'package:susanin/domain/bloc/position/position_bloc.dart';
 import 'package:susanin/domain/bloc/position/position_states.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/generated/l10n.dart';
-import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/theme/config.dart';
-import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/theme/custom_theme.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'package:susanin/presentation/widgets/main_pointer/main_pointer_widget_empty_list.dart';
 import 'package:susanin/presentation/widgets/main_pointer/main_pointer_widget_error.dart';
