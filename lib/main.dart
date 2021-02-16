@@ -15,6 +15,7 @@ import 'domain/bloc/compass/compass_bloc.dart';
 import 'domain/bloc/location/location_bloc.dart';
 import 'domain/bloc/location/location_events.dart';
 import 'domain/bloc/location/location_states.dart';
+import 'domain/bloc/main_pointer/main_pointer_bloc.dart';
 import 'generated/l10n.dart';
 
 void main() async {
@@ -37,7 +38,7 @@ void main() async {
 class Susanin extends StatelessWidget {
   SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
   Stream<CompassEvent> compassStream = FlutterCompass.events;
-  Stream<Position> _positionStream = Geolocator.getPositionStream(desiredAccuracy: LocationAccuracy.best);
+  Stream<Position> positionStream = Geolocator.getPositionStream(desiredAccuracy: LocationAccuracy.best);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,8 @@ class Susanin extends StatelessWidget {
         //BlocProvider<DataBloc>(create: (context) => DataBloc(susaninRepository)),
         BlocProvider<LocationBloc>(create: (context) => LocationBloc(susaninRepository)),
         BlocProvider<MyCompassBloc>(create: (context) => MyCompassBloc(compassStream)),
-        BlocProvider<PositionBloc>(create: (context) => PositionBloc())
+        BlocProvider<PositionBloc>(create: (context) => PositionBloc()),
+        BlocProvider<MainPointerBloc>(create: (context) => MainPointerBloc(compassStream, positionStream)),
       ],
       child: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, state) {

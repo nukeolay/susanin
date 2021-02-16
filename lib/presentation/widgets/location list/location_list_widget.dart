@@ -8,6 +8,8 @@ import 'package:susanin/domain/bloc/data/data_states.dart';
 import 'package:susanin/domain/bloc/location/location_bloc.dart';
 import 'package:susanin/domain/bloc/location/location_events.dart';
 import 'package:susanin/domain/bloc/location/location_states.dart';
+import 'package:susanin/domain/bloc/main_pointer/main_pointer_bloc.dart';
+import 'package:susanin/domain/bloc/main_pointer/main_pointer_events.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'package:susanin/presentation/alerts/rename_location_alert.dart';
 
@@ -19,6 +21,7 @@ class LocationList extends StatelessWidget {
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;
     final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
+    final MainPointerBloc mainPointerBloc = BlocProvider.of<MainPointerBloc>(context);
     return BlocBuilder<LocationBloc, LocationState>(
       builder: (context, state) {
         if (state is LocationStateErrorEmptyLocationList) {
@@ -27,8 +30,7 @@ class LocationList extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: width * 0.07, color: Theme.of(context).accentColor),
           );
-        }
-        else if (state is LocationStateLocationListLoaded) {
+        } else if (state is LocationStateLocationListLoaded) {
           return ListView.builder(
             padding: EdgeInsets.only(top: topWidgetHeight * 0.5 + topWidgetHeight, bottom: topWidgetHeight * 0.5),
             itemCount: state.susaninData.getLocationList.length,
@@ -49,7 +51,10 @@ class LocationList extends StatelessWidget {
                         color: index == state.susaninData.getSelectedLocationPointId ? Theme.of(context).accentColor : CardTheme.of(context).color,
                         child: ListTile(
                             selected: index == state.susaninData.getSelectedLocationPointId ? true : false,
-                            onTap: () => locationBloc.add(LocationEventPressedSelectLocation(index)),
+                            onTap: () {
+                              locationBloc.add(LocationEventPressedSelectLocation(index));
+                              mainPointerBloc.add(MainPointerEventSelectPoint(selectedLocationPoint: state.susaninData.getLocationList.elementAt(index)));//todo не проверено: передаю в MainPointerBloc локуцию,чтобы от нее считать угол, расстояние и имя
+                            },
                             title: Text(
                               "${state.susaninData.getLocationList.elementAt(index).pointName}",
                               style: TextStyle(

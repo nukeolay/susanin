@@ -2,9 +2,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:susanin/domain/model/location_point.dart';
 
 abstract class MainPointerState {
-  LocationPoint selectedLocationPoint;
-
-  MainPointerState({this.selectedLocationPoint});
 }
 
 class MainPointerStateLoading extends MainPointerState {}
@@ -12,8 +9,9 @@ class MainPointerStateLoading extends MainPointerState {}
 class MainPointerStateLoaded extends MainPointerState {
   Position currentPosition;
   double heading;
+  LocationPoint selectedLocationPoint;
 
-  MainPointerStateLoaded({this.currentPosition, this.heading});
+  MainPointerStateLoaded({this.currentPosition, this.heading, this.selectedLocationPoint});
 
   double getAzimuth() {
     return heading -

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:susanin/domain/model/location_point.dart';
 
 import 'main_pointer_events.dart';
 import 'main_pointer_states.dart';
@@ -68,6 +69,7 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
       } else {
         yield MainPointerStateLoaded(heading: mainPointerEvent.heading);
       }
+      //todo Дописать работу с геолокацией, сейчас только компасс
     }
 
     if (mainPointerEvent is MainPointerEventErrorNoCompass) {
@@ -85,6 +87,11 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
 
     if (mainPointerEvent is MainPointerEventErrorServiceDisabled) {
       yield MainPointerStateErrorServiceDisabled();
+    }
+
+    if (mainPointerEvent is MainPointerEventSelectPoint)
+    {
+      yield MainPointerStateLoaded(selectedLocationPoint: mainPointerEvent.selectedLocationPoint);
     }
   }
 }
