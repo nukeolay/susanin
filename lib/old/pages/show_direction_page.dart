@@ -5,7 +5,7 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/app_data_old.dart';
 import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/accuracy_gps_widget.dart';
-import 'package:susanin/presentation/widgets/location list/location_list_widget.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/widgets/location_list_widget.dart';
 import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/point_name.dart';
 import 'package:provider/provider.dart';
 import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/old/small_compass_widget.dart';

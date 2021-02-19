@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:susanin/domain/bloc/position/position_bloc.dart';
+import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_bloc.dart';
+import 'package:susanin/domain/bloc/main_pointer/main_pointer_events.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'package:susanin/presentation/screens/home_screen.dart';
@@ -11,7 +12,7 @@ import 'package:susanin/presentation/screens/waiting_screen.dart';
 import 'package:susanin/presentation/theme/config.dart';
 import 'package:susanin/presentation/theme/custom_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'domain/bloc/compass/compass_bloc.dart';
+import 'domain/bloc/compass_accuracy/compass_accuracy_events.dart';
 import 'domain/bloc/location/location_bloc.dart';
 import 'domain/bloc/location/location_events.dart';
 import 'domain/bloc/location/location_states.dart';
@@ -45,15 +46,17 @@ class Susanin extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         //BlocProvider<DataBloc>(create: (context) => DataBloc(susaninRepository)),
+        //BlocProvider<MyCompassBloc>(create: (context) => MyCompassBloc(compassStream)),
+        //BlocProvider<PositionBloc>(create: (context) => PositionBloc()),
         BlocProvider<LocationBloc>(create: (context) => LocationBloc(susaninRepository)),
-        BlocProvider<MyCompassBloc>(create: (context) => MyCompassBloc(compassStream)),
-        BlocProvider<PositionBloc>(create: (context) => PositionBloc()),
-        BlocProvider<MainPointerBloc>(create: (context) => MainPointerBloc(compassStream, positionStream)),
+        BlocProvider<MainPointerBloc>(create: (context) => MainPointerBloc(compassStream, positionStream)..add(MainPointerEventGetServices())),
+        BlocProvider<CompassAccuracyBloc>(create: (context) => CompassAccuracyBloc(compassStream, positionStream)..add(CompassAccuracyEventGetServices())),
       ],
       child: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, state) {
           //final DataBloc dataBloc = BlocProvider.of<DataBloc>(context);
           final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
+          final MainPointerBloc mainPointerBloc = BlocProvider.of<MainPointerBloc>(context);
           if (state is LocationStateDataLoading) {
             locationBloc.add(LocationEventGetData());
             return MaterialApp(

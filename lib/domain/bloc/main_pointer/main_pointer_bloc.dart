@@ -18,6 +18,10 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
   LocationPermission permission;
   bool serviceEnabled;
 
+  Position tempCurrentPosition;
+  double tempCurrentHeading;
+  LocationPoint tempSelectedLocationPoint;
+
   MainPointerBloc(this._compassStream, this._positionStream) : super(MainPointerStateLoading());
 
   @override
@@ -43,18 +47,45 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
     }
 
     if (mainPointerEvent is MainPointerEventGetServices) {
+      print("here");
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        add(MainPointerEventErrorServiceDisabled());
+      }
+
       //работаем с потоком компасса
       _compassSubscription?.cancel(); //отменяем подписку на поток компасса, если по какой-то причине опять запщен ивент MainPointerEventGetServices
       _compassSubscription = _compassStream.listen((CompassEvent compassEvent) {
         //подписываемся на поток компасса
-        add(MainPointerEventChanged(heading: compassEvent.heading)); //добавляем событие с углом пворота компасса
-      }, onError: (e) => add(MainPointerEventErrorNoCompass())); //если ошибка в потоке компасса, то бодавляем событие с ошибкой компасса
+        tempCurrentHeading = compassEvent.heading;
+        if (_positionSubscription.isPaused) {
+          _positionSubscription.resume();
+        }
+        serviceEnabled = true;
+        add(MainPointerEventChanged(
+            heading: compassEvent.heading,
+            currentPosition: tempCurrentPosition,
+            selectedLocationPoint: tempSelectedLocationPoint)); //добавляем событие с углом пворота компасса
+      }, onError: (compassError) {
+        _positionSubscription?.pause();
+        add(MainPointerEventErrorNoCompass());
+      }); //если ошибка в потоке компасса, то авляем событие с ошибкой компасса
+
       //работаем с потоком геолокации
       _positionSubscription
           ?.cancel(); //отменяем подписку на поток геолокации, если по какой-то причине опять запщен ивент MainPointerEventGetServices
       _positionSubscription = _positionStream.listen((Position position) async {
-        add(MainPointerEventChanged(currentPosition: position)); //добавляем событие с текущей геолокацией
-      }, onError: (e) async {
+        tempCurrentPosition = position;
+        serviceEnabled = await Geolocator.isLocationServiceEnabled();
+        if (_compassSubscription.isPaused) {
+          _compassSubscription.resume();
+        }
+        add(MainPointerEventChanged(
+            heading: tempCurrentHeading,
+            currentPosition: position,
+            selectedLocationPoint: tempSelectedLocationPoint)); //добавляем событие с текущей геолокацией
+      }, onError: (locationError) async {
+        _compassSubscription?.pause();
         serviceEnabled = await Geolocator.isLocationServiceEnabled();
         if (!serviceEnabled) {
           add(MainPointerEventErrorServiceDisabled());
@@ -64,12 +95,12 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
 
     if (mainPointerEvent is MainPointerEventChanged) {
       //какие-то данные пришли из потока компасса и геолокации
-      if (mainPointerEvent.heading == null) {
-        yield MainPointerStateErrorNoCompass();
-      } else {
-        yield MainPointerStateLoaded(heading: mainPointerEvent.heading);
+      //print("tempCurrentPosition = $tempCurrentPosition && tempCurrentHeading = $tempCurrentHeading && tempSelectedLocationPoint = $tempSelectedLocationPoint");
+      if (tempCurrentPosition != null && tempCurrentHeading != null && tempSelectedLocationPoint != null) {
+        //print("here w");
+        yield MainPointerStateLoaded(
+            heading: mainPointerEvent.heading, currentPosition: mainPointerEvent.currentPosition, selectedLocationPoint: tempSelectedLocationPoint);
       }
-      //todo Дописать работу с геолокацией, сейчас только компасс
     }
 
     if (mainPointerEvent is MainPointerEventErrorNoCompass) {
@@ -78,7 +109,7 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
 
     if (mainPointerEvent is MainPointerEventErrorPermissionDenied) {
       yield MainPointerStateErrorPermissionDenied();
-      permission = await Geolocator.requestPermission(); //запросить разрешение
+      //permission = await Geolocator.requestPermission(); //todo запросить разрешение, вернуть эту строку? проверить появляется ли запрос на включение геопозиции
     }
 
     if (mainPointerEvent is MainPointerEventErrorPermissionDeniedForever) {
@@ -89,9 +120,25 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
       yield MainPointerStateErrorServiceDisabled();
     }
 
-    if (mainPointerEvent is MainPointerEventSelectPoint)
-    {
-      yield MainPointerStateLoaded(selectedLocationPoint: mainPointerEvent.selectedLocationPoint);
+    if (mainPointerEvent is MainPointerEventEmptyList) {
+      tempCurrentPosition = null;
+      tempCurrentHeading = null;
+      tempSelectedLocationPoint = null;
+      _compassSubscription?.cancel();
+      _positionSubscription?.cancel();
+      yield MainPointerStateEmptyList();
+    }
+
+    if (mainPointerEvent is MainPointerEventSelectPoint) {
+      tempSelectedLocationPoint = mainPointerEvent.selectedLocationPoint;
+      if (!serviceEnabled) {
+        yield MainPointerStateErrorServiceDisabled();
+      } else if (tempCurrentPosition != null && tempCurrentHeading != null && tempSelectedLocationPoint != null) {
+        yield MainPointerStateLoaded(
+            heading: tempCurrentHeading, currentPosition: tempCurrentPosition, selectedLocationPoint: mainPointerEvent.selectedLocationPoint);
+      } else {
+        yield MainPointerStateLoading();
+      }
     }
   }
 }

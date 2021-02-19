@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:share/share.dart';
-import 'package:susanin/domain/bloc/data/data_states.dart';
 import 'package:susanin/domain/bloc/location/location_bloc.dart';
 import 'package:susanin/domain/bloc/location/location_events.dart';
 import 'package:susanin/domain/bloc/location/location_states.dart';
@@ -24,13 +23,21 @@ class LocationList extends StatelessWidget {
     final MainPointerBloc mainPointerBloc = BlocProvider.of<MainPointerBloc>(context);
     return BlocBuilder<LocationBloc, LocationState>(
       builder: (context, state) {
+
+        if(state is LocationStateLocationAddingLocation) {
+          mainPointerBloc.add(MainPointerEventGetServices());
+        }
+
         if (state is LocationStateErrorEmptyLocationList) {
+          mainPointerBloc.add(MainPointerEventEmptyList());
           return Text(
             "Press \"Add location\" button to save current location",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: width * 0.07, color: Theme.of(context).accentColor),
           );
         } else if (state is LocationStateLocationListLoaded) {
+          //mainPointerBloc.add(MainPointerEventGetServices());
+          mainPointerBloc.add(MainPointerEventSelectPoint(selectedLocationPoint: state.susaninData.getSelectedLocationPoint));
           return ListView.builder(
             padding: EdgeInsets.only(top: topWidgetHeight * 0.5 + topWidgetHeight, bottom: topWidgetHeight * 0.5),
             itemCount: state.susaninData.getLocationList.length,
@@ -41,7 +48,7 @@ class LocationList extends StatelessWidget {
                 margin: EdgeInsets.all(4.0),
                 child: Card(
                   margin: EdgeInsets.zero,
-                  elevation: index == state.susaninData.getSelectedLocationPointId ? 0 : 3,
+                  elevation: 0,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(4.0),
                     child: Slidable(
@@ -53,7 +60,7 @@ class LocationList extends StatelessWidget {
                             selected: index == state.susaninData.getSelectedLocationPointId ? true : false,
                             onTap: () {
                               locationBloc.add(LocationEventPressedSelectLocation(index));
-                              mainPointerBloc.add(MainPointerEventSelectPoint(selectedLocationPoint: state.susaninData.getLocationList.elementAt(index)));//todo не проверено: передаю в MainPointerBloc локуцию,чтобы от нее считать угол, расстояние и имя
+                              //mainPointerBloc.add(MainPointerEventSelectPoint(selectedLocationPoint: state.susaninData.getLocationList.elementAt(index)));//todo не проверено: передаю в MainPointerBloc локуцию,чтобы от нее считать угол, расстояние и имя
                             },
                             title: Text(
                               "${state.susaninData.getLocationList.elementAt(index).pointName}",

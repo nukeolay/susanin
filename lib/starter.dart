@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_compass/flutter_compass.dart';
-import 'package:susanin/domain/bloc/position/position_bloc.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'package:susanin/presentation/screens/home_screen.dart';
@@ -10,7 +9,6 @@ import 'package:susanin/presentation/screens/waiting_screen.dart';
 import 'package:susanin/presentation/theme/config.dart';
 import 'package:susanin/presentation/theme/custom_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'domain/bloc/compass/compass_bloc.dart';
 import 'domain/bloc/location/location_bloc.dart';
 import 'domain/bloc/location/location_events.dart';
 import 'domain/bloc/location/location_states.dart';
@@ -41,10 +39,8 @@ class Susanin extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        //BlocProvider<DataBloc>(create: (context) => DataBloc(susaninRepository)),
         BlocProvider<LocationBloc>(create: (context) => LocationBloc(susaninRepository)),
-        BlocProvider<MyCompassBloc>(create: (context) => MyCompassBloc(compassStream)),
-        BlocProvider<PositionBloc>(create: (context) => PositionBloc())
+        //BlocProvider<PositionBloc>(create: (context) => PositionBloc())
       ],
       child: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, state) {

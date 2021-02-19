@@ -10,9 +10,12 @@ class MainPointerEventCheckPermissionsOnOff extends MainPointerEvent {}
 class MainPointerEventChanged extends MainPointerEvent {
   Position currentPosition;
   double heading;
+  LocationPoint selectedLocationPoint;
 
-  MainPointerEventChanged({this.currentPosition, this.heading});
+  MainPointerEventChanged({this.currentPosition, this.heading, this.selectedLocationPoint});
 }
+
+class MainPointerEventEmptyList extends MainPointerEvent {}
 
 class MainPointerEventSelectPoint extends MainPointerEvent {
   LocationPoint selectedLocationPoint;

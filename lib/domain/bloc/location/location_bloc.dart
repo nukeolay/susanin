@@ -48,7 +48,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       }
     } else if (locationEvent is LocationEventPressedAddNewLocation) {
       yield LocationStateLocationAddingLocation(susaninDataLocal);
-      Position currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
+      Position currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
       susaninDataLocal.getLocationList.addFirst(new LocationPoint.createNew(
           latitude: currentPosition.latitude, longitude: currentPosition.longitude, pointName: "Name ${susaninDataLocal.getLocationCounter + 1}"));
       susaninDataLocal.increnemtLocationCounter();

@@ -5,7 +5,6 @@ import 'package:susanin/data/api/model/api_location_point.dart';
 import 'package:susanin/data/api/model/api_susanin_data.dart';
 import 'package:susanin/domain/model/location_point.dart';
 import 'package:susanin/domain/model/susanin_data.dart';
-import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/widgets/location%20list/location_list_widget.dart';
 
 import 'location_point_mapper.dart';
 

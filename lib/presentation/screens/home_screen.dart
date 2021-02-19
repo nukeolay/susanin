@@ -1,16 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/domain/bloc/data/data_bloc.dart';
-import 'package:susanin/domain/bloc/data/data_events.dart';
 import 'package:susanin/domain/bloc/location/location_bloc.dart';
 import 'package:susanin/domain/bloc/location/location_events.dart';
 import 'package:susanin/domain/bloc/location/location_states.dart';
-import 'package:susanin/domain/bloc/position/position_bloc.dart';
-import 'package:susanin/domain/bloc/position/position_states.dart';
-import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/screens/waiting_screen.dart';
-import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/widgets/compass_accuracy/compass_accuracy_widget.dart';
-import 'package:susanin/presentation/widgets/location list/location_list_widget.dart';
+import 'package:susanin/domain/bloc/main_pointer/main_pointer_bloc.dart';
+import 'package:susanin/domain/bloc/main_pointer/main_pointer_states.dart';
+import 'package:susanin/presentation/screens/waiting_screen.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/widgets/compass_accuracy_widget.dart';
+import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/widgets/location_list_widget.dart';
 import 'package:susanin/presentation/widgets/main_pointer/main_pointer_widget.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'package:flutter_compass/flutter_compass.dart';
@@ -54,8 +52,8 @@ class HomeScreen extends StatelessWidget {
                     Container(
                       width: width * 0.2,
                       child:
-                      //Text("Empty"),
-                      CompassAccuracy(), //todo отключил временно виджет с миникомпассом
+                      CompassAccuracy(),
+                      //Text("Test")
                     ),
                   ],
                 ),
@@ -68,10 +66,10 @@ class HomeScreen extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: EdgeInsets.only(right: 15.0, bottom: 15.0),
-                child: BlocBuilder<PositionBloc, PositionState>(builder: (context, positionState) {
+                child: BlocBuilder<MainPointerBloc, MainPointerState>(builder: (context, mainPointerState) {//todo сделпть один блок билдер
                   return BlocBuilder<LocationBloc, LocationState>(builder: (context, locationState) {
                     // в зависимости от доступности локации, показываю кнопку для добавления локаии или блокирую кнопку
-                    if (locationState is LocationStateLocationAddingLocation || positionState is PositionStateLoading) {
+                    if (locationState is LocationStateLocationAddingLocation) {
                       return FloatingActionButton(
                         backgroundColor: Theme.of(context).accentColor,
                         elevation: 0,
@@ -81,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                         onPressed: () {},
                       );
                     }
-                    if (positionState is PositionStateError) {
+                    if (mainPointerState is MainPointerStateError) {
                       return FloatingActionButton(
                         backgroundColor: Theme.of(context).errorColor,
                         elevation: 0,

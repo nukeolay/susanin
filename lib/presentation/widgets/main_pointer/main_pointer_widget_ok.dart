@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:susanin/domain/bloc/compass/compass_bloc.dart';
-import 'package:susanin/domain/bloc/compass/compass_events.dart';
-import 'package:susanin/domain/bloc/compass/compass_states.dart';
 import 'package:susanin/domain/bloc/location/location_bloc.dart';
 import 'package:susanin/domain/bloc/location/location_events.dart';
-import 'package:susanin/domain/bloc/position/position_bloc.dart';
-import 'package:susanin/domain/bloc/position/position_events.dart';
-import 'package:susanin/domain/bloc/position/position_states.dart';
+import 'package:susanin/domain/bloc/main_pointer/main_pointer_bloc.dart';
+import 'package:susanin/domain/bloc/main_pointer/main_pointer_states.dart';
 import 'package:susanin/domain/model/location_point.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'dart:math' as math;
@@ -18,9 +14,9 @@ import '../loading_indicator_widget.dart';
 import 'main_pointer_widget_error.dart';
 
 class MainPointerOk extends StatelessWidget {
-  LocationPoint locationPoint;
+  //LocationPoint locationPoint;//todo можно удалить, если получится получать из блока
 
-  MainPointerOk(this.locationPoint);
+  //MainPointerOk(this.locationPoint);
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +24,7 @@ class MainPointerOk extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;
-    final MyCompassBloc myCompassBloc = BlocProvider.of<MyCompassBloc>(context);
-    final PositionBloc positionBloc = BlocProvider.of<PositionBloc>(context);
-
+    final mainPointerState = BlocProvider.of<MainPointerBloc>(context).state as MainPointerStateLoaded;
     return Container(
       height: topWidgetHeight,
       color: Theme.of(context).accentColor,
@@ -38,63 +32,21 @@ class MainPointerOk extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          BlocBuilder<MyCompassBloc, MyCompassState>(
-            //в блок компасса вложен блок локации, чтобы можно было посчитать азимут и показать иконку в зависимости от расстояния
-            builder: (context, myCompassState) {
-              if (myCompassState is MyCompassStateLoading) {
-                myCompassBloc.add(MyCompassEventGetCompass());
-                return Padding(
-                  padding: EdgeInsets.only(left: padding * 4),
-                  child: SizedBox(
-                    width: topWidgetHeight - 10 * padding,
-                    height: topWidgetHeight - 10 * padding,
-                    child: LoadingIndicator(startColor: Theme.of(context).primaryColor, endColor: Theme.of(context).accentColor, period: 300),
-                  ),
-                );
-              }
-              if (myCompassState is MyCompassStateLoaded) {
-                return BlocBuilder<PositionBloc, PositionState>(builder: (context, positionState) {
-                  if (positionState is PositionStateLoaded) {
-                    if (Geolocator.distanceBetween(positionState.currentPosition.latitude, positionState.currentPosition.longitude,
-                            locationPoint.pointLatitude, locationPoint.pointLongitude) >
-                        5) {
-                      return Transform.rotate(
-                        angle: ((myCompassState.heading -
-                                Geolocator.bearingBetween(positionState.currentPosition.latitude, positionState.currentPosition.longitude,
-                                    locationPoint.pointLatitude, locationPoint.pointLongitude)) *
-                            (math.pi / 180) *
-                            -1),
-                        child: Icon(
-                          Icons.arrow_circle_up_rounded,
-                          size: topWidgetHeight - 2 * padding,
-                          color: Theme.of(context).secondaryHeaderColor,
-                        ),
-                      );
-                    } else {
-                      return Icon(
-                        Icons.check_circle_rounded,
-                        size: topWidgetHeight - 2 * padding,
-                        color: Theme.of(context).secondaryHeaderColor,
-                      );
-                    }
-                  }
-                  return Padding(
-                    padding: EdgeInsets.only(left: padding * 4),
-                    child: SizedBox(
-                      width: topWidgetHeight - 10 * padding,
-                      height: topWidgetHeight - 10 * padding,
-                      child: LoadingIndicator(startColor: Theme.of(context).primaryColor, endColor: Theme.of(context).accentColor, period: 300),
-                    ),
-                  );
-                });
-              }
-              if (myCompassState is MyCompassStateError) {
-                //todo при ошибке можно отправлять Event в LocationBloc и перерисовывать весь MainPointer
-                return Text("Compass error");
-              }
-              return Text("Unhandled compass Error: $myCompassState");
-            },
-          ),
+          if (mainPointerState.getDistance() > 5)
+            Transform.rotate(
+              angle: (mainPointerState.getAzimuth() * (math.pi / 180) * -1),
+              child: Icon(
+                Icons.arrow_circle_up_rounded,
+                size: topWidgetHeight - 2 * padding,
+                color: Theme.of(context).secondaryHeaderColor,
+              ),
+            )
+          else
+            Icon(
+              Icons.check_circle_rounded,
+              size: topWidgetHeight - 2 * padding,
+              color: Theme.of(context).secondaryHeaderColor,
+            ),
           Container(
             width: width * 0.03,
           ),
@@ -109,25 +61,13 @@ class MainPointerOk extends StatelessWidget {
                   Expanded(
                     flex: 6,
                     child: FittedBox(
-                      child: BlocBuilder<PositionBloc, PositionState>(
-                        builder: (context, state) {
-                          print("state in widget ok: $state"); //todo delete
-                          if (state is PositionStateLoading) {
-                            positionBloc.add(PositionEventGetLocationService());
-                            return Container(width: width * 0.1, child: Text(""));
-                          } else if (state is PositionStateLoaded) {
-                            return Text(
-                              "${Geolocator.distanceBetween(state.currentPosition.latitude, state.currentPosition.longitude, locationPoint.pointLatitude, locationPoint.pointLongitude)} ${S.of(context).metres}",
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  //fontSize: topWidgetHeight * 0.4,
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).secondaryHeaderColor),
-                            );
-                          } else {
-                            return Text("Unhandled error");
-                          }
-                        },
+                      child: Text(
+                        "${mainPointerState.getDistance()} ${S.of(context).metres}",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            //fontSize: topWidgetHeight * 0.4,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).secondaryHeaderColor),
                       ),
                     ),
                   ),
@@ -139,7 +79,7 @@ class MainPointerOk extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            locationPoint.pointName,
+                            mainPointerState.selectedLocationPoint.pointName,
                             style: TextStyle(
                               //fontSize: width * 0.04,
                               color: Theme.of(context).secondaryHeaderColor,

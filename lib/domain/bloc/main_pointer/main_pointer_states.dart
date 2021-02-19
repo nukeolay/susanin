@@ -6,6 +6,8 @@ abstract class MainPointerState {
 
 class MainPointerStateLoading extends MainPointerState {}
 
+class MainPointerStateEmptyList extends MainPointerState {}
+
 class MainPointerStateLoaded extends MainPointerState {
   Position currentPosition;
   double heading;

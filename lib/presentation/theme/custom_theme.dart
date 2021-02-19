@@ -29,7 +29,7 @@ class CustomTheme {
       errorColor: Colors.red,
       cardColor: Colors.grey[300],
       cardTheme: CardTheme(
-        elevation: 1,
+        elevation: 0,
         color: Colors.grey[200],
       ),
     );
@@ -52,7 +52,7 @@ class CustomTheme {
         ),
       ),
       cardTheme: CardTheme(
-        elevation: 1,
+        elevation: 0,
         color: Colors.grey[700],
       ),
     );
