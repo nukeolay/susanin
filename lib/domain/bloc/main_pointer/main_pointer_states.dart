@@ -1,8 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/domain/model/location_point.dart';
 
-abstract class MainPointerState {
-}
+abstract class MainPointerState {}
 
 class MainPointerStateLoading extends MainPointerState {}
 
@@ -23,8 +22,13 @@ class MainPointerStateLoaded extends MainPointerState {
 
   double getDistance() {
     return Geolocator.distanceBetween(
-            currentPosition.latitude, currentPosition.longitude, selectedLocationPoint.pointLatitude, selectedLocationPoint.pointLongitude);
+        currentPosition.latitude, currentPosition.longitude, selectedLocationPoint.pointLatitude, selectedLocationPoint.pointLongitude);
   }
+}
+
+class MainPointerStateLoadedAddedNew extends MainPointerStateLoaded {
+  MainPointerStateLoadedAddedNew({Position currentPosition, double heading, LocationPoint selectedLocationPoint})
+      : super(currentPosition: currentPosition, heading: heading, selectedLocationPoint: selectedLocationPoint);
 }
 
 class MainPointerStateError extends MainPointerState {}

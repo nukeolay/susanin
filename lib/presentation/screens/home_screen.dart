@@ -1,6 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_bloc.dart';
+import 'package:susanin/domain/bloc/fab/fab_bloc.dart';
+import 'package:susanin/domain/bloc/fab/fab_events.dart';
+import 'package:susanin/domain/bloc/fab/fab_states.dart';
 import 'package:susanin/domain/bloc/location/location_bloc.dart';
 import 'package:susanin/domain/bloc/location/location_events.dart';
 import 'package:susanin/domain/bloc/location/location_states.dart';
@@ -23,8 +27,9 @@ class HomeScreen extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;
-    //final DataBloc dataBloc = BlocProvider.of<DataBloc>(context);
     final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
+    final CompassAccuracyBloc compassAccuracyBloc = BlocProvider.of<CompassAccuracyBloc>(context);
+    final FabBloc fabBloc = BlocProvider.of<FabBloc>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -51,8 +56,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     Container(
                       width: width * 0.2,
-                      child:
-                      CompassAccuracy(),
+                      child: CompassAccuracy(),
                       //Text("Test")
                     ),
                   ],
@@ -66,29 +70,21 @@ class HomeScreen extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: EdgeInsets.only(right: 15.0, bottom: 15.0),
-                child: BlocBuilder<MainPointerBloc, MainPointerState>(builder: (context, mainPointerState) {//todo сделпть один блок билдер
-                  return BlocBuilder<LocationBloc, LocationState>(builder: (context, locationState) {
-                    // в зависимости от доступности локации, показываю кнопку для добавления локаии или блокирую кнопку
-                    if (locationState is LocationStateLocationAddingLocation) {
-                      return FloatingActionButton(
-                        backgroundColor: Theme.of(context).accentColor,
-                        elevation: 0,
-                        child: CircularProgressIndicator(
-                            backgroundColor: Theme.of(context).accentColor,
-                            valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).secondaryHeaderColor)),
-                        onPressed: () {},
-                      );
-                    }
-                    if (mainPointerState is MainPointerStateError) {
-                      return FloatingActionButton(
-                        backgroundColor: Theme.of(context).errorColor,
-                        elevation: 0,
-                        child: CircularProgressIndicator(
-                            backgroundColor: Theme.of(context).errorColor,
-                            valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).secondaryHeaderColor)),
-                        onPressed: () {},
-                      );
-                    }
+                child: BlocBuilder<FabBloc, FabState>(builder: (context, fabState) {
+                  print("fabState: $fabState");
+                  // в зависимости от доступности локации, показываю кнопку для добавления локаии или блокирую кнопку
+                  if (fabState is FabStateError) {
+                    return FloatingActionButton(
+                      backgroundColor: Theme.of(context).errorColor,
+                      elevation: 0,
+                      child: CircularProgressIndicator(
+                          backgroundColor: Theme.of(context).errorColor,
+                          valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).secondaryHeaderColor)),
+                      onPressed: () {},
+                    );
+                  }
+                  if (fabState is FabStateNormal || fabState is FabStateAdded) {
+                    if (fabState is FabStateAdded) locationBloc.add(LocationEventPressedAddNewLocation());
                     return FloatingActionButton(
                       elevation: 5,
                       child: Icon(
@@ -96,10 +92,25 @@ class HomeScreen extends StatelessWidget {
                         color: Theme.of(context).secondaryHeaderColor,
                         size: 30,
                       ),
-                      onPressed: () => locationBloc.add(LocationEventPressedAddNewLocation()),
+                      onPressed: () {
+                        print("mainPointer current: ${compassAccuracyBloc.tempCurrentPosition}");
+                        fabBloc.add(FabEventPressed(currentPosition: compassAccuracyBloc.tempCurrentPosition));
+                        //locationBloc.add(LocationEventPressedAddNewLocation());
+                      },
                       tooltip: S.of(context).addCurrentLocation,
                     );
-                  });
+                  }
+                  if (fabState is FabStateLoading || fabState is FabStateInit) {
+                    return FloatingActionButton(
+                      backgroundColor: Theme.of(context).accentColor,
+                      elevation: 0,
+                      child: CircularProgressIndicator(
+                          backgroundColor: Theme.of(context).accentColor,
+                          valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).secondaryHeaderColor)),
+                      onPressed: () {},
+                    );
+                  }
+                    return Text("Unhandled state: $fabState");
                 }),
               ),
             ),

@@ -6,5 +6,5 @@ import 'package:susanin/domain/model/susanin_data.dart';
 abstract class SusaninRepository {
   Future<SusaninData> getSusaninData();
 
-  void setSusaninData({SusaninData susaninData});
+  Future<String> setSusaninData({SusaninData susaninData});
 }

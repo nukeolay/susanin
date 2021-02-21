@@ -13,12 +13,13 @@ class ServiceSharedPrefsSusaninData {
     return ApiSusaninData.fromApi(mapPrefs);
   }
 
-  void saveSusaninData(ApiSusaninData apiSusaninData) async { //todo проверить как работает
+  Future<String> saveSusaninData(ApiSusaninData apiSusaninData) async { //todo проверить как работает
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt("savedSelectedLocationPointId", int.parse(apiSusaninData.selectedLocationPointId));
     await prefs.setInt("savedLocationCounter", int.parse(apiSusaninData.locationCounter));
     await prefs.setBool("savedIsDarkTheme", apiSusaninData.isDarkTheme == "true" ? true : false);
     await prefs.setString("savedLocationStorage", apiSusaninData.locationList);
     print("saved to prefs"); //todo удалить
+    return "saved";
   }
 }

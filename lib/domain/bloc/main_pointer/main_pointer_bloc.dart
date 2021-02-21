@@ -47,7 +47,6 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
     }
 
     if (mainPointerEvent is MainPointerEventGetServices) {
-      print("here");
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         add(MainPointerEventErrorServiceDisabled());
@@ -95,9 +94,7 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
 
     if (mainPointerEvent is MainPointerEventChanged) {
       //какие-то данные пришли из потока компасса и геолокации
-      //print("tempCurrentPosition = $tempCurrentPosition && tempCurrentHeading = $tempCurrentHeading && tempSelectedLocationPoint = $tempSelectedLocationPoint");
       if (tempCurrentPosition != null && tempCurrentHeading != null && tempSelectedLocationPoint != null) {
-        //print("here w");
         yield MainPointerStateLoaded(
             heading: mainPointerEvent.heading, currentPosition: mainPointerEvent.currentPosition, selectedLocationPoint: tempSelectedLocationPoint);
       }

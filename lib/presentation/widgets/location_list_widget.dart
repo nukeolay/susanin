@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:share/share.dart';
+import 'package:susanin/domain/bloc/fab/fab_bloc.dart';
+import 'package:susanin/domain/bloc/fab/fab_events.dart';
+import 'package:susanin/domain/bloc/fab/fab_states.dart';
 import 'package:susanin/domain/bloc/location/location_bloc.dart';
 import 'package:susanin/domain/bloc/location/location_events.dart';
 import 'package:susanin/domain/bloc/location/location_states.dart';
@@ -21,26 +24,26 @@ class LocationList extends StatelessWidget {
     final double padding = width * 0.01;
     final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
     final MainPointerBloc mainPointerBloc = BlocProvider.of<MainPointerBloc>(context);
+    final FabBloc fabBloc = BlocProvider.of<FabBloc>(context);
     return BlocBuilder<LocationBloc, LocationState>(
-      builder: (context, state) {
+      builder: (context, lacationState) {
 
-        if(state is LocationStateLocationAddingLocation) {
+        if(lacationState is LocationStateLocationAddingLocation) {
           mainPointerBloc.add(MainPointerEventGetServices());
         }
 
-        if (state is LocationStateErrorEmptyLocationList) {
+        if (lacationState is LocationStateErrorEmptyLocationList) {
           mainPointerBloc.add(MainPointerEventEmptyList());
           return Text(
             "Press \"Add location\" button to save current location",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: width * 0.07, color: Theme.of(context).accentColor),
           );
-        } else if (state is LocationStateLocationListLoaded) {
-          //mainPointerBloc.add(MainPointerEventGetServices());
-          mainPointerBloc.add(MainPointerEventSelectPoint(selectedLocationPoint: state.susaninData.getSelectedLocationPoint));
+        } else if (lacationState is LocationStateLocationListLoaded) {
+          mainPointerBloc.add(MainPointerEventSelectPoint(selectedLocationPoint: lacationState.susaninData.getSelectedLocationPoint));
           return ListView.builder(
             padding: EdgeInsets.only(top: topWidgetHeight * 0.5 + topWidgetHeight, bottom: topWidgetHeight * 0.5),
-            itemCount: state.susaninData.getLocationList.length,
+            itemCount: lacationState.susaninData.getLocationList.length ?? 0,
             addAutomaticKeepAlives: false,
             itemExtent: 80,
             itemBuilder: (context, index) {
@@ -55,24 +58,24 @@ class LocationList extends StatelessWidget {
                       actionPane: SlidableBehindActionPane(),
                       actionExtentRatio: 0.2,
                       child: Container(
-                        color: index == state.susaninData.getSelectedLocationPointId ? Theme.of(context).accentColor : CardTheme.of(context).color,
+                        color: index == lacationState.susaninData.getSelectedLocationPointId ? Theme.of(context).accentColor : CardTheme.of(context).color,
                         child: ListTile(
-                            selected: index == state.susaninData.getSelectedLocationPointId ? true : false,
+                            selected: index == lacationState.susaninData.getSelectedLocationPointId ? true : false,
                             onTap: () {
                               locationBloc.add(LocationEventPressedSelectLocation(index));
                               //mainPointerBloc.add(MainPointerEventSelectPoint(selectedLocationPoint: state.susaninData.getLocationList.elementAt(index)));//todo не проверено: передаю в MainPointerBloc локуцию,чтобы от нее считать угол, расстояние и имя
                             },
                             title: Text(
-                              "${state.susaninData.getLocationList.elementAt(index).pointName}",
+                              "${lacationState.susaninData.getLocationList.elementAt(index).pointName}",
                               style: TextStyle(
-                                  color: index == state.susaninData.getSelectedLocationPointId
+                                  color: index == lacationState.susaninData.getSelectedLocationPointId
                                       ? Theme.of(context).primaryColorLight
                                       : Theme.of(context).primaryColor),
                             ),
                             subtitle: Text(
-                                "${DateFormat(S.of(context).dateFormat).format(state.susaninData.getLocationList.elementAt(index).getCreationTime)}",
+                                "${DateFormat(S.of(context).dateFormat).format(lacationState.susaninData.getLocationList.elementAt(index).getCreationTime)}",
                                 style: TextStyle(
-                                    color: index == state.susaninData.getSelectedLocationPointId
+                                    color: index == lacationState.susaninData.getSelectedLocationPointId
                                         ? Theme.of(context).primaryColorLight
                                         : Theme.of(context).primaryColor))),
                       ),
@@ -82,17 +85,6 @@ class LocationList extends StatelessWidget {
                           color: Theme.of(context).errorColor,
                           icon: Icons.delete,
                           onTap: () {
-                            final snackBar = SnackBar(
-                              duration: Duration(milliseconds: 3000),
-                              content: Text("Location deleted!"),
-                              action: SnackBarAction(
-                                label: 'Undo',
-                                onPressed: () {
-                                  return locationBloc.add(LocationEventPressedUndoDeletion());
-                                },
-                              ),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
                             return locationBloc.add(LocationEventPressedDeleteLocation(index));
                           },
                         ),
@@ -115,7 +107,7 @@ class LocationList extends StatelessWidget {
                           icon: Icons.share,
                           onTap: () {
                             return Share.share(
-                                "${state.susaninData.getLocationList.elementAt(index).pointName} https://www.google.com/maps/search/?api=1&query=${state.susaninData.getLocationList.elementAt(index).pointLatitude},${state.susaninData.getLocationList.elementAt(index).pointLongitude}");
+                                "${lacationState.susaninData.getLocationList.elementAt(index).pointName} https://www.google.com/maps/search/?api=1&query=${lacationState.susaninData.getLocationList.elementAt(index).pointLatitude},${lacationState.susaninData.getLocationList.elementAt(index).pointLongitude}");
                           },
                         ),
                       ],
@@ -126,7 +118,7 @@ class LocationList extends StatelessWidget {
             },
           );
         } else {
-          return Text("Unhandeled error: $state");
+          return Text("Unhandeled error: $lacationState");
         }
       },
     );

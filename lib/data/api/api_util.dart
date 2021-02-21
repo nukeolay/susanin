@@ -16,9 +16,9 @@ class ApiUtil {
     return SusaninDataMapper.fromApi(result);
   }
 
-  void saveSusaninData(SusaninData susaninData) async { //todo проверить как работает
+  Future<String> saveSusaninData(SusaninData susaninData) async { //todo проверить как работает
     ApiSusaninData result = SusaninDataMapper.toApi(susaninData);
-    _serviceSusaninData.saveSusaninData(result);
+    return _serviceSusaninData.saveSusaninData(result);
   }
 
 }

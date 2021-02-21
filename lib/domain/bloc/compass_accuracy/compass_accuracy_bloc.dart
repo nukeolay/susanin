@@ -48,7 +48,6 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
       if (!serviceEnabled) {
         add(CompassAccuracyEventErrorServiceDisabled());
       }
-
       //работаем с потоком компасса
       _compassSubscription?.cancel(); //отменяем подписку на поток компасса, если по какой-то причине опять запщен ивент MainPointerEventGetServices
       _compassSubscription = _compassStream.listen((CompassEvent compassEvent) {

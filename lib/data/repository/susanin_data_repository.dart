@@ -17,8 +17,8 @@ class SusaninDataRepository extends SusaninRepository {
   }
 
   @override
-  void setSusaninData({SusaninData susaninData}) {
-    _apiUtil.saveSusaninData(susaninData);
+  Future<String> setSusaninData({SusaninData susaninData}) {
+    return _apiUtil.saveSusaninData(susaninData);
   }
 
 

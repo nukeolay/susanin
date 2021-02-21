@@ -13,6 +13,7 @@ import 'package:susanin/presentation/theme/config.dart';
 import 'package:susanin/presentation/theme/custom_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'domain/bloc/compass_accuracy/compass_accuracy_events.dart';
+import 'domain/bloc/fab/fab_bloc.dart';
 import 'domain/bloc/location/location_bloc.dart';
 import 'domain/bloc/location/location_events.dart';
 import 'domain/bloc/location/location_states.dart';
@@ -43,18 +44,18 @@ class Susanin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return MultiBlocProvider(
       providers: [
-        //BlocProvider<DataBloc>(create: (context) => DataBloc(susaninRepository)),
-        //BlocProvider<MyCompassBloc>(create: (context) => MyCompassBloc(compassStream)),
-        //BlocProvider<PositionBloc>(create: (context) => PositionBloc()),
+        BlocProvider<FabBloc>(create: (context) => FabBloc(susaninRepository)),
         BlocProvider<LocationBloc>(create: (context) => LocationBloc(susaninRepository)),
         BlocProvider<MainPointerBloc>(create: (context) => MainPointerBloc(compassStream, positionStream)..add(MainPointerEventGetServices())),
         BlocProvider<CompassAccuracyBloc>(create: (context) => CompassAccuracyBloc(compassStream, positionStream)..add(CompassAccuracyEventGetServices())),
       ],
       child: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, state) {
-          //final DataBloc dataBloc = BlocProvider.of<DataBloc>(context);
           final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
           final MainPointerBloc mainPointerBloc = BlocProvider.of<MainPointerBloc>(context);
           if (state is LocationStateDataLoading) {

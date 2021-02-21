@@ -5,9 +5,7 @@ import 'package:susanin/domain/model/location_point.dart';
 import 'package:susanin/domain/model/susanin_data.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 
-abstract class LocationState {
-
-}
+abstract class LocationState {}
 
 class LocationStateDataLoading extends LocationState {}
 
@@ -15,7 +13,6 @@ class LocationStateDataLoaded extends LocationState {
   SusaninData susaninData;
 
   LocationStateDataLoaded(this.susaninData);
-
 }
 
 class LocationStateError extends LocationStateDataLoaded {
@@ -28,9 +25,8 @@ class LocationStateErrorEmptyLocationList extends LocationStateError {
 
 class LocationStateLocationListLoaded extends LocationStateDataLoaded {
   SusaninData susaninData;
-  String option;
 
-  LocationStateLocationListLoaded(this.susaninData, [this.option]) : super(susaninData);
+  LocationStateLocationListLoaded(this.susaninData) : super(susaninData);
 }
 
 class LocationStateLocationAddingLocation extends LocationStateLocationListLoaded {

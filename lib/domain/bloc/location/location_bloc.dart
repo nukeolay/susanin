@@ -34,11 +34,12 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       } catch (e) {
         yield LocationStateFirstTimeStarted(susaninDataLocal);
       }
-    } else if (locationEvent is LocationEventPressedToggleTheme) {
+    }
+    if (locationEvent is LocationEventPressedToggleTheme) {
       // если нажали кнопку переключить тему, то сначала изменится значение переменной, потом эти данные запишутся в память телефона, и только потом перейдем в состояние того, что тема переключилась
       currentTheme.toggleTheme(); // переключили тему
       susaninDataLocal.setIsDarkTheme(!susaninDataLocal.getIsDarkTheme); // переключили тему
-      susaninRepository.setSusaninData(susaninData: susaninDataLocal);
+      await susaninRepository.setSusaninData(susaninData: susaninDataLocal);
       if (susaninDataLocal.getLocationList.length == 0) {
         yield LocationStateErrorEmptyLocationList(
             susaninDataLocal); // если список локаций пустой, то состояние AppStateEmptyLocationList и написать инструкцию вместо виджета со списком
@@ -46,24 +47,19 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         yield LocationStateLocationListLoaded(
             susaninDataLocal); // если список локаций не пустой, то состояние AppStateLocationListLoaded и вывести список локаций
       }
-    } else if (locationEvent is LocationEventPressedAddNewLocation) {
-      yield LocationStateLocationAddingLocation(susaninDataLocal);
-      Position currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-      susaninDataLocal.getLocationList.addFirst(new LocationPoint.createNew(
-          latitude: currentPosition.latitude, longitude: currentPosition.longitude, pointName: "Name ${susaninDataLocal.getLocationCounter + 1}"));
-      susaninDataLocal.increnemtLocationCounter();
-      susaninDataLocal.setSelectedLocationPointId(0);
-      susaninRepository.setSusaninData(
-          susaninData:
-              susaninDataLocal); // сохранили тему в Prefs (туда, куда умеет сохранять ApiUtil через репозиторий с SusaninData todo это не проверено
+    }
+    if (locationEvent is LocationEventPressedAddNewLocation) {
+      susaninDataLocal = await susaninRepository.getSusaninData(); //получили синглтон репозитория
       yield LocationStateLocationListLoaded(susaninDataLocal);
-    } else if (locationEvent is LocationEventPressedSelectLocation) {
+    }
+    if (locationEvent is LocationEventPressedSelectLocation) {
       susaninDataLocal.setSelectedLocationPointId(locationEvent.index);
-      susaninRepository.setSusaninData(
+      await susaninRepository.setSusaninData(
           susaninData:
               susaninDataLocal); // сохранили тему в Prefs (туда, куда умеет сохранять ApiUtil через репозиторий с SusaninData todo это не проверено
       yield LocationStateLocationListLoaded(susaninDataLocal);
-    } else if (locationEvent is LocationEventPressedDeleteLocation) {
+    }
+    if (locationEvent is LocationEventPressedDeleteLocation) {
       if (locationEvent.index == susaninDataLocal.getSelectedLocationPointId) {
         if (locationEvent.index == 0) {
           susaninDataLocal.setSelectedLocationPointId(0);
@@ -75,23 +71,17 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       } else if (susaninDataLocal.getSelectedLocationPointId < locationEvent.index) {}
       susaninDataLocal.deleteLocationPoint(locationEvent.index);
       if (susaninDataLocal.getLocationList.length == 0) {
+        await susaninRepository.setSusaninData(susaninData: susaninDataLocal);
         yield LocationStateErrorEmptyLocationList(susaninDataLocal);
       } else {
-        yield LocationStateLocationListLoaded(susaninDataLocal, "delete");
+        await susaninRepository.setSusaninData(susaninData: susaninDataLocal);
+        yield LocationStateLocationListLoaded(susaninDataLocal);
       }
-      Future.delayed(Duration(milliseconds: 3001), () {
-        susaninRepository.setSusaninData(susaninData: susaninDataLocal);
-      });
-    } else if (locationEvent is LocationEventPressedUndoDeletion) {
-      SusaninData oldSusaninData = await susaninRepository.getSusaninData();
-      susaninRepository.setSusaninData(susaninData: oldSusaninData);
-      susaninDataLocal = oldSusaninData;
-      yield LocationStateLocationListLoaded(susaninDataLocal);
-    } else if (locationEvent is LocationEventPressedRenameLocation) {
+    } if (locationEvent is LocationEventPressedRenameLocation) {
       int index = locationEvent.index;
       String pointName = locationEvent.newName;
       susaninDataLocal.getLocationList.elementAt(index).setPointName(pointName);
-      susaninRepository.setSusaninData(susaninData: susaninDataLocal);
+      await susaninRepository.setSusaninData(susaninData: susaninDataLocal);
       yield LocationStateLocationListLoaded(susaninDataLocal);
     }
   }
