@@ -40,16 +40,19 @@ class CompassAccuracy extends StatelessWidget {
             flex: 9,
             child: Card(
               margin: EdgeInsets.only(left: padding, right: 0.0, bottom: padding),
-              shape: RoundedRectangleBorder(
+              // shape: RoundedRectangleBorder(
+              //   borderRadius: BorderRadius.only(
+              //     bottomLeft: Radius.circular(4),
+              //     topLeft: Radius.circular(4),
+              //   ),
+              // ),
+              color: Theme.of(context).cardColor,
+              elevation: 5,
+              child: ClipRRect(
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(4),
                   topLeft: Radius.circular(4),
                 ),
-              ),
-              color: Theme.of(context).cardColor,
-              elevation: 5,
-              child: Padding(
-                padding: EdgeInsets.all(padding * 0.3),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,16 +75,19 @@ class CompassAccuracy extends StatelessWidget {
             flex: 7,
             child: Card(
               margin: EdgeInsets.only(left: padding, right: 0.0, top: padding),
-              shape: RoundedRectangleBorder(
+              // shape: RoundedRectangleBorder(
+              // borderRadius: BorderRadius.only(
+              //   bottomLeft: Radius.circular(4),
+              //   topLeft: Radius.circular(4),
+              // ),
+              //),
+              color: Theme.of(context).cardColor,
+              elevation: 5,
+              child: ClipRRect(
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(4),
                   topLeft: Radius.circular(4),
                 ),
-              ),
-              color: Theme.of(context).cardColor,
-              elevation: 5,
-              child: Padding(
-                padding: EdgeInsets.all(padding * 0.3),
                 child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, crossAxisAlignment: CrossAxisAlignment.center, children: [
                   Text(
                     "${S.of(context).locationAccuracy}",
@@ -114,8 +120,11 @@ class CompassAccuracy extends StatelessWidget {
             ),
             color: Theme.of(context).cardColor,
             elevation: 5,
-            child: Padding(
-              padding: EdgeInsets.all(padding * 0.3),
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(4),
+                topLeft: Radius.circular(4),
+              ),
               child: LoadingIndicator(startColor: Theme.of(context).cardColor, endColor: Theme.of(context).primaryColor, period: 300),
             ),
           ),
@@ -133,14 +142,16 @@ class CompassAccuracy extends StatelessWidget {
             ),
             color: Theme.of(context).cardColor,
             elevation: 5,
-            child: Padding(
-              padding: EdgeInsets.all(padding * 0.3),
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(4),
+                topLeft: Radius.circular(4),
+              ),
               child: LoadingIndicator(startColor: Theme.of(context).cardColor, endColor: Theme.of(context).primaryColor, period: 300),
             ),
           ),
         ),
       ]);
-
       //return Text("Error");
     });
   }

@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_bloc.dart';
@@ -7,18 +6,10 @@ import 'package:susanin/domain/bloc/fab/fab_events.dart';
 import 'package:susanin/domain/bloc/fab/fab_states.dart';
 import 'package:susanin/domain/bloc/location/location_bloc.dart';
 import 'package:susanin/domain/bloc/location/location_events.dart';
-import 'package:susanin/domain/bloc/location/location_states.dart';
-import 'package:susanin/domain/bloc/main_pointer/main_pointer_bloc.dart';
-import 'package:susanin/domain/bloc/main_pointer/main_pointer_states.dart';
-import 'package:susanin/presentation/screens/waiting_screen.dart';
-import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/widgets/compass_accuracy_widget.dart';
-import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/widgets/location_list_widget.dart';
+import 'package:susanin/presentation/widgets/compass_accuracy_widget.dart';
+import 'package:susanin/presentation/widgets/location_list_widget.dart';
 import 'package:susanin/presentation/widgets/main_pointer/main_pointer_widget.dart';
 import 'package:susanin/generated/l10n.dart';
-import 'package:flutter_compass/flutter_compass.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:provider/provider.dart';
-import 'file:///D:/MyApps/MyProjects/FlutterProjects/susanin/lib/presentation/screens/waiting_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -37,6 +28,7 @@ class HomeScreen extends StatelessWidget {
             child: Container(
               width: width * 0.95,
               child: LocationList(),
+              //Text("dummy"),
             ),
           ), // список локаций
           Column(
@@ -110,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                       onPressed: () {},
                     );
                   }
-                    return Text("Unhandled state: $fabState");
+                  return Text("Unhandled state: $fabState");
                 }),
               ),
             ),

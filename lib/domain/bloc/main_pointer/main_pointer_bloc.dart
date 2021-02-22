@@ -4,11 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/domain/model/location_point.dart';
+import 'package:susanin/domain/model/susanin_data.dart';
+import 'package:susanin/domain/repository/susanin_repository.dart';
+import 'package:susanin/internal/dependencies/repository_module.dart';
 
 import 'main_pointer_events.dart';
 import 'main_pointer_states.dart';
 
 class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
+  SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
+  SusaninData susaninData; //тут будем хранить локальную копию и получать ее только при загрузке программы
+
   Stream<CompassEvent> _compassStream;
   StreamSubscription<CompassEvent> _compassSubscription;
 
@@ -22,7 +28,7 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
   double tempCurrentHeading;
   LocationPoint tempSelectedLocationPoint;
 
-  MainPointerBloc(this._compassStream, this._positionStream) : super(MainPointerStateLoading());
+  MainPointerBloc(this.susaninRepository, this._compassStream, this._positionStream) : super(MainPointerStateLoading());
 
   @override
   Stream<MainPointerState> mapEventToState(MainPointerEvent mainPointerEvent) async* {
@@ -47,20 +53,26 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
     }
 
     if (mainPointerEvent is MainPointerEventGetServices) {
+      //print("MainPointerEventGetServices 1");
+
+      SusaninData susaninData = await susaninRepository.getSusaninData();
+      tempSelectedLocationPoint = susaninData.getSelectedLocationPoint;
+
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         add(MainPointerEventErrorServiceDisabled());
       }
-
       //работаем с потоком компасса
       _compassSubscription?.cancel(); //отменяем подписку на поток компасса, если по какой-то причине опять запщен ивент MainPointerEventGetServices
       _compassSubscription = _compassStream.listen((CompassEvent compassEvent) {
         //подписываемся на поток компасса
+
         tempCurrentHeading = compassEvent.heading;
         if (_positionSubscription.isPaused) {
           _positionSubscription.resume();
         }
         serviceEnabled = true;
+
         add(MainPointerEventChanged(
             heading: compassEvent.heading,
             currentPosition: tempCurrentPosition,
@@ -94,7 +106,7 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
 
     if (mainPointerEvent is MainPointerEventChanged) {
       //какие-то данные пришли из потока компасса и геолокации
-      if (tempCurrentPosition != null && tempCurrentHeading != null && tempSelectedLocationPoint != null) {
+      if (mainPointerEvent.currentPosition != null && mainPointerEvent.heading != null && mainPointerEvent.selectedLocationPoint != null) {
         yield MainPointerStateLoaded(
             heading: mainPointerEvent.heading, currentPosition: mainPointerEvent.currentPosition, selectedLocationPoint: tempSelectedLocationPoint);
       }

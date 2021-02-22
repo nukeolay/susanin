@@ -84,7 +84,7 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
 
     if (compassAccuracyEvent is CompassAccuracyEventChanged) {
       //какие-то данные пришли из потока компасса и геолокации
-      if (tempCurrentPosition != null && tempCurrentHeading != null) {
+      if (compassAccuracyEvent.currentPosition != null && compassAccuracyEvent.heading != null) {
         yield CompassAccuracyStateLoaded(heading: compassAccuracyEvent.heading, currentPosition: compassAccuracyEvent.currentPosition);
       }
     }

@@ -1,5 +1,11 @@
+import 'package:flutter/material.dart';
+
 abstract class ThemeState {}
 
-class ThemeStateToggled extends ThemeState {}
-
 class ThemeStateInit extends ThemeState {}
+
+class ThemeStateLoaded extends ThemeState {
+  ThemeMode themeMode;
+
+  ThemeStateLoaded({this.themeMode});
+}

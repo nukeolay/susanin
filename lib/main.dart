@@ -9,15 +9,15 @@ import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'package:susanin/presentation/screens/home_screen.dart';
 import 'package:susanin/presentation/screens/waiting_screen.dart';
-import 'package:susanin/presentation/theme/config.dart';
-import 'package:susanin/presentation/theme/custom_theme.dart';
+import 'package:susanin/presentation/theme/theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'domain/bloc/compass_accuracy/compass_accuracy_events.dart';
 import 'domain/bloc/fab/fab_bloc.dart';
 import 'domain/bloc/location/location_bloc.dart';
-import 'domain/bloc/location/location_events.dart';
-import 'domain/bloc/location/location_states.dart';
 import 'domain/bloc/main_pointer/main_pointer_bloc.dart';
+import 'domain/bloc/theme/theme_bloc.dart';
+import 'domain/bloc/theme/theme_events.dart';
+import 'domain/bloc/theme/theme_states.dart';
 import 'generated/l10n.dart';
 
 void main() async {
@@ -44,22 +44,21 @@ class Susanin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return MultiBlocProvider(
       providers: [
+        BlocProvider<ThemeBloc>(create: (context) => ThemeBloc(susaninRepository)),
         BlocProvider<FabBloc>(create: (context) => FabBloc(susaninRepository)),
         BlocProvider<LocationBloc>(create: (context) => LocationBloc(susaninRepository)),
-        BlocProvider<MainPointerBloc>(create: (context) => MainPointerBloc(compassStream, positionStream)..add(MainPointerEventGetServices())),
-        BlocProvider<CompassAccuracyBloc>(create: (context) => CompassAccuracyBloc(compassStream, positionStream)..add(CompassAccuracyEventGetServices())),
+        BlocProvider<MainPointerBloc>(create: (context) => MainPointerBloc(susaninRepository, compassStream, positionStream)..add(MainPointerEventGetServices())),
+        BlocProvider<CompassAccuracyBloc>(
+            create: (context) => CompassAccuracyBloc(compassStream, positionStream)..add(CompassAccuracyEventGetServices())),
       ],
-      child: BlocBuilder<LocationBloc, LocationState>(
-        builder: (context, state) {
-          final LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
-          final MainPointerBloc mainPointerBloc = BlocProvider.of<MainPointerBloc>(context);
-          if (state is LocationStateDataLoading) {
-            locationBloc.add(LocationEventGetData());
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, themeState) {
+          print("themeState: ${themeState}");
+          final ThemeBloc themeBloc = BlocProvider.of<ThemeBloc>(context);
+          if (themeState is ThemeStateInit) {
+            themeBloc.add(ThemeEventGetData());
             return MaterialApp(
               title: "Susanin",
               debugShowCheckedModeBanner: false,
@@ -73,7 +72,8 @@ class Susanin extends StatelessWidget {
               theme: CustomTheme.lightTheme,
               home: WaitingScreen(),
             );
-          } else if (state is LocationStateDataLoaded) {
+          } else if (themeState is ThemeStateLoaded) {
+            print("themeStateLoaded mode: ${themeState.themeMode}");
             return MaterialApp(
               localizationsDelegates: [
                 S.delegate,
@@ -84,14 +84,14 @@ class Susanin extends StatelessWidget {
               supportedLocales: S.delegate.supportedLocales,
               theme: CustomTheme.lightTheme,
               darkTheme: CustomTheme.darkTheme,
-              themeMode: currentTheme.currentTheme,
+              themeMode: themeState.themeMode,
               title: "Susanin",
               debugShowCheckedModeBanner: false,
               home: HomeScreen(),
               // HomeScreen(),
             );
           } else {
-            print("state -=($state)=-");
+            print("themeState -=($themeState)=-");
             return CircularProgressIndicator();
           }
         },

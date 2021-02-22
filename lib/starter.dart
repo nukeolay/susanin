@@ -6,9 +6,8 @@ import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'package:susanin/presentation/screens/home_screen.dart';
 import 'package:susanin/presentation/screens/waiting_screen.dart';
-import 'package:susanin/presentation/theme/config.dart';
-import 'package:susanin/presentation/theme/custom_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:susanin/presentation/theme/theme.dart';
 import 'domain/bloc/location/location_bloc.dart';
 import 'domain/bloc/location/location_events.dart';
 import 'domain/bloc/location/location_states.dart';
@@ -58,7 +57,7 @@ class Susanin extends StatelessWidget {
                 GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: S.delegate.supportedLocales,
-              theme: CustomTheme.lightTheme,
+              //theme: CustomTheme.lightTheme,
               home: WaitingScreen(),
             );
           } else if (state is LocationStateDataLoaded) {
@@ -72,7 +71,7 @@ class Susanin extends StatelessWidget {
               supportedLocales: S.delegate.supportedLocales,
               theme: CustomTheme.lightTheme,
               darkTheme: CustomTheme.darkTheme,
-              themeMode: currentTheme.currentTheme,
+              //themeMode: CurrentTheme.currentTheme,
               title: "Susanin",
               debugShowCheckedModeBanner: false,
               home: HomeScreen(),

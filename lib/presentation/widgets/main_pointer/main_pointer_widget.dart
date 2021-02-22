@@ -47,7 +47,7 @@ class MainPointer extends StatelessWidget {
           fabBloc.add(FabEventLoaded());
           return MainPointerBlank(MainPointerEmptyList());
         } else if (mainPointerState is MainPointerStateLoaded) {
-          fabBloc.add(FabEventLoaded());
+          //fabBloc.add(FabEventLoaded()); //todo отправлять этот ивент только один раз при загрузке или при переключении currentlocation, а не при каждом обновлении текущего положения или компасса
           Widget widget; // если делать без ty-catch то при попытке отменить удаление точки после нескольких удалений подряд виджет рушится
           try {
             widget = MainPointerBlank(MainPointerOk());

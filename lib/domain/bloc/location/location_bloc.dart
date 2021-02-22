@@ -6,7 +6,6 @@ import 'package:susanin/domain/model/location_point.dart';
 import 'package:susanin/domain/model/susanin_data.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
-import 'package:susanin/presentation/theme/config.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'location_events.dart';
@@ -23,7 +22,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     if (locationEvent is LocationEventGetData) {
       try {
         susaninDataLocal = await susaninRepository.getSusaninData(); //получили синглтон репозитория
-        currentTheme.setThemeMode(susaninDataLocal.getIsDarkTheme);
+        //currentTheme.setThemeMode(susaninDataLocal.getIsDarkTheme);
         if (susaninDataLocal.getLocationList.length == 0) {
           yield LocationStateErrorEmptyLocationList(
               susaninDataLocal); // если список локаций пустой, то состояние AppStateEmptyLocationList и написать инструкцию вместо виджета со списком
@@ -33,19 +32,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         }
       } catch (e) {
         yield LocationStateFirstTimeStarted(susaninDataLocal);
-      }
-    }
-    if (locationEvent is LocationEventPressedToggleTheme) {
-      // если нажали кнопку переключить тему, то сначала изменится значение переменной, потом эти данные запишутся в память телефона, и только потом перейдем в состояние того, что тема переключилась
-      currentTheme.toggleTheme(); // переключили тему
-      susaninDataLocal.setIsDarkTheme(!susaninDataLocal.getIsDarkTheme); // переключили тему
-      await susaninRepository.setSusaninData(susaninData: susaninDataLocal);
-      if (susaninDataLocal.getLocationList.length == 0) {
-        yield LocationStateErrorEmptyLocationList(
-            susaninDataLocal); // если список локаций пустой, то состояние AppStateEmptyLocationList и написать инструкцию вместо виджета со списком
-      } else {
-        yield LocationStateLocationListLoaded(
-            susaninDataLocal); // если список локаций не пустой, то состояние AppStateLocationListLoaded и вывести список локаций
       }
     }
     if (locationEvent is LocationEventPressedAddNewLocation) {

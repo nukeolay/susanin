@@ -1,22 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class CustomTheme {
-  static bool _isDarkTheme = false;
-
-  ThemeMode get currentTheme => _isDarkTheme ? ThemeMode.dark : ThemeMode.light;
-
-  void toggleTheme() {
-    _isDarkTheme = !_isDarkTheme;
-    //notifyListeners();
-  }
-  void setThemeMode(bool isDarkTheme) {
-    _isDarkTheme = isDarkTheme;
-    //notifyListeners();
-  }
-
-  bool get getIsDarkTheme => _isDarkTheme;
-
   static ThemeData get lightTheme {
     return ThemeData(
       primaryColor: Colors.blueGrey[600],
