@@ -40,12 +40,6 @@ class CompassAccuracy extends StatelessWidget {
             flex: 9,
             child: Card(
               margin: EdgeInsets.only(left: padding, right: 0.0, bottom: padding),
-              // shape: RoundedRectangleBorder(
-              //   borderRadius: BorderRadius.only(
-              //     bottomLeft: Radius.circular(4),
-              //     topLeft: Radius.circular(4),
-              //   ),
-              // ),
               color: Theme.of(context).cardColor,
               elevation: 5,
               child: ClipRRect(
@@ -75,12 +69,6 @@ class CompassAccuracy extends StatelessWidget {
             flex: 7,
             child: Card(
               margin: EdgeInsets.only(left: padding, right: 0.0, top: padding),
-              // shape: RoundedRectangleBorder(
-              // borderRadius: BorderRadius.only(
-              //   bottomLeft: Radius.circular(4),
-              //   topLeft: Radius.circular(4),
-              // ),
-              //),
               color: Theme.of(context).cardColor,
               elevation: 5,
               child: ClipRRect(

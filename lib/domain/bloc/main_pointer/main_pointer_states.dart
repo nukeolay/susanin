@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/domain/model/location_point.dart';
 
@@ -12,7 +13,7 @@ class MainPointerStateLoaded extends MainPointerState {
   double heading;
   LocationPoint selectedLocationPoint;
 
-  MainPointerStateLoaded({this.currentPosition, this.heading, this.selectedLocationPoint});
+  MainPointerStateLoaded({@required this.currentPosition, @required this.heading, @required this.selectedLocationPoint});
 
   double getAzimuth() {
     return heading -

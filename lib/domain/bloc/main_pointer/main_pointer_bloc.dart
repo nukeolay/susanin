@@ -53,10 +53,12 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
     }
 
     if (mainPointerEvent is MainPointerEventGetServices) {
-      //print("MainPointerEventGetServices 1");
-
       SusaninData susaninData = await susaninRepository.getSusaninData();
-      tempSelectedLocationPoint = susaninData.getSelectedLocationPoint;
+      try {
+        tempSelectedLocationPoint = susaninData.getSelectedLocationPoint; //если локаций не было, то чтобы не вывлетело исключение, при чтении
+      } catch (e) {
+        tempSelectedLocationPoint = null;
+      }
 
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
@@ -64,20 +66,20 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
       }
       //работаем с потоком компасса
       _compassSubscription?.cancel(); //отменяем подписку на поток компасса, если по какой-то причине опять запщен ивент MainPointerEventGetServices
-      _compassSubscription = _compassStream.listen((CompassEvent compassEvent) {
+      _compassSubscription = _compassStream.listen((CompassEvent compassEvent) async {
         //подписываемся на поток компасса
 
         tempCurrentHeading = compassEvent.heading;
         if (_positionSubscription.isPaused) {
           _positionSubscription.resume();
         }
-        serviceEnabled = true;
+        //serviceEnabled = true; todo закомментировал
 
         add(MainPointerEventChanged(
             heading: compassEvent.heading,
             currentPosition: tempCurrentPosition,
             selectedLocationPoint: tempSelectedLocationPoint)); //добавляем событие с углом пворота компасса
-      }, onError: (compassError) {
+      }, onError: (compassError) async {
         _positionSubscription?.pause();
         add(MainPointerEventErrorNoCompass());
       }); //если ошибка в потоке компасса, то авляем событие с ошибкой компасса
@@ -87,7 +89,7 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
           ?.cancel(); //отменяем подписку на поток геолокации, если по какой-то причине опять запщен ивент MainPointerEventGetServices
       _positionSubscription = _positionStream.listen((Position position) async {
         tempCurrentPosition = position;
-        serviceEnabled = await Geolocator.isLocationServiceEnabled();
+        //serviceEnabled = await Geolocator.isLocationServiceEnabled(); todo закомментировал
         if (_compassSubscription.isPaused) {
           _compassSubscription.resume();
         }
@@ -106,6 +108,7 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
 
     if (mainPointerEvent is MainPointerEventChanged) {
       //какие-то данные пришли из потока компасса и геолокации
+      serviceEnabled = true;
       if (mainPointerEvent.currentPosition != null && mainPointerEvent.heading != null && mainPointerEvent.selectedLocationPoint != null) {
         yield MainPointerStateLoaded(
             heading: mainPointerEvent.heading, currentPosition: mainPointerEvent.currentPosition, selectedLocationPoint: tempSelectedLocationPoint);

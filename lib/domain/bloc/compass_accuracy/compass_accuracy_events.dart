@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 abstract class CompassAccuracyEvent {}
@@ -10,7 +11,7 @@ class CompassAccuracyEventChanged extends CompassAccuracyEvent {
   Position currentPosition;
   double heading;
 
-  CompassAccuracyEventChanged({this.currentPosition, this.heading});
+  CompassAccuracyEventChanged({@required this.currentPosition, @required this.heading});
 }
 
 class CompassAccuracyEventError extends CompassAccuracyEvent {}

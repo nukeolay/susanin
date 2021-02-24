@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 abstract class CompassAccuracyState {}
@@ -8,7 +9,7 @@ class CompassAccuracyStateLoaded extends CompassAccuracyState {
   Position currentPosition;
   double heading;
 
-  CompassAccuracyStateLoaded({this.currentPosition, this.heading});
+  CompassAccuracyStateLoaded({@required this.currentPosition, @required this.heading});
 }
 
 class CompassAccuracyStateError extends CompassAccuracyState {}

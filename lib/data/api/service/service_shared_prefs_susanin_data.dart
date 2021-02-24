@@ -13,7 +13,7 @@ class ServiceSharedPrefsSusaninData {
     return ApiSusaninData.fromApi(mapPrefs);
   }
 
-  Future<String> saveSusaninData(ApiSusaninData apiSusaninData) async { //todo проверить как работает
+  Future<String> saveSusaninData(ApiSusaninData apiSusaninData) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt("savedSelectedLocationPointId", int.parse(apiSusaninData.selectedLocationPointId));
     await prefs.setInt("savedLocationCounter", int.parse(apiSusaninData.locationCounter));

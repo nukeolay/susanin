@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/domain/model/location_point.dart';
 
@@ -12,15 +13,17 @@ class MainPointerEventChanged extends MainPointerEvent {
   double heading;
   LocationPoint selectedLocationPoint;
 
-  MainPointerEventChanged({this.currentPosition, this.heading, this.selectedLocationPoint});
+  MainPointerEventChanged({@required this.currentPosition, @required this.heading, @required this.selectedLocationPoint});
 }
+
+class MainPointerEventServiceEnabled extends MainPointerEvent {}
 
 class MainPointerEventEmptyList extends MainPointerEvent {}
 
 class MainPointerEventSelectPoint extends MainPointerEvent {
   LocationPoint selectedLocationPoint;
 
-  MainPointerEventSelectPoint({this.selectedLocationPoint});
+  MainPointerEventSelectPoint({@required this.selectedLocationPoint});
 }
 
 class MainPointerEventError extends MainPointerEvent {}

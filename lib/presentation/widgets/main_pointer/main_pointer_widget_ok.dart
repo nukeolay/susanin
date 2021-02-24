@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_compass/flutter_compass.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:susanin/domain/bloc/location/location_bloc.dart';
-import 'package:susanin/domain/bloc/location/location_events.dart';
 import 'package:susanin/domain/bloc/main_pointer/main_pointer_bloc.dart';
 import 'package:susanin/domain/bloc/main_pointer/main_pointer_states.dart';
-import 'package:susanin/domain/model/location_point.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'dart:math' as math;
-
-import '../loading_indicator_widget.dart';
-import 'main_pointer_widget_error.dart';
 
 class MainPointerOk extends StatelessWidget {
   //LocationPoint locationPoint;//todo можно удалить, если получится получать из блока

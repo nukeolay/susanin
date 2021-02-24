@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:susanin/domain/bloc/fab/fab_bloc.dart';
 import 'package:susanin/domain/bloc/fab/fab_events.dart';
-import 'package:susanin/domain/bloc/location/location_bloc.dart';
-import 'package:susanin/domain/bloc/location/location_events.dart';
-import 'package:susanin/domain/bloc/location/location_states.dart';
+import 'package:susanin/domain/bloc/location_list/location_list_bloc.dart';
+import 'package:susanin/domain/bloc/location_list/location_list_events.dart';
 import 'package:susanin/domain/bloc/main_pointer/main_pointer_bloc.dart';
 import 'package:susanin/domain/bloc/main_pointer/main_pointer_events.dart';
 import 'package:susanin/domain/bloc/main_pointer/main_pointer_states.dart';
@@ -28,33 +27,50 @@ class MainPointer extends StatelessWidget {
     final double padding = width * 0.01;
     final MainPointerBloc mainPointerBloc = BlocProvider.of<MainPointerBloc>(context);
     final FabBloc fabBloc = BlocProvider.of<FabBloc>(context);
-
+    final LocationListBloc locationListBloc = BlocProvider.of<LocationListBloc>(context);
+    bool isStopped = false;
     return BlocBuilder<MainPointerBloc, MainPointerState>(
       builder: (context, mainPointerState) {
-        if (mainPointerState is MainPointerStateLoading) {
-          mainPointerBloc.add(MainPointerEventGetServices());
-          return MainPointerBlank(LoadingIndicator(startColor: Theme.of(context).primaryColor, endColor: Theme.of(context).accentColor, period: 300));
-        } else if (mainPointerState is MainPointerStateErrorServiceDisabled) {
+        print("mainPointerState: $mainPointerState");
+        if (mainPointerState is MainPointerStateErrorServiceDisabled) {
+          isStopped = true;
           fabBloc.add(FabEventError());
+          locationListBloc.add(LocationListEventErrorServiceDisabled());
           return MainPointerBlank(MainPointerError(errorMessage: "Service Disabled"));
-        } else if (mainPointerState is MainPointerStateErrorPermissionDenied) {
+        }
+        if (mainPointerState is MainPointerStateErrorPermissionDenied) {
+          isStopped = true;
           fabBloc.add(FabEventError());
+          locationListBloc.add(LocationListEventErrorPermissionDenied());
           return MainPointerBlank(MainPointerError(errorMessage: "Permission Denied"));
-        } else if (mainPointerState is MainPointerStateErrorNoCompass) {
+        }
+        if (mainPointerState is MainPointerStateErrorNoCompass) {
+          isStopped = true;
           fabBloc.add(FabEventError());
+          locationListBloc.add(LocationListEventErrorNoCompass());
           return MainPointerBlank(MainPointerError(errorMessage: "No compass detected"));
-        } else if (mainPointerState is MainPointerStateEmptyList) {
+        }
+        if (mainPointerState is MainPointerStateEmptyList) {
           fabBloc.add(FabEventLoaded());
           return MainPointerBlank(MainPointerEmptyList());
-        } else if (mainPointerState is MainPointerStateLoaded) {
-          //fabBloc.add(FabEventLoaded()); //todo отправлять этот ивент только один раз при загрузке или при переключении currentlocation, а не при каждом обновлении текущего положения или компасса
-          Widget widget; // если делать без ty-catch то при попытке отменить удаление точки после нескольких удалений подряд виджет рушится
-          try {
-            widget = MainPointerBlank(MainPointerOk());
-          } catch (e) {
-            widget = MainPointerBlank(MainPointerEmptyList());
+        }
+        if (mainPointerState is MainPointerStateLoading) {
+          isStopped = true;
+          mainPointerBloc.add(MainPointerEventGetServices());
+          fabBloc.add(FabEventLoading());
+          return MainPointerBlank(Stack(children: [
+            LoadingIndicator(startColor: Theme.of(context).primaryColor, endColor: Theme.of(context).accentColor, period: 300),
+            Center(child: Image.asset("assets/logo.png")),
+          ]));
+        }
+        if (mainPointerState is MainPointerStateLoaded) {
+          if (isStopped) {
+            //проверяем были ли до этого стейта ошибка и если была, то делаем нормальный fab и загружаем список, иначе с каждым стетом будем загружать список и делать нормальный fab
+            fabBloc.add(FabEventLoaded());
+            locationListBloc.add(LocationListEventGetData());
+            isStopped = false;
           }
-          return widget;
+          return MainPointerBlank(MainPointerOk());
         }
         return Text("Error. Unhandled state: $mainPointerState");
       },

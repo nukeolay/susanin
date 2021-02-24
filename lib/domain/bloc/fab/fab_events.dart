@@ -1,15 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 abstract class FabEvent {}
 
-class FabEventPressed extends FabEvent {
-  Position currentPosition;
+class FabEventPressed extends FabEvent {}
 
-  FabEventPressed({this.currentPosition});
-}
+class FabEventAdded extends FabEvent {}
 
 class FabEventLoaded extends FabEvent {}
 
-class FabEventAdded extends FabEvent {}
+class FabEventLoading extends FabEvent {}
 
 class FabEventError extends FabEvent {}

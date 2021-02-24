@@ -13,14 +13,14 @@ import 'package:susanin/presentation/theme/theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'domain/bloc/compass_accuracy/compass_accuracy_events.dart';
 import 'domain/bloc/fab/fab_bloc.dart';
-import 'domain/bloc/location/location_bloc.dart';
+import 'domain/bloc/location_list/location_list_bloc.dart';
 import 'domain/bloc/main_pointer/main_pointer_bloc.dart';
 import 'domain/bloc/theme/theme_bloc.dart';
 import 'domain/bloc/theme/theme_events.dart';
 import 'domain/bloc/theme/theme_states.dart';
 import 'generated/l10n.dart';
 
-void main() async {
+void main() {
   //todo сделал main async, посмотреть на что влияет
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
@@ -47,15 +47,15 @@ class Susanin extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ThemeBloc>(create: (context) => ThemeBloc(susaninRepository)),
+        BlocProvider<LocationListBloc>(create: (context) => LocationListBloc(susaninRepository)),
         BlocProvider<FabBloc>(create: (context) => FabBloc(susaninRepository)),
-        BlocProvider<LocationBloc>(create: (context) => LocationBloc(susaninRepository)),
         BlocProvider<MainPointerBloc>(create: (context) => MainPointerBloc(susaninRepository, compassStream, positionStream)..add(MainPointerEventGetServices())),
         BlocProvider<CompassAccuracyBloc>(
             create: (context) => CompassAccuracyBloc(compassStream, positionStream)..add(CompassAccuracyEventGetServices())),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
-          print("themeState: ${themeState}");
+          print("themeState: $themeState");
           final ThemeBloc themeBloc = BlocProvider.of<ThemeBloc>(context);
           if (themeState is ThemeStateInit) {
             themeBloc.add(ThemeEventGetData());
