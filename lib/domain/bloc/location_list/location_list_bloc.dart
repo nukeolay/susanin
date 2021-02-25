@@ -73,5 +73,8 @@ class LocationListBloc extends Bloc<LocationListEvent, LocationListState> {
     if (locationListEvent is LocationListEventErrorServiceDisabled) {
       yield LocationListStateErrorServiceDisabled();
     }
+    if (locationListEvent is LocationListEventErrorPermissionDenied) {
+      yield LocationListStateErrorPermissionDenied();
+    }
   }
 }
