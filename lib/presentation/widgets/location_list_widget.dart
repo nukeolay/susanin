@@ -37,6 +37,13 @@ class LocationList extends StatelessWidget {
             style: TextStyle(fontSize: width * 0.07, color: Theme.of(context).errorColor),
           );
         }
+        if (locationListState is LocationListStateErrorPermissionDenied) {
+          return Text(
+            "Susanin does not have access to location service",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: width * 0.07, color: Theme.of(context).errorColor),
+          );
+        }
         if (locationListState is LocationListStateErrorEmptyLocationList) {
           mainPointerBloc.add(MainPointerEventEmptyList());
           fabBloc.add(FabEventLoaded());
