@@ -41,7 +41,7 @@ class Susanin extends StatelessWidget {
   SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
   Stream<CompassEvent> compassStream = FlutterCompass.events;
   Stream<Position> positionStream = Geolocator.getPositionStream(desiredAccuracy: LocationAccuracy.best);
-
+  ThemeMode themeMode;
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -74,6 +74,7 @@ class Susanin extends StatelessWidget {
             );
           } else if (themeState is ThemeStateLoaded) {
             print("themeStateLoaded mode: ${themeState.themeMode}");
+            themeMode = themeState.themeMode;
             return MaterialApp(
               localizationsDelegates: [
                 S.delegate,
@@ -82,9 +83,9 @@ class Susanin extends StatelessWidget {
                 GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: S.delegate.supportedLocales,
+              themeMode: themeMode,
               theme: CustomTheme.lightTheme,
               darkTheme: CustomTheme.darkTheme,
-              themeMode: themeState.themeMode,
               title: "Susanin",
               debugShowCheckedModeBanner: false,
               home: HomeScreen(),
