@@ -8,9 +8,12 @@ import 'package:susanin/domain/bloc/location_list/location_list_events.dart';
 import 'package:susanin/domain/bloc/main_pointer/main_pointer_bloc.dart';
 import 'package:susanin/domain/bloc/main_pointer/main_pointer_events.dart';
 import 'package:susanin/domain/bloc/main_pointer/main_pointer_states.dart';
+import 'package:susanin/domain/bloc/theme/theme_bloc.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
+import 'package:susanin/presentation/theme/theme.dart';
+import 'package:susanin/presentation/theme/theme.dart';
 import 'package:susanin/presentation/widgets/loading_indicator_widget.dart';
 import 'package:susanin/presentation/widgets/main_pointer/main_pointer_widget_empty_list.dart';
 import 'package:susanin/presentation/widgets/main_pointer/main_pointer_widget_error.dart';
@@ -58,10 +61,10 @@ class MainPointer extends StatelessWidget {
           isStopped = true;
           mainPointerBloc.add(MainPointerEventGetServices());
           fabBloc.add(FabEventLoading());
-          return MainPointerBlank(Stack(children: [
-            LoadingIndicator(startColor: Theme.of(context).primaryColor, endColor: Theme.of(context).accentColor, period: 300),
-            Center(child: Image.asset("assets/logo.png")),
-          ]));
+          ThemeMode themeMode = BlocProvider.of<ThemeBloc>(context).themeMode;
+          ThemeData themeData = themeMode == ThemeMode.dark ? CustomTheme.darkTheme : CustomTheme.lightTheme;
+          return MainPointerBlank(LoadingIndicator(startColor: themeData.primaryColor, endColor: themeData.accentColor, period: 300,));
+          //return MainPointerBlank(LoadingIndicator(startColor: Theme.of(context).primaryColor, endColor: Theme.of(context).accentColor, period: 300));
         }
         if (mainPointerState is MainPointerStateLoaded) {
           if (isStopped) {
