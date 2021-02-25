@@ -16,6 +16,7 @@ class CompassAccuracy extends StatelessWidget {
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;
     return BlocBuilder<CompassAccuracyBloc, CompassAccuracyState>(builder: (context, compassAccuracyState) {
+      print("compassAccuracyState: $compassAccuracyState");
       if (compassAccuracyState is CompassAccuracyStateError) {
         return Container(
           height: topWidgetHeight,
