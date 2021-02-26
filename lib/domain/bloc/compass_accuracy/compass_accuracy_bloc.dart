@@ -19,13 +19,13 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
   Position tempCurrentPosition;
   double tempCurrentHeading;
 
-  CompassAccuracyBloc(this._compassStream, this._positionStream) : super(CompassAccuracyStateLoading());
+  CompassAccuracyBloc(this._compassStream, this._positionStream) : super(CompassAccuracyStateInit());
 
   @override
   Stream<CompassAccuracyState> mapEventToState(CompassAccuracyEvent compassAccuracyEvent) async* {
     if (compassAccuracyEvent is CompassAccuracyEventCheckPermissionsOnOff) {
       //проверка разрешений
-      permission = await Geolocator.requestPermission();
+      permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.deniedForever) {
         //если разрешение заблокировано
         add(CompassAccuracyEventErrorPermissionDeniedForever());

@@ -51,7 +51,7 @@ class Susanin extends StatelessWidget {
         BlocProvider<FabBloc>(create: (context) => FabBloc(susaninRepository)),
         BlocProvider<MainPointerBloc>(create: (context) => MainPointerBloc(susaninRepository, compassStream, positionStream)..add(MainPointerEventGetServices())),
         BlocProvider<CompassAccuracyBloc>(
-            create: (context) => CompassAccuracyBloc(compassStream, positionStream)..add(CompassAccuracyEventGetServices())),
+            create: (context) => CompassAccuracyBloc(compassStream, positionStream)),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {

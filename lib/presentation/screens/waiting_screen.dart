@@ -16,7 +16,7 @@ class WaitingScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Image.asset("assets/logo.png"),
+                    SizedBox(width: 300, height: 300, child: Image.asset("assets/logo.png")),
                     CircularProgressIndicator(
                         backgroundColor: Colors.white, valueColor: new AlwaysStoppedAnimation<Color>(CustomTheme.lightTheme.accentColor)),
                     //Text("error: $error", style: TextStyle(color: Colors.red)),

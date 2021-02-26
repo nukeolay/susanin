@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_bloc.dart';
+import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_events.dart';
 import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_states.dart';
+import 'package:susanin/domain/bloc/fab/fab_bloc.dart';
+import 'package:susanin/domain/bloc/fab/fab_events.dart';
+import 'package:susanin/domain/bloc/location_list/location_list_bloc.dart';
+import 'package:susanin/domain/bloc/location_list/location_list_events.dart';
+import 'package:susanin/domain/bloc/main_pointer/main_pointer_bloc.dart';
+import 'package:susanin/domain/bloc/main_pointer/main_pointer_events.dart';
 
 import 'package:susanin/generated/l10n.dart';
 import 'dart:math' as math;
@@ -15,9 +22,29 @@ class CompassAccuracy extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;
+    bool isStopped = false;
+    final MainPointerBloc mainPointerBloc = BlocProvider.of<MainPointerBloc>(context);
+    final CompassAccuracyBloc compassAccuracyBloc = BlocProvider.of<CompassAccuracyBloc>(context);
+    final FabBloc fabBloc = BlocProvider.of<FabBloc>(context);
+    final LocationListBloc locationListBloc = BlocProvider.of<LocationListBloc>(context);
+
     return BlocBuilder<CompassAccuracyBloc, CompassAccuracyState>(builder: (context, compassAccuracyState) {
       print("compassAccuracyState: $compassAccuracyState");
+      if (compassAccuracyState is CompassAccuracyStateInit) {
+        compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
+      }
       if (compassAccuracyState is CompassAccuracyStateError) {
+        print("here is");
+        isStopped = true;
+        if(compassAccuracyState is CompassAccuracyStateErrorPermissionDenied) {
+          mainPointerBloc.add(MainPointerEventErrorPermissionDenied());
+          compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
+        }
+        if (compassAccuracyState is CompassAccuracyStateErrorServiceDisabled) {
+          mainPointerBloc.add(MainPointerEventErrorServiceDisabled());
+          fabBloc.add(FabEventError());
+          compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
+        }
         return Container(
           height: topWidgetHeight,
           child: Card(
@@ -35,6 +62,13 @@ class CompassAccuracy extends StatelessWidget {
         );
       }
       if (compassAccuracyState is CompassAccuracyStateLoaded) {
+        if (isStopped) {
+          //проверяем были ли до этого стейта ошибка и если была, то делаем нормальный fab и загружаем список, иначе с каждым стетом будем загружать список и делать нормальный fab
+          fabBloc.add(FabEventLoaded());
+          mainPointerBloc.add(MainPointerEventGetServices());
+          locationListBloc.add(LocationListEventGetData());
+          isStopped = false;
+        }
         return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Expanded(
             //компасс

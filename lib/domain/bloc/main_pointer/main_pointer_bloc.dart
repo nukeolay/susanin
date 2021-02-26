@@ -32,25 +32,25 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
 
   @override
   Stream<MainPointerState> mapEventToState(MainPointerEvent mainPointerEvent) async* {
-    if (mainPointerEvent is MainPointerEventCheckPermissionsOnOff) {
-      //проверка разрешений
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.deniedForever) {
-        //если разрешение заблокировано
-        add(MainPointerEventErrorPermissionDeniedForever());
-      } else if (permission == LocationPermission.denied) {
-        //если разрешение не выдано один раз
-        add(MainPointerEventErrorPermissionDenied());
-      } else {
-        //если с разрешением все норм, то проверяем включен ли сервис геолокации
-        serviceEnabled = await Geolocator.isLocationServiceEnabled();
-        if (!serviceEnabled) {
-          add(MainPointerEventErrorServiceDisabled());
-        } else {
-          add(MainPointerEventGetServices());
-        }
-      }
-    }
+    // if (mainPointerEvent is MainPointerEventCheckPermissionsOnOff) {
+    //   //проверка разрешений
+    //   permission = await Geolocator.requestPermission();
+    //   if (permission == LocationPermission.deniedForever) {
+    //     //если разрешение заблокировано
+    //     add(MainPointerEventErrorPermissionDeniedForever());
+    //   } else if (permission == LocationPermission.denied) {
+    //     //если разрешение не выдано один раз
+    //     add(MainPointerEventErrorPermissionDenied());
+    //   } else {
+    //     //если с разрешением все норм, то проверяем включен ли сервис геолокации
+    //     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    //     if (!serviceEnabled) {
+    //       add(MainPointerEventErrorServiceDisabled());
+    //     } else {
+    //       add(MainPointerEventGetServices());
+    //     }
+    //   }
+    // }
 
     if (mainPointerEvent is MainPointerEventGetServices) {
       SusaninData susaninData = await susaninRepository.getSusaninData();
@@ -121,7 +121,6 @@ class MainPointerBloc extends Bloc<MainPointerEvent, MainPointerState> {
 
     if (mainPointerEvent is MainPointerEventErrorPermissionDenied) {
       yield MainPointerStateErrorPermissionDenied();
-      //permission = await Geolocator.requestPermission(); //todo запросить разрешение, вернуть эту строку? проверить появляется ли запрос на включение геопозиции
     }
 
     if (mainPointerEvent is MainPointerEventErrorPermissionDeniedForever) {

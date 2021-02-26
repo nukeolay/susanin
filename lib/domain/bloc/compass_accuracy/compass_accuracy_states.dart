@@ -3,6 +3,8 @@ import 'package:geolocator/geolocator.dart';
 
 abstract class CompassAccuracyState {}
 
+class CompassAccuracyStateInit extends CompassAccuracyState {}
+
 class CompassAccuracyStateLoading extends CompassAccuracyState {}
 
 class CompassAccuracyStateLoaded extends CompassAccuracyState {
