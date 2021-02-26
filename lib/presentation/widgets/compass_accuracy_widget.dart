@@ -34,7 +34,6 @@ class CompassAccuracy extends StatelessWidget {
         compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
       }
       if (compassAccuracyState is CompassAccuracyStateError) {
-        print("here is");
         isStopped = true;
         if(compassAccuracyState is CompassAccuracyStateErrorPermissionDenied) {
           mainPointerBloc.add(MainPointerEventErrorPermissionDenied());
