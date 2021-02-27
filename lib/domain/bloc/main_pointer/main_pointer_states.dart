@@ -27,11 +27,6 @@ class MainPointerStateLoaded extends MainPointerState {
   }
 }
 
-class MainPointerStateLoadedAddedNew extends MainPointerStateLoaded {
-  MainPointerStateLoadedAddedNew({Position currentPosition, double heading, LocationPoint selectedLocationPoint})
-      : super(currentPosition: currentPosition, heading: heading, selectedLocationPoint: selectedLocationPoint);
-}
-
 class MainPointerStateError extends MainPointerState {}
 
 class MainPointerStateErrorPermissionDenied extends MainPointerStateError {}

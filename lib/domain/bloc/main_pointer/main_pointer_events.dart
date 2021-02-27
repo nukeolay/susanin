@@ -16,8 +16,6 @@ class MainPointerEventChanged extends MainPointerEvent {
   MainPointerEventChanged({@required this.currentPosition, @required this.heading, @required this.selectedLocationPoint});
 }
 
-class MainPointerEventServiceEnabled extends MainPointerEvent {}
-
 class MainPointerEventEmptyList extends MainPointerEvent {}
 
 class MainPointerEventSelectPoint extends MainPointerEvent {
