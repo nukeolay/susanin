@@ -8,7 +8,7 @@ import 'dart:math' as math;
 class MainPointerOk extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width; // TODO заменить на глобальные переменные, чтобы они получались один раз
+    final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;

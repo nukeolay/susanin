@@ -19,7 +19,7 @@ import 'package:susanin/presentation/widgets/loading_indicator_widget.dart';
 class CompassAccuracy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width; // TODO заменить на глобальные переменные, чтобы они получались один раз
+    final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;
@@ -34,7 +34,7 @@ class CompassAccuracy extends StatelessWidget {
       if (compassAccuracyState is CompassAccuracyStateInit) {
         compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
       }
-      if (compassAccuracyState is CompassAccuracyStateError) {//todo когда все будет работать, добавить сюда стецтс NoCompass
+      if (compassAccuracyState is CompassAccuracyStateError) {
         isStopped = true;
         if(compassAccuracyState is CompassAccuracyStateErrorPermissionDenied) {
           pointerBloc.add(PointerEventErrorPermissionDenied());
@@ -52,6 +52,11 @@ class CompassAccuracy extends StatelessWidget {
           locationListBloc.add(LocationListEventErrorServiceDisabled());
           fabBloc.add(FabEventError());
           compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
+        }
+        if(compassAccuracyState is CompassAccuracyStateErrorNoCompass) {
+          pointerBloc.add(PointerEventErrorNoCompass());
+          locationListBloc.add(LocationListEventErrorNoCompass());
+          fabBloc.add(FabEventErrorStop());
         }
         return Container(
           height: topWidgetHeight,

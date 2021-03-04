@@ -19,7 +19,6 @@ import 'domain/bloc/theme/theme_states.dart';
 import 'generated/l10n.dart';
 
 void main() {
-  //todo сделал main async, посмотреть на что влияет
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
