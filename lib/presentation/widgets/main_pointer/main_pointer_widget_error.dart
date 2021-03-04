@@ -15,8 +15,6 @@ class MainPointerError extends StatelessWidget {
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;
 
-    //todo positionBloc.add(PositionEventGetLocationService());//эта строка позволяет выводить системное предупреждение об отключении сервиса определения геолокации. Пока пользователь не нажмет ok, предупреждение не исчезнет
-    // пока пользователь не нажмет ok, предупреждение не исчезнет
     return Container(
       padding: EdgeInsets.only(left: padding, right: 2 * padding, top: padding, bottom: padding),
       height: topWidgetHeight,
@@ -25,7 +23,7 @@ class MainPointerError extends StatelessWidget {
       child: Text(
         errorMessage,
         textAlign: TextAlign.center,
-        style: TextStyle(fontWeight: FontWeight.w500, fontSize: width * 0.08, color: Theme.of(context).secondaryHeaderColor),
+        style: TextStyle(fontWeight: FontWeight.w500, fontSize: width * 0.06, color: Theme.of(context).secondaryHeaderColor),
       ),
     );
   }

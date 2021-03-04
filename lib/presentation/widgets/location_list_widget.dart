@@ -4,13 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:share/share.dart';
+import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_bloc.dart';
+import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_events.dart';
 import 'package:susanin/domain/bloc/fab/fab_bloc.dart';
 import 'package:susanin/domain/bloc/fab/fab_events.dart';
 import 'package:susanin/domain/bloc/location_list/location_list_bloc.dart';
 import 'package:susanin/domain/bloc/location_list/location_list_events.dart';
 import 'package:susanin/domain/bloc/location_list/location_list_states.dart';
-import 'package:susanin/domain/bloc/main_pointer/main_pointer_bloc.dart';
-import 'package:susanin/domain/bloc/main_pointer/main_pointer_events.dart';
+import 'package:susanin/domain/bloc/pointer/pointer_bloc.dart';
+import 'package:susanin/domain/bloc/pointer/pointer_events.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'package:susanin/presentation/alerts/rename_location_alert.dart';
 
@@ -22,40 +24,64 @@ class LocationList extends StatelessWidget {
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;
     final LocationListBloc locationListBloc = BlocProvider.of<LocationListBloc>(context);
-    final MainPointerBloc mainPointerBloc = BlocProvider.of<MainPointerBloc>(context);
+    final PointerBloc pointerBloc = BlocProvider.of<PointerBloc>(context);
+    final CompassAccuracyBloc compassAccuracyBloc = BlocProvider.of<CompassAccuracyBloc>(context);
     final FabBloc fabBloc = BlocProvider.of<FabBloc>(context);
+    //bool isServiceLoaded = false;
     return BlocBuilder<LocationListBloc, LocationListState>(
       builder: (context, locationListState) {
+        print("locationListState: $locationListState");
         if (locationListState is LocationListStateInit) {
-          locationListBloc.add(LocationListEventGetData());
-          return Container(child: Text(""));
+            locationListBloc.add(LocationListEventGetData());
+            return Container(child: Text(""));
         }
         if (locationListState is LocationListStateErrorServiceDisabled) {
           return Text(
-            "Location service disabled, please turn on location service",
+            "${S.of(context).locationServiceDisabled}",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: width * 0.07, color: Theme.of(context).errorColor),
+            style: TextStyle(fontSize: width * 0.06, color: Theme.of(context).errorColor),
           );
         }
         if (locationListState is LocationListStateErrorPermissionDenied) {
-          return Text(
-            "Susanin does not have access to location service",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: width * 0.07, color: Theme.of(context).errorColor),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "${S.of(context).locationPermissionDenied}",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: width * 0.06, color: Theme.of(context).errorColor),
+              ),
+              FlatButton(
+                color: Theme.of(context).errorColor,
+                child: Text("${S.of(context).buttonRequestPermission}", style: TextStyle(color: Theme.of(context).secondaryHeaderColor),),
+                onPressed: () {
+                  compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
+                },
+              ),
+            ],
           );
         }
+
+        if (locationListState is LocationListStateErrorPermissionDeniedForever) {
+          return Text(
+            "${S.of(context).locationPermissionDeniedForever}",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: width * 0.06, color: Theme.of(context).errorColor),
+          );
+        }
+
         if (locationListState is LocationListStateErrorEmptyLocationList) {
-          mainPointerBloc.add(MainPointerEventEmptyList());
+          pointerBloc.add(PointerEventEmptyList());
           fabBloc.add(FabEventLoaded());
           return Text(
-            "Press \"Add location\" button to save current location",
+            "${S.of(context).locationEmptyList}",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: width * 0.07, color: Theme.of(context).accentColor),
+            style: TextStyle(fontSize: width * 0.06, color: Theme.of(context).accentColor),
           );
         }
         if (locationListState is LocationListStateDataLoaded) {
           fabBloc.add(FabEventLoaded());
-          mainPointerBloc.add(MainPointerEventSelectPoint(selectedLocationPoint: locationListState.susaninData.getSelectedLocationPoint));
+          pointerBloc.add(PointerEventSelectPoint(selectedLocationPoint: locationListState.susaninData.getSelectedLocationPoint));
           return ListView.builder(
             padding: EdgeInsets.only(top: topWidgetHeight * 0.5 + topWidgetHeight, bottom: topWidgetHeight * 0.5),
             itemCount: locationListState.susaninData.getLocationList.length ?? 0,
@@ -80,7 +106,6 @@ class LocationList extends StatelessWidget {
                             selected: index == locationListState.susaninData.getSelectedLocationPointId ? true : false,
                             onTap: () {
                               locationListBloc.add(LocationListEventPressedSelectLocation(index: index));
-                              //mainPointerBloc.add(MainPointerEventSelectPoint(selectedLocationPoint: state.susaninData.getLocationList.elementAt(index)));//todo не проверено: передаю в MainPointerBloc локуцию,чтобы от нее считать угол, расстояние и имя
                             },
                             title: Text(
                               "${locationListState.susaninData.getLocationList.elementAt(index).pointName}",
@@ -98,7 +123,7 @@ class LocationList extends StatelessWidget {
                       ),
                       actions: <Widget>[
                         IconSlideAction(
-                          caption: 'Delete',
+                          caption: "${S.of(context).buttonDelete}",
                           color: Theme.of(context).errorColor,
                           icon: Icons.delete,
                           onTap: () {
@@ -108,7 +133,7 @@ class LocationList extends StatelessWidget {
                       ],
                       secondaryActions: <Widget>[
                         IconSlideAction(
-                          caption: 'Rename',
+                          caption: "${S.of(context).buttonRename}",
                           color: Theme.of(context).accentColor.withAlpha(210),
                           icon: Icons.edit,
                           onTap: () {
@@ -119,7 +144,7 @@ class LocationList extends StatelessWidget {
                           },
                         ),
                         IconSlideAction(
-                          caption: 'Share',
+                          caption: "${S.of(context).buttonShare}",
                           color: Theme.of(context).accentColor.withAlpha(170),
                           icon: Icons.share,
                           onTap: () {

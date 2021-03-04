@@ -7,8 +7,9 @@ import 'package:susanin/domain/bloc/fab/fab_bloc.dart';
 import 'package:susanin/domain/bloc/fab/fab_events.dart';
 import 'package:susanin/domain/bloc/location_list/location_list_bloc.dart';
 import 'package:susanin/domain/bloc/location_list/location_list_events.dart';
-import 'package:susanin/domain/bloc/main_pointer/main_pointer_bloc.dart';
-import 'package:susanin/domain/bloc/main_pointer/main_pointer_events.dart';
+import 'package:susanin/domain/bloc/location_list/location_list_states.dart';
+import 'package:susanin/domain/bloc/pointer/pointer_bloc.dart';
+import 'package:susanin/domain/bloc/pointer/pointer_events.dart';
 
 import 'package:susanin/generated/l10n.dart';
 import 'dart:math' as math;
@@ -23,7 +24,7 @@ class CompassAccuracy extends StatelessWidget {
     final double topWidgetHeight = width * 0.3;
     final double padding = width * 0.01;
     bool isStopped = false;
-    final MainPointerBloc mainPointerBloc = BlocProvider.of<MainPointerBloc>(context);
+    final PointerBloc pointerBloc = BlocProvider.of<PointerBloc>(context);
     final CompassAccuracyBloc compassAccuracyBloc = BlocProvider.of<CompassAccuracyBloc>(context);
     final FabBloc fabBloc = BlocProvider.of<FabBloc>(context);
     final LocationListBloc locationListBloc = BlocProvider.of<LocationListBloc>(context);
@@ -33,14 +34,22 @@ class CompassAccuracy extends StatelessWidget {
       if (compassAccuracyState is CompassAccuracyStateInit) {
         compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
       }
-      if (compassAccuracyState is CompassAccuracyStateError) {
+      if (compassAccuracyState is CompassAccuracyStateError) {//todo когда все будет работать, добавить сюда стецтс NoCompass
         isStopped = true;
         if(compassAccuracyState is CompassAccuracyStateErrorPermissionDenied) {
-          mainPointerBloc.add(MainPointerEventErrorPermissionDenied());
+          pointerBloc.add(PointerEventErrorPermissionDenied());
+          locationListBloc.add(LocationListEventErrorPermissionDenied());
+          fabBloc.add(FabEventError());
           compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
         }
+        if(compassAccuracyState is CompassAccuracyStateErrorPermissionDeniedForever) {
+          pointerBloc.add(PointerEventErrorPermissionDeniedForever());
+          locationListBloc.add(LocationListEventErrorPermissionDeniedForever());
+          fabBloc.add(FabEventErrorStop());
+        }
         if (compassAccuracyState is CompassAccuracyStateErrorServiceDisabled) {
-          mainPointerBloc.add(MainPointerEventErrorServiceDisabled());
+          pointerBloc.add(PointerEventErrorServiceDisabled());
+          locationListBloc.add(LocationListEventErrorServiceDisabled());
           fabBloc.add(FabEventError());
           compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
         }
@@ -64,9 +73,11 @@ class CompassAccuracy extends StatelessWidget {
         if (isStopped) {
           //проверяем были ли до этого стейта ошибка и если была, то делаем нормальный fab и загружаем список, иначе с каждым стетом будем загружать список и делать нормальный fab
           fabBloc.add(FabEventLoaded());
-          mainPointerBloc.add(MainPointerEventGetServices());
           locationListBloc.add(LocationListEventGetData());
           isStopped = false;
+        }
+        if (!(locationListBloc.state is LocationListStateErrorEmptyLocationList)) {
+          pointerBloc.add(PointerEventSetData(heading: compassAccuracyState.heading, currentPosition: compassAccuracyState.currentPosition));
         }
         return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Expanded(
@@ -128,6 +139,8 @@ class CompassAccuracy extends StatelessWidget {
           ),
         ]);
       }
+      pointerBloc.add(PointerEventInit());
+      fabBloc.add(FabEventLoading());
       return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Expanded(
           //компасс

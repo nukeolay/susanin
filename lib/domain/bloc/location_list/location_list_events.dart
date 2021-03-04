@@ -26,8 +26,9 @@ class LocationListEventPressedRenameLocation extends LocationListEvent {
 
 class LocationListEventAddNewLocation extends LocationListEvent {
   Position currentPosition;
+  String defaultName;
 
-  LocationListEventAddNewLocation({@required this.currentPosition});
+  LocationListEventAddNewLocation({@required this.currentPosition, @required this.defaultName});
 }
 
 class LocationListEventError extends LocationListEvent {}

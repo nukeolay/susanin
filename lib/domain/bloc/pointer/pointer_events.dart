@@ -6,14 +6,14 @@ abstract class PointerEvent {}
 
 class PointerEventInit extends PointerEvent {}
 
-class PointerEventChanged extends PointerEvent {
+class PointerEventEmptyList extends PointerEvent {}
+
+class PointerEventSetData extends PointerEvent {
   Position currentPosition;
   double heading;
 
-  PointerEventChanged({@required this.currentPosition, @required this.heading});
+  PointerEventSetData({@required this.currentPosition, @required this.heading});
 }
-
-class PointerEventEmptyList extends PointerEvent {}
 
 class PointerEventSelectPoint extends PointerEvent {
   LocationPoint selectedLocationPoint;
@@ -24,6 +24,8 @@ class PointerEventSelectPoint extends PointerEvent {
 class PointerEventError extends PointerEvent {}
 
 class PointerEventErrorPermissionDenied extends PointerEventError {}
+
+class PointerEventErrorPermissionDeniedForever extends PointerEventError {}
 
 class PointerEventErrorServiceDisabled extends PointerEventError {}
 

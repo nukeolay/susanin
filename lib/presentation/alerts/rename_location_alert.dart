@@ -1,11 +1,9 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/domain/bloc/location_list/location_list_bloc.dart';
 import 'package:susanin/domain/bloc/location_list/location_list_events.dart';
 import 'package:susanin/domain/bloc/location_list/location_list_states.dart';
 import 'package:susanin/generated/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class RenameLocationAlert extends StatelessWidget {
   int index;
@@ -18,8 +16,9 @@ class RenameLocationAlert extends StatelessWidget {
     final locationListState = locationListBloc.state as LocationListStateDataLoaded;
     TextEditingController _textFieldController =
         new TextEditingController(text: locationListState.susaninData.getLocationList.elementAt(index).pointName);
+    String lastName = locationListState.susaninData.getLocationList.elementAt(index).pointName;
     return AlertDialog(
-      title: Text("Rename location", style: TextStyle(color: Theme.of(context).primaryColorDark)),
+      title: Text("${S.of(context).renameLocationTitle}", style: TextStyle(color: Theme.of(context).primaryColorDark)),
       content: TextField(
         maxLength: 20,
         autofocus: false,
@@ -32,7 +31,8 @@ class RenameLocationAlert extends StatelessWidget {
             ),
             border: UnderlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
-            )),
+            ),
+            counterStyle: TextStyle(color: Theme.of(context).primaryColorDark)),
         controller: _textFieldController,
         style: TextStyle(color: Theme.of(context).primaryColorDark),
       ),
@@ -40,19 +40,23 @@ class RenameLocationAlert extends StatelessWidget {
       actions: [
         FlatButton(
             color: Theme.of(context).errorColor,
-            child: Text("Cancel"),
+            child: Text("${S.of(context).buttonCancel}"),
             onPressed: () {
               _textFieldController.clear();
               Navigator.pop(context);
             }),
         FlatButton(
           color: Theme.of(context).accentColor,
-          child: Text('Rename'),
+          child: Text("${S.of(context).buttonRename}"),
           onPressed: () {
-            //print(_textFieldController.value.text);
-            locationListBloc.add(LocationListEventPressedRenameLocation(index: index, newName: _textFieldController.value.text));
-            _textFieldController.clear();
-            Navigator.pop(context);
+            if (_textFieldController.value.text == "") {
+              _textFieldController.clear();
+              Navigator.pop(context);
+            } else {
+              locationListBloc.add(LocationListEventPressedRenameLocation(index: index, newName: _textFieldController.value.text));
+              _textFieldController.clear();
+              Navigator.pop(context);
+            }
           },
         ),
       ],

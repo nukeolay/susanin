@@ -4,17 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_bloc.dart';
-import 'package:susanin/domain/bloc/main_pointer/main_pointer_events.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'package:susanin/presentation/screens/home_screen.dart';
 import 'package:susanin/presentation/screens/waiting_screen.dart';
 import 'package:susanin/presentation/theme/theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'domain/bloc/compass_accuracy/compass_accuracy_events.dart';
 import 'domain/bloc/fab/fab_bloc.dart';
 import 'domain/bloc/location_list/location_list_bloc.dart';
-import 'domain/bloc/main_pointer/main_pointer_bloc.dart';
+import 'domain/bloc/pointer/pointer_bloc.dart';
 import 'domain/bloc/theme/theme_bloc.dart';
 import 'domain/bloc/theme/theme_events.dart';
 import 'domain/bloc/theme/theme_states.dart';
@@ -49,7 +47,7 @@ class Susanin extends StatelessWidget {
         BlocProvider<ThemeBloc>(create: (context) => ThemeBloc(susaninRepository)),
         BlocProvider<LocationListBloc>(create: (context) => LocationListBloc(susaninRepository)),
         BlocProvider<FabBloc>(create: (context) => FabBloc(susaninRepository)),
-        BlocProvider<MainPointerBloc>(create: (context) => MainPointerBloc(susaninRepository, compassStream, positionStream)..add(MainPointerEventGetServices())),
+        BlocProvider<PointerBloc>(create: (context) => PointerBloc()),
         BlocProvider<CompassAccuracyBloc>(
             create: (context) => CompassAccuracyBloc(compassStream, positionStream)),
       ],
@@ -92,7 +90,6 @@ class Susanin extends StatelessWidget {
               // HomeScreen(),
             );
           } else {
-            print("themeState -=($themeState)=-");
             return CircularProgressIndicator();
           }
         },

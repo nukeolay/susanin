@@ -7,3 +7,5 @@ class FabStateLoading extends FabState {}
 class FabStateNormal extends FabState {}
 
 class FabStateError extends FabState {}
+
+class FabStateErrorStop extends FabState {}

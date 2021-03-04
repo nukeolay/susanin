@@ -35,71 +35,91 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Delete location?`
-  String get deleteLocation {
-    return Intl.message(
-      'Delete location?',
-      name: 'deleteLocation',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Cancel`
-  String get cancel {
+  String get buttonCancel {
     return Intl.message(
       'Cancel',
-      name: 'cancel',
+      name: 'buttonCancel',
       desc: '',
       args: [],
     );
   }
 
-  /// `Yes`
-  String get yes {
+  /// `Rename`
+  String get buttonRename {
     return Intl.message(
-      'Yes',
-      name: 'yes',
+      'Rename',
+      name: 'buttonRename',
       desc: '',
       args: [],
     );
   }
 
-  /// `About`
-  String get about {
+  /// `Request permission`
+  String get buttonRequestPermission {
     return Intl.message(
-      'About',
-      name: 'about',
+      'Request permission',
+      name: 'buttonRequestPermission',
       desc: '',
       args: [],
     );
   }
 
-  /// `Dark/Light mode`
-  String get changeTheme {
+  /// `Delete`
+  String get buttonDelete {
     return Intl.message(
-      'Dark/Light mode',
-      name: 'changeTheme',
+      'Delete',
+      name: 'buttonDelete',
       desc: '',
       args: [],
     );
   }
 
-  /// `Save location & find your way back (works offline, no network connection needed)`
-  String get infoContent {
+  /// `Share`
+  String get buttonShare {
     return Intl.message(
-      'Save location & find your way back (works offline, no network connection needed)',
-      name: 'infoContent',
+      'Share',
+      name: 'buttonShare',
       desc: '',
       args: [],
     );
   }
 
-  /// `Close`
-  String get close {
+  /// `Service Disabled`
+  String get serviceDisabled {
     return Intl.message(
-      'Close',
-      name: 'close',
+      'Service Disabled',
+      name: 'serviceDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checking permission`
+  String get checkingPermission {
+    return Intl.message(
+      'Checking permission',
+      name: 'checkingPermission',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Permission Denied`
+  String get permissionDenied {
+    return Intl.message(
+      'Permission Denied',
+      name: 'permissionDenied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No compass detected`
+  String get noCompass {
+    return Intl.message(
+      'No compass detected',
+      name: 'noCompass',
       desc: '',
       args: [],
     );
@@ -135,81 +155,51 @@ class S {
     );
   }
 
-  /// `Location service is disabled`
-  String get warningLocationServiceDisabled {
+  /// `Location service disabled, please turn on location service`
+  String get locationServiceDisabled {
     return Intl.message(
-      'Location service is disabled',
-      name: 'warningLocationServiceDisabled',
+      'Location service disabled, please turn on location service',
+      name: 'locationServiceDisabled',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please turn on location service`
-  String get warningTurnOnLocationService {
+  /// `Trying to get access to location service.\nIf you see this message longer than 10 sec, press button\n`
+  String get locationPermissionDenied {
     return Intl.message(
-      'Please turn on location service',
-      name: 'warningTurnOnLocationService',
+      'Trying to get access to location service.\nIf you see this message longer than 10 sec, press button\n',
+      name: 'locationPermissionDenied',
       desc: '',
       args: [],
     );
   }
 
-  /// `No saved locations.`
-  String get warningNoSavedLocations {
+  /// `Susanin does not have access to location service`
+  String get locationPermissionDeniedForever {
     return Intl.message(
-      'No saved locations.',
-      name: 'warningNoSavedLocations',
+      'Susanin does not have access to location service',
+      name: 'locationPermissionDeniedForever',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please press `
-  String get warningPleasePress {
+  /// `Press "Add location" button to save current location\n\nAfter saving the current location, you can select it from the list and see it's direction and distance to it`
+  String get locationEmptyList {
     return Intl.message(
-      'Please press ',
-      name: 'warningPleasePress',
+      'Press "Add location" button to save current location\n\nAfter saving the current location, you can select it from the list and see it`s direction and distance to it',
+      name: 'locationEmptyList',
       desc: '',
       args: [],
     );
   }
 
-  /// ` to save current location.`
-  String get warningToSaveLocation {
+  /// `No saved locations`
+  String get noSavedLocations {
     return Intl.message(
-      ' to save current location.',
-      name: 'warningToSaveLocation',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `After saving the current location, you can select it from the list and see it's direction and distance to it. Also, you can share it with your friends.`
-  String get warningInstruction {
-    return Intl.message(
-      'After saving the current location, you can select it from the list and see it`s direction and distance to it. Also, you can share it with your friends.',
-      name: 'warningInstruction',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Location permission denied`
-  String get warningGPSPermissionDenied {
-    return Intl.message(
-      'Location permission denied',
-      name: 'warningGPSPermissionDenied',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Request permission`
-  String get warningRequestGPSPermission {
-    return Intl.message(
-      'Request permission',
-      name: 'warningRequestGPSPermission',
+      'No saved locations',
+      name: 'noSavedLocations',
       desc: '',
       args: [],
     );
@@ -245,26 +235,6 @@ class S {
     );
   }
 
-  /// `minicompass`
-  String get tipCompass {
-    return Intl.message(
-      'minicompass',
-      name: 'tipCompass',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `GPS accuracy`
-  String get tipLocationAccuracy {
-    return Intl.message(
-      'GPS accuracy',
-      name: 'tipLocationAccuracy',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `accuracy`
   String get locationAccuracy {
     return Intl.message(
@@ -285,41 +255,11 @@ class S {
     );
   }
 
-  /// `Delete location`
-  String get tipDeleteLocation {
-    return Intl.message(
-      'Delete location',
-      name: 'tipDeleteLocation',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Share location`
-  String get tipShareLocation {
-    return Intl.message(
-      'Share location',
-      name: 'tipShareLocation',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `MM/dd/yyyy H:mm`
   String get dateFormat {
     return Intl.message(
       'MM/dd/yyyy H:mm',
       name: 'dateFormat',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Rename location`
-  String get tipRenameLocation {
-    return Intl.message(
-      'Rename location',
-      name: 'tipRenameLocation',
       desc: '',
       args: [],
     );

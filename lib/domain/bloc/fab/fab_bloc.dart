@@ -27,5 +27,8 @@ class FabBloc extends Bloc<FabEvent, FabState> {
     if (fabEvent is FabEventError) {
       yield FabStateError();
     }
+    if (fabEvent is FabEventErrorStop) {
+      yield FabStateErrorStop();
+    }
   }
 }

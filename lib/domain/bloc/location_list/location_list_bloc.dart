@@ -15,6 +15,7 @@ class LocationListBloc extends Bloc<LocationListEvent, LocationListState> {
 
   @override
   Stream<LocationListState> mapEventToState(LocationListEvent locationListEvent) async* {
+    print("locationListEvent: $locationListEvent");
     if (locationListEvent is LocationListEventGetData) {
       try {
         susaninDataLocal = await susaninRepository.getSusaninData(); //получили синглтон репозитория
@@ -32,7 +33,7 @@ class LocationListBloc extends Bloc<LocationListEvent, LocationListState> {
       susaninDataLocal.getLocationList.addFirst(new LocationPoint.createNew(
           latitude: locationListEvent.currentPosition.latitude,
           longitude: locationListEvent.currentPosition.longitude,
-          pointName: "Name ${susaninDataLocal.getLocationCounter + 1}"));
+          pointName: "${locationListEvent.defaultName} ${susaninDataLocal.getLocationCounter + 1}"));
       susaninDataLocal.increnemtLocationCounter();
       susaninDataLocal.setSelectedLocationPointId(0);
       await susaninRepository.setSusaninData(susaninData: susaninDataLocal);
@@ -75,6 +76,9 @@ class LocationListBloc extends Bloc<LocationListEvent, LocationListState> {
     }
     if (locationListEvent is LocationListEventErrorPermissionDenied) {
       yield LocationListStateErrorPermissionDenied();
+    }
+    if (locationListEvent is LocationListEventErrorPermissionDeniedForever) {
+      yield LocationListStateErrorPermissionDeniedForever();
     }
   }
 }

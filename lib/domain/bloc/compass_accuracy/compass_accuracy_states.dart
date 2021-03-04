@@ -18,6 +18,8 @@ class CompassAccuracyStateError extends CompassAccuracyState {}
 
 class CompassAccuracyStateErrorPermissionDenied extends CompassAccuracyStateError {}
 
+class CompassAccuracyStateErrorPermissionDeniedForever extends CompassAccuracyStateError {}
+
 class CompassAccuracyStateErrorServiceDisabled extends CompassAccuracyStateError {}
 
 class CompassAccuracyStateErrorNoCompass extends CompassAccuracyStateError {}

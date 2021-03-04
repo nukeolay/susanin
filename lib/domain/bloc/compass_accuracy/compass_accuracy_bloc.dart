@@ -23,6 +23,7 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
 
   @override
   Stream<CompassAccuracyState> mapEventToState(CompassAccuracyEvent compassAccuracyEvent) async* {
+    print("compassAccuracyEvent: $compassAccuracyEvent");
     if (compassAccuracyEvent is CompassAccuracyEventCheckPermissionsOnOff) {
       //проверка разрешений
       permission = await Geolocator.checkPermission();
@@ -32,6 +33,8 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
       } else if (permission == LocationPermission.denied) {
         //если разрешение не выдано один раз
         add(CompassAccuracyEventErrorPermissionDenied());
+        await Geolocator.requestPermission();
+        //permission = await Geolocator.checkPermission();
       } else {
         //если с разрешением все норм, то проверяем включен ли сервис геолокации
         serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -98,7 +101,7 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
     }
 
     if (compassAccuracyEvent is CompassAccuracyEventErrorPermissionDeniedForever) {
-      yield CompassAccuracyStateErrorPermissionDenied();
+      yield CompassAccuracyStateErrorPermissionDeniedForever();
     }
 
     if (compassAccuracyEvent is CompassAccuracyEventErrorServiceDisabled) {

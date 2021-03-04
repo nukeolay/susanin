@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:susanin/domain/bloc/theme/theme_bloc.dart';
 import 'package:susanin/domain/bloc/theme/theme_events.dart';
-import 'package:susanin/generated/l10n.dart';
 
 class MainPointerBlank extends StatelessWidget {
   Widget optionWidget;

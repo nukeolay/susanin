@@ -6,7 +6,6 @@ import 'package:susanin/domain/bloc/fab/fab_events.dart';
 import 'package:susanin/domain/bloc/fab/fab_states.dart';
 import 'package:susanin/domain/bloc/location_list/location_list_bloc.dart';
 import 'package:susanin/domain/bloc/location_list/location_list_events.dart';
-import 'package:susanin/domain/bloc/main_pointer/main_pointer_bloc.dart';
 import 'package:susanin/presentation/widgets/compass_accuracy_widget.dart';
 import 'package:susanin/presentation/widgets/location_list_widget.dart';
 import 'package:susanin/presentation/widgets/main_pointer/main_pointer_widget.dart';
@@ -29,9 +28,7 @@ class HomeScreen extends StatelessWidget {
           Center(
             child: Container(
               width: width * 0.95,
-              child:
-              LocationList(),
-              //Text("dummy"),
+              child: LocationList(),
             ),
           ), // список локаций
           Column(
@@ -78,6 +75,18 @@ class HomeScreen extends StatelessWidget {
                       onPressed: () {},
                     );
                   }
+                  if (fabState is FabStateErrorStop) {
+                    return FloatingActionButton(
+                      backgroundColor: Theme.of(context).errorColor,
+                      elevation: 0,
+                      child: Icon(
+                        Icons.close,
+                        color: Theme.of(context).secondaryHeaderColor,
+                        size: 30,
+                      ),
+                      onPressed: () {},
+                    );
+                  }
                   if (fabState is FabStateNormal) {
                     return FloatingActionButton(
                       elevation: 5,
@@ -88,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       onPressed: () {
                         fabBloc.add(FabEventPressed());
-                        locationListBloc.add(LocationListEventAddNewLocation(currentPosition: compassAccuracyBloc.tempCurrentPosition));
+                        locationListBloc.add(LocationListEventAddNewLocation(currentPosition: compassAccuracyBloc.tempCurrentPosition, defaultName: S.of(context).locationNameTemplate));
                       },
                       tooltip: S.of(context).addCurrentLocation,
                     );
