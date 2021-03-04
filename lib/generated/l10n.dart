@@ -205,10 +205,10 @@ class S {
     );
   }
 
-  /// `Distance is less than 5 m`
+  /// `Less than 5 m`
   String get lessThan5Metres {
     return Intl.message(
-      'Distance is less than 5 m',
+      'Less than 5 m',
       name: 'lessThan5Metres',
       desc: '',
       args: [],

@@ -16,7 +16,7 @@
   "locationPermissionDeniedForever": "Susanin does not have access to location service",
   "locationEmptyList": "Press \"Add location\" button to save current location\n\nAfter saving the current location, you can select it from the list and see it`s direction and distance to it",
   "noSavedLocations": "No saved locations",
-  "lessThan5Metres": "Distance is less than 5 m",
+  "lessThan5Metres": "Less than 5 m",
   "metres": "m",
   "kilometres": "km",
   "locationAccuracy": "accuracy",

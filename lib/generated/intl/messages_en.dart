@@ -31,7 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "compass" : MessageLookupByLibrary.simpleMessage("compass"),
     "dateFormat" : MessageLookupByLibrary.simpleMessage("MM/dd/yyyy H:mm"),
     "kilometres" : MessageLookupByLibrary.simpleMessage("km"),
-    "lessThan5Metres" : MessageLookupByLibrary.simpleMessage("Distance is less than 5 m"),
+    "lessThan5Metres" : MessageLookupByLibrary.simpleMessage("Less than 5 m"),
     "locationAccuracy" : MessageLookupByLibrary.simpleMessage("accuracy"),
     "locationEmptyList" : MessageLookupByLibrary.simpleMessage("Press \"Add location\" button to save current location\n\nAfter saving the current location, you can select it from the list and see it`s direction and distance to it"),
     "locationNameTemplate" : MessageLookupByLibrary.simpleMessage("New location №"),
