@@ -28,7 +28,6 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       //yield ThemeStateLoaded(themeMode: newThemeMode);
       susaninData.setIsDarkTheme(!susaninData.getIsDarkTheme);
       await susaninRepository.setSusaninData(susaninData: susaninData);
-      print("theme saved");
       yield ThemeStateLoaded(themeMode: newThemeMode);
     }
   }

@@ -7,7 +7,6 @@ class LocationPointMapper {
         latitude: apiLocationPoint.latitude,
         longitude: apiLocationPoint.longitude,
         pointName: apiLocationPoint.pointName,
-        creationTime: DateTime.fromMillisecondsSinceEpoch(apiLocationPoint.creationTime)
-    );
+        creationTime: DateTime.fromMillisecondsSinceEpoch(apiLocationPoint.creationTime));
   }
 }

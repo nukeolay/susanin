@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/generated/l10n.dart';
 
 class MainPointerError extends StatelessWidget {
   String errorMessage;

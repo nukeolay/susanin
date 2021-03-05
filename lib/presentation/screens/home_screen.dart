@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(right: 15.0, bottom: 15.0),
                 child: BlocBuilder<FabBloc, FabState>(builder: (context, fabState) {
-                  print("fabState: $fabState");
+                  //print("fabState: $fabState"); //todo uncomment in debug
                   // в зависимости от доступности локации, показываю кнопку для добавления локации или блокирую кнопку
                   if (fabState is FabStateError) {
                     return FloatingActionButton(

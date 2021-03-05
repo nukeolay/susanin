@@ -9,7 +9,7 @@ class ServiceSharedPrefsSusaninData {
     mapPrefs['locationCounter'] = prefs.getInt("savedLocationCounter") ?? 0;
     mapPrefs['isDarkTheme'] = prefs.getBool("savedIsDarkTheme") ?? false;
     mapPrefs['locationList'] = prefs.getString("savedLocationStorage");
-    print("loaded from prefs"); //todo удалить
+    //print("loaded from prefs"); //todo uncomment in debug
     return ApiSusaninData.fromApi(mapPrefs);
   }
 
@@ -19,7 +19,7 @@ class ServiceSharedPrefsSusaninData {
     await prefs.setInt("savedLocationCounter", int.parse(apiSusaninData.locationCounter));
     await prefs.setBool("savedIsDarkTheme", apiSusaninData.isDarkTheme == "true" ? true : false);
     await prefs.setString("savedLocationStorage", apiSusaninData.locationList);
-    print("saved to prefs"); //todo удалить
+    //print("saved to prefs"); //todo uncomment in debug
     return "saved";
   }
 }

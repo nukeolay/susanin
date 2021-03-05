@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:susanin/data/api/api_util.dart';
 import 'package:susanin/domain/model/susanin_data.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
@@ -20,6 +18,4 @@ class SusaninDataRepository extends SusaninRepository {
   Future<String> setSusaninData({SusaninData susaninData}) {
     return _apiUtil.saveSusaninData(susaninData);
   }
-
-
 }

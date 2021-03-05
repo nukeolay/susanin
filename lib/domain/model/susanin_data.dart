@@ -24,7 +24,6 @@ class SusaninData {
 
   void increnemtLocationCounter() {
     _locationCounter = _locationCounter + 1;
-    print(_locationCounter);
   }
 
   void setLocationList({ListQueue<LocationPoint> locationList}) {
@@ -56,12 +55,5 @@ class SusaninData {
 
   void deleteLocationPoint(int locationPointId) {
     _locationList.remove(_locationList.elementAt(locationPointId));
-  }
-
-  @override
-  String toString() {
-    String result =
-        "LocationCounter: ${getLocationCounter},\nSelectedLocationPointId: ${getSelectedLocationPointId},\nIsDarkTheme: ${getIsDarkTheme},\nLocationList: ${getLocationList}";
-    return result;
   }
 }

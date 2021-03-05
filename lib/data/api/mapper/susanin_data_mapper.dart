@@ -17,7 +17,7 @@ class SusaninDataMapper {
         locationList: StringToListQueue(apiSusaninData.locationList));
   }
 
-  static ListQueue<LocationPoint> StringToListQueue(String savedLocationStorage) { //todo сделать обратную, для encode, чтобы получить list
+  static ListQueue<LocationPoint> StringToListQueue(String savedLocationStorage) {
     ListQueue<LocationPoint> tempLocationList = new ListQueue();
     try {
       List<dynamic> tempList = jsonDecode(savedLocationStorage);
@@ -30,7 +30,7 @@ class SusaninDataMapper {
     }
   }
 
-  static String ListQueueToString(ListQueue<LocationPoint> locationList) {//todo проверить как работает
+  static String ListQueueToString(ListQueue<LocationPoint> locationList) {
     List<LocationPoint> tempLocationList = <LocationPoint>[];
     for (dynamic element in locationList) {
       tempLocationList.add(element);
@@ -44,7 +44,7 @@ class SusaninDataMapper {
     }
   }
 
-  static ApiSusaninData toApi(SusaninData susaninData) { //todo проверить как работает
+  static ApiSusaninData toApi(SusaninData susaninData) {
     Map<String, dynamic> map = new Map();
     map['selectedLocationPointId'] = susaninData.getSelectedLocationPointId;
     map['locationCounter'] = susaninData.getLocationCounter;
@@ -52,5 +52,4 @@ class SusaninDataMapper {
     map['locationList'] = ListQueueToString(susaninData.getLocationList);
     return ApiSusaninData.fromApi(map);
   }
-
 }

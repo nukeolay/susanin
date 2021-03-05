@@ -47,8 +47,7 @@ class _LoadingIndicator extends State<LoadingIndicator> {
             duration: Duration(milliseconds: period),
             //width: 20,
             //height: 20,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [endColor, color, startColor])),
+            decoration: BoxDecoration(gradient: LinearGradient(colors: [endColor, color, startColor])),
           );
         },
       ),

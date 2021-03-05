@@ -1,8 +1,5 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/domain/model/susanin_data.dart';
-import 'package:susanin/domain/repository/susanin_repository.dart';
-import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'fab_events.dart';
 import 'fab_states.dart';
 

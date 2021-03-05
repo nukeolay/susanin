@@ -27,13 +27,12 @@ class LocationList extends StatelessWidget {
     final PointerBloc pointerBloc = BlocProvider.of<PointerBloc>(context);
     final CompassAccuracyBloc compassAccuracyBloc = BlocProvider.of<CompassAccuracyBloc>(context);
     final FabBloc fabBloc = BlocProvider.of<FabBloc>(context);
-    //bool isServiceLoaded = false;
     return BlocBuilder<LocationListBloc, LocationListState>(
       builder: (context, locationListState) {
-        print("locationListState: $locationListState");
+        //print("locationListState: $locationListState"); //todo uncomment in debug
         if (locationListState is LocationListStateInit) {
-            locationListBloc.add(LocationListEventGetData());
-            return Container(child: Text(""));
+          locationListBloc.add(LocationListEventGetData());
+          return Container(child: Text(""));
         }
         if (locationListState is LocationListStateErrorServiceDisabled) {
           return Text(
@@ -53,7 +52,10 @@ class LocationList extends StatelessWidget {
               ),
               FlatButton(
                 color: Theme.of(context).errorColor,
-                child: Text("${S.of(context).buttonRequestPermission}", style: TextStyle(color: Theme.of(context).secondaryHeaderColor),),
+                child: Text(
+                  "${S.of(context).buttonRequestPermission}",
+                  style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+                ),
                 onPressed: () {
                   compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
                 },
@@ -74,9 +76,7 @@ class LocationList extends StatelessWidget {
           pointerBloc.add(PointerEventEmptyList());
           fabBloc.add(FabEventLoaded());
           return RichText(
-            text: TextSpan(
-            style: TextStyle(fontSize: width * 0.06, color: Theme.of(context).primaryColor),
-            children: <TextSpan>[
+            text: TextSpan(style: TextStyle(fontSize: width * 0.06, color: Theme.of(context).primaryColor), children: <TextSpan>[
               TextSpan(text: "${S.of(context).locationEmptyList1}"),
               TextSpan(text: "${S.of(context).locationEmptyList2}", style: TextStyle(color: Theme.of(context).accentColor)),
               TextSpan(text: "${S.of(context).locationEmptyList3}"),

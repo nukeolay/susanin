@@ -52,7 +52,7 @@ class Susanin extends StatelessWidget {
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
-          print("themeState: $themeState");
+          //print("themeState: $themeState");
           final ThemeBloc themeBloc = BlocProvider.of<ThemeBloc>(context);
           if (themeState is ThemeStateInit) {
             themeBloc.add(ThemeEventGetData());
@@ -70,7 +70,7 @@ class Susanin extends StatelessWidget {
               home: WaitingScreen(),
             );
           } else if (themeState is ThemeStateLoaded) {
-            print("themeStateLoaded mode: ${themeState.themeMode}");
+            //print("themeStateLoaded mode: ${themeState.themeMode}");
             themeMode = themeState.themeMode;
             return MaterialApp(
               localizationsDelegates: [

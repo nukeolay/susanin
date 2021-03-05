@@ -16,7 +16,7 @@ class PointerBloc extends Bloc<PointerEvent, PointerState> {
 
   @override
   Stream<PointerState> mapEventToState(PointerEvent pointerEvent) async* {
-    print("pointerEvent: $pointerEvent");
+    //print("pointerEvent: $pointerEvent"); //todo uncomment in debug
     if (pointerEvent is PointerEventInit) {
       yield PointerStateLoading();
     }

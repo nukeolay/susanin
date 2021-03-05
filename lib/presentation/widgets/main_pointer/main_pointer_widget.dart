@@ -24,10 +24,9 @@ class MainPointer extends StatelessWidget {
     final PointerBloc pointerBloc = BlocProvider.of<PointerBloc>(context);
     final FabBloc fabBloc = BlocProvider.of<FabBloc>(context);
     final LocationListBloc locationListBloc = BlocProvider.of<LocationListBloc>(context);
-    //bool isStopped = false;
     return BlocBuilder<PointerBloc, PointerState>(
       builder: (context, pointerState) {
-        print("pointerState: $pointerState");
+        //print("pointerState: $pointerState"); //todo uncomment in debug
         if (pointerState is PointerStateErrorServiceDisabled) {
           return MainPointerBlank(MainPointerError(errorMessage: "${S.of(context).serviceDisabled}"));
         }

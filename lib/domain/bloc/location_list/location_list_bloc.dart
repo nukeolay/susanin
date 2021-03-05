@@ -15,7 +15,7 @@ class LocationListBloc extends Bloc<LocationListEvent, LocationListState> {
 
   @override
   Stream<LocationListState> mapEventToState(LocationListEvent locationListEvent) async* {
-    print("locationListEvent: $locationListEvent");
+    //print("locationListEvent: $locationListEvent"); //todo uncomment in debug
     if (locationListEvent is LocationListEventGetData) {
       try {
         susaninDataLocal = await susaninRepository.getSusaninData(); //получили синглтон репозитория

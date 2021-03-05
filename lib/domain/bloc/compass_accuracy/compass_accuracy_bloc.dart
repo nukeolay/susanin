@@ -23,7 +23,7 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
 
   @override
   Stream<CompassAccuracyState> mapEventToState(CompassAccuracyEvent compassAccuracyEvent) async* {
-    print("compassAccuracyEvent: $compassAccuracyEvent");
+    //print("compassAccuracyEvent: $compassAccuracyEvent"); //todo uncomment in debug
     if (compassAccuracyEvent is CompassAccuracyEventCheckPermissionsOnOff) {
       //проверка разрешений
       permission = await Geolocator.checkPermission();

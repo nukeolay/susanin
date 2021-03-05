@@ -30,19 +30,19 @@ class CompassAccuracy extends StatelessWidget {
     final LocationListBloc locationListBloc = BlocProvider.of<LocationListBloc>(context);
 
     return BlocBuilder<CompassAccuracyBloc, CompassAccuracyState>(builder: (context, compassAccuracyState) {
-      print("compassAccuracyState: $compassAccuracyState");
+      //print("compassAccuracyState: $compassAccuracyState"); //todo uncomment in debug
       if (compassAccuracyState is CompassAccuracyStateInit) {
         compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
       }
       if (compassAccuracyState is CompassAccuracyStateError) {
         isStopped = true;
-        if(compassAccuracyState is CompassAccuracyStateErrorPermissionDenied) {
+        if (compassAccuracyState is CompassAccuracyStateErrorPermissionDenied) {
           pointerBloc.add(PointerEventErrorPermissionDenied());
           locationListBloc.add(LocationListEventErrorPermissionDenied());
           fabBloc.add(FabEventError());
           compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
         }
-        if(compassAccuracyState is CompassAccuracyStateErrorPermissionDeniedForever) {
+        if (compassAccuracyState is CompassAccuracyStateErrorPermissionDeniedForever) {
           pointerBloc.add(PointerEventErrorPermissionDeniedForever());
           locationListBloc.add(LocationListEventErrorPermissionDeniedForever());
           fabBloc.add(FabEventErrorStop());
@@ -53,7 +53,7 @@ class CompassAccuracy extends StatelessWidget {
           fabBloc.add(FabEventError());
           compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
         }
-        if(compassAccuracyState is CompassAccuracyStateErrorNoCompass) {
+        if (compassAccuracyState is CompassAccuracyStateErrorNoCompass) {
           pointerBloc.add(PointerEventErrorNoCompass());
           locationListBloc.add(LocationListEventErrorNoCompass());
           fabBloc.add(FabEventErrorStop());
@@ -81,7 +81,8 @@ class CompassAccuracy extends StatelessWidget {
           locationListBloc.add(LocationListEventGetData());
           isStopped = false;
         }
-        fabBloc.add(FabEventLoaded());//todo вытащил эту строку из условия if isStopped, надеюсь это поможет и fab не будет рутиться после сворачивания приложения
+        fabBloc.add(
+            FabEventLoaded()); //вытащил эту строку из условия if isStopped, надеюсь это поможет и fab не будет рутиться после сворачивания приложения
 
         if (!(locationListBloc.state is LocationListStateErrorEmptyLocationList)) {
           pointerBloc.add(PointerEventSetData(heading: compassAccuracyState.heading, currentPosition: compassAccuracyState.currentPosition));
