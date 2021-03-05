@@ -73,10 +73,15 @@ class LocationList extends StatelessWidget {
         if (locationListState is LocationListStateErrorEmptyLocationList) {
           pointerBloc.add(PointerEventEmptyList());
           fabBloc.add(FabEventLoaded());
-          return Text(
-            "${S.of(context).locationEmptyList}",
+          return RichText(
+            text: TextSpan(
+            style: TextStyle(fontSize: width * 0.06, color: Theme.of(context).primaryColor),
+            children: <TextSpan>[
+              TextSpan(text: "${S.of(context).locationEmptyList1}"),
+              TextSpan(text: "${S.of(context).locationEmptyList2}", style: TextStyle(color: Theme.of(context).accentColor)),
+              TextSpan(text: "${S.of(context).locationEmptyList3}"),
+            ]),
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: width * 0.06, color: Theme.of(context).accentColor),
           );
         }
         if (locationListState is LocationListStateDataLoaded) {

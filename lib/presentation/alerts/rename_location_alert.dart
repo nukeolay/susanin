@@ -14,14 +14,19 @@ class RenameLocationAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     final LocationListBloc locationListBloc = BlocProvider.of<LocationListBloc>(context);
     final locationListState = locationListBloc.state as LocationListStateDataLoaded;
-    TextEditingController _textFieldController =
-        new TextEditingController(text: locationListState.susaninData.getLocationList.elementAt(index).pointName);
-    String lastName = locationListState.susaninData.getLocationList.elementAt(index).pointName;
+    String pointName = locationListState.susaninData.getLocationList.elementAt(index).pointName;
+    TextEditingController _textFieldController = new TextEditingController();
+    _textFieldController.text = pointName;
+    _textFieldController.selection = TextSelection.fromPosition(TextPosition(offset: _textFieldController.text.length));
     return AlertDialog(
       title: Text("${S.of(context).renameLocationTitle}", style: TextStyle(color: Theme.of(context).primaryColorDark)),
       content: TextField(
         maxLength: 20,
+        maxLengthEnforced: true,
+        controller: _textFieldController,
         autofocus: false,
+        textInputAction: TextInputAction.go,
+        keyboardType: TextInputType.name,
         decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
@@ -33,7 +38,6 @@ class RenameLocationAlert extends StatelessWidget {
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
             ),
             counterStyle: TextStyle(color: Theme.of(context).primaryColorDark)),
-        controller: _textFieldController,
         style: TextStyle(color: Theme.of(context).primaryColorDark),
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,

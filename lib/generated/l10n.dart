@@ -185,11 +185,31 @@ class S {
     );
   }
 
-  /// `Press "Add location" button to save current location\n\nAfter saving the current location, you can select it from the list and see it's direction and distance to it`
-  String get locationEmptyList {
+  /// `Press `
+  String get locationEmptyList1 {
     return Intl.message(
-      'Press "Add location" button to save current location\n\nAfter saving the current location, you can select it from the list and see it`s direction and distance to it',
-      name: 'locationEmptyList',
+      'Press ',
+      name: 'locationEmptyList1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `"Add location"`
+  String get locationEmptyList2 {
+    return Intl.message(
+      '"Add location"',
+      name: 'locationEmptyList2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` button to save current location\n\nAfter saving the current location, you can select it from the list and see it's direction and distance to it`
+  String get locationEmptyList3 {
+    return Intl.message(
+      ' button to save current location\n\nAfter saving the current location, you can select it from the list and see it`s direction and distance to it',
+      name: 'locationEmptyList3',
       desc: '',
       args: [],
     );

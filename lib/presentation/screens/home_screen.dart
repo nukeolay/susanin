@@ -64,15 +64,15 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.only(right: 15.0, bottom: 15.0),
                 child: BlocBuilder<FabBloc, FabState>(builder: (context, fabState) {
                   print("fabState: $fabState");
-                  // в зависимости от доступности локации, показываю кнопку для добавления локаии или блокирую кнопку
+                  // в зависимости от доступности локации, показываю кнопку для добавления локации или блокирую кнопку
                   if (fabState is FabStateError) {
                     return FloatingActionButton(
                       backgroundColor: Theme.of(context).errorColor,
-                      elevation: 0,
+                      disabledElevation: 0,
                       child: CircularProgressIndicator(
                           backgroundColor: Theme.of(context).errorColor,
                           valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).secondaryHeaderColor)),
-                      onPressed: () {},
+                      onPressed: null,
                     );
                   }
                   if (fabState is FabStateErrorStop) {
@@ -84,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                         color: Theme.of(context).secondaryHeaderColor,
                         size: 30,
                       ),
-                      onPressed: () {},
+                      onPressed: null,
                     );
                   }
                   if (fabState is FabStateNormal) {
