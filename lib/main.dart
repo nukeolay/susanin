@@ -39,6 +39,7 @@ class Susanin extends StatelessWidget {
   Stream<CompassEvent> compassStream = FlutterCompass.events;
   Stream<Position> positionStream = Geolocator.getPositionStream(desiredAccuracy: LocationAccuracy.best);
   ThemeMode themeMode;
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -47,8 +48,7 @@ class Susanin extends StatelessWidget {
         BlocProvider<LocationListBloc>(create: (context) => LocationListBloc(susaninRepository)),
         BlocProvider<FabBloc>(create: (context) => FabBloc()),
         BlocProvider<PointerBloc>(create: (context) => PointerBloc()),
-        BlocProvider<CompassAccuracyBloc>(
-            create: (context) => CompassAccuracyBloc(compassStream, positionStream)),
+        BlocProvider<CompassAccuracyBloc>(create: (context) => CompassAccuracyBloc(compassStream, positionStream)),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
@@ -68,6 +68,20 @@ class Susanin extends StatelessWidget {
               supportedLocales: S.delegate.supportedLocales,
               theme: CustomTheme.lightTheme,
               home: WaitingScreen(),
+            );
+          } else if (themeState is ThemeStateShowInstruction) {
+            return MaterialApp(
+              title: "Susanin",
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              theme: CustomTheme.lightTheme,
+              home: Text("TEST"), //todo добавить сюда onboarding c themeBloc.add(ThemeEventInstructionShowed())
             );
           } else if (themeState is ThemeStateLoaded) {
             //print("themeStateLoaded mode: ${themeState.themeMode}");

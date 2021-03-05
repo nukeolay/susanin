@@ -8,6 +8,7 @@ class ServiceSharedPrefsSusaninData {
     mapPrefs['selectedLocationPointId'] = prefs.getInt("savedSelectedLocationPointId") ?? 0;
     mapPrefs['locationCounter'] = prefs.getInt("savedLocationCounter") ?? 0;
     mapPrefs['isDarkTheme'] = prefs.getBool("savedIsDarkTheme") ?? false;
+    mapPrefs['isFirstTime'] = prefs.getBool("savedIsFirstTime") ?? true;
     mapPrefs['locationList'] = prefs.getString("savedLocationStorage");
     //print("loaded from prefs"); //todo uncomment in debug
     return ApiSusaninData.fromApi(mapPrefs);
@@ -18,6 +19,7 @@ class ServiceSharedPrefsSusaninData {
     await prefs.setInt("savedSelectedLocationPointId", int.parse(apiSusaninData.selectedLocationPointId));
     await prefs.setInt("savedLocationCounter", int.parse(apiSusaninData.locationCounter));
     await prefs.setBool("savedIsDarkTheme", apiSusaninData.isDarkTheme == "true" ? true : false);
+    await prefs.setBool("savedIsFirstTime", apiSusaninData.isFirstTime == "true" ? true : false);
     await prefs.setString("savedLocationStorage", apiSusaninData.locationList);
     //print("saved to prefs"); //todo uncomment in debug
     return "saved";

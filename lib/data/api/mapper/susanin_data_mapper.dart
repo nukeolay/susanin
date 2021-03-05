@@ -14,6 +14,7 @@ class SusaninDataMapper {
         selectedLocationPointId: int.tryParse(apiSusaninData.selectedLocationPointId) ?? 0,
         locationCounter: int.tryParse(apiSusaninData.locationCounter) ?? 0,
         isDarkTheme: apiSusaninData.isDarkTheme == "true" ? true : false,
+        isFirstTime: apiSusaninData.isFirstTime == "true" ? true : false,
         locationList: StringToListQueue(apiSusaninData.locationList));
   }
 
@@ -49,6 +50,7 @@ class SusaninDataMapper {
     map['selectedLocationPointId'] = susaninData.getSelectedLocationPointId;
     map['locationCounter'] = susaninData.getLocationCounter;
     map['isDarkTheme'] = susaninData.getIsDarkTheme;
+    map['isFirstTime'] = susaninData.getIsFirstTime;
     map['locationList'] = ListQueueToString(susaninData.getLocationList);
     return ApiSusaninData.fromApi(map);
   }

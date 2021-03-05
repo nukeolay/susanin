@@ -20,15 +20,25 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       susaninData = await susaninRepository.getSusaninData();
       themeMode = susaninData.getIsDarkTheme ? ThemeMode.dark : ThemeMode.light;
       await Future.delayed(Duration(seconds: 1));
-      yield ThemeStateLoaded(themeMode: themeMode);
+      if (susaninData.getIsFirstTime) {
+        yield ThemeStateShowInstruction();
+      } else {
+        yield ThemeStateLoaded(themeMode: themeMode);
+      }
     }
     if (themeEvent is ThemeEventPressed) {
       susaninData = await susaninRepository.getSusaninData();
       ThemeMode newThemeMode = !susaninData.getIsDarkTheme ? ThemeMode.dark : ThemeMode.light;
-      //yield ThemeStateLoaded(themeMode: newThemeMode);
       susaninData.setIsDarkTheme(!susaninData.getIsDarkTheme);
       await susaninRepository.setSusaninData(susaninData: susaninData);
       yield ThemeStateLoaded(themeMode: newThemeMode);
+    }
+    if (themeEvent is ThemeEventInstructionShowed) {
+      susaninData = await susaninRepository.getSusaninData();
+      susaninData.setIsFirstTime(false);
+      await susaninRepository.setSusaninData(susaninData: susaninData);
+      themeMode = susaninData.getIsDarkTheme ? ThemeMode.dark : ThemeMode.light;
+      yield ThemeStateLoaded(themeMode: themeMode);
     }
   }
 }

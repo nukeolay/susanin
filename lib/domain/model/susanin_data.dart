@@ -5,12 +5,14 @@ class SusaninData {
   int _selectedLocationPointId;
   int _locationCounter;
   bool _isDarkTheme;
+  bool _isFirstTime;
   ListQueue<LocationPoint> _locationList;
 
-  SusaninData({int selectedLocationPointId, int locationCounter, bool isDarkTheme, ListQueue<LocationPoint> locationList}) {
+  SusaninData({int selectedLocationPointId, int locationCounter, bool isDarkTheme, bool isFirstTime, ListQueue<LocationPoint> locationList}) {
     _selectedLocationPointId = selectedLocationPointId;
     _locationCounter = locationCounter;
     _isDarkTheme = isDarkTheme;
+    _isFirstTime = isFirstTime;
     _locationList = locationList;
   }
 
@@ -34,11 +36,17 @@ class SusaninData {
     _isDarkTheme = isDarkTheme;
   }
 
+  void setIsFirstTime(bool isFirstTime) {
+    _isFirstTime = isFirstTime;
+  }
+
   int get getSelectedLocationPointId => _selectedLocationPointId;
 
   int get getLocationCounter => _locationCounter;
 
   bool get getIsDarkTheme => _isDarkTheme;
+
+  bool get getIsFirstTime => _isFirstTime;
 
   ListQueue<LocationPoint> get getLocationList => _locationList;
 
