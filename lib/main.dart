@@ -45,7 +45,7 @@ class Susanin extends StatelessWidget {
       providers: [
         BlocProvider<ThemeBloc>(create: (context) => ThemeBloc(susaninRepository)),
         BlocProvider<LocationListBloc>(create: (context) => LocationListBloc(susaninRepository)),
-        BlocProvider<FabBloc>(create: (context) => FabBloc(susaninRepository)),
+        BlocProvider<FabBloc>(create: (context) => FabBloc()),
         BlocProvider<PointerBloc>(create: (context) => PointerBloc()),
         BlocProvider<CompassAccuracyBloc>(
             create: (context) => CompassAccuracyBloc(compassStream, positionStream)),

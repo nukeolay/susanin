@@ -7,11 +7,7 @@ import 'fab_events.dart';
 import 'fab_states.dart';
 
 class FabBloc extends Bloc<FabEvent, FabState> {
-  SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
-  SusaninData susaninData; //тут будем хранить локальную копию и получать ее только при загрузке программы
-
-
-  FabBloc(this.susaninRepository) : super(FabStateInit());
+  FabBloc() : super(FabStateInit());
 
   @override
   Stream<FabState> mapEventToState(FabEvent fabEvent) async* {
