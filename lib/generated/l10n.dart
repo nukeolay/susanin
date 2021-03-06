@@ -284,6 +284,156 @@ class S {
       args: [],
     );
   }
+
+  /// `SKIP`
+  String get onBoardingButtonSkip {
+    return Intl.message(
+      'SKIP',
+      name: 'onBoardingButtonSkip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `NEXT`
+  String get onBoardingButtonNext {
+    return Intl.message(
+      'NEXT',
+      name: 'onBoardingButtonNext',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `GET STARTED NOW`
+  String get onBoardingButtonStart {
+    return Intl.message(
+      'GET STARTED NOW',
+      name: 'onBoardingButtonStart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How to save locations`
+  String get onBoardingTitle1 {
+    return Intl.message(
+      'How to save locations',
+      name: 'onBoardingTitle1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `assets/instr_1_en.png`
+  String get onBoardingImage1 {
+    return Intl.message(
+      'assets/instr_1_en.png',
+      name: 'onBoardingImage1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Simply press round button in the right bottom corner of the screen to save current location`
+  String get onBoardingInstruction1 {
+    return Intl.message(
+      'Simply press round button in the right bottom corner of the screen to save current location',
+      name: 'onBoardingInstruction1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How to use Susanin`
+  String get onBoardingTitle2 {
+    return Intl.message(
+      'How to use Susanin',
+      name: 'onBoardingTitle2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `assets/instr_2_en.png`
+  String get onBoardingImage2 {
+    return Intl.message(
+      'assets/instr_2_en.png',
+      name: 'onBoardingImage2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The large pointer shows straight direction to the saved location and the large number shows distance to it.\nThe small pointer in the right section of the screen is compass, it always shows to the North and the number under it is the current GPS accuracy`
+  String get onBoardingInstruction2 {
+    return Intl.message(
+      'The large pointer shows straight direction to the saved location and the large number shows distance to it.\nThe small pointer in the right section of the screen is compass, it always shows to the North and the number under it is the current GPS accuracy',
+      name: 'onBoardingInstruction2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How to edit\nsaved locations`
+  String get onBoardingTitle3 {
+    return Intl.message(
+      'How to edit\nsaved locations',
+      name: 'onBoardingTitle3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `assets/instr_3_en.png`
+  String get onBoardingImage3 {
+    return Intl.message(
+      'assets/instr_3_en.png',
+      name: 'onBoardingImage3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you want to change the name of saved location on share it with your friend simply swipe it to the left and press one of two buttons\nIf you want to delete saved location swipe it to the right and press Delete`
+  String get onBoardingInstruction3 {
+    return Intl.message(
+      'If you want to change the name of saved location on share it with your friend simply swipe it to the left and press one of two buttons\nIf you want to delete saved location swipe it to the right and press Delete',
+      name: 'onBoardingInstruction3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How to switch\nLight/Dark mode`
+  String get onBoardingTitle4 {
+    return Intl.message(
+      'How to switch\nLight/Dark mode',
+      name: 'onBoardingTitle4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `assets/instr_4_en.png`
+  String get onBoardingImage4 {
+    return Intl.message(
+      'assets/instr_4_en.png',
+      name: 'onBoardingImage4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Simply swipe tile with large pointer to the left and press button`
+  String get onBoardingInstruction4 {
+    return Intl.message(
+      'Simply swipe tile with large pointer to the left and press button',
+      name: 'onBoardingInstruction4',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

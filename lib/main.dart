@@ -7,6 +7,7 @@ import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_bloc.dart'
 import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'package:susanin/presentation/screens/home_screen.dart';
+import 'package:susanin/presentation/screens/on_boarding_screen.dart';
 import 'package:susanin/presentation/screens/waiting_screen.dart';
 import 'package:susanin/presentation/theme/theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -81,7 +82,7 @@ class Susanin extends StatelessWidget {
               ],
               supportedLocales: S.delegate.supportedLocales,
               theme: CustomTheme.lightTheme,
-              home: Text("TEST"), //todo добавить сюда onboarding c themeBloc.add(ThemeEventInstructionShowed())
+              home: OnBoardingScreen(),
             );
           } else if (themeState is ThemeStateLoaded) {
             //print("themeStateLoaded mode: ${themeState.themeMode}");

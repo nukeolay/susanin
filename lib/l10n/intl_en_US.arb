@@ -23,5 +23,20 @@
   "kilometres": "km",
   "locationAccuracy": "accuracy",
   "compass": "compass",
-  "dateFormat": "MM/dd/yyyy H:mm"
+  "dateFormat": "MM/dd/yyyy H:mm",
+  "onBoardingButtonSkip": "SKIP",
+  "onBoardingButtonNext": "NEXT",
+  "onBoardingButtonStart": "GET STARTED NOW",
+  "onBoardingTitle1": "How to save locations",
+  "onBoardingImage1": "assets/instr_1_en.png",
+  "onBoardingInstruction1": "Simply press round button in the right bottom corner of the screen to save current location",
+  "onBoardingTitle2": "How to use Susanin",
+  "onBoardingImage2": "assets/instr_2_en.png",
+  "onBoardingInstruction2": "The large pointer shows straight direction to the saved location and the large number shows distance to it.\nThe small pointer in the right section of the screen is compass, it always shows to the North and the number under it is the current GPS accuracy",
+  "onBoardingTitle3": "How to edit\nsaved locations",
+  "onBoardingImage3": "assets/instr_3_en.png",
+  "onBoardingInstruction3": "If you want to change the name of saved location on share it with your friend simply swipe it to the left and press one of two buttons\nIf you want to delete saved location swipe it to the right and press Delete",
+  "onBoardingTitle4": "How to switch\nLight/Dark mode",
+  "onBoardingImage4": "assets/instr_4_en.png",
+  "onBoardingInstruction4": "Simply swipe tile with large pointer to the left and press button"
 }
