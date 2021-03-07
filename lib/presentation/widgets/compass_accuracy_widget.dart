@@ -83,9 +83,11 @@ class CompassAccuracy extends StatelessWidget {
         }
         fabBloc.add(
             FabEventLoaded()); //вытащил эту строку из условия if isStopped, надеюсь это поможет и fab не будет рутиться после сворачивания приложения
-
         if (!(locationListBloc.state is LocationListStateErrorEmptyLocationList)) {
           pointerBloc.add(PointerEventSetData(heading: compassAccuracyState.heading, currentPosition: compassAccuracyState.currentPosition));
+        }
+        else if (locationListBloc.state is LocationListStateErrorEmptyLocationList) {
+          pointerBloc.add(PointerEventEmptyList());
         }
         return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Expanded(
