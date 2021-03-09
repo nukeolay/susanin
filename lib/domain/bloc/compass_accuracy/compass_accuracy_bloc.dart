@@ -61,6 +61,7 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
           _positionSubscription.resume();
         }
         serviceEnabled = true;
+        print("===================================================HEADING:${compassEvent.heading}");//todo uncomment in debug
         add(CompassAccuracyEventChanged(heading: compassEvent.heading, currentPosition: tempCurrentPosition));
       }, onError: (compassError) {
         _positionSubscription?.pause();
