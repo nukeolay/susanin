@@ -31,7 +31,7 @@ dependencies:
   flutter_compass: ^0.5.1
   geolocator: ^6.2.1
   flutter_bloc: ^6.1.1
-  intl: 0.16.1
+  intl: ^0.17.0
   share: ^0.6.5+4
   flutter_slidable: ^0.5.7
   shared_preferences: ^0.5.12+4
