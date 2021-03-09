@@ -23,7 +23,7 @@ class MainPointer extends StatelessWidget {
     final double padding = width * 0.01;
     return BlocBuilder<PointerBloc, PointerState>(
       builder: (context, pointerState) {
-        //print("pointerState: $pointerState"); //todo uncomment in debug
+        print("pointerState: $pointerState"); //todo uncomment in debug
         if (pointerState is PointerStateErrorServiceDisabled) {
           return MainPointerBlank(MainPointerError(errorMessage: "${S.of(context).serviceDisabled}"));
         }

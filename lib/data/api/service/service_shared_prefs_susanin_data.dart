@@ -10,7 +10,7 @@ class ServiceSharedPrefsSusaninData {
     mapPrefs['isDarkTheme'] = prefs.getBool("savedIsDarkTheme") ?? false;
     mapPrefs['isFirstTime'] = prefs.getBool("savedIsFirstTime") ?? true;
     mapPrefs['locationList'] = prefs.getString("savedLocationStorage");
-    //print("loaded from prefs"); //todo uncomment in debug
+    print("loaded from prefs"); //todo uncomment in debug
     return ApiSusaninData.fromApi(mapPrefs);
   }
 
@@ -21,7 +21,7 @@ class ServiceSharedPrefsSusaninData {
     await prefs.setBool("savedIsDarkTheme", apiSusaninData.isDarkTheme == "true" ? true : false);
     await prefs.setBool("savedIsFirstTime", apiSusaninData.isFirstTime == "true" ? true : false);
     await prefs.setString("savedLocationStorage", apiSusaninData.locationList);
-    //print("saved to prefs"); //todo uncomment in debug
+    print("saved to prefs"); //todo uncomment in debug
     return "saved";
   }
 }

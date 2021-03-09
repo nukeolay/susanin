@@ -23,10 +23,11 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
 
   @override
   Stream<CompassAccuracyState> mapEventToState(CompassAccuracyEvent compassAccuracyEvent) async* {
-    //print("compassAccuracyEvent: $compassAccuracyEvent"); //todo uncomment in debug
+    print("compassAccuracyEvent: $compassAccuracyEvent"); //todo uncomment in debug
     if (compassAccuracyEvent is CompassAccuracyEventCheckPermissionsOnOff) {
       //проверка разрешений
       permission = await Geolocator.checkPermission();
+      print("permission: $permission"); //todo uncomment in debug
       if (permission == LocationPermission.deniedForever) {
         //если разрешение заблокировано
         add(CompassAccuracyEventErrorPermissionDeniedForever());
@@ -87,6 +88,7 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
 
     if (compassAccuracyEvent is CompassAccuracyEventChanged) {
       //какие-то данные пришли из потока компасса и геолокации
+      print("compassAccuracyEvent: current position ${compassAccuracyEvent.currentPosition}, heading ${compassAccuracyEvent.heading}");//todo uncomment in debug
       if (compassAccuracyEvent.currentPosition != null && compassAccuracyEvent.heading != null) {
         yield CompassAccuracyStateLoaded(heading: compassAccuracyEvent.heading, currentPosition: compassAccuracyEvent.currentPosition);
       }

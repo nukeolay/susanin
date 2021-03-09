@@ -30,7 +30,7 @@ class CompassAccuracy extends StatelessWidget {
     final LocationListBloc locationListBloc = BlocProvider.of<LocationListBloc>(context);
 
     return BlocBuilder<CompassAccuracyBloc, CompassAccuracyState>(builder: (context, compassAccuracyState) {
-      //print("compassAccuracyState: $compassAccuracyState"); //todo uncomment in debug
+      print("compassAccuracyState: $compassAccuracyState"); //todo uncomment in debug
       if (compassAccuracyState is CompassAccuracyStateInit) {
         compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
       }
