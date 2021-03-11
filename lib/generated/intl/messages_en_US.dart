@@ -51,7 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "onBoardingImage3" : MessageLookupByLibrary.simpleMessage("assets/instr_3_en.png"),
     "onBoardingImage4" : MessageLookupByLibrary.simpleMessage("assets/instr_4_en.png"),
     "onBoardingInstruction1" : MessageLookupByLibrary.simpleMessage("Simply press round button in the right bottom corner of the screen to save current location"),
-    "onBoardingInstruction2" : MessageLookupByLibrary.simpleMessage("The large pointer shows straight direction to the saved location and the large number shows distance to it.\nThe small pointer in the right section of the screen is compass, it always shows to the North and the number under it is the current GPS accuracy"),
+    "onBoardingInstruction2" : MessageLookupByLibrary.simpleMessage("The large pointer shows straight direction to the saved location and the large number shows distance to it. The small pointer in the right section of the screen is compass, it always shows to the North and the number under it is the current GPS accuracy"),
     "onBoardingInstruction3" : MessageLookupByLibrary.simpleMessage("If you want to change the name of saved location on share it with your friend simply swipe it to the left and press one of two buttons\nIf you want to delete saved location swipe it to the right and press Delete"),
     "onBoardingInstruction4" : MessageLookupByLibrary.simpleMessage("Simply swipe tile with large pointer to the left and press button"),
     "onBoardingTitle1" : MessageLookupByLibrary.simpleMessage("How to save locations"),

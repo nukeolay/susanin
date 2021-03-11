@@ -63,6 +63,7 @@ class _OnBoardingState extends State<OnBoardingScreen> {
             imagePath: slides[index].getImagePath,
             instruction: slides[index].getInstruction,
             width: width,
+            height: height
           );
         },
       ),

@@ -365,10 +365,10 @@ class S {
     );
   }
 
-  /// `The large pointer shows straight direction to the saved location and the large number shows distance to it.\nThe small pointer in the right section of the screen is compass, it always shows to the North and the number under it is the current GPS accuracy`
+  /// `The large pointer shows straight direction to the saved location and the large number shows distance to it. The small pointer in the right section of the screen is compass, it always shows to the North and the number under it is the current GPS accuracy`
   String get onBoardingInstruction2 {
     return Intl.message(
-      'The large pointer shows straight direction to the saved location and the large number shows distance to it.\nThe small pointer in the right section of the screen is compass, it always shows to the North and the number under it is the current GPS accuracy',
+      'The large pointer shows straight direction to the saved location and the large number shows distance to it. The small pointer in the right section of the screen is compass, it always shows to the North and the number under it is the current GPS accuracy',
       name: 'onBoardingInstruction2',
       desc: '',
       args: [],

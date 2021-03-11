@@ -6,9 +6,10 @@ class SlideTile extends StatelessWidget {
   final String imagePath;
   final String instruction;
   final double width;
+  final double height;
 
 
-  SlideTile({this.title, this.imagePath, this.instruction, this.width});
+  SlideTile({this.title, this.imagePath, this.instruction, this.width, this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +19,11 @@ class SlideTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(height: 50),
-          Text("$title", textAlign: TextAlign.center, style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.white)),
+          Text("$title", textAlign: TextAlign.center, style: TextStyle(fontSize: height * 0.04, fontWeight: FontWeight.bold, color: Colors.white)),
           SizedBox(height: 20.0),
           Image.asset(imagePath, width: width * 0.9),
           SizedBox(height: 20.0),
-          Text("$instruction", textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0, color: Colors.white)),
+          Text("$instruction", textAlign: TextAlign.center, style: TextStyle(fontSize: height * 0.027, color: Colors.white)),
         ],
       ),
     );

@@ -29,7 +29,7 @@ class LocationList extends StatelessWidget {
     final FabBloc fabBloc = BlocProvider.of<FabBloc>(context);
     return BlocBuilder<LocationListBloc, LocationListState>(
       builder: (context, locationListState) {
-        print("locationListState: $locationListState"); //todo uncomment in debug
+        //print("locationListState: $locationListState"); //todo uncomment in debug
         if (locationListState is LocationListStateInit) {
           locationListBloc.add(LocationListEventGetData());
           return Container(child: Text(""));

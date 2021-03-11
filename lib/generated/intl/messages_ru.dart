@@ -51,7 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "onBoardingImage3" : MessageLookupByLibrary.simpleMessage("assets/instr_3_ru.png"),
     "onBoardingImage4" : MessageLookupByLibrary.simpleMessage("assets/instr_4_ru.png"),
     "onBoardingInstruction1" : MessageLookupByLibrary.simpleMessage("Чтобы сохранить Ваше текущее местоположение, просто нажмите на круглую кнопку в правом нижнем углу экрана"),
-    "onBoardingInstruction2" : MessageLookupByLibrary.simpleMessage("Большая стрелка вверху экрана указывает прямое направление до сохраненной локации, а большие цифры показывают расстояние по прямой до этой локации\nМаленькая стрелка справа это компас, он всегда указывает на Север, а цифры под ним это текущая точность определения Вашей геопозиции (толстый потолок ухудшает точность)"),
+    "onBoardingInstruction2" : MessageLookupByLibrary.simpleMessage("Большая стрелка вверху экрана указывает прямое направление до сохраненной локации, а большие цифры показывают расстояние по прямой до этой локации. Маленькая стрелка справа это компас, он всегда указывает на Север, а цифры под ним это текущая точность определения Вашей геопозиции (толстый потолок ухудшает точность)"),
     "onBoardingInstruction3" : MessageLookupByLibrary.simpleMessage("Если Вы хотите изменить название сохраненной локации или поделиться ей с друзьями, просто смахните ее влево и нажмите одну из двух кнопок\nЕсли Вы хотите удалить сохраненную локацию, смахните ее вправо и нажмите Удалить"),
     "onBoardingInstruction4" : MessageLookupByLibrary.simpleMessage("Просто смахните плитку с большой стрелкой влево и нажмите кнопку"),
     "onBoardingTitle1" : MessageLookupByLibrary.simpleMessage("Как сохранять локации"),
