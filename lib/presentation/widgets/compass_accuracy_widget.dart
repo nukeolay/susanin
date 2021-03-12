@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_bloc.dart';
 import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_events.dart';
 import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_states.dart';
@@ -61,17 +62,50 @@ class CompassAccuracy extends StatelessWidget {
         return Container(
           height: topWidgetHeight,
           child: Card(
-            margin: EdgeInsets.only(left: padding, right: 0.0),
-            shape: RoundedRectangleBorder(
+            color: Theme.of(context).primaryColor,
+            margin: EdgeInsets.only(left: 0.0, right: padding),
+            elevation: 5,
+            child: ClipRRect(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(4),
                 topLeft: Radius.circular(4),
               ),
+              child: Slidable(
+                actionPane: SlidableBehindActionPane(),
+                actionExtentRatio: 0.8,
+                child: Container(
+                  padding: EdgeInsets.only(left: 2 * padding, right: padding, top: padding, bottom: padding),
+                  height: topWidgetHeight,
+                  alignment: Alignment.center,
+                  color: Theme.of(context).errorColor,
+                  child: FittedBox(child: Text("!", style: TextStyle(fontSize: 80.0, color: Theme.of(context).secondaryHeaderColor)),
+                  ),
+                ),
+                actions: <Widget>[
+                  Container(
+                    alignment: Alignment.bottomRight,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(4.0), bottomLeft: Radius.circular(4.0)),
+                        color: Theme.of(context).primaryColor),
+                    child: Image.asset("assets/eegg.png"),
+                  ),
+                ],
+              ),
             ),
-            color: Theme.of(context).errorColor,
-            elevation: 5,
-            child: FittedBox(child: Text("!", style: TextStyle(color: Theme.of(context).secondaryHeaderColor))),
           ),
+
+          // Card(
+          //   margin: EdgeInsets.only(left: padding, right: 0.0),
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.only(
+          //       bottomLeft: Radius.circular(4),
+          //       topLeft: Radius.circular(4),
+          //     ),
+          //   ),
+          //   color: Theme.of(context).errorColor,
+          //   elevation: 5,
+          //   child: FittedBox(child: Text("!", style: TextStyle(color: Theme.of(context).secondaryHeaderColor))),
+          // ),
         );
       }
       if (compassAccuracyState is CompassAccuracyStateLoaded) {
@@ -85,8 +119,7 @@ class CompassAccuracy extends StatelessWidget {
             FabEventLoaded()); //вытащил эту строку из условия if isStopped, надеюсь это поможет и fab не будет рутиться после сворачивания приложения
         if (!(locationListBloc.state is LocationListStateErrorEmptyLocationList)) {
           pointerBloc.add(PointerEventSetData(heading: compassAccuracyState.heading, currentPosition: compassAccuracyState.currentPosition));
-        }
-        else if (locationListBloc.state is LocationListStateErrorEmptyLocationList) {
+        } else if (locationListBloc.state is LocationListStateErrorEmptyLocationList) {
           pointerBloc.add(PointerEventEmptyList());
         }
         return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
