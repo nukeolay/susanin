@@ -109,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                       child: CircularProgressIndicator(
                           backgroundColor: Theme.of(context).accentColor,
                           valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).secondaryHeaderColor)),
-                      onPressed: () {},
+                      onPressed: null,
                     );
                   }
                   return Text("Unhandled fabState: $fabState");

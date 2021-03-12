@@ -20,7 +20,8 @@ class _OnBoardingState extends State<OnBoardingScreen> {
   PageController pageController = new PageController();
 
   Widget pageIndexIndicator(bool isCurrentPage) {
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 200),
       margin: const EdgeInsets.symmetric(horizontal: 2.0),
       height: isCurrentPage ? 10.0 : 5.0,
       width: isCurrentPage ? 10.0 : 5.0,
@@ -72,28 +73,38 @@ class _OnBoardingState extends State<OnBoardingScreen> {
               color: Colors.white,
               height: Platform.isIOS ? 70.0 : 60.0,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: GestureDetector(
-                        child: Text("${S.of(context).onBoardingButtonSkip}", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Theme.of(context).accentColor)),
-                        onTap: () {
-                          pageController.animateToPage(slides.length - 1, duration: Duration(milliseconds: 500), curve: Curves.linear);
-                        }),
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: GestureDetector(
+                          child: Text("${S.of(context).onBoardingButtonSkip}", textAlign: TextAlign.start, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Theme.of(context).accentColor)),
+                          onTap: () {
+                            pageController.animateToPage(slides.length - 1, duration: Duration(milliseconds: 500), curve: Curves.linear);
+                          }),
+                    ),
                   ),
-                  Row(
-                    children: [
-                      for (int i = 0; i < slides.length; i++) currentIndex == i ? pageIndexIndicator(true) : pageIndexIndicator(false),
-                    ],
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        for (int i = 0; i < slides.length; i++) currentIndex == i ? pageIndexIndicator(true) : pageIndexIndicator(false),
+                      ],
+                    ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20.0),
-                    child: GestureDetector(
-                        child: Text("${S.of(context).onBoardingButtonNext}", style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Theme.of(context).accentColor)),
-                        onTap: () {
-                          pageController.animateToPage(currentIndex + 1, duration: Duration(milliseconds: 500), curve: Curves.linear);
-                        }),
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: GestureDetector(
+                          child: Text("${S.of(context).onBoardingButtonNext}", textAlign: TextAlign.end,style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Theme.of(context).accentColor)),
+                          onTap: () {
+                            pageController.animateToPage(currentIndex + 1, duration: Duration(milliseconds: 500), curve: Curves.linear);
+                          }),
+                    ),
                   ),
                 ],
               ),
