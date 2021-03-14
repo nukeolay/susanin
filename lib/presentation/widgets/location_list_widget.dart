@@ -72,6 +72,14 @@ class LocationList extends StatelessWidget {
           );
         }
 
+        if (locationListState is LocationListStateErrorNoCompass) {
+          return Text(
+            "${S.of(context).locationPermissionDeniedForever}",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: width * 0.06, color: Theme.of(context).errorColor),
+          );
+        }
+
         if (locationListState is LocationListStateErrorEmptyLocationList) {
           pointerBloc.add(PointerEventEmptyList());
           fabBloc.add(FabEventLoaded());

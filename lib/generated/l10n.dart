@@ -185,6 +185,16 @@ class S {
     );
   }
 
+  /// `Susanin can't get access to compass sensor`
+  String get locationNoCompass {
+    return Intl.message(
+      'Susanin can\'t get access to compass sensor',
+      name: 'locationNoCompass',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Press `
   String get locationEmptyList1 {
     return Intl.message(

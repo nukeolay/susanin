@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "locationEmptyList2" : MessageLookupByLibrary.simpleMessage("\"Add location\""),
     "locationEmptyList3" : MessageLookupByLibrary.simpleMessage(" button to save current location\n\nAfter saving the current location, you can select it from the list and see it`s direction and distance to it"),
     "locationNameTemplate" : MessageLookupByLibrary.simpleMessage("New location №"),
+    "locationNoCompass" : MessageLookupByLibrary.simpleMessage("Susanin can\'t get access to compass sensor"),
     "locationPermissionDenied" : MessageLookupByLibrary.simpleMessage("Trying to get access to location service.\nIf you see this message longer than 10 sec, press button\n"),
     "locationPermissionDeniedForever" : MessageLookupByLibrary.simpleMessage("Susanin does not have access to location service"),
     "locationServiceDisabled" : MessageLookupByLibrary.simpleMessage("Location service disabled, please turn on location service"),

@@ -80,5 +80,8 @@ class LocationListBloc extends Bloc<LocationListEvent, LocationListState> {
     if (locationListEvent is LocationListEventErrorPermissionDeniedForever) {
       yield LocationListStateErrorPermissionDeniedForever();
     }
+    if (locationListEvent is LocationListEventErrorNoCompass) {
+      yield LocationListStateErrorNoCompass();
+    }
   }
 }

@@ -87,6 +87,9 @@ class Susanin extends StatelessWidget {
           } else if (themeState is ThemeStateLoaded) {
             //print("themeStateLoaded mode: ${themeState.themeMode}");
             themeMode = themeState.themeMode;
+            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+              statusBarIconBrightness: themeState.themeMode == ThemeMode.dark ? Brightness.light : Brightness.dark,
+            ));
             return MaterialApp(
               localizationsDelegates: [
                 S.delegate,

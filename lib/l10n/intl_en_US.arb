@@ -14,6 +14,7 @@
   "locationServiceDisabled": "Location service disabled, please turn on location service",
   "locationPermissionDenied": "Trying to get access to location service.\nIf you see this message longer than 10 sec, press button\n",
   "locationPermissionDeniedForever": "Susanin does not have access to location service",
+  "locationNoCompass": "Susanin can't get access to compass sensor",
   "locationEmptyList1": "Press ",
   "locationEmptyList2": "\"Add location\"",
   "locationEmptyList3": " button to save current location\n\nAfter saving the current location, you can select it from the list and see it`s direction and distance to it",

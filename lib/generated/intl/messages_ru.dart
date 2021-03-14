@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "locationEmptyList2" : MessageLookupByLibrary.simpleMessage("\"Добавить локацию\""),
     "locationEmptyList3" : MessageLookupByLibrary.simpleMessage("\n\nПосле сохранения локации Вы сможете в любой момент в любом месте выбрать ее из списка и увидеть в каком направлении и на каком расстоянии от Вас она находится"),
     "locationNameTemplate" : MessageLookupByLibrary.simpleMessage("Новая локация №"),
+    "locationNoCompass" : MessageLookupByLibrary.simpleMessage("У приложения отсутствует доступ компасу"),
     "locationPermissionDenied" : MessageLookupByLibrary.simpleMessage("Получение разрешения на определение геолокации.\nЕсли Вы видите это сообщение дольше 10 секунд, нажмите кнопку\n"),
     "locationPermissionDeniedForever" : MessageLookupByLibrary.simpleMessage("У приложения отсутствует доступ к определению геолокации"),
     "locationServiceDisabled" : MessageLookupByLibrary.simpleMessage("Служба определения геолокации отключена, пожалуйста включите определение геолокации"),
