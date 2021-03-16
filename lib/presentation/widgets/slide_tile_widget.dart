@@ -18,11 +18,11 @@ class SlideTile extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: 50),
+          SizedBox(height: 20),
           Text("$title", textAlign: TextAlign.center, style: TextStyle(fontSize: height * 0.04, fontWeight: FontWeight.bold, color: Colors.white)),
-          SizedBox(height: 20.0),
-          Image.asset(imagePath, width: width * 0.9),
-          SizedBox(height: 20.0),
+          SizedBox(height: 10.0),
+          Image.asset(imagePath, width: width * 0.8),
+          SizedBox(height: 10.0),
           Text("$instruction", textAlign: TextAlign.center, style: TextStyle(fontSize: height * 0.027, color: Colors.white)),
         ],
       ),
