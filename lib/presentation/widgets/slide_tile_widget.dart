@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class SlideTile extends StatelessWidget {
   final String title;
@@ -14,23 +14,22 @@ class SlideTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(20.0),
-      child: Expanded(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(height: 50),
-              Text(
-                "$title",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: height * 0.04, fontWeight: FontWeight.bold, color: Colors.white),
-              ),
-              SizedBox(height: 20.0),
-              Image.asset(imagePath, width: width * 0.9),
-              SizedBox(height: 20.0),
-              Text("$instruction", textAlign: TextAlign.center, style: TextStyle(fontSize: height * 0.027, color: Colors.white)),
-            ],
-          ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 50),
+            Text(
+              "$title",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: height * 0.04, fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            SizedBox(height: 20.0),
+            Image.asset(imagePath, width: width * 0.9),
+            SizedBox(height: 20.0),
+            Text("$instruction", textAlign: TextAlign.center, style: TextStyle(fontSize: height * 0.027, color: Colors.white)),
+            SizedBox(height: Platform.isIOS ? 70.0 : 60.0)
+          ],
         ),
       ),
     );
