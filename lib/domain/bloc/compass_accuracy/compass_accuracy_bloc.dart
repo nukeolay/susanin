@@ -34,8 +34,8 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
         add(CompassAccuracyEventErrorPermissionDeniedForever());
       } else if (permission == LocationPermission.denied) {
         //если разрешение не выдано один раз
-        add(CompassAccuracyEventErrorPermissionDenied());
         await Geolocator.requestPermission();
+        add(CompassAccuracyEventCheckPermissionsOnOff());
         //permission = await Geolocator.checkPermission();
       } else {
         //если с разрешением все норм, то проверяем включен ли сервис геолокации
