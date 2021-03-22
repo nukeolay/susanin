@@ -74,7 +74,7 @@ class LocationList extends StatelessWidget {
 
         if (locationListState is LocationListStateErrorNoCompass) {
           return Text(
-            "${S.of(context).locationPermissionDeniedForever}",
+            "${S.of(context).locationNoCompass}",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: width * 0.06, color: Theme.of(context).errorColor),
           );

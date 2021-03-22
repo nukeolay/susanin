@@ -19,15 +19,17 @@ class SlideTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: 50),
-            Text(
-              "$title",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: height * 0.04, fontWeight: FontWeight.bold, color: Colors.white),
-            ),
-            SizedBox(height: 20.0),
             Image.asset(imagePath, width: width * 0.9),
-            SizedBox(height: 20.0),
-            Text("$instruction", textAlign: TextAlign.center, style: TextStyle(fontSize: height * 0.027, color: Colors.white)),
+            Container(
+              alignment: AlignmentDirectional.bottomStart,
+              padding: EdgeInsets.only(top:20.0, bottom: 10.0),
+              child: Text(
+                "$title",
+                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: height * 0.035, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ),
+            Text("$instruction", textAlign: TextAlign.left, style: TextStyle(fontSize: height * 0.025, color: Colors.white)),
             SizedBox(height: Platform.isIOS ? 70.0 : 60.0)
           ],
         ),

@@ -345,10 +345,10 @@ class S {
     );
   }
 
-  /// `Simply press round button in the right bottom corner of the screen to save current location`
+  /// `Simply press round button in the right bottom corner of the screen to save current location.`
   String get onBoardingInstruction1 {
     return Intl.message(
-      'Simply press round button in the right bottom corner of the screen to save current location',
+      'Simply press round button in the right bottom corner of the screen to save current location.',
       name: 'onBoardingInstruction1',
       desc: '',
       args: [],
@@ -375,20 +375,20 @@ class S {
     );
   }
 
-  /// `The large pointer shows straight direction to the saved location and the large number shows distance to it. The small pointer in the right section of the screen is compass, it always shows to the North and the number under it is the current GPS accuracy`
+  /// `The large pointer shows straight direction to the saved location and the large number shows distance to it. The small pointer in the right section of the screen is compass, it always shows to the North and the number under it is the current GPS accuracy.`
   String get onBoardingInstruction2 {
     return Intl.message(
-      'The large pointer shows straight direction to the saved location and the large number shows distance to it. The small pointer in the right section of the screen is compass, it always shows to the North and the number under it is the current GPS accuracy',
+      'The large pointer shows straight direction to the saved location and the large number shows distance to it. The small pointer in the right section of the screen is compass, it always shows to the North and the number under it is the current GPS accuracy.',
       name: 'onBoardingInstruction2',
       desc: '',
       args: [],
     );
   }
 
-  /// `How to edit\nsaved locations`
+  /// `How to edit saved locations`
   String get onBoardingTitle3 {
     return Intl.message(
-      'How to edit\nsaved locations',
+      'How to edit saved locations',
       name: 'onBoardingTitle3',
       desc: '',
       args: [],
@@ -405,20 +405,20 @@ class S {
     );
   }
 
-  /// `If you want to change the name of saved location on share it with your friend simply swipe it to the left and press one of two buttons\nIf you want to delete saved location swipe it to the right and press Delete`
+  /// `If you want to change the name of saved location on share it with your friend simply swipe it to the left and press one of two buttons.\nIf you want to delete saved location swipe it to the right and press Delete.`
   String get onBoardingInstruction3 {
     return Intl.message(
-      'If you want to change the name of saved location on share it with your friend simply swipe it to the left and press one of two buttons\nIf you want to delete saved location swipe it to the right and press Delete',
+      'If you want to change the name of saved location on share it with your friend simply swipe it to the left and press one of two buttons.\nIf you want to delete saved location swipe it to the right and press Delete.',
       name: 'onBoardingInstruction3',
       desc: '',
       args: [],
     );
   }
 
-  /// `How to switch\nLight/Dark mode`
+  /// `Switching Light/Dark mode`
   String get onBoardingTitle4 {
     return Intl.message(
-      'How to switch\nLight/Dark mode',
+      'Switching Light/Dark mode',
       name: 'onBoardingTitle4',
       desc: '',
       args: [],
@@ -435,10 +435,10 @@ class S {
     );
   }
 
-  /// `Simply swipe tile with large pointer to the left and press button`
+  /// `Simply swipe tile with large pointer to the left and press button.`
   String get onBoardingInstruction4 {
     return Intl.message(
-      'Simply swipe tile with large pointer to the left and press button',
+      'Simply swipe tile with large pointer to the left and press button.',
       name: 'onBoardingInstruction4',
       desc: '',
       args: [],

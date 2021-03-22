@@ -26,6 +26,7 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
     //print("compassAccuracyEvent: $compassAccuracyEvent"); //todo uncomment in debug
     if (compassAccuracyEvent is CompassAccuracyEventCheckPermissionsOnOff) {
       //проверка разрешений
+      //print('PermissionOnOff'); //todo uncomment in debug
       permission = await Geolocator.checkPermission();
       //print("permission: $permission"); //todo uncomment in debug
       if (permission == LocationPermission.deniedForever) {
