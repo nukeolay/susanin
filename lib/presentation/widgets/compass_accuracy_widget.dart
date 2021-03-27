@@ -93,19 +93,6 @@ class CompassAccuracy extends StatelessWidget {
               ),
             ),
           ),
-
-          // Card(
-          //   margin: EdgeInsets.only(left: padding, right: 0.0),
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.only(
-          //       bottomLeft: Radius.circular(4),
-          //       topLeft: Radius.circular(4),
-          //     ),
-          //   ),
-          //   color: Theme.of(context).errorColor,
-          //   elevation: 5,
-          //   child: FittedBox(child: Text("!", style: TextStyle(color: Theme.of(context).secondaryHeaderColor))),
-          // ),
         );
       }
       if (compassAccuracyState is CompassAccuracyStateLoaded) {
@@ -230,7 +217,6 @@ class CompassAccuracy extends StatelessWidget {
           ),
         ),
       ]);
-      //return Text("Error");
     });
   }
 }

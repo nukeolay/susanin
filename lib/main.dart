@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_bloc.dart';
+import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_events.dart';
 import 'package:susanin/domain/repository/susanin_repository.dart';
 import 'package:susanin/internal/dependencies/repository_module.dart';
 import 'package:susanin/presentation/screens/home_screen.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'domain/bloc/fab/fab_bloc.dart';
 import 'domain/bloc/location_list/location_list_bloc.dart';
 import 'domain/bloc/pointer/pointer_bloc.dart';
+import 'domain/bloc/pointer/pointer_events.dart';
 import 'domain/bloc/theme/theme_bloc.dart';
 import 'domain/bloc/theme/theme_events.dart';
 import 'domain/bloc/theme/theme_states.dart';
@@ -35,14 +37,44 @@ void main() {
   });
 }
 
-class Susanin extends StatelessWidget {
+class Susanin extends StatefulWidget {
+  @override
+  _SusaninState createState() => _SusaninState();
+}
+
+class _SusaninState extends State<Susanin> with WidgetsBindingObserver {
   SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
   Stream<CompassEvent> compassStream = FlutterCompass.events;
   Stream<Position> positionStream = Geolocator.getPositionStream(desiredAccuracy: LocationAccuracy.best);
   ThemeMode themeMode;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  AppLifecycleState _notification;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    setState(() {
+      _notification = state;
+      //print(state);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // SusaninRepository susaninRepository = RepositoryModule.susaninRepository();
+    // Stream<CompassEvent> compassStream = FlutterCompass.events;
+    // Stream<Position> positionStream = Geolocator.getPositionStream(desiredAccuracy: LocationAccuracy.best);
     return MultiBlocProvider(
       providers: [
         BlocProvider<ThemeBloc>(create: (context) => ThemeBloc(susaninRepository)),
@@ -53,8 +85,14 @@ class Susanin extends StatelessWidget {
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
-          //print("themeState: $themeState");
+          final CompassAccuracyBloc compassAccuracyBloc = BlocProvider.of<CompassAccuracyBloc>(context);
           final ThemeBloc themeBloc = BlocProvider.of<ThemeBloc>(context);
+          if (_notification == AppLifecycleState.inactive) {
+            compassAccuracyBloc.dispose();
+          } else if (_notification == AppLifecycleState.resumed) {
+            compassAccuracyBloc.dispose();
+            compassAccuracyBloc.add(CompassAccuracyEventCheckPermissionsOnOff());
+          }
           if (themeState is ThemeStateInit) {
             themeBloc.add(ThemeEventGetData());
             return MaterialApp(
@@ -85,7 +123,6 @@ class Susanin extends StatelessWidget {
               home: OnBoardingScreen(),
             );
           } else if (themeState is ThemeStateLoaded) {
-            //print("themeStateLoaded mode: ${themeState.themeMode}");
             themeMode = themeState.themeMode;
             SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
               statusBarIconBrightness: themeState.themeMode == ThemeMode.dark ? Brightness.light : Brightness.dark,

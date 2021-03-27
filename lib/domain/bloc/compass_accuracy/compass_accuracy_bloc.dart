@@ -21,14 +21,19 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
 
   CompassAccuracyBloc(this._compassStream, this._positionStream) : super(CompassAccuracyStateInit());
 
+  void dispose() {
+    _compassSubscription?.cancel();
+    _positionSubscription?.cancel();
+    tempCurrentPosition = null;
+    tempCurrentHeading = null;
+    //print("closed in upper DISPOSE");
+  }
+
   @override
   Stream<CompassAccuracyState> mapEventToState(CompassAccuracyEvent compassAccuracyEvent) async* {
-    //print("compassAccuracyEvent: $compassAccuracyEvent"); //todo uncomment in debug
     if (compassAccuracyEvent is CompassAccuracyEventCheckPermissionsOnOff) {
       //проверка разрешений
-      //print('PermissionOnOff'); //todo uncomment in debug
       permission = await Geolocator.checkPermission();
-      //print("permission: $permission"); //todo uncomment in debug
       if (permission == LocationPermission.deniedForever) {
         //если разрешение заблокировано
         add(CompassAccuracyEventErrorPermissionDeniedForever());
@@ -36,7 +41,6 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
         //если разрешение не выдано один раз
         await Geolocator.requestPermission();
         add(CompassAccuracyEventCheckPermissionsOnOff());
-        //permission = await Geolocator.checkPermission();
       } else {
         //если с разрешением все норм, то проверяем включен ли сервис геолокации
         serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -56,35 +60,32 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
       //работаем с потоком компасса
       _compassSubscription?.cancel(); //отменяем подписку на поток компасса, если по какой-то причине опять запщен ивент MainPointerEventGetServices
       _compassSubscription = _compassStream.listen((CompassEvent compassEvent) {
-        //подписываемся на поток компасса
         tempCurrentHeading = compassEvent.heading;
-        if (_positionSubscription.isPaused) {
-          _positionSubscription.resume();
-        }
-        serviceEnabled = true;
         add(CompassAccuracyEventChanged(heading: compassEvent.heading, currentPosition: tempCurrentPosition));
       }, onError: (compassError) {
-        _positionSubscription?.pause();
+        tempCurrentHeading = null;
+        tempCurrentPosition = null;
         add(CompassAccuracyEventErrorNoCompass());
       }); //если ошибка в потоке компасса, то авляем событие с ошибкой компасса
-
       //работаем с потоком геолокации
-      _positionSubscription
-          ?.cancel(); //отменяем подписку на поток геолокации, если по какой-то причине опять запщен ивент MainPointerEventGetServices
+      _positionSubscription?.cancel(); //отменяем подписку на поток геолокации, если по какой-то причине опять запщен ивент MainPointerEventGetServices
       _positionSubscription = _positionStream.listen((Position position) async {
         tempCurrentPosition = position;
-        serviceEnabled = await Geolocator.isLocationServiceEnabled();
-        if (_compassSubscription.isPaused) {
-          _compassSubscription.resume();
-        }
         add(CompassAccuracyEventChanged(heading: tempCurrentHeading, currentPosition: position));
       }, onError: (locationError) async {
-        _compassSubscription?.pause();
+        tempCurrentHeading = null;
+        tempCurrentPosition = null;
         serviceEnabled = await Geolocator.isLocationServiceEnabled();
         if (!serviceEnabled) {
           add(CompassAccuracyEventErrorServiceDisabled());
         }
       });
+      @override
+      void dispose() {
+        _compassSubscription?.cancel();
+        _positionSubscription?.cancel();
+        //print("closed in DISPOSE");
+      }
     }
 
     if (compassAccuracyEvent is CompassAccuracyEventChanged) {
