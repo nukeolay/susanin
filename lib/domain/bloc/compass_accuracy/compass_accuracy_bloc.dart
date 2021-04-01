@@ -47,6 +47,7 @@ class CompassAccuracyBloc extends Bloc<CompassAccuracyEvent, CompassAccuracyStat
         if (!serviceEnabled) {
           add(CompassAccuracyEventErrorServiceDisabled());
         } else {
+          yield CompassAccuracyStateLoading();
           add(CompassAccuracyEventGetServices());
         }
       }

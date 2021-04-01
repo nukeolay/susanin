@@ -86,6 +86,7 @@ class _SusaninState extends State<Susanin> with WidgetsBindingObserver {
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
           final CompassAccuracyBloc compassAccuracyBloc = BlocProvider.of<CompassAccuracyBloc>(context);
+          //final PointerBloc pointerBloc = BlocProvider.of<PointerBloc>(context);
           final ThemeBloc themeBloc = BlocProvider.of<ThemeBloc>(context);
           if (_notification == AppLifecycleState.inactive) {
             compassAccuracyBloc.dispose();

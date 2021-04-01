@@ -169,6 +169,56 @@ class CompassAccuracy extends StatelessWidget {
           ),
         ]);
       }
+      if (compassAccuracyState is CompassAccuracyStateLoading) {
+        pointerBloc.add(PointerEventInit());
+        fabBloc.add(FabEventLoading());
+        return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Expanded(
+            //компасс
+            flex: 9,
+            child: Card(
+              margin: EdgeInsets.only(left: padding, right: 0.0, bottom: padding),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(4),
+                  topLeft: Radius.circular(4),
+                ),
+              ),
+              color: Theme.of(context).cardColor,
+              elevation: 5,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(4),
+                  topLeft: Radius.circular(4),
+                ),
+                child: LoadingIndicator(startColor: Theme.of(context).cardColor, endColor: Theme.of(context).primaryColor, period: 300),
+              ),
+            ),
+          ),
+          Expanded(
+            //точность GPS
+            flex: 7,
+            child: Card(
+              margin: EdgeInsets.only(left: padding, right: 0.0, top: padding),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(4),
+                  topLeft: Radius.circular(4),
+                ),
+              ),
+              color: Theme.of(context).cardColor,
+              elevation: 5,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(4),
+                  topLeft: Radius.circular(4),
+                ),
+                child: LoadingIndicator(startColor: Theme.of(context).cardColor, endColor: Theme.of(context).primaryColor, period: 300),
+              ),
+            ),
+          ),
+        ]);
+      }
       pointerBloc.add(PointerEventInit());
       fabBloc.add(FabEventLoading());
       return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
