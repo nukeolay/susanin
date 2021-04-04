@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:share/share.dart';
 import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_bloc.dart';
 import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_events.dart';
+import 'package:susanin/domain/bloc/compass_accuracy/compass_accuracy_states.dart';
 import 'package:susanin/domain/bloc/fab/fab_bloc.dart';
 import 'package:susanin/domain/bloc/fab/fab_events.dart';
 import 'package:susanin/domain/bloc/location_list/location_list_bloc.dart';
@@ -93,6 +94,79 @@ class LocationList extends StatelessWidget {
           );
         }
         if (locationListState is LocationListStateDataLoaded) {
+          if (compassAccuracyBloc.state is CompassAccuracyStateLoading) {
+            //если в данный момент происходит определение геопозиции, то нажатие на локации никаких действий не произведет, так как в onTap null
+            return ListView.builder(
+              padding: EdgeInsets.only(top: topWidgetHeight * 0.5 + topWidgetHeight, bottom: topWidgetHeight * 0.5),
+              itemCount: locationListState.susaninData.getLocationList.length ?? 0,
+              addAutomaticKeepAlives: false,
+              itemExtent: 80,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.all(4.0),
+                  child: Card(
+                    margin: EdgeInsets.zero,
+                    elevation: 0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(4.0),
+                      child: Slidable(
+                        actionPane: SlidableBehindActionPane(),
+                        actionExtentRatio: 0.2,
+                        child: Container(
+                          color: index == locationListState.susaninData.getSelectedLocationPointId
+                              ? Theme.of(context).accentColor
+                              : CardTheme.of(context).color,
+                          child: ListTile(
+                              selected: index == locationListState.susaninData.getSelectedLocationPointId ? true : false,
+                              onTap: null,
+                              title: Text(
+                                "${locationListState.susaninData.getLocationList.elementAt(index).pointName}",
+                                style: TextStyle(
+                                    color: index == locationListState.susaninData.getSelectedLocationPointId
+                                        ? Theme.of(context).primaryColorLight
+                                        : Theme.of(context).primaryColor),
+                              ),
+                              subtitle: Text(
+                                  "${DateFormat(S.of(context).dateFormat).format(locationListState.susaninData.getLocationList.elementAt(index).getCreationTime)}",
+                                  style: TextStyle(
+                                      color: index == locationListState.susaninData.getSelectedLocationPointId
+                                          ? Theme.of(context).primaryColorLight
+                                          : Theme.of(context).primaryColor))),
+                        ),
+                        actions: <Widget>[
+                          IconSlideAction(
+                            caption: "${S.of(context).buttonDelete}",
+                            color: Theme.of(context).errorColor,
+                            icon: Icons.delete,
+                            onTap: null,
+                          ),
+                        ],
+                        secondaryActions: <Widget>[
+                          IconSlideAction(
+                            caption: "${S.of(context).buttonRename}",
+                            color: Theme.of(context).accentColor.withAlpha(210),
+                            icon: Icons.edit,
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => RenameLocationAlert(index),
+                              );
+                            },
+                          ),
+                          IconSlideAction(
+                            caption: "${S.of(context).buttonShare}",
+                            color: Theme.of(context).accentColor.withAlpha(170),
+                            icon: Icons.share,
+                            onTap: null,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          }
           fabBloc.add(FabEventLoaded());
           pointerBloc.add(PointerEventSelectPoint(selectedLocationPoint: locationListState.susaninData.getSelectedLocationPoint));
           return ListView.builder(

@@ -18,6 +18,7 @@ import 'dart:math' as math;
 import 'package:susanin/presentation/widgets/loading_indicator_widget.dart';
 
 class CompassAccuracy extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
@@ -98,7 +99,6 @@ class CompassAccuracy extends StatelessWidget {
       if (compassAccuracyState is CompassAccuracyStateLoaded) {
         if (isStopped) {
           //проверяем были ли до этого стейта ошибка и если была, то делаем нормальный fab и загружаем список, иначе с каждым стетом будем загружать список и делать нормальный fab
-          //fabBloc.add(FabEventLoaded());
           locationListBloc.add(LocationListEventGetData());
           isStopped = false;
         }
@@ -170,6 +170,7 @@ class CompassAccuracy extends StatelessWidget {
         ]);
       }
       if (compassAccuracyState is CompassAccuracyStateLoading) {
+        isStopped = true;
         pointerBloc.add(PointerEventInit());
         fabBloc.add(FabEventLoading());
         return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
