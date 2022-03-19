@@ -1,16 +1,13 @@
-# susanin
+# Susanin - offline navigator
 
-Susanin
+Easy to use offline navigator created with Flutter framework. Went to forest? Afraid of getting lost? Is there no internet in the forest? Don’t be afraid, Susanin will help you! Just save the current location and go, and Susanin will show you the way back - the direction and distance to the saved location. Or have you parked your car in a large open parking lot and now you can't find it? Susanin is who you really need!
 
-## Getting Started
+## Technologies:
 
-This project is a starting point for a Flutter application.
+- Dart
+- Flutter
+- BLoC
 
-A few resources to get you started if this is your first Flutter project:
+## Try it here:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- <a href="https://play.google.com/store/apps/details?id=com.qumyz.susanin">Google Play</a>
