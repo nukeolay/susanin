@@ -7,7 +7,8 @@ import 'package:susanin/internal/application.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-    SystemChrome.setPreferredOrientations(
+  // await di.init();
+  SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(
     EasyLocalization(
