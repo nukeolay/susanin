@@ -1,9 +1,11 @@
-class CurrentLocation {
+class PositionEntity {
   final int longitude;
   final int latitude;
+  final int accuracy;
 
-  CurrentLocation({
+  PositionEntity({
     required this.longitude,
     required this.latitude,
+    required this.accuracy,
   });
 }
