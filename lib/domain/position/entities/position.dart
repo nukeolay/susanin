@@ -1,7 +1,7 @@
 class PositionEntity {
-  final int longitude;
-  final int latitude;
-  final int accuracy;
+  final double longitude;
+  final double latitude;
+  final double accuracy;
 
   PositionEntity({
     required this.longitude,

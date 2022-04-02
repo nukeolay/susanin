@@ -1,4 +1,6 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:susanin/data/position/errors/errors.dart';
+import 'package:susanin/data/position/geolocator/model/position_geolocator_model.dart';
 
 class GeolocatorService {
   final GeolocatorPlatform _geolocator;
@@ -10,8 +12,19 @@ class GeolocatorService {
     distanceFilter: 0,
   );
 
-  Future<Position> load() async {
-    return await _geolocator.getCurrentPosition(
-        locationSettings: _locationSettings);
+  Future<PositionGeolocatorModel> load() async {
+    try {
+      Position position = await _geolocator.getCurrentPosition(
+        locationSettings: _locationSettings,
+      );
+      return PositionGeolocatorModel(
+        longitude: position.longitude,
+        latitude: position.latitude,
+        accuracy: position.accuracy,
+      );
+    } catch (error) {
+      // ! TODO тут ловить все исключения и переделывать в мои GpsOff и GpsPermisson
+      throw GpsOffError();
+    }
   }
 }

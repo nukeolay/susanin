@@ -1,9 +1,11 @@
+import 'package:susanin/data/position/geolocator/geolocator_util.dart';
 import 'package:susanin/domain/position/entities/position.dart';
 import 'package:susanin/domain/position/repositories/repository.dart';
 
 class PositionRepositoryImpl implements PositionRepository {
-  late Future<PositionEntity> _position;
+  final GeolocatorUtil _geolocatorUtil;
+  PositionRepositoryImpl(this._geolocatorUtil);
 
   @override
-  Future<PositionEntity> get position => _position;
+  Future<PositionEntity> get position => _geolocatorUtil.load();
 }
