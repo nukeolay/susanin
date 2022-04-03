@@ -1,4 +1,10 @@
 import 'package:get_it/get_it.dart';
+import 'package:susanin/data/position/geolocator/geolocator_util.dart';
+import 'package:susanin/data/position/geolocator/services/geolocator_service.dart';
+import 'package:susanin/data/position/repositories/repository_impl.dart';
+import 'package:susanin/domain/position/repositories/repository.dart';
+import 'package:susanin/domain/position/usecases/get_position.dart';
+import 'package:susanin/domain/position/usecases/get_position_stream.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
@@ -12,25 +18,13 @@ Future<void> init() async {
   // );
 
   // ---UseCases---
-  // Hints
-  // serviceLocator.registerLazySingleton<ResetHints>(
-  //   () => ResetHints(serviceLocator()),
-  // );
-  // serviceLocator.registerLazySingleton<SingleFlipsDecrement>(
-  //   () => SingleFlipsDecrement(serviceLocator()),
-  // );
-  // serviceLocator.registerLazySingleton<SingleFlipsIncrement>(
-  //   () => SingleFlipsIncrement(serviceLocator()),
-  // );
-  // serviceLocator.registerLazySingleton<SolutionsNumberDecrement>(
-  //   () => SolutionsNumberDecrement(serviceLocator()),
-  // );
-  // serviceLocator.registerLazySingleton<SolutionsNumberIncrement>(
-  //   () => SolutionsNumberIncrement(serviceLocator()),
-  // );
-  // serviceLocator.registerLazySingleton<UpdateHints>(
-  //   () => UpdateHints(serviceLocator()),
-  // );
+  // Position
+  serviceLocator.registerLazySingleton<GetPosition>(
+    () => GetPosition(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<GetPositionStream>(
+    () => GetPositionStream(serviceLocator()),
+  );
 
   // // Levels
   // serviceLocator.registerLazySingleton<ResetLevels>(
@@ -59,16 +53,16 @@ Future<void> init() async {
   // );
 
   // // ---Repository---
-  // // HintsRepository
-  // serviceLocator.registerLazySingleton<HintsRepository>(
-  //   () => HintsRepositoryImpl(serviceLocator()),
-  // );
-  // serviceLocator.registerLazySingleton<HintsPrefsUtil>(
-  //   () => HintsPrefsUtil(serviceLocator()),
-  // );
-  // serviceLocator.registerLazySingleton<HintsPrefsService>(
-  //   () => HintsPrefsService(serviceLocator()),
-  // );
+  // PositionRepository
+  serviceLocator.registerLazySingleton<PositionRepository>(
+    () => PositionRepositoryImpl(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<GeolocatorUtil>(
+    () => GeolocatorUtil(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<GeolocatorService>(
+    () => GeolocatorService(),
+  );
 
   // // LevelsRepository
   // serviceLocator.registerLazySingleton<LevelsRepository>(

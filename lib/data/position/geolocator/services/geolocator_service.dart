@@ -3,28 +3,42 @@ import 'package:susanin/data/position/errors/errors.dart';
 import 'package:susanin/data/position/geolocator/model/position_geolocator_model.dart';
 
 class GeolocatorService {
-  final GeolocatorPlatform _geolocator;
-
-  GeolocatorService(this._geolocator);
-
-  final LocationSettings _locationSettings = const LocationSettings(
-    accuracy: LocationAccuracy.best,
-    distanceFilter: 0,
-  );
-
   Future<PositionGeolocatorModel> load() async {
-    try {
-      Position position = await _geolocator.getCurrentPosition(
-        locationSettings: _locationSettings,
-      );
-      return PositionGeolocatorModel(
-        longitude: position.longitude,
-        latitude: position.latitude,
-        accuracy: position.accuracy,
-      );
-    } catch (error) {
-      // ! TODO тут ловить все исключения и переделывать в мои GpsOff и GpsPermisson
-      throw GpsOffError();
+    bool serviceEnabled;
+    LocationPermission permission;
+    print('!!!!!!!!!!!!!!!!!!!!!!!!');
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      print('LocationServiceDisabledError');
+      throw LocationServiceDisabledError();
     }
+    print('serviceEnabled: $serviceEnabled');
+
+    permission = await Geolocator.checkPermission();
+    print('permission: ${permission.name}');
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator
+          .requestPermission(); // ! TODO запрашиваю разрешение, лучше это делать в UI (кидать исключение и в UI его обрабатывать)
+      if (permission == LocationPermission.denied) {
+        print('LocationServicePermissonError');
+        throw LocationServicePermissonError();
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      print('LocationServicePermissonError');
+      throw LocationServicePermissonError();
+    }
+
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.best,
+    );
+    print('1: ${position.longitude}, 2: ${position.latitude}');
+    return PositionGeolocatorModel(
+      longitude: position.longitude,
+      latitude: position.latitude,
+      accuracy: position.accuracy,
+    );
   }
 }

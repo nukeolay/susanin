@@ -1,3 +1,3 @@
-class GpsOffError implements Exception {}
+class LocationServiceDisabledError implements Exception {}
 
-class GpsPermissonError implements Exception {}
+class LocationServicePermissonError implements Exception {}
