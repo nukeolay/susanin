@@ -3,6 +3,8 @@ import 'package:susanin/data/position/geolocator/geolocator_util.dart';
 import 'package:susanin/data/position/geolocator/services/geolocator_service.dart';
 import 'package:susanin/data/position/repositories/repository_impl.dart';
 import 'package:susanin/domain/position/repositories/repository.dart';
+import 'package:susanin/domain/position/usecases/get_bearing_between.dart';
+import 'package:susanin/domain/position/usecases/get_distance_between.dart';
 import 'package:susanin/domain/position/usecases/get_position.dart';
 import 'package:susanin/domain/position/usecases/get_position_stream.dart';
 
@@ -24,6 +26,12 @@ Future<void> init() async {
   );
   serviceLocator.registerLazySingleton<GetPositionStream>(
     () => GetPositionStream(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<GetDistanceBetween>(
+    () => GetDistanceBetween(),
+  );
+  serviceLocator.registerLazySingleton<GetBearingBetween>(
+    () => GetBearingBetween(),
   );
 
   // // Levels
