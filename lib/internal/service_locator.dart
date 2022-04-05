@@ -5,7 +5,6 @@ import 'package:susanin/data/position/repositories/repository_impl.dart';
 import 'package:susanin/domain/position/repositories/repository.dart';
 import 'package:susanin/domain/position/usecases/get_bearing_between.dart';
 import 'package:susanin/domain/position/usecases/get_distance_between.dart';
-import 'package:susanin/domain/position/usecases/get_position.dart';
 import 'package:susanin/domain/position/usecases/get_position_stream.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -21,9 +20,6 @@ Future<void> init() async {
 
   // ---UseCases---
   // Position
-  serviceLocator.registerLazySingleton<GetPosition>(
-    () => GetPosition(serviceLocator()),
-  );
   serviceLocator.registerLazySingleton<GetPositionStream>(
     () => GetPositionStream(serviceLocator()),
   );

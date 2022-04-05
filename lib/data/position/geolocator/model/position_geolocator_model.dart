@@ -1,3 +1,5 @@
+import 'package:geolocator/geolocator.dart';
+
 class PositionGeolocatorModel {
   final double longitude;
   final double latitude;
@@ -8,4 +10,9 @@ class PositionGeolocatorModel {
     required this.latitude,
     required this.accuracy,
   });
+
+  PositionGeolocatorModel.fromGeolocator(Position geolocatorPosition)
+      : longitude = geolocatorPosition.longitude,
+        latitude = geolocatorPosition.latitude,
+        accuracy = geolocatorPosition.accuracy;
 }

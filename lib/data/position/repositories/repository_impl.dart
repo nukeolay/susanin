@@ -7,5 +7,5 @@ class PositionRepositoryImpl implements PositionRepository {
   PositionRepositoryImpl(this._geolocatorUtil);
 
   @override
-  Future<PositionEntity> get position => _geolocatorUtil.load();
+  Stream<PositionEntity> get position => _geolocatorUtil.load();
 }

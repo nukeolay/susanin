@@ -8,8 +8,8 @@ class GeolocatorUtil {
 
   GeolocatorUtil(this._geolocatorService);
 
-  Future<PositionEntity> load() async {
-    final PositionGeolocatorModel result = await _geolocatorService.load();
-    return PositionMapper.fromGeolocator(result);
+  Stream<PositionEntity> load() {
+    final Stream<PositionGeolocatorModel> result = _geolocatorService.load();
+    return result.map((position) => PositionMapper.fromGeolocator(position));
   }
 }

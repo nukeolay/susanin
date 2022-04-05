@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math.dart'; // ! TODO попробовать без этого пакета
 
 class GetBearingBetween {
   double call(
