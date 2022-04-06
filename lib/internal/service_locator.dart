@@ -1,11 +1,10 @@
 import 'package:get_it/get_it.dart';
-import 'package:susanin/data/position/geolocator/geolocator_util.dart';
-import 'package:susanin/data/position/geolocator/services/geolocator_service.dart';
-import 'package:susanin/data/position/repositories/repository_impl.dart';
-import 'package:susanin/domain/position/repositories/repository.dart';
-import 'package:susanin/domain/position/usecases/get_bearing_between.dart';
-import 'package:susanin/domain/position/usecases/get_distance_between.dart';
-import 'package:susanin/domain/position/usecases/get_position_stream.dart';
+import 'package:susanin/data/location/datasources/position_data_source.dart';
+import 'package:susanin/data/location/repositories/repository_impl.dart';
+import 'package:susanin/domain/location/repositories/repository.dart';
+import 'package:susanin/domain/location/usecases/get_bearing_between.dart';
+import 'package:susanin/domain/location/usecases/get_distance_between.dart';
+import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
@@ -56,16 +55,13 @@ Future<void> init() async {
   //   () => ResetTutorial(serviceLocator()),
   // );
 
-  // // ---Repository---
+  // ---Repository---
   // PositionRepository
   serviceLocator.registerLazySingleton<PositionRepository>(
     () => PositionRepositoryImpl(serviceLocator()),
   );
-  serviceLocator.registerLazySingleton<GeolocatorUtil>(
-    () => GeolocatorUtil(serviceLocator()),
-  );
-  serviceLocator.registerLazySingleton<GeolocatorService>(
-    () => GeolocatorService(),
+  serviceLocator.registerLazySingleton<PositionDataSource>(
+    () => PositionDataSourceImpl(),
   );
 
   // // LevelsRepository

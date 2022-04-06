@@ -3,7 +3,7 @@ class PositionEntity {
   final double latitude;
   final double accuracy;
 
-  PositionEntity({
+  const PositionEntity({
     required this.longitude,
     required this.latitude,
     required this.accuracy,

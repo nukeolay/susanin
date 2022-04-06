@@ -1,5 +1,5 @@
-import 'package:susanin/domain/position/entities/position.dart';
-import 'package:susanin/domain/position/repositories/repository.dart';
+import 'package:susanin/domain/location/entities/position.dart';
+import 'package:susanin/domain/location/repositories/repository.dart';
 
 // class GetPositionStream {
 //   final PositionRepository _positionRepository;
@@ -16,6 +16,6 @@ class GetPositionStream {
   final PositionRepository _positionRepository;
   GetPositionStream(this._positionRepository);
   Stream<PositionEntity> call() {
-    return _positionRepository.position;
+    return _positionRepository.positionStream;
   }
 }

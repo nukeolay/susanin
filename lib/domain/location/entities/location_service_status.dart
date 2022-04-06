@@ -1,7 +1,7 @@
-class LocationServiceInfoModel {
+class LocationServiceStatusEntity {
   final bool isLocationServiceEnabled;
 
-  LocationServiceInfoModel({
+  const LocationServiceStatusEntity({
     required this.isLocationServiceEnabled,
   });
 }

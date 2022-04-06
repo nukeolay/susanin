@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:susanin/domain/position/entities/position.dart';
-import 'package:susanin/domain/position/usecases/get_position_stream.dart';
+import 'package:susanin/domain/location/entities/position.dart';
+import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/internal/service_locator.dart';
 
 class HomeScreen extends StatelessWidget {
