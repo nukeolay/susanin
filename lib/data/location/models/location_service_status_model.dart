@@ -1,7 +1,7 @@
-// class LocationServiceStatusEntity {
+// class LocationServiceStatusModel {
 //   final bool isLocationServiceEnabled;
 
-//   const LocationServiceStatusEntity({
+//   const LocationServiceStatusModel({
 //     required this.isLocationServiceEnabled,
 //   });
 // }
