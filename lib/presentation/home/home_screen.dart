@@ -1,49 +1,116 @@
 import 'package:flutter/material.dart';
+import 'package:susanin/domain/location/entities/location_service_properties.dart';
 import 'package:susanin/domain/location/entities/position.dart';
+import 'package:susanin/domain/location/usecases/get_location_service_properties.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location/usecases/request_permission.dart';
 import 'package:susanin/internal/service_locator.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late Future<Stream<PositionEntity>> _positionFuture;
+  late Future<LocationServicePropertiesEntity> _propertiesFuture;
+  late Stream<PositionEntity> _position;
+  late LocationServicePropertiesEntity _properties;
+
+  @override
+  void initState() {
+    _getLocationServiceData();
+    super.initState();
+  }
+
+  Future<void> _getLocationServiceData() async {
+    _positionFuture = serviceLocator<GetPositionStream>().call();
+    _propertiesFuture = serviceLocator<GetLocationServiceProperties>().call();
+    _properties = await _propertiesFuture;
+    _position = await _positionFuture;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: StreamBuilder<PositionEntity>(
-            stream: serviceLocator<GetPositionStream>().call(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(
-                  ('longitude: ${snapshot.data!.longitude},\nlatitude: ${snapshot.data!.latitude},\naccuracy: ${snapshot.data!.accuracy}'),
-                  style: const TextStyle(fontSize: 20),
-                );
-              } else if (snapshot.hasError) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'ERROR: ${snapshot.error}',
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 50,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: serviceLocator<RequestPermission>.call(),
-                      child: const Text('Request Permission'),
-                    ),
-                  ],
-                );
-              } else {
-                return const CircularProgressIndicator();
-              }
-            },
-          ),
-        ),
-      ),
+    return FutureBuilder(
+      future: _propertiesFuture,
+      builder: (context, snapshot) {
+        print(snapshot.connectionState);
+        if (snapshot.hasData) {
+          print('HAS DATA!!!!!!!!!!!!!!!');
+          if (_properties.isEnabled) {
+            return SafeArea(
+              child: Scaffold(
+                body: Center(
+                  child: StreamBuilder<PositionEntity>(
+                    stream: _position,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'ERROR in StreamBuilder: ${snapshot.error}',
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 50,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed:
+                                  serviceLocator<RequestPermission>.call(),
+                              child: const Text('Request Permission'),
+                            ),
+                          ],
+                        );
+                      } else if (snapshot.hasData) {
+                        return Text(
+                          ('longitude: ${snapshot.data!.longitude},\nlatitude: ${snapshot.data!.latitude},\naccuracy: ${snapshot.data!.accuracy}'),
+                          style: const TextStyle(fontSize: 20),
+                        );
+                      } else {
+                        Future.delayed(const Duration(milliseconds: 1000))
+                            .then((value) => setState(() {
+                                  _getLocationServiceData();
+                                }));
+                        print(snapshot);
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                ),
+              ),
+            );
+          } else if (!_properties.isEnabled) {
+            Future.delayed(const Duration(milliseconds: 1000))
+                .then((value) => setState(() {
+                      _getLocationServiceData();
+                    }));
+            return const Scaffold(
+              body: Center(
+                child: Text('Disabled'),
+              ),
+            );
+          } else {
+            return const Scaffold(
+              body: Center(
+                child: Text('Other'),
+              ),
+            );
+          }
+        } else {
+          print(snapshot);
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(
+                color: Colors.red,
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }

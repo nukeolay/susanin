@@ -3,17 +3,17 @@ import 'package:susanin/data/location/errors/errors.dart';
 import 'package:susanin/data/location/models/position_model.dart';
 
 abstract class PositionDataSource {
-  Stream<PositionModel> get positionStream;
+  Future<Stream<PositionModel>> get positionStream;
 }
 
 class PositionDataSourceImpl implements PositionDataSource {
   final LocationSettings locationSettings = const LocationSettings(
     accuracy: LocationAccuracy.best,
-    distanceFilter: 1,
+    distanceFilter: 0,
   );
 
   @override
-  Stream<PositionModel> get positionStream {
+  Future<Stream<PositionModel>> get positionStream async {
     // bool serviceEnabled;
     // LocationPermission permission;
     // serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -22,14 +22,13 @@ class PositionDataSourceImpl implements PositionDataSource {
     // }
     // permission = await Geolocator.checkPermission();
     // if (permission == LocationPermission.denied) {
-    //   permission = await Geolocator
-    //       .requestPermission();
+    //   permission = await Geolocator.requestPermission();
     //   if (permission == LocationPermission.denied) {
-    //     throw LocationServicePermissionDisabledError();
+    //     throw LocationServicePermissionDeniedError();
     //   }
     // }
     // if (permission == LocationPermission.deniedForever) {
-    //   throw LocationServicePermissionDisabledForeverError();
+    //   throw LocationServicePermissionDeniedForeverError();
     // }
 
     return Geolocator.getPositionStream(locationSettings: locationSettings).map(
@@ -40,20 +39,22 @@ class PositionDataSourceImpl implements PositionDataSource {
           accuracy: event.accuracy,
         );
       },
-    ).handleError(
-      (error) {
-        print('ERROR');
-        if (error.runtimeType == LocationServiceDisabledException) {
-          print('LocationServiceDisabledError');
-          throw LocationServiceDisabledError();
-        } else if (error.runtimeType == PermissionDeniedException) {
-          print('LocationServicePermissionDeniedError');
-          throw LocationServicePermissionDeniedError();
-        } else {
-          print('LocationServiceError');
-          throw LocationServiceError();
-        }
-      },
-    );
+    )
+        // .handleError(
+        //   (error) {
+        //     print('ERROR');
+        //     if (error.runtimeType == LocationServiceDisabledException) {
+        //       print('LocationServiceDisabledError');
+        //       throw LocationServiceDisabledError();
+        //     } else if (error.runtimeType == PermissionDeniedException) {
+        //       print('LocationServicePermissionDeniedError');
+        //       throw LocationServicePermissionDeniedError();
+        //     } else {
+        //       print('LocationServiceError');
+        //       throw LocationServiceError();
+        //     }
+        //   },
+        // )
+        ;
   }
 }

@@ -1,9 +1,9 @@
 import 'package:susanin/domain/location/repositories/repository.dart';
 
 class RequestPermission {
-  final PositionRepository _positionRepository;
+  final LocationServiceRepository _positionRepository;
   RequestPermission(this._positionRepository);
-  Future<void> call() async {
-    await _positionRepository.requestPermission();
+  Future<bool> call() async {
+    return await _positionRepository.requestPermission();
   }
 }

@@ -1,48 +1,41 @@
-import 'package:susanin/data/location/datasources/permission_data_source.dart';
+import 'package:susanin/data/location/datasources/location_service_properties_data_source.dart';
 import 'package:susanin/data/location/datasources/position_data_source.dart';
-import 'package:susanin/data/location/models/permission_model.dart';
-import 'package:susanin/domain/location/entities/permission.dart';
+import 'package:susanin/data/location/models/location_service_properties_model.dart';
+import 'package:susanin/data/location/models/position_model.dart';
+import 'package:susanin/domain/location/entities/location_service_properties.dart';
 import 'package:susanin/domain/location/entities/position.dart';
 import 'package:susanin/domain/location/repositories/repository.dart';
 
-class PositionRepositoryImpl implements PositionRepository {
+class LocationServiceRepositoryImpl implements LocationServiceRepository {
   final PositionDataSource positionDataSource;
-  final PermissionDataSource permissionDataSource;
+  final LocationServicePropertiesDataSource propertiesDataSource;
 
-  PositionRepositoryImpl({
+  LocationServiceRepositoryImpl({
     required this.positionDataSource,
-    required this.permissionDataSource,
+    required this.propertiesDataSource,
   });
 
   @override
-  Stream<PositionEntity> get positionStream {
-    try {
-      return positionDataSource.positionStream.map(
-        (event) => PositionEntity(
-          longitude: event.longitude,
-          latitude: event.latitude,
-          accuracy: event.accuracy,
-        ),
-      );
-    } catch (error) {
-      // ! TODO узнать какая ошибка появляется если не выдано разрешение при первом старте и какая ошибка появляется если пользователь отказал в выдвче разрешения
-      print(error);
-      throw error;
-    }
+  Future<Stream<PositionEntity>> get positionStream async {
+    return (await positionDataSource.positionStream).map(
+      (event) => PositionEntity(
+        longitude: event.longitude,
+        latitude: event.latitude,
+        accuracy: event.accuracy,
+      ),
+    );
   }
 
   @override
-  Future<PermissionEntity> requestPermission() async {
-    PermissionModel permission = await permissionDataSource.requestPermission();
-    return PermissionEntity(permission.isPermissionGranted);
+  Future<bool> requestPermission() {
+    return propertiesDataSource.requestPermission();
   }
 
-  // @override
-  // Stream<LocationServiceStatusEntity> get locationServiceStatusStream {
-  //   return locationServiceStatusDataSource.locationServiceStatusStream.map(
-  //     (event) => LocationServiceStatusEntity(
-  //       isLocationServiceEnabled: event.isLocationServiceEnabled,
-  //     ),
-  //   );
-  // }
+  @override
+  Future<LocationServicePropertiesEntity> get properties async {
+    final _properties = await propertiesDataSource.properties;
+    return LocationServicePropertiesEntity(
+        isPermissionGranted: _properties.isPermissionGranted,
+        isEnabled: _properties.isEnabled);
+  }
 }

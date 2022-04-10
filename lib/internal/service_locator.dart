@@ -1,10 +1,11 @@
 import 'package:get_it/get_it.dart';
-import 'package:susanin/data/location/datasources/permission_data_source.dart';
+import 'package:susanin/data/location/datasources/location_service_properties_data_source.dart';
 import 'package:susanin/data/location/datasources/position_data_source.dart';
 import 'package:susanin/data/location/repositories/repository_impl.dart';
 import 'package:susanin/domain/location/repositories/repository.dart';
 import 'package:susanin/domain/location/usecases/get_bearing_between.dart';
 import 'package:susanin/domain/location/usecases/get_distance_between.dart';
+import 'package:susanin/domain/location/usecases/get_location_service_properties.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location/usecases/request_permission.dart';
 
@@ -32,6 +33,9 @@ Future<void> init() async {
   );
   serviceLocator.registerLazySingleton<RequestPermission>(
     () => RequestPermission(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<GetLocationServiceProperties>(
+    () => GetLocationServiceProperties(serviceLocator()),
   );
 
   // // Levels
@@ -62,17 +66,17 @@ Future<void> init() async {
 
   // ---Repository---
   // PositionRepository
-  serviceLocator.registerLazySingleton<PositionRepository>(
-    () => PositionRepositoryImpl(
+  serviceLocator.registerLazySingleton<LocationServiceRepository>(
+    () => LocationServiceRepositoryImpl(
       positionDataSource: serviceLocator(),
-      permissionDataSource: serviceLocator(),
+      propertiesDataSource: serviceLocator(),
     ),
   );
   serviceLocator.registerLazySingleton<PositionDataSource>(
     () => PositionDataSourceImpl(),
   );
-  serviceLocator.registerLazySingleton<PermissionDataSource>(
-    () => PermissionDataSourceImpl(),
+  serviceLocator.registerLazySingleton<LocationServicePropertiesDataSource>(
+    () => LocationServicePropertiesDataSourceImpl(),
   );
 
   // // LevelsRepository
