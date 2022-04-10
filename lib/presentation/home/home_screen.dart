@@ -14,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<Stream<PositionEntity>> _positionFuture;
   late Future<LocationServicePropertiesEntity> _propertiesFuture;
   late Stream<PositionEntity> _position;
   late LocationServicePropertiesEntity _properties;
@@ -26,10 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _getLocationServiceData() async {
-    _positionFuture = serviceLocator<GetPositionStream>().call();
     _propertiesFuture = serviceLocator<GetLocationServiceProperties>().call();
     _properties = await _propertiesFuture;
-    _position = await _positionFuture;
+    _position = serviceLocator<GetPositionStream>().call();
   }
 
   @override
@@ -37,9 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return FutureBuilder(
       future: _propertiesFuture,
       builder: (context, snapshot) {
-        print(snapshot.connectionState);
         if (snapshot.hasData) {
-          print('HAS DATA!!!!!!!!!!!!!!!');
           if (_properties.isEnabled) {
             return SafeArea(
               child: Scaffold(
@@ -48,6 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     stream: _position,
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
+                        Future.delayed(const Duration(milliseconds: 1000))
+                            .then((value) => setState(() {
+                                  _getLocationServiceData();
+                                }));
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -71,11 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: const TextStyle(fontSize: 20),
                         );
                       } else {
-                        Future.delayed(const Duration(milliseconds: 1000))
-                            .then((value) => setState(() {
-                                  _getLocationServiceData();
-                                }));
-                        print(snapshot);
                         return const CircularProgressIndicator();
                       }
                     },
@@ -84,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           } else if (!_properties.isEnabled) {
-            Future.delayed(const Duration(milliseconds: 1000))
+            Future.delayed(const Duration(milliseconds: 5000))
                 .then((value) => setState(() {
                       _getLocationServiceData();
                     }));
@@ -101,7 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
         } else {
-          print(snapshot);
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(

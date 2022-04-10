@@ -15,7 +15,7 @@ import 'package:susanin/domain/location/repositories/repository.dart';
 class GetPositionStream {
   final LocationServiceRepository _positionRepository;
   GetPositionStream(this._positionRepository);
-  Future<Stream<PositionEntity>> call() {
+  Stream<PositionEntity> call() {
     return _positionRepository.positionStream;
   }
 }

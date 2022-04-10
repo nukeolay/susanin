@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
-import 'package:susanin/data/location/datasources/location_service_properties_data_source.dart';
-import 'package:susanin/data/location/datasources/position_data_source.dart';
+import 'package:susanin/data/location/datasources/location_service_properties_datasource.dart';
+import 'package:susanin/data/location/datasources/position_datasource.dart';
 import 'package:susanin/data/location/repositories/repository_impl.dart';
 import 'package:susanin/domain/location/repositories/repository.dart';
 import 'package:susanin/domain/location/usecases/get_bearing_between.dart';
@@ -73,7 +73,7 @@ Future<void> init() async {
     ),
   );
   serviceLocator.registerLazySingleton<PositionDataSource>(
-    () => PositionDataSourceImpl(),
+    () => SinglePositionDataSourceImpl(),
   );
   serviceLocator.registerLazySingleton<LocationServicePropertiesDataSource>(
     () => LocationServicePropertiesDataSourceImpl(),
