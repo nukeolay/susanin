@@ -1,3 +1,6 @@
+import 'package:dartz/dartz.dart';
+import 'package:susanin/core/errors/location_service/failure.dart';
+import 'package:susanin/core/usecases/usecase.dart';
 import 'package:susanin/domain/location/entities/position.dart';
 import 'package:susanin/domain/location/repositories/repository.dart';
 
@@ -12,10 +15,12 @@ import 'package:susanin/domain/location/repositories/repository.dart';
 //   }
 // }
 
-class GetPositionStream {
+class GetPositionStream
+    extends UseCase<Either<Failure, Stream<PositionEntity>>> {
   final LocationServiceRepository _positionRepository;
   GetPositionStream(this._positionRepository);
-  Stream<PositionEntity> call() {
+  @override
+  Either<Failure, Stream<PositionEntity>> call() {
     return _positionRepository.positionStream;
   }
 }

@@ -1,9 +1,17 @@
-class LocationServicePropertiesEntity {
-  bool isPermissionGranted;
-  bool isEnabled;
+import 'package:equatable/equatable.dart';
 
-  LocationServicePropertiesEntity({
+class LocationServicePropertiesEntity extends Equatable {
+  final bool isPermissionGranted;
+  final bool isEnabled;
+
+  const LocationServicePropertiesEntity({
     required this.isPermissionGranted,
     required this.isEnabled,
   });
+
+  @override
+  List<Object?> get props => [
+        isPermissionGranted,
+        isEnabled,
+      ];
 }

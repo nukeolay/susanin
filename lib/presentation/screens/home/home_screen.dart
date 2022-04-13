@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _getLocationServiceData() async {
     _propertiesFuture = serviceLocator<GetLocationServiceProperties>().call();
     _properties = await _propertiesFuture;
-    _position = serviceLocator<GetPositionStream>().call();
+    // _position = serviceLocator<GetPositionStream>().call();
   }
 
   @override

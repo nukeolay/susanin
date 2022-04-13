@@ -1,9 +1,11 @@
-class LocationServicePropertiesModel {
-  bool isPermissionGranted;
-  bool isEnabled;
+import 'package:susanin/domain/location/entities/location_service_properties.dart';
 
-  LocationServicePropertiesModel({
-    required this.isPermissionGranted,
-    required this.isEnabled,
-  });
+class LocationServicePropertiesModel extends LocationServicePropertiesEntity {
+  const LocationServicePropertiesModel({
+    required bool isPermissionGranted,
+    required bool isEnabled,
+  }) : super(
+          isPermissionGranted: isPermissionGranted,
+          isEnabled: isEnabled,
+        );
 }
