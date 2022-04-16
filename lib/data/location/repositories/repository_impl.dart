@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:susanin/core/errors/location_service/exceptions.dart' as susanin;
 import 'package:susanin/core/errors/location_service/failure.dart';
@@ -18,21 +20,28 @@ class LocationServiceRepositoryImpl implements LocationServiceRepository {
 
   @override
   Either<Failure, Stream<PositionEntity>> get positionStream {
-    try {
-      return Right(positionDataSource.positionStream.map(
-        (event) => PositionEntity(
-          longitude: event.longitude,
-          latitude: event.latitude,
-          accuracy: event.accuracy,
-        ),
-      ));
-    } on susanin.LocationServiceDisabledException {
-      return Left(LocationServiceDisabledFailure());
-    } on susanin.LocationServiceDeniedException {
-      return Left(LocationServiceDeniedFailure());
-    } on susanin.LocationServiceDeniedForeverException {
-      return Left(LocationServiceDeniedForeverFailure());
-    }
+    return Right(positionDataSource.positionStream.map((event) {
+      return PositionEntity(
+        longitude: event.longitude,
+        latitude: event.latitude,
+        accuracy: event.accuracy,
+      );
+    }).handleError((error) {
+      // print('!!!!!!!!!!!!! ERROR HANDLER');
+      if (error is susanin.LocationServiceDisabledException) {
+        print('!MY! $error');
+        return Left(LocationServiceDisabledFailure());
+      } else if (error is susanin.LocationServiceDeniedException) {
+        print('!MY! $error');
+        return Left(LocationServiceDeniedFailure());
+      } else if (error is susanin.LocationServiceDeniedForeverException) {
+        print('!MY! $error');
+        return Left(LocationServiceDeniedForeverFailure());
+      } else {
+        print('!UNKNOWN ERROR! $error');
+        return Left(LocationServiceUnknownFailure());
+      }
+    }));
   }
 
   @override

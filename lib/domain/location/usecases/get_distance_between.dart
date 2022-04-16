@@ -1,12 +1,12 @@
 import 'dart:math';
 
 class GetDistanceBetween {
-  double call(
-    double startLatitude,
-    double startLongitude,
-    double endLatitude,
-    double endLongitude,
-  ) {
+  double call({
+    startLatitude,
+    startLongitude,
+    endLatitude,
+    endLongitude,
+  }) {
     var earthRadius = 6378137.0;
     var dLat = _toRadians(endLatitude - startLatitude);
     var dLon = _toRadians(endLongitude - startLongitude);

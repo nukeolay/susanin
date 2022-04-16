@@ -8,23 +8,27 @@ import 'package:susanin/domain/location/usecases/get_distance_between.dart';
 import 'package:susanin/domain/location/usecases/get_location_service_properties.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location/usecases/request_permission.dart';
+import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
 Future<void> init() async {
   // BLoC / Cubit
-  // serviceLocator.registerFactory(
-  //   () => PersonListCubit(getAllPersons: serviceLocator()),
-  // );
-  // serviceLocator.registerFactory(
-  //   () => PersonSearchBloc(searchPerson: serviceLocator()),
-  // );
+  serviceLocator.registerFactory(
+    () => MainPointerCubit(
+      getPositionStream: serviceLocator(),
+      getDistanceBetween: serviceLocator(),
+    ),
+  );
 
   // ---UseCases---
   // Position
   serviceLocator.registerLazySingleton<GetPositionStream>(
     () => GetPositionStream(serviceLocator()),
   );
+  // serviceLocator.registerLazySingleton<GetPosition>(
+  //   () => GetPosition(serviceLocator()),
+  // );
   serviceLocator.registerLazySingleton<GetDistanceBetween>(
     () => GetDistanceBetween(),
   );
@@ -73,7 +77,7 @@ Future<void> init() async {
     ),
   );
   serviceLocator.registerLazySingleton<PositionDataSource>(
-    () => SinglePositionDataSourceImpl(),
+    () => PositionDataSourceImpl(),
   );
   serviceLocator.registerLazySingleton<LocationServicePropertiesDataSource>(
     () => LocationServicePropertiesDataSourceImpl(),

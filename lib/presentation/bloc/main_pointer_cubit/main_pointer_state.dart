@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:susanin/domain/location/entities/position.dart';
 
 abstract class MainPointerState extends Equatable {
   const MainPointerState();
@@ -17,19 +18,24 @@ class MainPointerLoading extends MainPointerState {
   List<Object> get props => [];
 }
 
-class MainPointerLoaded extends MainPointerState {
-  final double pointerAngle;
+class MainPointerInit extends MainPointerState {
+  @override
+  List<Object> get props => [];
+}
 
-  const MainPointerLoaded(this.pointerAngle);
+class MainPointerLoaded extends MainPointerState {
+  final PositionEntity position;
+
+  const MainPointerLoaded(this.position);
 
   @override
-  List<Object> get props => [pointerAngle];
+  List<Object> get props => [position];
 }
 
 class MainPointerError extends MainPointerState {
   final String message;
 
-  const MainPointerError(this.message);
+  const MainPointerError({required this.message});
 
   @override
   List<Object> get props => [message];
