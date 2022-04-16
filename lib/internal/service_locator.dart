@@ -1,11 +1,14 @@
 import 'package:get_it/get_it.dart';
-import 'package:susanin/data/location/datasources/location_service_properties_datasource.dart';
-import 'package:susanin/data/location/datasources/position_datasource.dart';
+import 'package:susanin/data/compass/platform/compass_platform.dart';
+import 'package:susanin/data/compass/repositories/repository_impl.dart';
+import 'package:susanin/data/location/platform/location_service_permission_platform.dart';
+import 'package:susanin/data/location/platform/position_platform.dart';
 import 'package:susanin/data/location/repositories/repository_impl.dart';
+import 'package:susanin/domain/compass/repositories/repository.dart';
+import 'package:susanin/domain/compass/usecases/get_compass_stream.dart';
 import 'package:susanin/domain/location/repositories/repository.dart';
 import 'package:susanin/domain/location/usecases/get_bearing_between.dart';
 import 'package:susanin/domain/location/usecases/get_distance_between.dart';
-import 'package:susanin/domain/location/usecases/get_location_service_properties.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location/usecases/request_permission.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
@@ -18,6 +21,7 @@ Future<void> init() async {
     () => MainPointerCubit(
       getPositionStream: serviceLocator(),
       getDistanceBetween: serviceLocator(),
+      getCompassStream: serviceLocator(),
     ),
   );
 
@@ -26,9 +30,6 @@ Future<void> init() async {
   serviceLocator.registerLazySingleton<GetPositionStream>(
     () => GetPositionStream(serviceLocator()),
   );
-  // serviceLocator.registerLazySingleton<GetPosition>(
-  //   () => GetPosition(serviceLocator()),
-  // );
   serviceLocator.registerLazySingleton<GetDistanceBetween>(
     () => GetDistanceBetween(),
   );
@@ -38,8 +39,10 @@ Future<void> init() async {
   serviceLocator.registerLazySingleton<RequestPermission>(
     () => RequestPermission(serviceLocator()),
   );
-  serviceLocator.registerLazySingleton<GetLocationServiceProperties>(
-    () => GetLocationServiceProperties(serviceLocator()),
+
+  // Compass
+  serviceLocator.registerLazySingleton<GetCompassStream>(
+    () => GetCompassStream(serviceLocator()),
   );
 
   // // Levels
@@ -72,15 +75,23 @@ Future<void> init() async {
   // PositionRepository
   serviceLocator.registerLazySingleton<LocationServiceRepository>(
     () => LocationServiceRepositoryImpl(
-      positionDataSource: serviceLocator(),
-      propertiesDataSource: serviceLocator(),
+      position: serviceLocator(),
+      properties: serviceLocator(),
     ),
   );
-  serviceLocator.registerLazySingleton<PositionDataSource>(
-    () => PositionDataSourceImpl(),
+  serviceLocator.registerLazySingleton<PositionPlatform>(
+    () => PositionPlatformImpl(),
   );
-  serviceLocator.registerLazySingleton<LocationServicePropertiesDataSource>(
-    () => LocationServicePropertiesDataSourceImpl(),
+  serviceLocator.registerLazySingleton<LocationServicePermissionPlatform>(
+    () => LocationServicePropertiesPlatformImpl(),
+  );
+
+  // PositionRepository
+  serviceLocator.registerLazySingleton<CompassRepository>(
+    () => CompassRepositoryImpl(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<CompassPlatform>(
+    () => CompassPlatformImpl(),
   );
 
   // // LevelsRepository

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:susanin/core/errors/location_service/failure.dart';
+import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/core/usecases/usecase.dart';
 import 'package:susanin/domain/location/entities/position.dart';
 import 'package:susanin/domain/location/repositories/repository.dart';

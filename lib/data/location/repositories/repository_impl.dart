@@ -1,22 +1,21 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
-import 'package:susanin/core/errors/location_service/exceptions.dart'
+import 'package:susanin/core/errors/exceptions.dart'
     as susanin;
-import 'package:susanin/core/errors/location_service/failure.dart';
-import 'package:susanin/data/location/datasources/location_service_properties_datasource.dart';
-import 'package:susanin/data/location/datasources/position_datasource.dart';
-import 'package:susanin/domain/location/entities/location_service_properties.dart';
+import 'package:susanin/core/errors/failure.dart';
+import 'package:susanin/data/location/platform/location_service_permission_platform.dart';
+import 'package:susanin/data/location/platform/position_platform.dart';
 import 'package:susanin/domain/location/entities/position.dart';
 import 'package:susanin/domain/location/repositories/repository.dart';
 
 class LocationServiceRepositoryImpl implements LocationServiceRepository {
-  final PositionDataSource positionDataSource;
-  final LocationServicePropertiesDataSource propertiesDataSource;
+  final PositionPlatform position;
+  final LocationServicePermissionPlatform properties;
 
   LocationServiceRepositoryImpl({
-    required this.positionDataSource,
-    required this.propertiesDataSource,
+    required this.position,
+    required this.properties,
   });
 
   @override
@@ -24,12 +23,12 @@ class LocationServiceRepositoryImpl implements LocationServiceRepository {
     while (true) {
       await Future.delayed(const Duration(milliseconds: 1000));
       try {
-        await for (final geolocatorPosition
-            in positionDataSource.positionStream) {
+        await for (final positionPlatform
+            in position.positionStream) {
           yield Right(PositionEntity(
-            longitude: geolocatorPosition.longitude,
-            latitude: geolocatorPosition.latitude,
-            accuracy: geolocatorPosition.accuracy,
+            longitude: positionPlatform.longitude,
+            latitude: positionPlatform.latitude,
+            accuracy: positionPlatform.accuracy,
           ));
         }
       } on susanin.LocationServiceDisabledException {
@@ -46,14 +45,6 @@ class LocationServiceRepositoryImpl implements LocationServiceRepository {
 
   @override
   Future<bool> requestPermission() {
-    return propertiesDataSource.requestPermission();
-  }
-
-  @override
-  Future<LocationServicePropertiesEntity> get properties async {
-    final _properties = await propertiesDataSource.properties;
-    return LocationServicePropertiesEntity(
-        isPermissionGranted: _properties.isPermissionGranted,
-        isEnabled: _properties.isEnabled);
+    return properties.requestPermission();
   }
 }

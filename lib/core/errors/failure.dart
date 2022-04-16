@@ -12,3 +12,5 @@ class LocationServiceDisabledFailure extends Failure {}
 class LocationServiceDeniedFailure extends Failure {}
 
 class LocationServiceDeniedForeverFailure extends Failure {}
+
+class CompassFailure extends Failure {}

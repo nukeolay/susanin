@@ -1,13 +1,13 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:susanin/core/errors/location_service/exceptions.dart'
+import 'package:susanin/core/errors/exceptions.dart'
     as susanin;
 import 'package:susanin/data/location/models/position_model.dart';
 
-abstract class PositionDataSource {
+abstract class PositionPlatform {
   Stream<PositionModel> get positionStream;
 }
 
-class PositionDataSourceImpl implements PositionDataSource {
+class PositionPlatformImpl implements PositionPlatform {
   final LocationSettings locationSettings = const LocationSettings(
     accuracy: LocationAccuracy.best,
     distanceFilter: 0,
@@ -15,13 +15,13 @@ class PositionDataSourceImpl implements PositionDataSource {
 
   @override
   Stream<PositionModel> get positionStream async* {
-    bool serviceEnabled;
+    bool isServiceEnabled;
     LocationPermission permission;
     while (true) {
       await Future.delayed(const Duration(milliseconds: 1000));
       try {
-        serviceEnabled = await Geolocator.isLocationServiceEnabled();
-        if (!serviceEnabled) {
+        isServiceEnabled = await Geolocator.isLocationServiceEnabled();
+        if (!isServiceEnabled) {
           throw const LocationServiceDisabledException();
         }
         permission = await Geolocator.checkPermission();
@@ -41,7 +41,7 @@ class PositionDataSourceImpl implements PositionDataSource {
       } on PermissionDeniedException {
         throw susanin.LocationServiceDeniedException();
       } catch (error) {
-        throw susanin.LocationServiceException();
+        throw susanin.SusaninException();
       }
     }
   }

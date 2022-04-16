@@ -33,10 +33,20 @@ class MainPointerLoaded extends MainPointerState {
 }
 
 class MainPointerError extends MainPointerState {
-  final String message;
+  final bool isServiceEnabled;
+  final bool isPermissionGranted;
+  final bool isCompassError;
 
-  const MainPointerError({required this.message});
+  const MainPointerError({
+    required this.isServiceEnabled,
+    required this.isPermissionGranted,
+    required this.isCompassError,
+  });
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [
+        isServiceEnabled,
+        isPermissionGranted,
+        isCompassError,
+      ];
 }

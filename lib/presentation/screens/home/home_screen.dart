@@ -27,7 +27,8 @@ class HomeScreen extends StatelessWidget {
                   } else if (state is MainPointerError) {
                     return Column(
                       children: [
-                        _onScreenText(state.message),
+                        Text(
+                            'isServiceEnabled: ${state.isServiceEnabled}\nisPermissionGranted: ${state.isPermissionGranted}'),
                         const CircularProgressIndicator(color: Colors.red),
                       ],
                     );
