@@ -19,15 +19,20 @@ class HomeScreen extends StatelessWidget {
                   if (state is MainPointerLoaded) {
                     final coordinates =
                         '${state.position.longitude}\n${state.position.latitude}';
-                    return Text(coordinates);
+                    return _onScreenText(coordinates);
                   } else if (state is MainPointerInit) {
-                    return const Text('Init');
+                    return _onScreenText('Init');
                   } else if (state is MainPointerLoading) {
                     return const CircularProgressIndicator();
                   } else if (state is MainPointerError) {
-                    return Text(state.message);
+                    return Column(
+                      children: [
+                        _onScreenText(state.message),
+                        const CircularProgressIndicator(color: Colors.red),
+                      ],
+                    );
                   } else {
-                    return const Text('Unknown');
+                    return _onScreenText('Unknown');
                   }
                 },
               ),
@@ -35,6 +40,13 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _onScreenText(String text) {
+    return Text(
+      text,
+      style: const TextStyle(fontSize: 30),
     );
   }
 }

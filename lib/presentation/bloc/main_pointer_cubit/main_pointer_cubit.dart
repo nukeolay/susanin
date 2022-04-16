@@ -14,14 +14,15 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   }) : super(MainPointerLoading());
 
   void getMainPointer() {
-    final failureOrPointer = getPositionStream();
-    failureOrPointer.fold(
-        (error) => emit(MainPointerError(message: _mapFailureToMessage(error))),
-        (positionStream) {
-      positionStream.listen((currentPosition) {
-        print('>>>>>>>>>${MainPointerLoaded(currentPosition)}');
-        emit(MainPointerLoaded(currentPosition));
-      });
+    final failureOrPointerStream = getPositionStream();
+    failureOrPointerStream.listen((event) {
+      event.fold(
+          (error) => emit(MainPointerError(
+                message: _mapFailureToMessage(error),
+              )),
+          (position) => emit(
+                MainPointerLoaded(position),
+              ));
     });
   }
 

@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
-import 'package:susanin/core/errors/location_service/exceptions.dart' as susanin;
+import 'package:susanin/core/errors/location_service/exceptions.dart'
+    as susanin;
 import 'package:susanin/core/errors/location_service/failure.dart';
 import 'package:susanin/data/location/datasources/location_service_properties_datasource.dart';
 import 'package:susanin/data/location/datasources/position_datasource.dart';
@@ -19,29 +20,28 @@ class LocationServiceRepositoryImpl implements LocationServiceRepository {
   });
 
   @override
-  Either<Failure, Stream<PositionEntity>> get positionStream {
-    return Right(positionDataSource.positionStream.map((event) {
-      return PositionEntity(
-        longitude: event.longitude,
-        latitude: event.latitude,
-        accuracy: event.accuracy,
-      );
-    }).handleError((error) {
-      // print('!!!!!!!!!!!!! ERROR HANDLER');
-      if (error is susanin.LocationServiceDisabledException) {
-        print('!MY! $error');
-        return Left(LocationServiceDisabledFailure());
-      } else if (error is susanin.LocationServiceDeniedException) {
-        print('!MY! $error');
-        return Left(LocationServiceDeniedFailure());
-      } else if (error is susanin.LocationServiceDeniedForeverException) {
-        print('!MY! $error');
-        return Left(LocationServiceDeniedForeverFailure());
-      } else {
-        print('!UNKNOWN ERROR! $error');
-        return Left(LocationServiceUnknownFailure());
+  Stream<Either<Failure, PositionEntity>> get positionStream async* {
+    while (true) {
+      await Future.delayed(const Duration(milliseconds: 1000));
+      try {
+        await for (final geolocatorPosition
+            in positionDataSource.positionStream) {
+          yield Right(PositionEntity(
+            longitude: geolocatorPosition.longitude,
+            latitude: geolocatorPosition.latitude,
+            accuracy: geolocatorPosition.accuracy,
+          ));
+        }
+      } on susanin.LocationServiceDisabledException {
+        yield Left(LocationServiceDisabledFailure());
+      } on susanin.LocationServiceDeniedException {
+        yield Left(LocationServiceDeniedFailure());
+      } on susanin.LocationServiceDeniedForeverException {
+        yield Left(LocationServiceDeniedForeverFailure());
+      } catch (error) {
+        yield Left(LocationServiceUnknownFailure());
       }
-    }));
+    }
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:susanin/domain/location/entities/location_service_properties.dar
 import 'package:susanin/domain/location/entities/position.dart';
 
 abstract class LocationServiceRepository {
-  Either<Failure, Stream<PositionEntity>> get positionStream;
+  Stream<Either<Failure, PositionEntity>> get positionStream;
   // Future<Either<Failure, PositionEntity>> get position;
   Future<LocationServicePropertiesEntity> get properties;
   Future<bool> requestPermission();

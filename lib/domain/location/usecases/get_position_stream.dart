@@ -16,11 +16,11 @@ import 'package:susanin/domain/location/repositories/repository.dart';
 // }
 
 class GetPositionStream
-    extends UseCase<Either<Failure, Stream<PositionEntity>>> {
+    extends UseCase<Stream<Either<Failure, PositionEntity>>> {
   final LocationServiceRepository _positionRepository;
   GetPositionStream(this._positionRepository);
   @override
-  Either<Failure, Stream<PositionEntity>> call() {
+  Stream<Either<Failure, PositionEntity>> call() {
     return _positionRepository.positionStream;
   }
 }
