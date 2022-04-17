@@ -1,6 +1,8 @@
 import 'package:async/async.dart' show StreamGroup;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 import 'package:susanin/core/errors/failure.dart';
+import 'package:susanin/data/compass/models/compass_model.dart';
 import 'package:susanin/domain/compass/entities/compass.dart';
 import 'package:susanin/domain/compass/usecases/get_compass_stream.dart';
 import 'package:susanin/domain/location/entities/position.dart';
@@ -12,13 +14,8 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   final GetPositionStream getPositionStream;
   final GetDistanceBetween getDistanceBetween;
   final GetCompassStream getCompassStream;
-  late final MainPointerState _currentState;
-  MainPointerLoaded _state = const MainPointerLoaded(
-    position: PositionEntity(
-      longitude: 0,
-      latitude: 0,
-      accuracy: 0,
-    ),
+  MainPointerLoaded _mainPointerData = const MainPointerLoaded(
+    position: PositionEntity(longitude: 0, latitude: 0, accuracy: 0),
     compass: CompassEntity(0),
   );
 
@@ -26,80 +23,43 @@ class MainPointerCubit extends Cubit<MainPointerState> {
     required this.getPositionStream,
     required this.getDistanceBetween,
     required this.getCompassStream,
-  }) : super(MainPointerLoading()) {
-    _currentState = state;
-  }
+  }) : super(MainPointerLoading());
 
   void loadMainPointer() {
-    loadPosition();
-    loadCompass();
+    getMainPointer();
   }
 
-  void doThings() {
+  void getMainPointer() {
     final _stream =
         StreamGroup.merge([getPositionStream(), getCompassStream()]);
     _stream.listen((event) {
       event.fold((error) {
-
-        emit(MainPointerError(
-          isServiceEnabled: error is! LocationServiceDisabledFailure,
-          isPermissionGranted: error is! LocationServiceDeniedFailure,
-          isCompassError: error is CompassFailure, // ! TODO
-
-        ));
+        if (error is! CompassFailure) {
+          emit(MainPointerError(
+            isServiceEnabled: error is! LocationServiceDisabledFailure,
+            isPermissionGranted: error is! LocationServiceDeniedFailure,
+          ));
+        }
       }, (event) {
         if (event is PositionEntity) {
-          
-        } else if (event is CompassEntity) {
-          
+          _mainPointerData = _mainPointerData.copyWith(position: event);
+          emit(_mainPointerData);
+        } else if (event is CompassEntity && state is MainPointerLoaded) {
+          _mainPointerData = _mainPointerData.copyWith(compass: event);
+          emit(_mainPointerData);
         }
-
-
-
-
       });
     });
   }
 
-  void loadPosition() {
-    final failureOrPointerStream = getPositionStream();
-    failureOrPointerStream.listen((event) {
-      event.fold((error) {
-        emit(MainPointerError(
-          isServiceEnabled: error is! LocationServiceDisabledFailure,
-          isPermissionGranted: error is! LocationServiceDeniedFailure,
-          isCompassError: error is CompassFailure, // ! TODO
-        ));
-      }, (position) {
-        _state = MainPointerLoaded(
-          position: position,
-          compass: _state.compass,
-        );
-        emit(_state);
-      });
-    });
-  }
-
-  void loadCompass() {
-    final failureOrCompassStream = getCompassStream();
-    failureOrCompassStream.listen((event) {
-      if (_state.position != null) {
-        event.fold((error) {
-          emit(MainPointerError(
-            isServiceEnabled:
-                error is! LocationServiceDisabledFailure, // ! TODO
-            isPermissionGranted:
-                error is! LocationServiceDeniedFailure, // ! TODO
-            isCompassError: error is CompassFailure,
-          ));
-        }, (compass) {
-          _state = MainPointerLoaded(
-            position: _state.position,
-            compass: compass,
-          );
-          emit(_state);
-        });
-      }
+  void getCompass() {
+    // ! TODO удалить, использую чтоюы проверять плавность компаса на разных версиях пакета flutter_compass
+    Stream<CompassEvent> compassEvents = FlutterCompass.events!;
+    compassEvents.map((event) => CompassModel(event.heading!)).listen((event) {
+      emit(MainPointerLoaded(
+          position:
+              const PositionEntity(longitude: 0, latitude: 0, accuracy: 0),
+          compass: event));
     });
   }
 }

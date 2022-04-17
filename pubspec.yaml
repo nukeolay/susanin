@@ -35,7 +35,7 @@ dependencies:
   easy_localization: ^3.0.0
   geolocator: ^8.2.0
   vector_math: 2.1.1
-  flutter_compass: '^0.7.0'
+  flutter_compass: 0.6.1 #! TODO тормозит на последней 0.7.0
   flutter_bloc: ^8.0.1
 
   # The following adds the Cupertino Icons font to your application.

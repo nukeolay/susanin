@@ -25,16 +25,27 @@ class MainPointerInit extends MainPointerState {
 }
 
 class MainPointerLoaded extends MainPointerState {
-  final PositionEntity? position;
-  final CompassEntity? compass;
+  final PositionEntity position;
+  final CompassEntity compass;
+  // ! TODO поля не entities а нужные для UI - угол и расстояние.
 
   const MainPointerLoaded({
-    this.position,
-    this.compass,
+    required this.position,
+    required this.compass,
   });
 
   @override
-  List<Object> get props => [position!, compass!];
+  List<Object> get props => [position, compass];
+
+  MainPointerLoaded copyWith({
+    PositionEntity? position,
+    CompassEntity? compass,
+  }) {
+    return MainPointerLoaded(
+      position: position ?? this.position,
+      compass: compass ?? this.compass,
+    );
+  }
 }
 
 class MainPointerError extends MainPointerState {
