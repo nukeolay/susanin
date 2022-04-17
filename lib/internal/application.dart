@@ -17,7 +17,7 @@ class SusaninApp extends StatelessWidget {
       providers: [
         BlocProvider<MainPointerCubit>(
             create: (context) =>
-                serviceLocator<MainPointerCubit>()..getMainPointer()),
+                serviceLocator<MainPointerCubit>()..loadMainPointer()),
       ],
       child: MaterialApp(
         localizationsDelegates: context.localizationDelegates,

@@ -12,14 +12,15 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
               child: BlocBuilder<MainPointerCubit, MainPointerState>(
                 builder: (context, state) {
                   if (state is MainPointerLoaded) {
-                    final coordinates =
-                        '${state.position.longitude}\n${state.position.latitude}';
-                    return _onScreenText(coordinates);
+                    final result =
+                        '${state.position!.longitude}\n${state.position!.latitude}\ncompass:${state.compass!.north}';
+                    return _onScreenText(result);
                   } else if (state is MainPointerInit) {
                     return _onScreenText('Init');
                   } else if (state is MainPointerLoading) {
