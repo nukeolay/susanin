@@ -13,14 +13,14 @@ class LocationPointModel extends LocationPointEntity {
           creationTime: creationTime,
         );
 
-  Map toJson() => {
+  Map<String, dynamic> toJson() => {
         'latitude': latitude,
         'longitude': longitude,
         'pointName': pointName,
         'creationTime': creationTime.millisecondsSinceEpoch
       };
 
-  factory LocationPointModel.fromJson(dynamic json) {
+  factory LocationPointModel.fromJson(Map<String, dynamic> json) {
     return LocationPointModel(
       latitude: json["latitude"] as double,
       longitude: json["longitude"] as double,
@@ -28,5 +28,10 @@ class LocationPointModel extends LocationPointEntity {
       creationTime:
           DateTime.fromMillisecondsSinceEpoch(json["creationTime"] as int),
     );
+  }
+
+  @override
+  String toString() {
+    return 'lat: $latitude, lon: $longitude, name: $pointName, created at: $creationTime';
   }
 }

@@ -1,3 +1,7 @@
-abstract class UseCase<Type> {
-  Type call();
+abstract class UseCase<OutputType> {
+  OutputType call();
+}
+
+abstract class UseCaseWithArguments<OutputType, InputType> {
+  OutputType call(InputType argument);
 }
