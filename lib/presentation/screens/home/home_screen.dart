@@ -33,10 +33,25 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               BlocBuilder<MainPointerCubit, MainPointerState>(
                 builder: (context, state) {
-                  if (state is MainPointerLoaded) {
+                  if (state.isLoading) {
+                    return const CircularProgressIndicator();
+                  } else if (state.isCompassError ||
+                      !state.isPermissionGranted ||
+                      !state.isServiceEnabled ||
+                      state.isUnknownError) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const CircularProgressIndicator(color: Colors.red),
+                        _onScreenText(
+                            'isServiceEnabled: ${state.isServiceEnabled}\nisPermissionGranted: ${state.isPermissionGranted}\nisCompassError: ${state.isCompassError}\nisUnknownError: ${state.isUnknownError}'),
+                      ],
+                    );
+                  } else {
                     final result =
                         '${state.position.longitude}\n${state.position.latitude}\ncompass:${state.compass.north.toStringAsFixed(2)}';
                     return Column(
@@ -52,20 +67,6 @@ class HomeScreen extends StatelessWidget {
                         _onScreenText(result),
                       ],
                     );
-                  } else if (state is MainPointerInit) {
-                    return _onScreenText('Init');
-                  } else if (state is MainPointerLoading) {
-                    return const CircularProgressIndicator();
-                  } else if (state is MainPointerError) {
-                    return Column(
-                      children: [
-                        Text(
-                            'isServiceEnabled: ${state.isServiceEnabled}\nisPermissionGranted: ${state.isPermissionGranted}'),
-                        const CircularProgressIndicator(color: Colors.red),
-                      ],
-                    );
-                  } else {
-                    return _onScreenText('Unknown');
                   }
                 },
               ),
@@ -79,7 +80,7 @@ class HomeScreen extends StatelessWidget {
   Widget _onScreenText(String text) {
     return Text(
       text,
-      style: const TextStyle(fontSize: 30),
+      style: const TextStyle(fontSize: 20),
     );
   }
 }

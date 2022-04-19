@@ -16,9 +16,8 @@ class SusaninApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<MainPointerCubit>(
-            create: (context) =>
-                serviceLocator<MainPointerCubit>()..loadMainPointer()),
-                // ! TODO добавлять сюда
+            create: (context) => serviceLocator<MainPointerCubit>()),
+        // ! TODO добавлять сюда
       ],
       child: MaterialApp(
         localizationsDelegates: context.localizationDelegates,
