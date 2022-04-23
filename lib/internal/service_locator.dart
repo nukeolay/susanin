@@ -15,9 +15,11 @@ import 'package:susanin/domain/location/usecases/get_distance_between.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location/usecases/request_permission.dart';
 import 'package:susanin/domain/location_points/repositories/repository.dart';
-import 'package:susanin/domain/location_points/usecases/load_locations.dart';
-import 'package:susanin/domain/location_points/usecases/save_locations.dart';
-import 'package:susanin/presentation/bloc/locations_list_cubit/location_points_cubit.dart';
+import 'package:susanin/domain/location_points/usecases/delete_location.dart';
+import 'package:susanin/domain/location_points/usecases/get_locations.dart';
+import 'package:susanin/domain/location_points/usecases/update_location.dart';
+import 'package:susanin/domain/location_points/usecases/create_location.dart';
+import 'package:susanin/presentation/bloc/locations_cubit/locations_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -32,9 +34,11 @@ Future<void> init() async {
     ),
   );
   serviceLocator.registerFactory(
-    () => LocationPointsCubit(
-      loadLocations: serviceLocator(),
-      saveLocations: serviceLocator(),
+    () => LocationsCubit(
+      getLocations: serviceLocator(),
+      createLocation: serviceLocator(),
+      updateLocation: serviceLocator(),
+      deleteLocation: serviceLocator(),
     ),
   );
 
@@ -59,38 +63,18 @@ Future<void> init() async {
   );
 
   // LocationPoints
-  serviceLocator.registerLazySingleton<LoadLocations>(
-    () => LoadLocations(serviceLocator()),
+  serviceLocator.registerLazySingleton<GetLocations>(
+    () => GetLocations(serviceLocator()),
   );
-  serviceLocator.registerLazySingleton<SaveLocations>(
-    () => SaveLocations(serviceLocator()),
+  serviceLocator.registerLazySingleton<CreateLocation>(
+    () => CreateLocation(serviceLocator()),
   );
-
-  // // Levels
-  // serviceLocator.registerLazySingleton<ResetLevels>(
-  //   () => ResetLevels(serviceLocator()),
-  // );
-  // serviceLocator.registerLazySingleton<GetChapters>(
-  //   () => GetChapters(serviceLocator()),
-  // );
-  // serviceLocator.registerLazySingleton<GetLevels>(
-  //   () => GetLevels(serviceLocator()),
-  // );
-
-  // serviceLocator.registerLazySingleton<CompleteLevel>(
-  //   () => CompleteLevel(serviceLocator()),
-  // );
-
-  // // Tutorial
-  // serviceLocator.registerLazySingleton<GetTutorial>(
-  //   () => GetTutorial(serviceLocator()),
-  // );
-  // serviceLocator.registerLazySingleton<UpdateTutorial>(
-  //   () => UpdateTutorial(serviceLocator()),
-  // );
-  // serviceLocator.registerLazySingleton<ResetTutorial>(
-  //   () => ResetTutorial(serviceLocator()),
-  // );
+  serviceLocator.registerLazySingleton<UpdateLocation>(
+    () => UpdateLocation(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<DeleteLocation>(
+    () => DeleteLocation(serviceLocator()),
+  );
 
   // ---Repository---
   // PositionRepository
@@ -119,20 +103,9 @@ Future<void> init() async {
   serviceLocator.registerLazySingleton<LocationPointsRepository>(
     () => LocationPointsRepositoryImpl(serviceLocator()),
   );
-  serviceLocator.registerLazySingleton<LocationPointDataSource>(
-    () => LocationPointDataSourceImpl(serviceLocator()),
+  serviceLocator.registerLazySingleton<LocationsDataSource>(
+    () => LocationsDataSourceImpl(serviceLocator()),
   );
-
-  // // TutorialRepository
-  // serviceLocator.registerLazySingleton<TutorialRepository>(
-  //   () => TutorialRepositoryImpl(serviceLocator()),
-  // );
-  // serviceLocator.registerLazySingleton<TutorialPrefsUtil>(
-  //   () => TutorialPrefsUtil(serviceLocator()),
-  // );
-  // serviceLocator.registerLazySingleton<TutorialPrefsService>(
-  //   () => TutorialPrefsService(serviceLocator()),
-  // );
 
   // // ---Core---
   // // empty
@@ -144,5 +117,5 @@ Future<void> init() async {
       .registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
   // -- Repositories Init --
-  await serviceLocator<LocationPointsRepository>().locations;
+  serviceLocator<LocationPointsRepository>().locationsStream;
 }

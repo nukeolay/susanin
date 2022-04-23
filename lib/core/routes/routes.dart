@@ -4,9 +4,9 @@ import 'package:susanin/presentation/screens/settings/settings_screen.dart';
 import 'package:susanin/presentation/screens/tutorial/tutorial_screen.dart';
 
 class Routes {
-  static const String home = '/home-screen';
-  static const String tutorial = '/tutorial-screen';
-  static const String settings = '/settings-screen';
+  static const home = '/home-screen';
+  static const tutorial = '/tutorial-screen';
+  static const settings = '/settings-screen';
 
   static Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
     return MaterialPageRoute(

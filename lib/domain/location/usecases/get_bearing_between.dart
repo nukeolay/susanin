@@ -9,18 +9,17 @@ class GetBearingBetween {
     double endLatitude,
     double endLongitude,
   ) {
-    var startLongitudeRadians = radians(startLongitude);
-    var startLatitudeRadians = radians(startLatitude);
-    var endLongitudeRadians = radians(endLongitude);
-    var endLatitudeRadians = radians(endLatitude);
+    final startLongitudeRadians = radians(startLongitude);
+    final startLatitudeRadians = radians(startLatitude);
+    final endLongitudeRadians = radians(endLongitude);
+    final endLatitudeRadians = radians(endLatitude);
 
-    var y = sin(endLongitudeRadians - startLongitudeRadians) *
+    final y = sin(endLongitudeRadians - startLongitudeRadians) *
         cos(endLatitudeRadians);
-    var x = cos(startLatitudeRadians) * sin(endLatitudeRadians) -
+    final x = cos(startLatitudeRadians) * sin(endLatitudeRadians) -
         sin(startLatitudeRadians) *
             cos(endLatitudeRadians) *
             cos(endLongitudeRadians - startLongitudeRadians);
-
     return degrees(atan2(y, x));
   }
 }

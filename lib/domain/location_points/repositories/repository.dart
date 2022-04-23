@@ -3,7 +3,16 @@ import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 
 abstract class LocationPointsRepository {
-  Future<Either<Failure, List<LocationPointEntity>>> get locations;
+  Stream<Either<Failure, List<LocationPointEntity>>> get locationsStream;
 
   Future<void> saveLocations(List<LocationPointEntity> locations);
+
+  // Future<void> saveLocation(LocationPointEntity locationPoint);
+
+  // Future<void> deleteLocation(String locationName);
+
+  // Future<void> renameLocation({
+  //   required String oldLocationName,
+  //   required String newLocationName,
+  // });
 }

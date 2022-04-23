@@ -8,7 +8,7 @@ abstract class PositionPlatform {
 }
 
 class PositionPlatformImpl implements PositionPlatform {
-  final LocationSettings locationSettings = const LocationSettings(
+  final locationSettings = const LocationSettings(
     accuracy: LocationAccuracy.best,
     distanceFilter: 0,
   );

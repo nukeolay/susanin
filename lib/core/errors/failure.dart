@@ -16,3 +16,11 @@ class LocationServiceDeniedForeverFailure extends Failure {}
 class CompassFailure extends Failure {}
 
 class LoadLocationPointsFailure extends Failure {}
+
+class LocationPointExistsFailure extends Failure {}
+
+class LocationPointRemoveFailure extends Failure {}
+
+class LocationPointRenameFailure extends Failure {}
+
+class LocationPointCreateFailure extends Failure {}
