@@ -6,8 +6,8 @@ import 'package:susanin/data/location_points/models/location_point_model.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 
 abstract class LocationPointDataSource {
-  Future<List<LocationPointModel>> loadLocationsFromLocalStorage();
-  Future<void> saveLocationsToLocalStorage(List<LocationPointEntity> locations);
+  Future<List<LocationPointModel>> loadLocations();
+  Future<void> saveLocations(List<LocationPointEntity> locations);
 }
 
 class LocationPointDataSourceImpl implements LocationPointDataSource {
@@ -17,7 +17,7 @@ class LocationPointDataSourceImpl implements LocationPointDataSource {
   const LocationPointDataSourceImpl(this.sharedPreferences);
 
   @override
-  Future<List<LocationPointModel>> loadLocationsFromLocalStorage() async {
+  Future<List<LocationPointModel>> loadLocations() async {
     final jsonLocations = sharedPreferences.getString(locationsKey);
     try {
       final List<dynamic> json = jsonDecode(jsonLocations!);
@@ -30,7 +30,7 @@ class LocationPointDataSourceImpl implements LocationPointDataSource {
   }
 
   @override
-  Future<void> saveLocationsToLocalStorage(
+  Future<void> saveLocations(
       List<LocationPointEntity> locations) async {
     final String jsonLocations = json.encode(locations
         .map((locationEntity) => LocationPointModel(

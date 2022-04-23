@@ -35,6 +35,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
     _stream.listen((event) {
       event.fold((error) {
         final _state = state.copyWith(
+          isLoading: false,
           isServiceEnabled: error is! LocationServiceDisabledFailure,
           isPermissionGranted: error is! LocationServiceDeniedFailure,
           isCompassError: error is CompassFailure,
@@ -44,8 +45,8 @@ class MainPointerCubit extends Cubit<MainPointerState> {
       }, (event) {
         if (event is PositionEntity) {
           final _state = state.copyWith(
-            position: event,
             isLoading: false,
+            position: event,
             isPermissionGranted: true,
             isServiceEnabled: true,
             isUnknownError: false,

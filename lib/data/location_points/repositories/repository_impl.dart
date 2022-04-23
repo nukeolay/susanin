@@ -14,7 +14,7 @@ class LocationPointsRepositoryImpl extends LocationPointsRepository {
   Future<Either<Failure, List<LocationPointEntity>>> get locations async {
     try {
       return Right(
-          await locationPointDataSource.loadLocationsFromLocalStorage());
+          await locationPointDataSource.loadLocations());
     } catch (error) {
       return Left(LoadLocationPointsFailure());
     }
@@ -22,6 +22,6 @@ class LocationPointsRepositoryImpl extends LocationPointsRepository {
 
   @override
   Future<void> saveLocations(List<LocationPointEntity> locations) async {
-    await locationPointDataSource.saveLocationsToLocalStorage(locations);
+    await locationPointDataSource.saveLocations(locations);
   }
 }
