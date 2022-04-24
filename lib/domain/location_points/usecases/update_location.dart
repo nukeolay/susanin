@@ -5,8 +5,7 @@ import 'package:susanin/domain/location_points/repositories/repository.dart';
 
 class UpdateLocation extends UseCaseWithArguments<Future<Either<Failure, bool>>,
     UpdateArgument> {
-  final LocationPointsRepository
-      _locationPointsRepository; // ! TODO implement update
+  final LocationPointsRepository _locationPointsRepository;
   UpdateLocation(this._locationPointsRepository);
   @override
   Future<Either<Failure, bool>> call(UpdateArgument argument) async {

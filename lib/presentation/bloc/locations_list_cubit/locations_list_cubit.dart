@@ -10,7 +10,6 @@ import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_st
 
 class LocationsListCubit extends Cubit<LocationsListState> {
   final GetLocations _getLocations;
-  final AddLocation _addLocation;
   final UpdateLocation _updateLocation;
   final DeleteLocation _deleteLocation;
 
@@ -19,11 +18,9 @@ class LocationsListCubit extends Cubit<LocationsListState> {
 
   LocationsListCubit({
     required GetLocations getLocations,
-    required AddLocation addLocation,
     required UpdateLocation updateLocation,
     required DeleteLocation deleteLocation,
   })  : _getLocations = getLocations,
-        _addLocation = addLocation,
         _updateLocation = updateLocation,
         _deleteLocation = deleteLocation,
         super(const LocationsListState(
@@ -57,7 +54,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
         },
         (locations) {
           final _state = state.copyWith(
-            status: LocationsListStatus.loaded,
+            status: LocationsListStatus.success,
             locations: locations,
           );
           emit(_state);
@@ -66,20 +63,33 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     });
   }
 
-  void updateLocation(
-    double latitude,
-    double longitude,
-    String oldLocationName,
-    String newLocationName,
-  ) async {
+  void onDeleteLocation({required String pointName}) async {
     emit(state.copyWith(status: LocationsListStatus.loading));
-    final updateLocationResult = await _updateLocation(
-      UpdateArgument(
-        latitude: latitude,
-        longitude: longitude,
-        oldLocationName: oldLocationName,
-        newLocationName: newLocationName,
-      ),
+    final deleteLocationResult = await _deleteLocation.call(pointName);
+    deleteLocationResult.fold(
+      (failure) {
+        emit(state.copyWith(status: LocationsListStatus.removeFailure));
+      },
+      (result) {
+        emit(state.copyWith(status: LocationsListStatus.success));
+      },
     );
   }
+
+  // void onUpdateLocation(
+  //   double latitude,
+  //   double longitude,
+  //   String oldLocationName,
+  //   String newLocationName,
+  // ) async {
+  //   emit(state.copyWith(status: LocationsListStatus.loading));
+  //   final updateLocationResult = await _updateLocation(
+  //     UpdateArgument(
+  //       latitude: latitude,
+  //       longitude: longitude,
+  //       oldLocationName: oldLocationName,
+  //       newLocationName: newLocationName,
+  //     ),
+  //   );
+  // }
 }

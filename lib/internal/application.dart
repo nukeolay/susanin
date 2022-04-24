@@ -32,7 +32,7 @@ class SusaninApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Susanin',
         theme: ThemeData(
-          // useMaterial3: true,
+          useMaterial3: true,
           //   primarySwatch: Colors.grey,
           //   scaffoldBackgroundColor: appTheme.background,
           //   fontFamily: 'Montserrat',

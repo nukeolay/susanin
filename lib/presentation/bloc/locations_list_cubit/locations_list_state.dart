@@ -3,7 +3,7 @@ import 'package:susanin/domain/location_points/entities/location_point.dart';
 
 enum LocationsListStatus {
   loading,
-  loaded,
+  success,
   loadFailure,
   locationExistsFailure,
   removeFailure,
