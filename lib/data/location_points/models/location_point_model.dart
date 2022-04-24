@@ -32,6 +32,6 @@ class LocationPointModel extends LocationPointEntity {
 
   @override
   String toString() {
-    return 'lat: $latitude, lon: $longitude, name: $pointName, created at: $creationTime';
+    return 'LocationPointModel {lat: $latitude, lon: $longitude, name: $pointName, created at: $creationTime}';
   }
 }

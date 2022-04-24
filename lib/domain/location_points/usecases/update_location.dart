@@ -10,8 +10,7 @@ class UpdateLocation extends UseCaseWithArguments<Future<Either<Failure, bool>>,
   UpdateLocation(this._locationPointsRepository);
   @override
   Future<Either<Failure, bool>> call(UpdateArgument argument) async {
-    final locationsOrFailure =
-        await _locationPointsRepository.locationsStream.last;
+    final locationsOrFailure = _locationPointsRepository.locationsOrFailure;
     try {
       locationsOrFailure.fold((failure) {
         return Left(failure);

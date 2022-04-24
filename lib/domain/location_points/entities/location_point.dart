@@ -23,4 +23,9 @@ class LocationPointEntity {
       creationTime: creationTime ?? this.creationTime,
     );
   }
+
+  @override
+  String toString() {
+    return 'LocationPointEntity {lat: $latitude, lon: $longitude, name: $pointName, created at: $creationTime}';
+  }
 }

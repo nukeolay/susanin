@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/routes/custom_route.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/internal/service_locator.dart';
+import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
+import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/screens/home/home_screen.dart';
 
@@ -17,7 +19,11 @@ class SusaninApp extends StatelessWidget {
       providers: [
         BlocProvider<MainPointerCubit>(
             create: (context) => serviceLocator<MainPointerCubit>()),
-        // ! TODO добавлять сюда
+        BlocProvider<LocationsListCubit>(
+            create: (context) => serviceLocator<LocationsListCubit>()),
+        BlocProvider<AddLocationCubit>(
+            create: (context) => serviceLocator<AddLocationCubit>()),
+        // ! TODO добавлять сюда usecases
       ],
       child: MaterialApp(
         localizationsDelegates: context.localizationDelegates,
@@ -26,6 +32,7 @@ class SusaninApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Susanin',
         theme: ThemeData(
+          // useMaterial3: true,
           //   primarySwatch: Colors.grey,
           //   scaffoldBackgroundColor: appTheme.background,
           //   fontFamily: 'Montserrat',

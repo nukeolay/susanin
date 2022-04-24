@@ -4,14 +4,13 @@ import 'package:susanin/core/usecases/usecase.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 import 'package:susanin/domain/location_points/repositories/repository.dart';
 
-class CreateLocation extends UseCaseWithArguments<Future<Either<Failure, bool>>,
+class AddLocation extends UseCaseWithArguments<Future<Either<Failure, bool>>,
     LocationArgument> {
   final LocationPointsRepository _locationPointsRepository;
-  CreateLocation(this._locationPointsRepository);
+  AddLocation(this._locationPointsRepository);
   @override
   Future<Either<Failure, bool>> call(LocationArgument argument) async {
-    final locationsOrFailure =
-        await _locationPointsRepository.locationsStream.last;
+    final locationsOrFailure = _locationPointsRepository.locationsOrFailure;
     try {
       locationsOrFailure.fold((failure) {
         return Left(failure);

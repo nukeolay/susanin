@@ -9,8 +9,7 @@ class DeleteLocation
   DeleteLocation(this._locationPointsRepository);
   @override
   Future<Either<Failure, bool>> call(String argument) async {
-    final locationsOrFailure =
-        await _locationPointsRepository.locationsStream.last;
+    final locationsOrFailure = _locationPointsRepository.locationsOrFailure;
     try {
       locationsOrFailure.fold((failure) {
         return Left(failure);

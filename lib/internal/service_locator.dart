@@ -18,8 +18,9 @@ import 'package:susanin/domain/location_points/repositories/repository.dart';
 import 'package:susanin/domain/location_points/usecases/delete_location.dart';
 import 'package:susanin/domain/location_points/usecases/get_locations.dart';
 import 'package:susanin/domain/location_points/usecases/update_location.dart';
-import 'package:susanin/domain/location_points/usecases/create_location.dart';
-import 'package:susanin/presentation/bloc/locations_cubit/locations_cubit.dart';
+import 'package:susanin/domain/location_points/usecases/add_location.dart';
+import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
+import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -34,11 +35,17 @@ Future<void> init() async {
     ),
   );
   serviceLocator.registerFactory(
-    () => LocationsCubit(
+    () => LocationsListCubit(
       getLocations: serviceLocator(),
-      createLocation: serviceLocator(),
+      addLocation: serviceLocator(),
       updateLocation: serviceLocator(),
       deleteLocation: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory(
+    () => AddLocationCubit(
+      addLocation: serviceLocator(),
+      getPositionStream: serviceLocator(),
     ),
   );
 
@@ -66,8 +73,8 @@ Future<void> init() async {
   serviceLocator.registerLazySingleton<GetLocations>(
     () => GetLocations(serviceLocator()),
   );
-  serviceLocator.registerLazySingleton<CreateLocation>(
-    () => CreateLocation(serviceLocator()),
+  serviceLocator.registerLazySingleton<AddLocation>(
+    () => AddLocation(serviceLocator()),
   );
   serviceLocator.registerLazySingleton<UpdateLocation>(
     () => UpdateLocation(serviceLocator()),
@@ -117,5 +124,5 @@ Future<void> init() async {
       .registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
   // -- Repositories Init --
-  serviceLocator<LocationPointsRepository>().locationsStream;
+  // serviceLocator<LocationPointsRepository>().locationsStream; // ! TODO для чего это? попробовать убрать
 }
