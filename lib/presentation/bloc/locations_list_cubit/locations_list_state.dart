@@ -3,12 +3,13 @@ import 'package:susanin/domain/location_points/entities/location_point.dart';
 
 enum LocationsListStatus {
   loading,
-  success,
+  loaded,
   loadFailure,
   locationExistsFailure,
   removeFailure,
   renameFailure,
   locationAddFailure,
+  unknownFailure,
 }
 
 class LocationsListState extends Equatable {

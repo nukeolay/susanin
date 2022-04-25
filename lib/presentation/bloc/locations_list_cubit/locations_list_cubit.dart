@@ -4,7 +4,6 @@ import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 import 'package:susanin/domain/location_points/usecases/delete_location.dart';
 import 'package:susanin/domain/location_points/usecases/get_locations.dart';
-import 'package:susanin/domain/location_points/usecases/add_location.dart';
 import 'package:susanin/domain/location_points/usecases/update_location.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_state.dart';
 
@@ -35,26 +34,27 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     _locationsStream.listen((event) {
       event.fold(
         (failure) {
-          // if (failure is LoadLocationPointsFailure) {
-          //   //
-          // } else if (failure is LocationPointExistsFailure) {
-          //   //
-          // } else if (failure is LocationPointRemoveFailure) {
-          //   //
-          // } else if (failure is LocationPointRenameFailure) {
-          //   //
-          // } else if (failure is LocationPointCreateFailure) {
-          //   //
-          // } else {
-          //   //
-          // }
-          final _state =
-              state.copyWith(status: LocationsListStatus.loadFailure);
+          final LocationsListState _state;
+          if (failure is LoadLocationPointsFailure) {
+            _state = state.copyWith(status: LocationsListStatus.loadFailure);
+          } else if (failure is LocationPointExistsFailure) {
+            _state = state.copyWith(
+                status: LocationsListStatus.locationExistsFailure);
+          } else if (failure is LocationPointRemoveFailure) {
+            _state = state.copyWith(status: LocationsListStatus.removeFailure);
+          } else if (failure is LocationPointRenameFailure) {
+            _state = state.copyWith(status: LocationsListStatus.renameFailure);
+          } else if (failure is LocationPointCreateFailure) {
+            _state =
+                state.copyWith(status: LocationsListStatus.locationAddFailure);
+          } else {
+            _state = state.copyWith(status: LocationsListStatus.unknownFailure);
+          }
           emit(_state);
         },
         (locations) {
           final _state = state.copyWith(
-            status: LocationsListStatus.success,
+            status: LocationsListStatus.loaded,
             locations: locations,
           );
           emit(_state);
@@ -71,7 +71,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
         emit(state.copyWith(status: LocationsListStatus.removeFailure));
       },
       (result) {
-        emit(state.copyWith(status: LocationsListStatus.success));
+        emit(state.copyWith(status: LocationsListStatus.loaded));
       },
     );
   }

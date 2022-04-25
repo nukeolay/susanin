@@ -29,24 +29,40 @@ class AddLocationCubit extends Cubit<AddLocationState> {
           emit(state.copyWith(status: AddLocationStatus.failure));
         }
       }, (position) {
-        // if (state.status == AddLocationStatus.failure) {
+        if (state.status != AddLocationStatus.editing) {
         emit(state.copyWith(
           status: AddLocationStatus.normal,
           latitude: position.latitude,
           longitude: position.longitude,
         ));
-        // }
+        }
       });
     });
   }
 
-  void onAddLocation() async {
+  void onAddLongPress() async {
     emit(state.copyWith(
       status: AddLocationStatus.editing,
       latitude: state.latitude,
       longitude: state.longitude,
       pointName: DateTime.now().toString(),
     ));
+  }
+
+  void onAddTap() async {
+    emit(state.copyWith(status: AddLocationStatus.loading));
+    final addLocationResult = await _addLocation(LocationArgument(
+        latitude: state.latitude,
+        longitude: state.longitude,
+        pointName: DateTime.now().toString()));
+    addLocationResult.fold(
+      (failure) {
+        emit(state.copyWith(status: AddLocationStatus.failure));
+      },
+      (result) {
+        emit(state.copyWith(status: AddLocationStatus.normal));
+      },
+    );
   }
 
   void onSaveLocation({

@@ -21,13 +21,10 @@ class MainPointerCubit extends Cubit<MainPointerState> {
         _getDistanceBetween = getDistanceBetween,
         _getPositionStream = getPositionStream,
         super(const MainPointerState(
-          isLoading: true,
           position: PositionEntity(longitude: 0, latitude: 0, accuracy: 0),
           compass: CompassEntity(0),
           isCompassError: false,
-          isPermissionGranted: true,
-          isServiceEnabled: true,
-          isUnknownError: false,
+          status: MainPointerStatus.loading,
         )) {
     _init();
   }
@@ -38,30 +35,36 @@ class MainPointerCubit extends Cubit<MainPointerState> {
     _stream.listen((event) {
       event.fold(
         (error) {
-          final _state = state.copyWith(
-            isLoading: false,
-            isServiceEnabled: error is! LocationServiceDisabledFailure,
-            isPermissionGranted: error is! LocationServiceDeniedFailure,
-            isCompassError: error is CompassFailure,
-            isUnknownError: error is LocationServiceUnknownFailure,
-          );
+          final MainPointerState _state;
+          if (error is LocationServiceDeniedFailure) {
+            _state = state.copyWith(
+              status: MainPointerStatus.permissionFailure,
+            );
+          } else if (error is LocationServiceDisabledFailure ||
+              error is LocationServiceDeniedForeverFailure) {
+            _state = state.copyWith(
+              status: MainPointerStatus.serviceFailure,
+            );
+          } else if (error is CompassFailure) {
+            _state = state.copyWith(
+              isCompassError: true,
+            );
+          } else {
+            _state = state.copyWith(
+              status: MainPointerStatus.unknownFailure,
+            );
+          }
           emit(_state);
         },
         (event) {
           if (event is PositionEntity) {
             final _state = state.copyWith(
-              isLoading: false,
+              status: MainPointerStatus.loaded,
               position: event,
-              isPermissionGranted: true,
-              isServiceEnabled: true,
-              isUnknownError: false,
             );
             emit(_state);
           } else if (event is CompassEntity &&
-              !state.isLoading &&
-              state.isPermissionGranted &&
-              state.isServiceEnabled &&
-              !state.isUnknownError) {
+              state.status == MainPointerStatus.loaded) {
             final _state = state.copyWith(
               compass: event,
               isCompassError: false,

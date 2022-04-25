@@ -21,18 +21,18 @@ class HomeScreen extends StatelessWidget {
             children: [
               BlocBuilder<MainPointerCubit, MainPointerState>(
                 builder: (context, state) {
-                  if (state.isLoading) {
+                  if (state.status == MainPointerStatus.loading) {
                     return const CircularProgressIndicator();
-                  } else if (state.isCompassError ||
-                      !state.isPermissionGranted ||
-                      !state.isServiceEnabled ||
-                      state.isUnknownError) {
+                  } else if (state.status != MainPointerStatus.loaded) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const CircularProgressIndicator(color: Colors.red),
-                        _onScreenText(
-                            'isServiceEnabled: ${state.isServiceEnabled}\nisPermissionGranted: ${state.isPermissionGranted}\nisCompassError: ${state.isCompassError}\nisUnknownError: ${state.isUnknownError}'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: _onScreenText(
+                              'ServiceFailure: ${state.status == MainPointerStatus.serviceFailure}\nPermissionFailure: ${state.status == MainPointerStatus.permissionFailure}\nisCompassError: ${state.isCompassError}\nUnknownFailure: ${state.status == MainPointerStatus.unknownFailure}'),
+                        ),
                       ],
                     );
                   } else {
@@ -56,7 +56,6 @@ class HomeScreen extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  // height: 300,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.blueAccent),
@@ -65,10 +64,12 @@ class HomeScreen extends StatelessWidget {
                       builder: ((context, state) {
                     if (state.status == LocationsListStatus.loading) {
                       return const CircularProgressIndicator();
-                    } else if (state.status == LocationsListStatus.loadFailure ||
+                    } else if (state.status ==
+                            LocationsListStatus.loadFailure ||
                         state.status == LocationsListStatus.removeFailure ||
                         state.status == LocationsListStatus.renameFailure ||
-                        state.status == LocationsListStatus.locationAddFailure ||
+                        state.status ==
+                            LocationsListStatus.locationAddFailure ||
                         state.status ==
                             LocationsListStatus.locationExistsFailure) {
                       return Text(state.status.toString());
@@ -88,8 +89,10 @@ class HomeScreen extends StatelessWidget {
                           trailing: IconButton(
                             icon: const Icon(Icons.delete_forever_rounded),
                             onPressed: () {
-                              context.read<LocationsListCubit>().onDeleteLocation(
-                                  pointName: locations[index].pointName);
+                              context
+                                  .read<LocationsListCubit>()
+                                  .onDeleteLocation(
+                                      pointName: locations[index].pointName);
                             },
                           ),
                           onTap: null,
@@ -104,7 +107,30 @@ class HomeScreen extends StatelessWidget {
         ),
         floatingActionButton: BlocBuilder<AddLocationCubit, AddLocationState>(
           builder: ((context, state) {
-            if (state.status == AddLocationStatus.loading) {
+            if (state.status == AddLocationStatus.editing) {
+              return AlertDialog(
+                title: const Text('AlertDialog Title'),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Text('lat: ${state.latitude}, lon: ${state.longitude}'),
+                    ],
+                  ),
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('Approve'),
+                    onPressed: () {
+                      context.read<AddLocationCubit>().onSaveLocation(
+                            latitude: state.latitude,
+                            longitude: state.longitude,
+                            pointName: 'name ${DateTime.now()}',
+                          );
+                    },
+                  ),
+                ],
+              );
+            } else if (state.status == AddLocationStatus.loading) {
               return const FloatingActionButton(
                 onPressed: null,
                 backgroundColor: Colors.green,
@@ -115,20 +141,18 @@ class HomeScreen extends StatelessWidget {
             } else if (state.status == AddLocationStatus.failure) {
               return const FloatingActionButton(
                 onPressed: null,
-                backgroundColor: Colors.red,
+                backgroundColor: Colors.grey,
                 child: Icon(Icons.not_interested_rounded),
               );
             }
-            return FloatingActionButton(
-              onPressed: () {
-                context.read<AddLocationCubit>().onSaveLocation(
-                      latitude: 0,
-                      longitude: 0,
-                      pointName: DateTime.now().toString(),
-                    );
-              },
-              backgroundColor: Colors.green,
-              child: const Icon(Icons.add_location_alt_rounded),
+            return GestureDetector(
+              onLongPress: () =>
+                  context.read<AddLocationCubit>().onAddLongPress(),
+              child: FloatingActionButton(
+                onPressed: () => context.read<AddLocationCubit>().onAddTap(),
+                backgroundColor: Colors.green,
+                child: const Icon(Icons.add_location_alt_rounded),
+              ),
             );
           }),
         ),
