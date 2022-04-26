@@ -11,6 +11,7 @@ enum MainPointerStatus {
 }
 
 class MainPointerState extends Equatable {
+  // final String activeLocation;
   final PositionEntity position;
   final CompassEntity compass;
   final bool isCompassError;

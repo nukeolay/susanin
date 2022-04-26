@@ -25,17 +25,13 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     final _stream = _getPositionStream();
     _stream.listen((event) {
       event.fold((failure) {
-        if (state.status != AddLocationStatus.editing) {
-          emit(state.copyWith(status: AddLocationStatus.failure));
-        }
+        emit(state.copyWith(status: AddLocationStatus.failure));
       }, (position) {
-        if (state.status != AddLocationStatus.editing) {
         emit(state.copyWith(
           status: AddLocationStatus.normal,
           latitude: position.latitude,
           longitude: position.longitude,
         ));
-        }
       });
     });
   }
@@ -81,5 +77,9 @@ class AddLocationCubit extends Cubit<AddLocationState> {
         emit(state.copyWith(status: AddLocationStatus.normal));
       },
     );
+  }
+
+  void onCancel() {
+    emit(state.copyWith(status: AddLocationStatus.normal));
   }
 }
