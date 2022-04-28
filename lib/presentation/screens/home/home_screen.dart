@@ -13,9 +13,13 @@ class HomeScreen extends StatelessWidget {
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              MainPointer(),
-              LocationList(),
+            children: [
+              Row(
+                children: const [
+                  MainPointer(),
+                ],
+              ),
+              const LocationList(),
             ],
           ),
         ),

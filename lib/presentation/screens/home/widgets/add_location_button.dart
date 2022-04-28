@@ -9,17 +9,15 @@ class AddNewLocationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddLocationCubit, AddLocationState>(
+    return BlocConsumer<AddLocationCubit, AddLocationState>(
+      listenWhen: ((previous, current) {
+        return current.status == AddLocationStatus.editing;
+      }),
+      listener: ((context, state) {
+        _showBottomSheet(context, state);
+      }),
       builder: ((context, state) {
-        if (state.status == AddLocationStatus.editing) {
-          return const FloatingActionButton(
-            onPressed: null,
-            backgroundColor: Colors.green,
-            child: LinearProgressIndicator(
-              color: Colors.white,
-            ),
-          );
-        } else if (state.status == AddLocationStatus.loading) {
+        if (state.status == AddLocationStatus.loading) {
           return const FloatingActionButton(
             onPressed: null,
             backgroundColor: Colors.green,
@@ -36,11 +34,10 @@ class AddNewLocationButton extends StatelessWidget {
         }
         return GestureDetector(
           onLongPress: () {
-            _showBottomSheet(context, state);
-            context.read<AddLocationCubit>().onAddLongPress();
+            context.read<AddLocationCubit>().onLongPressAdd();
           },
           child: FloatingActionButton(
-            onPressed: () => context.read<AddLocationCubit>().onAddTap(),
+            onPressed: () => context.read<AddLocationCubit>().onPressAdd(),
             backgroundColor: Colors.green,
             child: const Icon(Icons.add_location_alt_rounded),
           ),
@@ -52,10 +49,10 @@ class AddNewLocationButton extends StatelessWidget {
   void _showBottomSheet(BuildContext context, AddLocationState state) async {
     await showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       builder: (BuildContext context) {
         return EditLocationBottomSheet(state: state);
       },
     );
-    context.read<AddLocationCubit>().onCancel();
   }
 }

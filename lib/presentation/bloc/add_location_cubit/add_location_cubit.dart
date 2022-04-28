@@ -36,7 +36,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     });
   }
 
-  void onAddLongPress() async {
+  void onLongPressAdd() async {
     emit(state.copyWith(
       status: AddLocationStatus.editing,
       latitude: state.latitude,
@@ -45,7 +45,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     ));
   }
 
-  void onAddTap() async {
+  void onPressAdd() async {
     emit(state.copyWith(status: AddLocationStatus.loading));
     final addLocationResult = await _addLocation(LocationArgument(
         latitude: state.latitude,
@@ -79,7 +79,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     );
   }
 
-  void onCancel() {
-    emit(state.copyWith(status: AddLocationStatus.normal));
-  }
+  // void onCancel() {
+  //   emit(state.copyWith(status: AddLocationStatus.normal));
+  // }
 }
