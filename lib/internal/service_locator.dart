@@ -17,9 +17,11 @@ import 'package:susanin/domain/location/usecases/request_permission.dart';
 import 'package:susanin/domain/location_points/repositories/repository.dart';
 import 'package:susanin/domain/location_points/usecases/delete_location.dart';
 import 'package:susanin/domain/location_points/usecases/get_locations.dart';
+import 'package:susanin/domain/location_points/usecases/get_locations_stream.dart';
 import 'package:susanin/domain/location_points/usecases/update_location.dart';
 import 'package:susanin/domain/location_points/usecases/add_location.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
+import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_bloc.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 
@@ -41,6 +43,12 @@ Future<void> init() async {
       deleteLocation: serviceLocator(),
     ),
   );
+  serviceLocator.registerFactory(
+    () => LocationpointValidateBloc(
+      getLocations: serviceLocator(),
+    ),
+  );
+
   serviceLocator.registerFactory(
     () => AddLocationCubit(
       addLocation: serviceLocator(),
@@ -69,6 +77,9 @@ Future<void> init() async {
   );
 
   // LocationPoints
+  serviceLocator.registerLazySingleton<GetLocationsStream>(
+    () => GetLocationsStream(serviceLocator()),
+  );
   serviceLocator.registerLazySingleton<GetLocations>(
     () => GetLocations(serviceLocator()),
   );

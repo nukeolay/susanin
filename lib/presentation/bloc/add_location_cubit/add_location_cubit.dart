@@ -78,8 +78,4 @@ class AddLocationCubit extends Cubit<AddLocationState> {
       },
     );
   }
-
-  // void onCancel() {
-  //   emit(state.copyWith(status: AddLocationStatus.normal));
-  // }
 }

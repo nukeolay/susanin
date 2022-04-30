@@ -35,7 +35,10 @@ dependencies:
   easy_localization: ^3.0.0
   geolocator: ^8.2.0
   vector_math: 2.1.1
-  flutter_compass: 0.6.1 #! TODO тормозит на последней 0.7.0
+  flutter_compass: #! TODO laggy with latest 0.7.0 from pub.dev, took from github
+    git:
+      url: https://github.com/hemanthrajv/flutter_compass.git
+      ref: master
   flutter_bloc: ^8.0.1
   shared_preferences: ^2.0.13
 

@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 import 'package:susanin/domain/location_points/usecases/delete_location.dart';
-import 'package:susanin/domain/location_points/usecases/get_locations.dart';
+import 'package:susanin/domain/location_points/usecases/get_locations_stream.dart';
 import 'package:susanin/domain/location_points/usecases/update_location.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_state.dart';
 
 class LocationsListCubit extends Cubit<LocationsListState> {
-  final GetLocations _getLocations;
+  final GetLocationsStream _getLocations;
   final UpdateLocation _updateLocation;
   final DeleteLocation _deleteLocation;
 
@@ -16,7 +16,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
       _locationsStream;
 
   LocationsListCubit({
-    required GetLocations getLocations,
+    required GetLocationsStream getLocations,
     required UpdateLocation updateLocation,
     required DeleteLocation deleteLocation,
   })  : _getLocations = getLocations,

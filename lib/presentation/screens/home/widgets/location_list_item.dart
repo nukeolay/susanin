@@ -19,13 +19,13 @@ class LocationListItem extends StatelessWidget {
         color: Colors.red,
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 12.0),
-        child: const Icon(Icons.delete_forever_rounded),
+        child: const Icon(Icons.delete_forever_rounded, color: Colors.white),
       ),
       background: Container(
         color: Colors.green,
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.only(left: 12.0),
-        child: const Icon(Icons.share_rounded),
+        child: const Icon(Icons.share_rounded, color: Colors.white),
       ),
       onDismissed: (value) {
         context
@@ -44,6 +44,7 @@ class LocationListItem extends StatelessWidget {
         title: Text(
           location.pointName,
           style: const TextStyle(fontSize: 20),
+          overflow: TextOverflow.ellipsis,
         ),
         subtitle: Text(
             'lat: ${location.latitude}, lon: ${location.longitude}, created: ${location.creationTime}'),

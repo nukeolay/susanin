@@ -49,9 +49,18 @@ class AddNewLocationButton extends StatelessWidget {
   void _showBottomSheet(BuildContext context, AddLocationState state) async {
     await showModalBottomSheet<void>(
       context: context,
+      backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return EditLocationBottomSheet(state: state);
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          color: Colors.transparent,
+          child: EditLocationBottomSheet(
+            name: state.pointName,
+            latitude: state.latitude.toString(),
+            longitude: state.longitude.toString(),
+          ),
+        );
       },
     );
   }
