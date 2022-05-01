@@ -74,17 +74,4 @@ class AddLocationCubit extends Cubit<AddLocationState> {
       },
     );
   }
-
-  // void onLongPressEdit({
-  //   required String name,
-  //   required double latitude,
-  //   required double longitude,
-  // }) async {
-  //   emit(state.copyWith(
-  //     status: AddLocationStatus.editing,
-  //     latitude: latitude,
-  //     longitude: longitude,
-  //     pointName: name,
-  //   ));
-  // }
 }

@@ -1,7 +1,7 @@
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 
 class LocationPointModel extends LocationPointEntity {
-  LocationPointModel({
+  const LocationPointModel({
     required double latitude,
     required double longitude,
     required String pointName,

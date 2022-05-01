@@ -34,30 +34,13 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     _locationsStream.listen((event) {
       event.fold(
         (failure) {
-          final LocationsListState _state;
-          if (failure is LoadLocationPointsFailure) {
-            _state = state.copyWith(status: LocationsListStatus.loadFailure);
-          } else if (failure is LocationPointExistsFailure) {
-            _state = state.copyWith(
-                status: LocationsListStatus.locationExistsFailure);
-          } else if (failure is LocationPointRemoveFailure) {
-            _state = state.copyWith(status: LocationsListStatus.removeFailure);
-          } else if (failure is LocationPointRenameFailure) {
-            _state = state.copyWith(status: LocationsListStatus.updateFailure);
-          } else if (failure is LocationPointCreateFailure) {
-            _state =
-                state.copyWith(status: LocationsListStatus.locationAddFailure);
-          } else {
-            _state = state.copyWith(status: LocationsListStatus.unknownFailure);
-          }
-          emit(_state);
+          emit(state.copyWith(status: LocationsListStatus.failure));
         },
         (locations) {
-          final _state = state.copyWith(
+          emit(state.copyWith(
             status: LocationsListStatus.loaded,
             locations: locations,
-          );
-          emit(_state);
+          ));
         },
       );
     });
@@ -67,7 +50,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     final deleteLocationResult = await _deleteLocation.call(pointName);
     deleteLocationResult.fold(
       (failure) {
-        emit(state.copyWith(status: LocationsListStatus.removeFailure));
+        emit(state.copyWith(status: LocationsListStatus.failure));
       },
       (result) {
         emit(state.copyWith(status: LocationsListStatus.loaded));
@@ -108,8 +91,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
       ),
     );
     updateLocationResult.fold(
-        (failure) =>
-            emit(state.copyWith(status: LocationsListStatus.updateFailure)),
+        (failure) => emit(state.copyWith(status: LocationsListStatus.failure)),
         (r) => emit(state.copyWith(status: LocationsListStatus.loaded)));
   }
 }

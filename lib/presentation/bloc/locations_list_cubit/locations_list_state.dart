@@ -5,12 +5,7 @@ enum LocationsListStatus {
   loading,
   loaded,
   editing,
-  loadFailure,
-  locationExistsFailure,
-  removeFailure,
-  updateFailure,
-  locationAddFailure,
-  unknownFailure,
+  failure,
 }
 
 class LocationsListState extends Equatable {

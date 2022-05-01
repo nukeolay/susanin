@@ -20,23 +20,19 @@ class LocationList extends StatelessWidget {
           border: Border.all(color: Colors.blueAccent),
         ),
         child: BlocConsumer<LocationsListCubit, LocationsListState>(
-          listenWhen: ((previous, current) {
-            return current is EditLocationState &&
-                current.status == LocationsListStatus.editing;
-          }),
           listener: ((context, state) {
-            _showBottomSheet(context, state as EditLocationState);
+            if (state.status == LocationsListStatus.editing) {
+              _showBottomSheet(context, state as EditLocationState);
+            } else if (state.status == LocationsListStatus.failure) {
+              const snackBar = SnackBar(
+                content: Text('Error handling action'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }
           }),
           builder: ((context, state) {
             if (state.status == LocationsListStatus.loading) {
               return const CircularProgressIndicator();
-            } else if (state.status == LocationsListStatus.loadFailure ||
-                state.status == LocationsListStatus.removeFailure ||
-                state.status == LocationsListStatus.updateFailure ||
-                state.status == LocationsListStatus.locationAddFailure ||
-                state.status == LocationsListStatus.locationExistsFailure) {
-              return Text(state.status
-                  .toString()); // ! TODO моедт некоторые статусы не нужны,
             } else if (state.locations.isEmpty) {
               return const Text('There is no locations saved');
             } else {
