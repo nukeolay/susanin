@@ -10,18 +10,14 @@ class DeleteLocation
   @override
   Future<Either<Failure, bool>> call(String argument) async {
     final locationsOrFailure = _locationPointsRepository.locationsOrFailure;
-    try {
-      locationsOrFailure.fold((failure) {
-        return Left(failure);
-      }, (locations) async {
-        locations.removeWhere(
-            (savedLocation) => savedLocation.pointName == argument);
-        await _locationPointsRepository.saveLocations(locations);
-        return const Right(true);
-      });
-    } catch (error) {
+    if (locationsOrFailure.isRight()) {
+      final locations = locationsOrFailure.getOrElse(() => []);
+      locations
+          .removeWhere((savedLocation) => savedLocation.pointName == argument);
+      await _locationPointsRepository.saveLocations(locations);
+      return const Right(true);
+    } else {
       return Left(LocationPointRemoveFailure());
     }
-    return const Right(true);
   }
 }

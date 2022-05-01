@@ -43,7 +43,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
           } else if (failure is LocationPointRemoveFailure) {
             _state = state.copyWith(status: LocationsListStatus.removeFailure);
           } else if (failure is LocationPointRenameFailure) {
-            _state = state.copyWith(status: LocationsListStatus.renameFailure);
+            _state = state.copyWith(status: LocationsListStatus.updateFailure);
           } else if (failure is LocationPointCreateFailure) {
             _state =
                 state.copyWith(status: LocationsListStatus.locationAddFailure);
@@ -64,7 +64,6 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   void onDeleteLocation({required String pointName}) async {
-    emit(state.copyWith(status: LocationsListStatus.loading));
     final deleteLocationResult = await _deleteLocation.call(pointName);
     deleteLocationResult.fold(
       (failure) {
@@ -76,20 +75,41 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     );
   }
 
-  // void onUpdateLocation(
-  //   double latitude,
-  //   double longitude,
-  //   String oldLocationName,
-  //   String newLocationName,
-  // ) async {
-  //   emit(state.copyWith(status: LocationsListStatus.loading));
-  //   final updateLocationResult = await _updateLocation(
-  //     UpdateArgument(
-  //       latitude: latitude,
-  //       longitude: longitude,
-  //       oldLocationName: oldLocationName,
-  //       newLocationName: newLocationName,
-  //     ),
-  //   );
-  // }
+  void onLongPressEdit({
+    required String name,
+    required double latitude,
+    required double longitude,
+  }) async {
+    emit(EditLocationState(
+      status: LocationsListStatus.editing,
+      pointName: name,
+      latitude: latitude,
+      longitude: longitude,
+      locations: state.locations,
+    ));
+  }
+
+  void onBottomSheetClose() {
+    emit(state.copyWith(status: LocationsListStatus.loaded));
+  }
+
+  void onSaveLocation({
+    required double latitude,
+    required double longitude,
+    required String oldLocationName,
+    required String newLocationName,
+  }) async {
+    final updateLocationResult = await _updateLocation(
+      UpdateArgument(
+        latitude: latitude,
+        longitude: longitude,
+        oldLocationName: oldLocationName,
+        newLocationName: newLocationName,
+      ),
+    );
+    updateLocationResult.fold(
+        (failure) =>
+            emit(state.copyWith(status: LocationsListStatus.updateFailure)),
+        (r) => emit(state.copyWith(status: LocationsListStatus.loaded)));
+  }
 }

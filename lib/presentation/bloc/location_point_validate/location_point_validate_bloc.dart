@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/domain/location_points/usecases/get_locations.dart';
 import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_event.dart';
-import 'package:susanin/presentation/bloc/location_point_validate/location_point_validte_state.dart';
+import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_state.dart';
 
-class LocationpointValidateBloc
+class LocationPointValidateBloc
     extends Bloc<LocationPointValidateEvent, LocationPointValidateState> {
   final GetLocations _getLocations;
 
-  LocationpointValidateBloc({required GetLocations getLocations})
+  LocationPointValidateBloc({required GetLocations getLocations})
       : _getLocations = getLocations,
         super(const LocationPointValidateState(
           isNameValid: true,
@@ -66,5 +66,30 @@ class LocationpointValidateBloc
       isLatutideValid: true,
       isLongitudeValid: true,
     ));
+  }
+}
+
+class EditLocationPointValidateBloc extends LocationPointValidateBloc {
+  EditLocationPointValidateBloc({required GetLocations getLocations})
+      : super(getLocations: getLocations);
+
+  @override
+  void _onNameChanged(
+      NameChanged event, Emitter<LocationPointValidateState> emit) {
+    final locations = _getLocations().getOrElse(() => []);
+    final index =
+        locations.indexWhere((location) => location.pointName == event.name);
+    if (event.oldName != null) {
+      emit(state.copyWith(
+        isNameValid:
+            index == -1 || event.name == event.oldName && event.name != ''
+                ? true
+                : false,
+      ));
+    } else {
+      emit(state.copyWith(
+        isNameValid: index == -1 && event.name != '' ? true : false,
+      ));
+    }
   }
 }

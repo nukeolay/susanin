@@ -10,29 +10,27 @@ class UpdateLocation extends UseCaseWithArguments<Future<Either<Failure, bool>>,
   @override
   Future<Either<Failure, bool>> call(UpdateArgument argument) async {
     final locationsOrFailure = _locationPointsRepository.locationsOrFailure;
-    try {
-      locationsOrFailure.fold((failure) {
-        return Left(failure);
-      }, (locations) async {
-        final locationIndex = locations.indexWhere((savedLocation) =>
-            savedLocation.pointName == argument.oldLocationName);
-        if (locationIndex != -1) {
-          return Left(LocationPointExistsFailure()); // ! TODO проверить
-        } else {
-          final updatedLocation = locations[locationIndex].copyWith(
-            pointName: argument.newLocationName,
-            latitude: argument.latitude,
-            longitude: argument.longitude,
-          );
-          locations[locationIndex] = updatedLocation;
-          await _locationPointsRepository.saveLocations(locations);
-          return const Right(true);
-        }
-      });
-    } catch (error) {
-      return Left(LocationPointRenameFailure());
+    if (locationsOrFailure.isRight()) {
+      final locations = locationsOrFailure.getOrElse(() => []);
+      final oldLocationIndex = locations.indexWhere((savedLocation) =>
+          savedLocation.pointName == argument.oldLocationName);
+      final newLocationIndex = locations.indexWhere((savedLocation) =>
+          savedLocation.pointName == argument.newLocationName);
+      if (oldLocationIndex != newLocationIndex && newLocationIndex != -1) {
+        return Left(LocationPointExistsFailure());
+      } else {
+        final updatedLocation = locations[oldLocationIndex].copyWith(
+          pointName: argument.newLocationName,
+          latitude: argument.latitude,
+          longitude: argument.longitude,
+        );
+        locations[oldLocationIndex] = updatedLocation;
+        await _locationPointsRepository.saveLocations(locations);
+        return const Right(true);
+      }
+    } else {
+      return Left(LoadLocationPointsFailure());
     }
-    return const Right(true);
   }
 }
 

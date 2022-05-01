@@ -1,27 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
-import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_bloc.dart';
-import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_event.dart';
-import 'package:susanin/presentation/bloc/location_point_validate/location_point_validte_state.dart';
 
-class EditLocationBottomSheet extends StatefulWidget {
+class LocationBottomSheet extends StatefulWidget {
   final String name;
   final String latitude;
   final String longitude;
-  const EditLocationBottomSheet({
+  final Function flushValidator;
+  final Function nameValidator;
+  final Function latitudeValidator;
+  final Function longitudeValidator;
+  final Function saveLocation;
+  final bool isNameValid;
+  final bool isLatutideValid;
+  final bool isLongitudeValid;
+
+  const LocationBottomSheet({
     Key? key,
     required this.name,
     required this.latitude,
     required this.longitude,
+    required this.flushValidator,
+    required this.nameValidator,
+    required this.latitudeValidator,
+    required this.longitudeValidator,
+    required this.saveLocation,
+    required this.isNameValid,
+    required this.isLatutideValid,
+    required this.isLongitudeValid,
   }) : super(key: key);
 
   @override
-  State<EditLocationBottomSheet> createState() =>
-      _EditLocationBottomSheetState();
+  State<LocationBottomSheet> createState() => _LocationBottomSheetState();
 }
 
-class _EditLocationBottomSheetState extends State<EditLocationBottomSheet> {
+class _LocationBottomSheetState extends State<LocationBottomSheet> {
   late final TextEditingController nameController;
   late final TextEditingController latitudeController;
   late final TextEditingController longitudeController;
@@ -31,7 +42,7 @@ class _EditLocationBottomSheetState extends State<EditLocationBottomSheet> {
     nameController = TextEditingController(text: widget.name);
     latitudeController = TextEditingController(text: widget.latitude);
     longitudeController = TextEditingController(text: widget.longitude);
-    context.read<LocationpointValidateBloc>().add(FlushValidator());
+    widget.flushValidator();
     super.initState();
   }
 
@@ -45,9 +56,9 @@ class _EditLocationBottomSheetState extends State<EditLocationBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LocationpointValidateBloc, LocationPointValidateState>(
-        builder: (context, state) {
-      return Container(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Container(
         padding: EdgeInsets.only(
           top: 8.0,
           left: 8.0,
@@ -62,7 +73,13 @@ class _EditLocationBottomSheetState extends State<EditLocationBottomSheet> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Text('Edit Location'),
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(20.0)),
+              width: 40,
+              height: 7,
+            ),
             Form(
               child: Column(
                 children: [
@@ -72,14 +89,12 @@ class _EditLocationBottomSheetState extends State<EditLocationBottomSheet> {
                     autofocus: true,
                     decoration: InputDecoration(
                       labelText: 'Location Name',
-                      errorText: !state.isNameValid
+                      errorText: !widget.isNameValid
                           ? 'Location with this name exists'
                           : null,
                     ),
                     onChanged: (value) {
-                      context
-                          .read<LocationpointValidateBloc>()
-                          .add(NameChanged(name: value));
+                      widget.nameValidator(value);
                     },
                   ),
                   TextFormField(
@@ -88,14 +103,12 @@ class _EditLocationBottomSheetState extends State<EditLocationBottomSheet> {
                         const TextInputType.numberWithOptions(decimal: true),
                     decoration: InputDecoration(
                       labelText: 'Latitude',
-                      errorText: !state.isLatutideValid
+                      errorText: !widget.isLatutideValid
                           ? 'Wrong latitude value'
                           : null,
                     ),
                     onChanged: (value) {
-                      context
-                          .read<LocationpointValidateBloc>()
-                          .add(LatitudeChanged(latitude: value));
+                      widget.latitudeValidator(value);
                     },
                   ),
                   TextFormField(
@@ -104,14 +117,12 @@ class _EditLocationBottomSheetState extends State<EditLocationBottomSheet> {
                         const TextInputType.numberWithOptions(decimal: true),
                     decoration: InputDecoration(
                       labelText: 'Longitude',
-                      errorText: !state.isLongitudeValid
+                      errorText: !widget.isLongitudeValid
                           ? 'Wrong longitude value'
                           : null,
                     ),
                     onChanged: (value) {
-                      context
-                          .read<LocationpointValidateBloc>()
-                          .add(LongitudeChanged(longitude: value));
+                      widget.longitudeValidator(value);
                     },
                   ),
                 ],
@@ -125,17 +136,15 @@ class _EditLocationBottomSheetState extends State<EditLocationBottomSheet> {
                     onPressed: () => Navigator.pop(context)),
                 ElevatedButton(
                     child: const Text('Save'),
-                    onPressed: state.isNameValid &&
-                            state.isLatutideValid &&
-                            state.isLongitudeValid
+                    onPressed: widget.isNameValid &&
+                            widget.isLatutideValid &&
+                            widget.isLongitudeValid
                         ? () {
-                            context.read<AddLocationCubit>().onSaveLocation(
-                                  latitude:
-                                      double.parse(latitudeController.text),
-                                  longitude:
-                                      double.parse(longitudeController.text),
-                                  pointName: nameController.text,
-                                );
+                            widget.saveLocation(
+                              latitudeController.text,
+                              longitudeController.text,
+                              nameController.text,
+                            );
                             Navigator.pop(context);
                           }
                         : null),
@@ -143,7 +152,7 @@ class _EditLocationBottomSheetState extends State<EditLocationBottomSheet> {
             ),
           ],
         ),
-      );
-    });
+      ),
+    );
   }
 }

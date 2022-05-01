@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_state.dart';
-import 'package:susanin/presentation/screens/home/widgets/edit_location_bottom_sheet.dart';
+import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_bloc.dart';
+import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_event.dart';
+import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_state.dart';
+import 'package:susanin/presentation/screens/home/widgets/location_bottom_sheet.dart';
 
 class AddNewLocationButton extends StatelessWidget {
   const AddNewLocationButton({Key? key}) : super(key: key);
@@ -52,15 +55,39 @@ class AddNewLocationButton extends StatelessWidget {
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          color: Colors.transparent,
-          child: EditLocationBottomSheet(
+        return BlocBuilder<LocationPointValidateBloc,
+            LocationPointValidateState>(builder: (context, validatorState) {
+          return LocationBottomSheet(
             name: state.pointName,
             latitude: state.latitude.toString(),
             longitude: state.longitude.toString(),
-          ),
-        );
+            flushValidator: () =>
+                context.read<LocationPointValidateBloc>().add(FlushValidator()),
+            nameValidator: (String value) => context
+                .read<LocationPointValidateBloc>()
+                .add(NameChanged(name: value)),
+            latitudeValidator: (String value) => context
+                .read<LocationPointValidateBloc>()
+                .add(LatitudeChanged(latitude: value)),
+            longitudeValidator: (String value) => context
+                .read<LocationPointValidateBloc>()
+                .add(LongitudeChanged(longitude: value)),
+            saveLocation: (
+              String latitude,
+              String longitude,
+              String name,
+            ) {
+              context.read<AddLocationCubit>().onSaveLocation(
+                    latitude: double.parse(latitude),
+                    longitude: double.parse(longitude),
+                    pointName: name,
+                  );
+            },
+            isNameValid: validatorState.isNameValid,
+            isLatutideValid: validatorState.isLatutideValid,
+            isLongitudeValid: validatorState.isLongitudeValid,
+          );
+        });
       },
     );
   }

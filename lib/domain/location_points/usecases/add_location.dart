@@ -13,8 +13,7 @@ class AddLocation extends UseCaseWithArguments<Future<Either<Failure, bool>>,
   Future<Either<Failure, bool>> call(LocationArgument argument) async {
     final locationsOrFailure = _locationPointsRepository.locationsOrFailure;
     if (locationsOrFailure.isRight()) {
-      List<LocationPointEntity> locations =
-          locationsOrFailure.getOrElse(() => []);
+      final locations = locationsOrFailure.getOrElse(() => []);
       final locationIndex = locations.indexWhere(
           (savedLocation) => savedLocation.pointName == argument.pointName);
       if (locationIndex != -1) {

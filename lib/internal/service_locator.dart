@@ -44,11 +44,15 @@ Future<void> init() async {
     ),
   );
   serviceLocator.registerFactory(
-    () => LocationpointValidateBloc(
+    () => LocationPointValidateBloc(
       getLocations: serviceLocator(),
     ),
   );
-
+  serviceLocator.registerFactory(
+    () => EditLocationPointValidateBloc(
+      getLocations: serviceLocator(),
+    ),
+  );
   serviceLocator.registerFactory(
     () => AddLocationCubit(
       addLocation: serviceLocator(),

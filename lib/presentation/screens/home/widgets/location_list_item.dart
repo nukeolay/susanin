@@ -49,6 +49,13 @@ class LocationListItem extends StatelessWidget {
         subtitle: Text(
             'lat: ${location.latitude}, lon: ${location.longitude}, created: ${location.creationTime}'),
         onTap: null,
+        onLongPress: () {
+          context.read<LocationsListCubit>().onLongPressEdit(
+                name: location.pointName,
+                latitude: location.latitude,
+                longitude: location.longitude,
+              );
+        },
       ),
     );
   }

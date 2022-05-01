@@ -52,12 +52,8 @@ class AddLocationCubit extends Cubit<AddLocationState> {
         longitude: state.longitude,
         pointName: DateTime.now().toString()));
     addLocationResult.fold(
-      (failure) {
-        emit(state.copyWith(status: AddLocationStatus.failure));
-      },
-      (result) {
-        emit(state.copyWith(status: AddLocationStatus.normal));
-      },
+      (failure) => emit(state.copyWith(status: AddLocationStatus.failure)),
+      (result) => emit(state.copyWith(status: AddLocationStatus.normal)),
     );
   }
 
@@ -78,4 +74,17 @@ class AddLocationCubit extends Cubit<AddLocationState> {
       },
     );
   }
+
+  // void onLongPressEdit({
+  //   required String name,
+  //   required double latitude,
+  //   required double longitude,
+  // }) async {
+  //   emit(state.copyWith(
+  //     status: AddLocationStatus.editing,
+  //     latitude: latitude,
+  //     longitude: longitude,
+  //     pointName: name,
+  //   ));
+  // }
 }
