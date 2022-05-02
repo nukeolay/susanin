@@ -3,28 +3,28 @@ import 'package:equatable/equatable.dart';
 class SettingsEntity extends Equatable {
   final bool isDarkTheme;
   final bool isFirstTime;
-  final String activeLocation;
+  final String activeLocationId;
 
   const SettingsEntity({
     required this.isDarkTheme,
     required this.isFirstTime,
-    required this.activeLocation,
+    required this.activeLocationId,
   });
 
   SettingsEntity copyWith(
-      {bool? isDarkTheme, bool? isFirstTime, String? activeLocation}) {
+      {bool? isDarkTheme, bool? isFirstTime, String? activeLocationId}) {
     return SettingsEntity(
       isDarkTheme: isDarkTheme ?? this.isDarkTheme,
       isFirstTime: isFirstTime ?? this.isFirstTime,
-      activeLocation: activeLocation ?? this.activeLocation,
+      activeLocationId: activeLocationId ?? this.activeLocationId,
     );
   }
 
   @override
   String toString() {
-    return 'SettingsEntity {isDarkTheme: $isDarkTheme, isFirstTime: $isFirstTime, activeLocation: $activeLocation}';
+    return 'SettingsEntity {isDarkTheme: $isDarkTheme, isFirstTime: $isFirstTime, activeLocationId: $activeLocationId}';
   }
 
   @override
-  List<Object?> get props => [isDarkTheme, isFirstTime, activeLocation];
+  List<Object?> get props => [isDarkTheme, isFirstTime, activeLocationId];
 }

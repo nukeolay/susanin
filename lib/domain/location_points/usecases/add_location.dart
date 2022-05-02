@@ -22,7 +22,7 @@ class AddLocation extends UseCaseWithArguments<Future<Either<Failure, bool>>,
         creationTime: DateTime.now(),
       );
       locations.add(newLocation);
-      await _locationPointsRepository.saveLocations(locations);
+      await _locationPointsRepository.save(locations);
       return const Right(true);
     } else {
       return Left(LoadLocationPointsFailure());

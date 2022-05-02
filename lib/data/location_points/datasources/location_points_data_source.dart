@@ -7,8 +7,8 @@ import 'package:susanin/data/location_points/models/location_point_model.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 
 abstract class LocationsDataSource {
-  Future<List<LocationPointModel>> loadLocations();
-  Future<void> saveLocations(List<LocationPointEntity> locations);
+  Future<List<LocationPointModel>> loadLocations(); 
+  Future<void> saveLocations(List<LocationPointModel> locations); // ! TODO поменять на Model
 }
 
 class LocationsDataSourceImpl implements LocationsDataSource {
@@ -36,16 +36,8 @@ class LocationsDataSourceImpl implements LocationsDataSource {
   }
 
   @override
-  Future<void> saveLocations(List<LocationPointEntity> locations) async {
-    final String jsonLocations = json.encode(locations
-        .map((locationEntity) => LocationPointModel(
-              id: locationEntity.id,
-              latitude: locationEntity.latitude,
-              longitude: locationEntity.longitude,
-              name: locationEntity.name,
-              creationTime: locationEntity.creationTime,
-            ))
-        .toList());
+  Future<void> saveLocations(List<LocationPointModel> locations) async {
+    final String jsonLocations = json.encode(locations);
     await sharedPreferences.setString(locationsKey, jsonLocations);
   }
 }

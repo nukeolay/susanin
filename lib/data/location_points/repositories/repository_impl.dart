@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:susanin/core/errors/failure.dart';
+import 'package:susanin/data/location_points/models/location_point_model.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 import 'package:susanin/domain/location_points/repositories/repository.dart';
 import 'package:susanin/data/location_points/datasources/location_points_data_source.dart';
@@ -43,9 +44,17 @@ class LocationPointsRepositoryImpl extends LocationPointsRepository {
   get locationsOrFailure => _locationsOrFailure;
 
   @override
-  Future<void> saveLocations(List<LocationPointEntity> locations) async {
+  Future<void> save(List<LocationPointEntity> locations) async {
     try {
-      await locationsDataSource.saveLocations(locations);
+      await locationsDataSource.saveLocations(locations
+          .map((location) => LocationPointModel(
+                id: location.id,
+                latitude: location.latitude,
+                longitude: location.longitude,
+                name: location.name,
+                creationTime: location.creationTime,
+              ))
+          .toList());
       final loadedLocations = (await locationsDataSource.loadLocations())
           .map((location) => LocationPointEntity(
                 id: location.id,
@@ -58,8 +67,8 @@ class LocationPointsRepositoryImpl extends LocationPointsRepository {
       _locationsOrFailure = Right(loadedLocations);
       _streamController.add(Right(loadedLocations));
     } catch (error) {
-      _locationsOrFailure = Left(LoadLocationPointsFailure());
-      _streamController.add(Left(LoadLocationPointsFailure()));
+      _locationsOrFailure = Left(SaveLocationPointsFailure());
+      _streamController.add(Left(SaveLocationPointsFailure()));
     }
   }
 }

@@ -17,6 +17,8 @@ class CompassFailure extends Failure {}
 
 class LoadLocationPointsFailure extends Failure {}
 
+class SaveLocationPointsFailure extends Failure {}
+
 class LocationPointUpdateFailure extends Failure {}
 
 class LocationPointRemoveFailure extends Failure {}
@@ -24,3 +26,7 @@ class LocationPointRemoveFailure extends Failure {}
 class LocationPointRenameFailure extends Failure {}
 
 class LocationPointCreateFailure extends Failure {}
+
+class LoadSettingsFailure extends Failure {}
+
+class SaveSettingsFailure extends Failure {}

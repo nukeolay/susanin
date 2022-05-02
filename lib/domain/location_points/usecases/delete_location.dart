@@ -14,7 +14,7 @@ class DeleteLocation
       final locations = locationsOrFailure.getOrElse(() => []);
       locations
           .removeWhere((savedLocation) => savedLocation.id == argument);
-      await _locationPointsRepository.saveLocations(locations);
+      await _locationPointsRepository.save(locations);
       return const Right(true);
     } else {
       return Left(LocationPointRemoveFailure());

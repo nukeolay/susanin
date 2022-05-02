@@ -22,7 +22,7 @@ class UpdateLocation extends UseCaseWithArguments<Future<Either<Failure, bool>>,
           latitude: argument.latitude,
           longitude: argument.longitude,
         );
-        await _locationPointsRepository.saveLocations(locations);
+        await _locationPointsRepository.save(locations);
         return const Right(true);
       }
     } else {

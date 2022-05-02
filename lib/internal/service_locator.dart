@@ -7,6 +7,8 @@ import 'package:susanin/data/location/platform/position_platform.dart';
 import 'package:susanin/data/location/repositories/repository_impl.dart';
 import 'package:susanin/data/location_points/datasources/location_points_data_source.dart';
 import 'package:susanin/data/location_points/repositories/repository_impl.dart';
+import 'package:susanin/data/settings/datasources/settings_data_source.dart';
+import 'package:susanin/data/settings/repositories/repository_impl.dart';
 import 'package:susanin/domain/compass/repositories/repository.dart';
 import 'package:susanin/domain/compass/usecases/get_compass_stream.dart';
 import 'package:susanin/domain/location/repositories/repository.dart';
@@ -20,6 +22,7 @@ import 'package:susanin/domain/location_points/usecases/get_locations.dart';
 import 'package:susanin/domain/location_points/usecases/get_locations_stream.dart';
 import 'package:susanin/domain/location_points/usecases/update_location.dart';
 import 'package:susanin/domain/location_points/usecases/add_location.dart';
+import 'package:susanin/domain/settings/repositories/repository.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
 import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_bloc.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
@@ -121,6 +124,14 @@ Future<void> init() async {
   );
   serviceLocator.registerLazySingleton<LocationsDataSource>(
     () => LocationsDataSourceImpl(serviceLocator()),
+  );
+
+  // SettingsRepository
+  serviceLocator.registerLazySingleton<SettingsRepository>(
+    () => SettingsRepositoryImpl(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<SettingsDataSource>(
+    () => SettingsDataSourceImpl(serviceLocator()),
   );
 
   // // ---Core---
