@@ -82,8 +82,8 @@ class LocationList extends StatelessWidget {
               String latitude,
               String longitude,
               String name,
-            ) {
-              context.read<LocationsListCubit>().onSaveLocation(
+            ) async {
+              await context.read<LocationsListCubit>().onSaveLocation(
                     latitude: double.parse(latitude),
                     longitude: double.parse(longitude),
                     oldLocationName: state.pointName,

@@ -7,13 +7,4 @@ abstract class LocationPointsRepository {
   Either<Failure, List<LocationPointEntity>> get locationsOrFailure;
 
   Future<void> saveLocations(List<LocationPointEntity> locations);
-
-  // Future<void> saveLocation(LocationPointEntity locationPoint);
-
-  // Future<void> deleteLocation(String locationName);
-
-  // Future<void> renameLocation({
-  //   required String oldLocationName,
-  //   required String newLocationName,
-  // });
 }

@@ -34,18 +34,18 @@ class MainPointerCubit extends Cubit<MainPointerState> {
         StreamGroup.merge([_getPositionStream(), _getCompassStream()]);
     _stream.listen((event) {
       event.fold(
-        (error) {
+        (failure) {
           final MainPointerState _state;
-          if (error is LocationServiceDeniedFailure) {
+          if (failure is LocationServiceDeniedFailure) {
             _state = state.copyWith(
               status: MainPointerStatus.permissionFailure,
             );
-          } else if (error is LocationServiceDisabledFailure ||
-              error is LocationServiceDeniedForeverFailure) {
+          } else if (failure is LocationServiceDisabledFailure ||
+              failure is LocationServiceDeniedForeverFailure) {
             _state = state.copyWith(
               status: MainPointerStatus.serviceFailure,
             );
-          } else if (error is CompassFailure) {
+          } else if (failure is CompassFailure) {
             _state = state.copyWith(
               isCompassError: true,
             );

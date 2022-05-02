@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
@@ -27,8 +28,8 @@ class LocationListItem extends StatelessWidget {
         padding: const EdgeInsets.only(left: 12.0),
         child: const Icon(Icons.share_rounded, color: Colors.white),
       ),
-      onDismissed: (value) {
-        context
+      onDismissed: (value) async {
+        await context
             .read<LocationsListCubit>()
             .onDeleteLocation(pointName: location.pointName);
       },
@@ -66,7 +67,7 @@ Future<bool?> _showConfirmationDialog(BuildContext context) async {
     context: context,
     barrierDismissible: true,
     builder: (BuildContext context) {
-      return AlertDialog(
+      return CupertinoAlertDialog(
         title: const Text('Do you want to delete this location?'),
         actions: <Widget>[
           TextButton(

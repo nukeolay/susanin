@@ -4,8 +4,6 @@ import 'package:susanin/domain/location_points/entities/location_point.dart';
 enum LocationsListStatus {
   loading,
   loaded,
-  deleted,
-  updated,
   editing,
   failure,
 }

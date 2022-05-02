@@ -46,14 +46,14 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     });
   }
 
-  void onDeleteLocation({required String pointName}) async {
+  Future<void> onDeleteLocation({required String pointName}) async {
     final deleteLocationResult = await _deleteLocation.call(pointName);
     deleteLocationResult.fold(
       (failure) {
         emit(state.copyWith(status: LocationsListStatus.failure));
       },
       (result) {
-        emit(state.copyWith(status: LocationsListStatus.loaded));
+        emit(state.copyWith(status: LocationsListStatus.deleted));
       },
     );
   }
@@ -76,7 +76,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     emit(state.copyWith(status: LocationsListStatus.loaded));
   }
 
-  void onSaveLocation({
+  Future<void> onSaveLocation({
     required double latitude,
     required double longitude,
     required String oldLocationName,
@@ -92,6 +92,6 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     );
     updateLocationResult.fold(
         (failure) => emit(state.copyWith(status: LocationsListStatus.failure)),
-        (r) => emit(state.copyWith(status: LocationsListStatus.loaded)));
+        (r) => emit(state.copyWith(status: LocationsListStatus.updated)));
   }
 }
