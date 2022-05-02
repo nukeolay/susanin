@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:async/async.dart' show StreamGroup;
+import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/domain/compass/entities/compass.dart';
@@ -12,6 +16,9 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   final GetPositionStream _getPositionStream;
   final GetDistanceBetween _getDistanceBetween;
   final GetCompassStream _getCompassStream;
+  late final Stream<Either<Failure, Equatable>> _pointerStream;
+  late final StreamSubscription<Either<Failure, Equatable>>
+      _pointerSubscription;
 
   MainPointerCubit({
     required GetPositionStream getPositionStream,
@@ -30,9 +37,9 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   }
 
   void _init() {
-    final _stream =
+    _pointerStream =
         StreamGroup.merge([_getPositionStream(), _getCompassStream()]);
-    _stream.listen((event) {
+    _pointerSubscription = _pointerStream.listen((event) {
       event.fold(
         (failure) {
           final MainPointerState _state;
@@ -74,5 +81,11 @@ class MainPointerCubit extends Cubit<MainPointerState> {
         },
       );
     });
+  }
+
+  @override
+  Future<void> close() async {
+    _pointerSubscription.cancel();
+    super.close();
   }
 }

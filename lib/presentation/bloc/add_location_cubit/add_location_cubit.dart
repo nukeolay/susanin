@@ -1,4 +1,9 @@
+import 'dart:async';
+
+import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:susanin/core/errors/failure.dart';
+import 'package:susanin/domain/location/entities/position.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location_points/usecases/add_location.dart';
 import 'package:susanin/domain/settings/usecases/set_active_location.dart';
@@ -8,6 +13,9 @@ class AddLocationCubit extends Cubit<AddLocationState> {
   final AddLocation _addLocation;
   final GetPositionStream _getPositionStream;
   final SetActiveLocation _setActiveLocation;
+  late final Stream<Either<Failure, PositionEntity>> _positionStream;
+  late final StreamSubscription<Either<Failure, PositionEntity>>
+      _positionSubscription;
 
   AddLocationCubit({
     required AddLocation addLocation,
@@ -26,8 +34,8 @@ class AddLocationCubit extends Cubit<AddLocationState> {
   }
 
   void _init() {
-    final _stream = _getPositionStream();
-    _stream.listen((event) {
+    _positionStream = _getPositionStream();
+    _positionSubscription = _positionStream.listen((event) {
       event.fold((failure) {
         emit(state.copyWith(status: AddLocationStatus.failure));
       }, (position) {
@@ -38,6 +46,12 @@ class AddLocationCubit extends Cubit<AddLocationState> {
         ));
       });
     });
+  }
+
+  @override
+  Future<void> close() async {
+    _positionSubscription.cancel();
+    super.close();
   }
 
   void onLongPressAdd() async {

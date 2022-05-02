@@ -51,6 +51,7 @@ Future<void> init() async {
   serviceLocator.registerFactory(
     () => LocationsListCubit(
       getSettings: serviceLocator(),
+      getSettingsStream: serviceLocator(),
       getLocationsStream: serviceLocator(),
       updateLocation: serviceLocator(),
       deleteLocation: serviceLocator(),
