@@ -34,14 +34,16 @@ class LocationsListState extends Equatable {
 }
 
 class EditLocationState extends LocationsListState {
+  final String id;
   final double latitude;
   final double longitude;
-  final String pointName;
+  final String name;
 
   const EditLocationState({
+    required this.id,
     required this.latitude,
     required this.longitude,
-    required this.pointName,
+    required this.name,
     required LocationsListStatus status,
     required List<LocationPointEntity> locations,
   }) : super(status: status, locations: locations);
@@ -52,17 +54,18 @@ class EditLocationState extends LocationsListState {
     List<LocationPointEntity>? locations,
     double? latitude,
     double? longitude,
-    String? pointName,
+    String? name,
   }) {
     return EditLocationState(
+      id: id,
       status: status ?? this.status,
       locations: locations ?? this.locations,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
-      pointName: pointName ?? this.pointName,
+      name: name ?? this.name,
     );
   }
 
   @override
-  List<Object> get props => [latitude, longitude, pointName, status, locations];
+  List<Object> get props => [latitude, longitude, name, status, locations];
 }

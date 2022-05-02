@@ -17,17 +17,14 @@ class LocationPointValidateBloc
     on<NameChanged>(_onNameChanged);
     on<LatitudeChanged>(_onLatitudeChanged);
     on<LongitudeChanged>(_onLongitudeChanged);
-    on<FlushValidator>(_onFlushValidator);
+    // on<FlushValidator>(_onFlushValidator);
   }
 
   void _onNameChanged(
       NameChanged event, Emitter<LocationPointValidateState> emit) {
-    final locations = _getLocations().getOrElse(() => []);
     final name = event.name;
-    final index =
-        locations.indexWhere((location) => location.pointName == name);
     emit(state.copyWith(
-      isNameValid: index == -1 && name != '' ? true : false,
+      isNameValid: name != '' ? true : false,
     ));
   }
 
@@ -59,37 +56,12 @@ class LocationPointValidateBloc
     }
   }
 
-  void _onFlushValidator(
-      FlushValidator event, Emitter<LocationPointValidateState> emit) {
-    emit(state.copyWith(
-      isNameValid: true,
-      isLatutideValid: true,
-      isLongitudeValid: true,
-    ));
-  }
-}
-
-class EditLocationPointValidateBloc extends LocationPointValidateBloc {
-  EditLocationPointValidateBloc({required GetLocations getLocations})
-      : super(getLocations: getLocations);
-
-  @override
-  void _onNameChanged(
-      NameChanged event, Emitter<LocationPointValidateState> emit) {
-    final locations = _getLocations().getOrElse(() => []);
-    final index =
-        locations.indexWhere((location) => location.pointName == event.name);
-    if (event.oldName != null) {
-      emit(state.copyWith(
-        isNameValid:
-            index == -1 || event.name == event.oldName && event.name != ''
-                ? true
-                : false,
-      ));
-    } else {
-      emit(state.copyWith(
-        isNameValid: index == -1 && event.name != '' ? true : false,
-      ));
-    }
-  }
+  // void _onFlushValidator(
+  //     FlushValidator event, Emitter<LocationPointValidateState> emit) {
+  //   emit(state.copyWith(
+  //     isNameValid: true,
+  //     isLatutideValid: true,
+  //     isLongitudeValid: true,
+  //   ));
+  // }
 }

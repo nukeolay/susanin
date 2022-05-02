@@ -1,36 +1,39 @@
 import 'package:equatable/equatable.dart';
 
 class LocationPointEntity extends Equatable {
+  final String id;
   final double latitude;
   final double longitude;
-  final String pointName;
+  final String name;
   final DateTime creationTime;
 
   const LocationPointEntity({
+    required this.id,
     required this.latitude,
     required this.longitude,
-    required this.pointName,
+    required this.name,
     required this.creationTime,
   });
 
-  LocationPointEntity copyWith(
-      {double? latitude,
-      double? longitude,
-      String? pointName,
-      DateTime? creationTime}) {
+  LocationPointEntity copyWith({
+    double? latitude,
+    double? longitude,
+    String? name,
+  }) {
     return LocationPointEntity(
+      id: id,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
-      pointName: pointName ?? this.pointName,
-      creationTime: creationTime ?? this.creationTime,
+      name: name ?? this.name,
+      creationTime: creationTime,
     );
   }
 
   @override
   String toString() {
-    return 'LocationPointEntity {lat: $latitude, lon: $longitude, name: $pointName, created at: $creationTime}';
+    return 'LocationPointEntity {id: $id, lat: $latitude, lon: $longitude, name: $name, created at: $creationTime}';
   }
 
   @override
-  List<Object?> get props => [latitude, longitude, pointName, creationTime];
+  List<Object?> get props => [id, latitude, longitude, name, creationTime];
 }

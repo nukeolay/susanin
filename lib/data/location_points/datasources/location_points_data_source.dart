@@ -13,7 +13,7 @@ abstract class LocationsDataSource {
 
 class LocationsDataSourceImpl implements LocationsDataSource {
   final SharedPreferences sharedPreferences;
-  static const locationsKey = 'savedLocationStorage';
+  static const locationsKey = 'savedLocations';
 
   const LocationsDataSourceImpl(this.sharedPreferences);
 
@@ -39,9 +39,10 @@ class LocationsDataSourceImpl implements LocationsDataSource {
   Future<void> saveLocations(List<LocationPointEntity> locations) async {
     final String jsonLocations = json.encode(locations
         .map((locationEntity) => LocationPointModel(
+              id: locationEntity.id,
               latitude: locationEntity.latitude,
               longitude: locationEntity.longitude,
-              pointName: locationEntity.pointName,
+              name: locationEntity.name,
               creationTime: locationEntity.creationTime,
             ))
         .toList());

@@ -16,7 +16,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
           status: AddLocationStatus.loading,
           latitude: 0,
           longitude: 0,
-          pointName: '',
+          name: '',
         )) {
     _init();
   }
@@ -41,7 +41,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
       status: AddLocationStatus.editing,
       latitude: state.latitude,
       longitude: state.longitude,
-      pointName: DateTime.now().toString(),
+      name: DateTime.now().toString(),
     ));
   }
 
@@ -50,7 +50,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     final addLocationResult = await _addLocation(LocationArgument(
         latitude: state.latitude,
         longitude: state.longitude,
-        pointName: DateTime.now().toString()));
+        name: DateTime.now().toString()));
     addLocationResult.fold(
       (failure) => emit(state.copyWith(status: AddLocationStatus.failure)),
       (result) => emit(state.copyWith(status: AddLocationStatus.normal)),
@@ -60,11 +60,11 @@ class AddLocationCubit extends Cubit<AddLocationState> {
   void onSaveLocation({
     required double latitude,
     required double longitude,
-    required String pointName,
+    required String name,
   }) async {
     emit(state.copyWith(status: AddLocationStatus.loading));
     final addLocationResult = await _addLocation(LocationArgument(
-        latitude: latitude, longitude: longitude, pointName: pointName));
+        latitude: latitude, longitude: longitude, name: name));
     addLocationResult.fold(
       (failure) {
         emit(state.copyWith(status: AddLocationStatus.failure));

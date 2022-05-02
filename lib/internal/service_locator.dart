@@ -49,11 +49,6 @@ Future<void> init() async {
     ),
   );
   serviceLocator.registerFactory(
-    () => EditLocationPointValidateBloc(
-      getLocations: serviceLocator(),
-    ),
-  );
-  serviceLocator.registerFactory(
     () => AddLocationCubit(
       addLocation: serviceLocator(),
       getPositionStream: serviceLocator(),

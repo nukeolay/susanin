@@ -46,8 +46,8 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     });
   }
 
-  Future<void> onDeleteLocation({required String pointName}) async {
-    final deleteLocationResult = await _deleteLocation.call(pointName);
+  Future<void> onDeleteLocation({required String id}) async {
+    final deleteLocationResult = await _deleteLocation.call(id);
     deleteLocationResult.fold(
       (failure) {
         emit(state.copyWith(status: LocationsListStatus.failure));
@@ -58,16 +58,15 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     );
   }
 
-  void onLongPressEdit({
-    required String name,
-    required double latitude,
-    required double longitude,
-  }) async {
+  void onLongPressEdit({required String id}) async {
+    final location =
+        state.locations.firstWhere(((location) => location.id == id));
     emit(EditLocationState(
+      id: id,
       status: LocationsListStatus.editing,
-      pointName: name,
-      latitude: latitude,
-      longitude: longitude,
+      name: location.name,
+      latitude: location.latitude,
+      longitude: location.longitude,
       locations: state.locations,
     ));
   }
@@ -77,16 +76,16 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   Future<void> onSaveLocation({
+    required String id,
     required double latitude,
     required double longitude,
-    required String oldLocationName,
     required String newLocationName,
   }) async {
     final updateLocationResult = await _updateLocation(
       UpdateArgument(
+        id: id,
         latitude: latitude,
         longitude: longitude,
-        oldLocationName: oldLocationName,
         newLocationName: newLocationName,
       ),
     );

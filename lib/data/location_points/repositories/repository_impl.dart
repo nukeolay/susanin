@@ -21,9 +21,10 @@ class LocationPointsRepositoryImpl extends LocationPointsRepository {
     try {
       final locations = (await locationsDataSource.loadLocations())
           .map((location) => LocationPointEntity(
+                id: location.id,
                 latitude: location.latitude,
                 longitude: location.longitude,
-                pointName: location.pointName,
+                name: location.name,
                 creationTime: location.creationTime,
               ))
           .toList();
@@ -47,9 +48,10 @@ class LocationPointsRepositoryImpl extends LocationPointsRepository {
       await locationsDataSource.saveLocations(locations);
       final loadedLocations = (await locationsDataSource.loadLocations())
           .map((location) => LocationPointEntity(
+                id: location.id,
                 latitude: location.latitude,
                 longitude: location.longitude,
-                pointName: location.pointName,
+                name: location.name,
                 creationTime: location.creationTime,
               ))
           .toList();

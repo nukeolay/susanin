@@ -53,9 +53,9 @@
 //     });
 //   }
 
-//   Future<void> onDeleteLocation({required String pointName}) async {
+//   Future<void> onDeleteLocation({required String name}) async {
 //     // final deleteLocationResult =
-//     await _deleteLocation.call(pointName);
+//     await _deleteLocation.call(name);
 //     // deleteLocationResult.fold(
 //     //   (failure) {
 //     //     emit(state.copyWith(status: LocationsListStatus.failure));
@@ -73,7 +73,7 @@
 //   }) async {
 //     emit(EditLocationState(
 //       status: LocationsListStatus.editing,
-//       pointName: name,
+//       name: name,
 //       latitude: latitude,
 //       longitude: longitude,
 //       locations: state.locations,

@@ -55,39 +55,22 @@ class AddNewLocationButton extends StatelessWidget {
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return BlocBuilder<LocationPointValidateBloc,
-            LocationPointValidateState>(builder: (context, validatorState) {
-          return LocationBottomSheet(
-            name: state.pointName,
-            latitude: state.latitude.toString(),
-            longitude: state.longitude.toString(),
-            flushValidator: () =>
-                context.read<LocationPointValidateBloc>().add(FlushValidator()),
-            nameValidator: (String value) => context
-                .read<LocationPointValidateBloc>()
-                .add(NameChanged(name: value)),
-            latitudeValidator: (String value) => context
-                .read<LocationPointValidateBloc>()
-                .add(LatitudeChanged(latitude: value)),
-            longitudeValidator: (String value) => context
-                .read<LocationPointValidateBloc>()
-                .add(LongitudeChanged(longitude: value)),
-            saveLocation: (
-              String latitude,
-              String longitude,
-              String name,
-            ) {
-              context.read<AddLocationCubit>().onSaveLocation(
-                    latitude: double.parse(latitude),
-                    longitude: double.parse(longitude),
-                    pointName: name,
-                  );
-            },
-            isNameValid: validatorState.isNameValid,
-            isLatutideValid: validatorState.isLatutideValid,
-            isLongitudeValid: validatorState.isLongitudeValid,
-          );
-        });
+        return LocationBottomSheet(
+          name: state.name,
+          latitude: state.latitude.toString(),
+          longitude: state.longitude.toString(),
+          saveLocation: (
+            String latitude,
+            String longitude,
+            String name,
+          ) {
+            context.read<AddLocationCubit>().onSaveLocation(
+                  latitude: double.parse(latitude),
+                  longitude: double.parse(longitude),
+                  name: name,
+                );
+          },
+        );
       },
     );
   }

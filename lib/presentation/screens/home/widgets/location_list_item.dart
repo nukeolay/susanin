@@ -31,7 +31,7 @@ class LocationListItem extends StatelessWidget {
       onDismissed: (value) async {
         await context
             .read<LocationsListCubit>()
-            .onDeleteLocation(pointName: location.pointName);
+            .onDeleteLocation(id: location.id);
       },
       confirmDismiss: (DismissDirection dismissDirection) async {
         if (dismissDirection == DismissDirection.endToStart) {
@@ -43,20 +43,14 @@ class LocationListItem extends StatelessWidget {
       },
       child: ListTile(
         title: Text(
-          location.pointName,
+          location.name,
           style: const TextStyle(fontSize: 20),
           overflow: TextOverflow.ellipsis,
         ),
-        subtitle: Text(
-            'lat: ${location.latitude}, lon: ${location.longitude}, created: ${location.creationTime}'),
+        subtitle: Text(location.toString()),
         onTap: null,
-        onLongPress: () {
-          context.read<LocationsListCubit>().onLongPressEdit(
-                name: location.pointName,
-                latitude: location.latitude,
-                longitude: location.longitude,
-              );
-        },
+        onLongPress: () =>
+            context.read<LocationsListCubit>().onLongPressEdit(id: location.id),
       ),
     );
   }

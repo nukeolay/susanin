@@ -10,11 +10,9 @@ abstract class LocationPointValidateEvent extends Equatable {
 class NameChanged extends LocationPointValidateEvent {
   const NameChanged({
     required this.name,
-    this.oldName,
   });
 
   final String name;
-  final String? oldName;
 
   @override
   List<Object> get props => [name];

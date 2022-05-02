@@ -26,9 +26,6 @@ class SusaninApp extends StatelessWidget {
             create: (context) => serviceLocator<AddLocationCubit>()),
         BlocProvider<LocationPointValidateBloc>(
             create: (context) => serviceLocator<LocationPointValidateBloc>()),
-        BlocProvider<EditLocationPointValidateBloc>(
-            create: (context) =>
-                serviceLocator<EditLocationPointValidateBloc>()),
         // ! TODO добавлять сюда bloc
       ],
       child: MaterialApp(

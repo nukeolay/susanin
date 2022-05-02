@@ -14,21 +14,16 @@ class AddLocation extends UseCaseWithArguments<Future<Either<Failure, bool>>,
     final locationsOrFailure = _locationPointsRepository.locationsOrFailure;
     if (locationsOrFailure.isRight()) {
       final locations = locationsOrFailure.getOrElse(() => []);
-      final locationIndex = locations.indexWhere(
-          (savedLocation) => savedLocation.pointName == argument.pointName);
-      if (locationIndex != -1) {
-        return Left(LocationPointExistsFailure());
-      } else {
-        final newLocation = LocationPointEntity(
-          latitude: argument.latitude,
-          longitude: argument.longitude,
-          pointName: argument.pointName,
-          creationTime: DateTime.now(),
-        );
-        locations.add(newLocation);
-        await _locationPointsRepository.saveLocations(locations);
-        return const Right(true);
-      }
+      final newLocation = LocationPointEntity(
+        id: 'id_${DateTime.now()}',
+        latitude: argument.latitude,
+        longitude: argument.longitude,
+        name: argument.name,
+        creationTime: DateTime.now(),
+      );
+      locations.add(newLocation);
+      await _locationPointsRepository.saveLocations(locations);
+      return const Right(true);
     } else {
       return Left(LoadLocationPointsFailure());
     }
@@ -38,11 +33,11 @@ class AddLocation extends UseCaseWithArguments<Future<Either<Failure, bool>>,
 class LocationArgument {
   final double longitude;
   final double latitude;
-  final String pointName;
+  final String name;
 
   LocationArgument({
     required this.longitude,
     required this.latitude,
-    required this.pointName,
+    required this.name,
   });
 }

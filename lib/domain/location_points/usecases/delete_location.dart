@@ -13,7 +13,7 @@ class DeleteLocation
     if (locationsOrFailure.isRight()) {
       final locations = locationsOrFailure.getOrElse(() => []);
       locations
-          .removeWhere((savedLocation) => savedLocation.pointName == argument);
+          .removeWhere((savedLocation) => savedLocation.id == argument);
       await _locationPointsRepository.saveLocations(locations);
       return const Right(true);
     } else {

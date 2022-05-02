@@ -6,29 +6,29 @@ class AddLocationState extends Equatable {
   final AddLocationStatus status;
   final double latitude;
   final double longitude;
-  final String pointName;
+  final String name;
 
   const AddLocationState({
     required this.status,
     required this.latitude,
     required this.longitude,
-    required this.pointName,
+    required this.name,
   });
 
   @override
-  List<Object> get props => [status, latitude, longitude, pointName];
+  List<Object> get props => [status, latitude, longitude, name];
 
   AddLocationState copyWith({
     AddLocationStatus? status,
     double? latitude,
     double? longitude,
-    String? pointName,
+    String? name,
   }) {
     return AddLocationState(
       status: status ?? this.status,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
-      pointName: pointName ?? this.pointName,
+      name: name ?? this.name,
     );
   }
 }
