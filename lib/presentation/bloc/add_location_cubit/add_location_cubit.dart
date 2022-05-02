@@ -1,17 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location_points/usecases/add_location.dart';
+import 'package:susanin/domain/settings/usecases/set_active_location.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_state.dart';
 
 class AddLocationCubit extends Cubit<AddLocationState> {
   final AddLocation _addLocation;
   final GetPositionStream _getPositionStream;
+  final SetActiveLocation _setActiveLocation;
 
   AddLocationCubit({
     required AddLocation addLocation,
     required GetPositionStream getPositionStream,
+    required SetActiveLocation setActiveLocation,
   })  : _addLocation = addLocation,
         _getPositionStream = getPositionStream,
+        _setActiveLocation = setActiveLocation,
         super(const AddLocationState(
           status: AddLocationStatus.loading,
           latitude: 0,
@@ -53,7 +57,10 @@ class AddLocationCubit extends Cubit<AddLocationState> {
         name: DateTime.now().toString()));
     addLocationResult.fold(
       (failure) => emit(state.copyWith(status: AddLocationStatus.failure)),
-      (result) => emit(state.copyWith(status: AddLocationStatus.normal)),
+      (result) {
+        _setActiveLocation(result.id);
+        emit(state.copyWith(status: AddLocationStatus.normal));
+      },
     );
   }
 
@@ -63,13 +70,14 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     required String name,
   }) async {
     emit(state.copyWith(status: AddLocationStatus.loading));
-    final addLocationResult = await _addLocation(LocationArgument(
-        latitude: latitude, longitude: longitude, name: name));
+    final addLocationResult = await _addLocation(
+        LocationArgument(latitude: latitude, longitude: longitude, name: name));
     addLocationResult.fold(
       (failure) {
         emit(state.copyWith(status: AddLocationStatus.failure));
       },
       (result) {
+        _setActiveLocation(result.id);
         emit(state.copyWith(status: AddLocationStatus.normal));
       },
     );

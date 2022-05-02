@@ -37,10 +37,12 @@ class LocationList extends StatelessWidget {
               return ListView.builder(
                   itemCount: locations.length,
                   itemBuilder: (context, index) {
-                    final key = ValueKey(
-                        locations[locations.length - index - 1].name);
+                    final key =
+                        ValueKey(locations[locations.length - index - 1].name);
                     return LocationListItem(
                       location: locations[locations.length - index - 1],
+                      isActive: locations[locations.length - index - 1].id ==
+                          state.activeLocationId,
                       key: key,
                     );
                   });

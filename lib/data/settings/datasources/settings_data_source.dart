@@ -6,7 +6,7 @@ import 'package:susanin/core/errors/exceptions.dart';
 import 'package:susanin/data/settings/models/settings_model.dart';
 
 abstract class SettingsDataSource {
-  Future<SettingsModel> load();
+  SettingsModel load();
   Future<void> save(SettingsModel settings);
 }
 
@@ -17,21 +17,21 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   const SettingsDataSourceImpl(this.sharedPreferences);
 
   @override
-  Future<SettingsModel> load() async {
+  SettingsModel load() { // ! TODO тут можно убрать async и может тогда все будет проинициализировано, и в остальных аналогичных случаях тоже
     final jsonSettings = sharedPreferences.getString(settingsKey);
     if (jsonSettings == null) {
-      return Future.value(const SettingsModel(
+      return const SettingsModel(
         isDarkTheme: false,
         isFirstTime: true,
         activeLocationId: '',
-      ));
+      );
     } else {
       try {
         final Map<String, dynamic> json = jsonDecode(jsonSettings);
         final SettingsModel settings = SettingsModel.fromJson(json);
-        return Future.value(settings);
+        return settings;
       } catch (error) {
-        throw LoadLocationPointsException();
+        throw LoadSettingsException();
       }
     }
   }

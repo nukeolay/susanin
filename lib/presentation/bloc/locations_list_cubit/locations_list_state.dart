@@ -13,22 +13,26 @@ enum LocationsListStatus {
 class LocationsListState extends Equatable {
   final LocationsListStatus status;
   final List<LocationPointEntity> locations;
+  final String activeLocationId;
 
   const LocationsListState({
     required this.status,
     required this.locations,
+    required this.activeLocationId,
   });
 
   @override
-  List<Object> get props => [status, locations];
+  List<Object> get props => [status, locations, activeLocationId];
 
   LocationsListState copyWith({
     LocationsListStatus? status,
     List<LocationPointEntity>? locations,
+    String? activeLocationId,
   }) {
     return LocationsListState(
       status: status ?? this.status,
       locations: locations ?? this.locations,
+      activeLocationId: activeLocationId ?? this.activeLocationId,
     );
   }
 }
@@ -46,12 +50,18 @@ class EditLocationState extends LocationsListState {
     required this.name,
     required LocationsListStatus status,
     required List<LocationPointEntity> locations,
-  }) : super(status: status, locations: locations);
+    required String activeLocationId,
+  }) : super(
+          status: status,
+          locations: locations,
+          activeLocationId: activeLocationId,
+        );
 
   @override
   EditLocationState copyWith({
     LocationsListStatus? status,
     List<LocationPointEntity>? locations,
+    String? activeLocationId,
     double? latitude,
     double? longitude,
     String? name,
@@ -60,6 +70,7 @@ class EditLocationState extends LocationsListState {
       id: id,
       status: status ?? this.status,
       locations: locations ?? this.locations,
+      activeLocationId: activeLocationId ?? this.activeLocationId,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       name: name ?? this.name,
@@ -67,5 +78,13 @@ class EditLocationState extends LocationsListState {
   }
 
   @override
-  List<Object> get props => [latitude, longitude, name, status, locations];
+  List<Object> get props => [
+        latitude,
+        longitude,
+        name,
+        status,
+        locations,
+        id,
+        activeLocationId,
+      ];
 }

@@ -14,9 +14,7 @@ class UpdateLocation extends UseCaseWithArguments<Future<Either<Failure, bool>>,
       final locations = locationsOrFailure.getOrElse(() => []);
       final index = locations
           .indexWhere((savedLocation) => savedLocation.id == argument.id);
-      if (index == -1) {
-        return Left(LocationPointUpdateFailure());
-      } else {
+      try {
         locations[index] = locations[index].copyWith(
           name: argument.newLocationName,
           latitude: argument.latitude,
@@ -24,9 +22,11 @@ class UpdateLocation extends UseCaseWithArguments<Future<Either<Failure, bool>>,
         );
         await _locationPointsRepository.save(locations);
         return const Right(true);
+      } catch (error) {
+        return Left(LocationPointUpdateFailure());
       }
     } else {
-      return Left(LoadLocationPointsFailure());
+      return Left(LocationPointUpdateFailure());
     }
   }
 }

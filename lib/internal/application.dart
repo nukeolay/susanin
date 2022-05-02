@@ -20,8 +20,7 @@ class SusaninApp extends StatelessWidget {
       providers: [
         BlocProvider<MainPointerCubit>(
             create: (context) => serviceLocator<MainPointerCubit>()),
-        BlocProvider<LocationsListCubit>(
-            create: (context) => serviceLocator<LocationsListCubit>()),
+        BlocProvider<LocationsListCubit>.value(value: serviceLocator<LocationsListCubit>()),
         BlocProvider<AddLocationCubit>(
             create: (context) => serviceLocator<AddLocationCubit>()),
         BlocProvider<LocationPointValidateBloc>(

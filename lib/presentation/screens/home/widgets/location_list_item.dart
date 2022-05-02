@@ -6,9 +6,11 @@ import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cu
 
 class LocationListItem extends StatelessWidget {
   final LocationPointEntity location;
+  final bool isActive;
 
   const LocationListItem({
     required this.location,
+    required this.isActive,
     Key? key,
   }) : super(key: key);
 
@@ -42,13 +44,16 @@ class LocationListItem extends StatelessWidget {
         }
       },
       child: ListTile(
+        selected: isActive,
         title: Text(
           location.name,
           style: const TextStyle(fontSize: 20),
           overflow: TextOverflow.ellipsis,
         ),
         subtitle: Text(location.toString()),
-        onTap: null,
+        onTap: () => context
+            .read<LocationsListCubit>()
+            .onPressSetActive(id: location.id),
         onLongPress: () =>
             context.read<LocationsListCubit>().onLongPressEdit(id: location.id),
       ),

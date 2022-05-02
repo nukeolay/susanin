@@ -23,6 +23,9 @@ import 'package:susanin/domain/location_points/usecases/get_locations_stream.dar
 import 'package:susanin/domain/location_points/usecases/update_location.dart';
 import 'package:susanin/domain/location_points/usecases/add_location.dart';
 import 'package:susanin/domain/settings/repositories/repository.dart';
+import 'package:susanin/domain/settings/usecases/get_settings.dart';
+import 'package:susanin/domain/settings/usecases/get_settings_stream.dart';
+import 'package:susanin/domain/settings/usecases/set_active_location.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
 import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_bloc.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
@@ -31,6 +34,12 @@ import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.
 final GetIt serviceLocator = GetIt.instance;
 
 Future<void> init() async {
+  // ---External---
+  final SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
+  serviceLocator
+      .registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+
   // BLoC / Cubit
   serviceLocator.registerFactory(
     () => MainPointerCubit(
@@ -41,20 +50,21 @@ Future<void> init() async {
   );
   serviceLocator.registerFactory(
     () => LocationsListCubit(
-      getLocations: serviceLocator(),
+      getSettings: serviceLocator(),
+      getLocationsStream: serviceLocator(),
       updateLocation: serviceLocator(),
       deleteLocation: serviceLocator(),
+      setActiveLocation: serviceLocator(),
     ),
   );
   serviceLocator.registerFactory(
-    () => LocationPointValidateBloc(
-      getLocations: serviceLocator(),
-    ),
+    () => LocationPointValidateBloc(),
   );
   serviceLocator.registerFactory(
     () => AddLocationCubit(
       addLocation: serviceLocator(),
       getPositionStream: serviceLocator(),
+      setActiveLocation: serviceLocator(),
     ),
   );
 
@@ -93,6 +103,17 @@ Future<void> init() async {
   );
   serviceLocator.registerLazySingleton<DeleteLocation>(
     () => DeleteLocation(serviceLocator()),
+  );
+
+  // Settings
+  serviceLocator.registerLazySingleton<GetSettingsStream>(
+    () => GetSettingsStream(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<GetSettings>(
+    () => GetSettings(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<SetActiveLocation>(
+    () => SetActiveLocation(serviceLocator()),
   );
 
   // ---Repository---
@@ -136,13 +157,4 @@ Future<void> init() async {
 
   // // ---Core---
   // // empty
-
-  // ---External---
-  final SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
-  serviceLocator
-      .registerLazySingleton<SharedPreferences>(() => sharedPreferences);
-
-  // -- Repositories Init --
-  // serviceLocator<LocationPointsRepository>().locationsStream; // ! TODO для чего это? попробовать убрать
 }

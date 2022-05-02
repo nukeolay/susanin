@@ -1,15 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/domain/location_points/usecases/get_locations.dart';
 import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_event.dart';
 import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_state.dart';
 
 class LocationPointValidateBloc
     extends Bloc<LocationPointValidateEvent, LocationPointValidateState> {
-  final GetLocations _getLocations;
-
-  LocationPointValidateBloc({required GetLocations getLocations})
-      : _getLocations = getLocations,
-        super(const LocationPointValidateState(
+  LocationPointValidateBloc()
+      : super(const LocationPointValidateState(
           isNameValid: true,
           isLatutideValid: true,
           isLongitudeValid: true,
@@ -17,7 +13,6 @@ class LocationPointValidateBloc
     on<NameChanged>(_onNameChanged);
     on<LatitudeChanged>(_onLatitudeChanged);
     on<LongitudeChanged>(_onLongitudeChanged);
-    // on<FlushValidator>(_onFlushValidator);
   }
 
   void _onNameChanged(
@@ -55,13 +50,4 @@ class LocationPointValidateBloc
       ));
     }
   }
-
-  // void _onFlushValidator(
-  //     FlushValidator event, Emitter<LocationPointValidateState> emit) {
-  //   emit(state.copyWith(
-  //     isNameValid: true,
-  //     isLatutideValid: true,
-  //     isLongitudeValid: true,
-  //   ));
-  // }
 }

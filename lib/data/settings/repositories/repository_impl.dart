@@ -18,9 +18,9 @@ class SettingsRepositoryImpl extends SettingsRepository {
   final StreamController<Either<Failure, SettingsEntity>> _streamController =
       StreamController.broadcast();
 
-  void _init() async {
+  void _init() {
     try {
-      final settings = await settingsDataSource.load();
+      final settings = settingsDataSource.load();
       _settingsOrFailure = Right(settings);
       _streamController.add(Right(settings));
     } catch (error) {
@@ -43,7 +43,7 @@ class SettingsRepositoryImpl extends SettingsRepository {
         isFirstTime: settings.isFirstTime,
         activeLocationId: settings.activeLocationId,
       ));
-      final loadedSettings = await settingsDataSource.load();
+      final loadedSettings = settingsDataSource.load(); // убрал await
       _settingsOrFailure = Right(loadedSettings);
       _streamController.add(Right(loadedSettings));
     } catch (error) {

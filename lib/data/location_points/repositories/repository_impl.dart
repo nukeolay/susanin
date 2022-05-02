@@ -20,7 +20,8 @@ class LocationPointsRepositoryImpl extends LocationPointsRepository {
 
   void _init() async {
     try {
-      final locations = (await locationsDataSource.loadLocations())
+      final locations = (await Future.value(locationsDataSource
+              .load())) // used Future.delayed to fix locations_list_cubit init bug
           .map((location) => LocationPointEntity(
                 id: location.id,
                 latitude: location.latitude,
@@ -46,7 +47,7 @@ class LocationPointsRepositoryImpl extends LocationPointsRepository {
   @override
   Future<void> save(List<LocationPointEntity> locations) async {
     try {
-      await locationsDataSource.saveLocations(locations
+      await locationsDataSource.save(locations
           .map((location) => LocationPointModel(
                 id: location.id,
                 latitude: location.latitude,
@@ -55,7 +56,8 @@ class LocationPointsRepositoryImpl extends LocationPointsRepository {
                 creationTime: location.creationTime,
               ))
           .toList());
-      final loadedLocations = (await locationsDataSource.loadLocations())
+      final loadedLocations = locationsDataSource
+          .load()
           .map((location) => LocationPointEntity(
                 id: location.id,
                 latitude: location.latitude,

@@ -4,11 +4,10 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:susanin/core/errors/exceptions.dart';
 import 'package:susanin/data/location_points/models/location_point_model.dart';
-import 'package:susanin/domain/location_points/entities/location_point.dart';
 
 abstract class LocationsDataSource {
-  Future<List<LocationPointModel>> loadLocations(); 
-  Future<void> saveLocations(List<LocationPointModel> locations); // ! TODO поменять на Model
+  List<LocationPointModel> load();
+  Future<void> save(List<LocationPointModel> locations);
 }
 
 class LocationsDataSourceImpl implements LocationsDataSource {
@@ -18,17 +17,17 @@ class LocationsDataSourceImpl implements LocationsDataSource {
   const LocationsDataSourceImpl(this.sharedPreferences);
 
   @override
-  Future<List<LocationPointModel>> loadLocations() async {
+  List<LocationPointModel> load() {
     final jsonLocations = sharedPreferences.getString(locationsKey);
     if (jsonLocations == null) {
-      return Future.value(const []);
+      return const [];
     } else {
       try {
         final List<dynamic> json = jsonDecode(jsonLocations);
         final List<LocationPointModel> locations = json
             .map((element) => LocationPointModel.fromJson(element))
             .toList();
-        return Future.value(locations);
+        return locations;
       } catch (error) {
         throw LoadLocationPointsException();
       }
@@ -36,7 +35,7 @@ class LocationsDataSourceImpl implements LocationsDataSource {
   }
 
   @override
-  Future<void> saveLocations(List<LocationPointModel> locations) async {
+  Future<void> save(List<LocationPointModel> locations) async {
     final String jsonLocations = json.encode(locations);
     await sharedPreferences.setString(locationsKey, jsonLocations);
   }

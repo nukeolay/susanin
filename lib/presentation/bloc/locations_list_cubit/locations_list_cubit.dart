@@ -5,32 +5,52 @@ import 'package:susanin/domain/location_points/entities/location_point.dart';
 import 'package:susanin/domain/location_points/usecases/delete_location.dart';
 import 'package:susanin/domain/location_points/usecases/get_locations_stream.dart';
 import 'package:susanin/domain/location_points/usecases/update_location.dart';
+import 'package:susanin/domain/settings/entities/settings.dart';
+import 'package:susanin/domain/settings/usecases/get_settings.dart';
+import 'package:susanin/domain/settings/usecases/set_active_location.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_state.dart';
 
 class LocationsListCubit extends Cubit<LocationsListState> {
-  final GetLocationsStream _getLocations;
+  final GetLocationsStream _getLocationsStream;
+  final GetSettings _getSettings;
   final UpdateLocation _updateLocation;
   final DeleteLocation _deleteLocation;
+  final SetActiveLocation _setActiveLocation;
 
   late final Stream<Either<Failure, List<LocationPointEntity>>>
       _locationsStream;
+  late final Either<Failure, SettingsEntity> _settingsOrFailure;
 
   LocationsListCubit({
-    required GetLocationsStream getLocations,
+    required GetSettings getSettings,
+    
+    required GetLocationsStream getLocationsStream,
     required UpdateLocation updateLocation,
     required DeleteLocation deleteLocation,
-  })  : _getLocations = getLocations,
+    required SetActiveLocation setActiveLocation,
+  })  : _getSettings = getSettings,
+        _getLocationsStream = getLocationsStream,
         _updateLocation = updateLocation,
         _deleteLocation = deleteLocation,
+        _setActiveLocation = setActiveLocation,
         super(const LocationsListState(
           status: LocationsListStatus.loading,
           locations: [],
+          activeLocationId: '',
         )) {
     _init();
   }
 
   void _init() {
-    _locationsStream = _getLocations();
+    _locationsStream = _getLocationsStream();
+    _settingsOrFailure = _getSettings();
+
+    _settingsOrFailure.fold(
+      (failure) => emit(state.copyWith(status: LocationsListStatus.failure)),
+      (settings) =>
+          emit(state.copyWith(activeLocationId: settings.activeLocationId)),
+    );
+
     _locationsStream.listen((event) {
       event.fold(
         (failure) {
@@ -58,10 +78,16 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     );
   }
 
+  void onPressSetActive({required String id}) async {
+    _setActiveLocation(id);
+    emit(state.copyWith(activeLocationId: id));
+  }
+
   void onLongPressEdit({required String id}) async {
     final location =
         state.locations.firstWhere(((location) => location.id == id));
     emit(EditLocationState(
+      activeLocationId: id,
       id: id,
       status: LocationsListStatus.editing,
       name: location.name,

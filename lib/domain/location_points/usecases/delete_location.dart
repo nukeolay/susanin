@@ -11,11 +11,14 @@ class DeleteLocation
   Future<Either<Failure, bool>> call(String argument) async {
     final locationsOrFailure = _locationPointsRepository.locationsOrFailure;
     if (locationsOrFailure.isRight()) {
-      final locations = locationsOrFailure.getOrElse(() => []);
-      locations
-          .removeWhere((savedLocation) => savedLocation.id == argument);
-      await _locationPointsRepository.save(locations);
-      return const Right(true);
+      try {
+        final locations = locationsOrFailure.getOrElse(() => []);
+        locations.removeWhere((savedLocation) => savedLocation.id == argument);
+        await _locationPointsRepository.save(locations);
+        return const Right(true);
+      } catch (error) {
+        return Left(LocationPointRemoveFailure());
+      }
     } else {
       return Left(LocationPointRemoveFailure());
     }
