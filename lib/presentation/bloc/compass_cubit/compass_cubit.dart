@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,8 +32,8 @@ class CompassCubit extends Cubit<CompassState> {
           (failure) => emit(state.copyWith(status: CompassStatus.failure)),
           (compass) => emit(state.copyWith(
                 status: CompassStatus.loaded,
-                angle: compass.north,
-                accuracy: compass.accuracy,
+                angle: (compass.north * (math.pi / 180) * -1),
+                accuracy: (compass.accuracy * (math.pi / 180) * -1),
               )));
     });
   }

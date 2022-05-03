@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
@@ -28,16 +26,25 @@ class MainPointer extends StatelessWidget {
           );
         } else {
           final result =
-              '${state.position.longitude}\n${state.position.latitude}\ncompass:${state.compass.north.toStringAsFixed(2)}';
+              '${state.longitude}\n${state.latitude}\nУгол (рад): ${state.angle.toStringAsFixed(2)}\nТочность (м): ${state.positionAccuracy.toStringAsFixed(2)}';
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Transform.rotate(
-                angle: (state.compass.north * (math.pi / 180) * -1),
-                child: const Icon(
-                  Icons.arrow_circle_up_rounded,
-                  size: 150,
-                ),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Transform.rotate(
+                    angle: state.angle,
+                    child: const Icon(
+                      Icons.arrow_circle_up_rounded,
+                      size: 150,
+                    ),
+                  ),
+                  CircleAvatar(
+                    radius: state.positionAccuracy,
+                    backgroundColor: Colors.red.withOpacity(0.3),
+                  ),
+                ],
               ),
               _onScreenText(result),
             ],

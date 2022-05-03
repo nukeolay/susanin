@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
@@ -35,31 +33,42 @@ class CompassPointer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(50),
                 child: Stack(
+                  alignment: Alignment.center,
                   children: [
                     Transform.rotate(
                       alignment: Alignment.bottomCenter,
-                      angle: ((state.angle + state.accuracy / 2) *
-                          (math.pi / 180) *
-                          -1),
-                      child:
-                          Container(height: 50, width: 3, color: Colors.black),
+                      angle: state.angle + state.accuracy,
+                      child: Container(
+                        height: 50,
+                        width: 3,
+                        color: Colors.red.withOpacity(0.3),
+                      ),
                     ),
                     Transform.rotate(
                       alignment: Alignment.bottomCenter,
-                      angle: ((state.angle - state.accuracy / 2) *
-                          (math.pi / 180) *
-                          -1),
-                      child:
-                          Container(height: 50, width: 3, color: Colors.black),
+                      angle: state.angle - state.accuracy,
+                      child: Container(
+                        height: 50,
+                        width: 3,
+                        color: Colors.red.withOpacity(0.3),
+                      ),
+                    ),
+                    Transform.rotate(
+                      alignment: Alignment.bottomCenter,
+                      angle: state.angle - state.accuracy,
+                      child: const Icon(
+                        Icons.arrow_circle_up_rounded,
+                        size: 50,
+                      ),
                     ),
                   ],
                 ),
               ),
               _onScreenText(
-                  title: 'Угол: ', data: state.angle.toStringAsFixed(0)),
+                  title: 'Угол (рад): ', data: state.angle.toStringAsFixed(2)),
               _onScreenText(
-                  title: 'Погрешность: ',
-                  data: state.accuracy.toStringAsFixed(0)),
+                  title: 'Погрешность (рад): ',
+                  data: state.accuracy.toStringAsFixed(2)),
             ],
           );
         }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:async/async.dart' show StreamGroup;
 import 'package:dartz/dartz.dart';
@@ -28,8 +29,11 @@ class MainPointerCubit extends Cubit<MainPointerState> {
         _getDistanceBetween = getDistanceBetween,
         _getPositionStream = getPositionStream,
         super(const MainPointerState(
-          position: PositionEntity(longitude: 0, latitude: 0, accuracy: 0),
-          compass: CompassEntity(north: 0, accuracy: 0),
+          latitude: 0,
+          longitude: 0,
+          positionAccuracy: 0,
+          angle: 0,
+          compassAccuracy: 0,
           isCompassError: false,
           status: MainPointerStatus.loading,
         )) {
@@ -67,13 +71,16 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           if (event is PositionEntity) {
             final _state = state.copyWith(
               status: MainPointerStatus.loaded,
-              position: event,
+              latitude: event.latitude,
+              longitude: event.longitude,
+              positionAccuracy: event.accuracy,
             );
             emit(_state);
           } else if (event is CompassEntity &&
               state.status == MainPointerStatus.loaded) {
             final _state = state.copyWith(
-              compass: event,
+              angle: (event.north * (math.pi / 180) * -1),
+              compassAccuracy: (event.accuracy * (math.pi / 180) * -1),
               isCompassError: false,
             );
             emit(_state);
