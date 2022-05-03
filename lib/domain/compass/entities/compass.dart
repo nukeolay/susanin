@@ -2,8 +2,12 @@ import 'package:equatable/equatable.dart';
 
 class CompassEntity extends Equatable {
   final double north;
-  const CompassEntity(this.north);
+  final double accuracy;
+  const CompassEntity({
+    required this.north,
+    required this.accuracy,
+  });
 
   @override
-  List<Object?> get props => [north];
+  List<Object?> get props => [north, accuracy];
 }

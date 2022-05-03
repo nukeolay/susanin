@@ -27,6 +27,7 @@ import 'package:susanin/domain/settings/usecases/get_settings.dart';
 import 'package:susanin/domain/settings/usecases/get_settings_stream.dart';
 import 'package:susanin/domain/settings/usecases/set_active_location.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
+import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
 import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_bloc.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
@@ -45,6 +46,11 @@ Future<void> init() async {
     () => MainPointerCubit(
       getPositionStream: serviceLocator(),
       getDistanceBetween: serviceLocator(),
+      getCompassStream: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory(
+    () => CompassCubit(
       getCompassStream: serviceLocator(),
     ),
   );

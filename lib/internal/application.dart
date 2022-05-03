@@ -6,6 +6,7 @@ import 'package:susanin/core/routes/custom_route.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/internal/service_locator.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
+import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
 import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_bloc.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
@@ -20,11 +21,15 @@ class SusaninApp extends StatelessWidget {
       providers: [
         BlocProvider<MainPointerCubit>(
             create: (context) => serviceLocator<MainPointerCubit>()),
-        BlocProvider<LocationsListCubit>.value(value: serviceLocator<LocationsListCubit>()),
+        BlocProvider<CompassCubit>(
+            create: (context) => serviceLocator<CompassCubit>()),
+        BlocProvider<LocationsListCubit>.value(
+            value: serviceLocator<LocationsListCubit>()),
         BlocProvider<AddLocationCubit>(
             create: (context) => serviceLocator<AddLocationCubit>()),
         BlocProvider<LocationPointValidateBloc>(
             create: (context) => serviceLocator<LocationPointValidateBloc>()),
+
         // ! TODO добавлять сюда bloc
       ],
       child: MaterialApp(

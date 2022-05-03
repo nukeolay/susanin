@@ -29,7 +29,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
         _getPositionStream = getPositionStream,
         super(const MainPointerState(
           position: PositionEntity(longitude: 0, latitude: 0, accuracy: 0),
-          compass: CompassEntity(0),
+          compass: CompassEntity(north: 0, accuracy: 0),
           isCompassError: false,
           status: MainPointerStatus.loading,
         )) {

@@ -84,7 +84,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   @override
-  Future<void> close() async { // ! TODO сделаьб так же в остальных блоках и кубитах
+  Future<void> close() async {
     _locationsSubscription.cancel();
     _settingsSubscription.cancel();
     super.close();

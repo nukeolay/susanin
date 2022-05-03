@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:susanin/presentation/screens/home/widgets/add_location_button.dart';
+import 'package:susanin/presentation/screens/home/widgets/compass_pointer.dart';
 import 'package:susanin/presentation/screens/home/widgets/location_list.dart';
 import 'package:susanin/presentation/screens/home/widgets/main_pointer.dart';
 
@@ -23,8 +24,10 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
                   MainPointer(),
+                  CompassPointer(),
                 ],
               ),
               const LocationList(),

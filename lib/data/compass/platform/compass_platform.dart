@@ -12,7 +12,10 @@ class CompassPlatformImpl implements CompassPlatform {
   Stream<CompassModel> get compassStream {
     try {
       Stream<CompassEvent> compassEvents = FlutterCompass.events!;
-      return compassEvents.map((event) => CompassModel(event.heading!));
+      return compassEvents.map((event) => CompassModel(
+            north: event.heading!,
+            accuracy: event.accuracy!,
+          ));
     } catch (error) {
       throw CompassException();
     }
