@@ -9,28 +9,42 @@ import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/domain/compass/entities/compass.dart';
 import 'package:susanin/domain/compass/usecases/get_compass_stream.dart';
 import 'package:susanin/domain/location/entities/position.dart';
+import 'package:susanin/domain/location/usecases/get_bearing_between.dart';
 import 'package:susanin/domain/location/usecases/get_distance_between.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
+import 'package:susanin/domain/location_points/usecases/get_locations_stream.dart';
+import 'package:susanin/domain/settings/usecases/get_settings_stream.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
 
 class MainPointerCubit extends Cubit<MainPointerState> {
   final GetPositionStream _getPositionStream;
-  final GetDistanceBetween _getDistanceBetween;
+  final GetLocationsStream _getLocationsStream;
+  final GetSettingsStream _getSettingsStream;
   final GetCompassStream _getCompassStream;
+  final GetDistanceBetween _getDistanceBetween;
+  final GetBearingBetween _getBearingBetween;
+
   late final Stream<Either<Failure, Equatable>> _pointerStream;
   late final StreamSubscription<Either<Failure, Equatable>>
       _pointerSubscription;
 
   MainPointerCubit({
     required GetPositionStream getPositionStream,
+    required GetLocationsStream getLocationsStream,
+    required GetSettingsStream getSettingsStream,
     required GetDistanceBetween getDistanceBetween,
     required GetCompassStream getCompassStream,
-  })  : _getCompassStream = getCompassStream,
+    required GetBearingBetween getBearingBetween,
+  })  : _getPositionStream = getPositionStream,
+        _getLocationsStream = getLocationsStream,
+        _getSettingsStream = getSettingsStream,
+        _getCompassStream = getCompassStream,
         _getDistanceBetween = getDistanceBetween,
-        _getPositionStream = getPositionStream,
+        _getBearingBetween = getBearingBetween,
         super(const MainPointerState(
-          latitude: 0,
-          longitude: 0,
+          activeLocationId: '',
+          userLatitude: 0,
+          userLongitude: 0,
           positionAccuracy: 0,
           angle: 0,
           compassAccuracy: 0,
@@ -71,8 +85,8 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           if (event is PositionEntity) {
             final _state = state.copyWith(
               status: MainPointerStatus.loaded,
-              latitude: event.latitude,
-              longitude: event.longitude,
+              userLatitude: event.latitude,
+              userLongitude: event.longitude,
               positionAccuracy: event.accuracy,
             );
             emit(_state);

@@ -9,9 +9,9 @@ enum MainPointerStatus {
 }
 
 class MainPointerState extends Equatable {
-  // final String activeLocation;
-  final double latitude;
-  final double longitude;
+  final String activeLocationId;
+  final double userLatitude;
+  final double userLongitude;
   final double positionAccuracy;
   final double angle;
   final double compassAccuracy;
@@ -20,8 +20,9 @@ class MainPointerState extends Equatable {
   // ! TODO поля не entities а нужные для UI - угол и расстояние.
 
   const MainPointerState({
-    required this.latitude,
-    required this.longitude,
+    required this.activeLocationId,
+    required this.userLatitude,
+    required this.userLongitude,
     required this.positionAccuracy,
     required this.angle,
     required this.compassAccuracy,
@@ -31,8 +32,9 @@ class MainPointerState extends Equatable {
 
   @override
   List<Object> get props => [
-        latitude,
-        longitude,
+        activeLocationId,
+        userLatitude,
+        userLongitude,
         positionAccuracy,
         angle,
         compassAccuracy,
@@ -41,8 +43,9 @@ class MainPointerState extends Equatable {
       ];
 
   MainPointerState copyWith({
-    double? latitude,
-    double? longitude,
+    String? activeLocationId,
+    double? userLatitude,
+    double? userLongitude,
     double? positionAccuracy,
     double? angle,
     double? compassAccuracy,
@@ -50,8 +53,9 @@ class MainPointerState extends Equatable {
     MainPointerStatus? status,
   }) {
     return MainPointerState(
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
+      activeLocationId: activeLocationId ?? this.activeLocationId,
+      userLatitude: userLatitude ?? this.userLatitude,
+      userLongitude: userLongitude ?? this.userLongitude,
       positionAccuracy: positionAccuracy ?? this.positionAccuracy,
       angle: angle ?? this.angle,
       compassAccuracy: compassAccuracy ?? this.compassAccuracy,

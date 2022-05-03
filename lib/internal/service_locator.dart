@@ -47,6 +47,9 @@ Future<void> init() async {
       getPositionStream: serviceLocator(),
       getDistanceBetween: serviceLocator(),
       getCompassStream: serviceLocator(),
+      getBearingBetween: serviceLocator(),
+      getLocationsStream: serviceLocator(),
+      getSettingsStream: serviceLocator(),
     ),
   );
   serviceLocator.registerFactory(

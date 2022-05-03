@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_state.dart';
+import 'package:susanin/presentation/screens/home/widgets/custom_pointer.dart';
 
 class CompassPointer extends StatelessWidget {
   const CompassPointer({Key? key}) : super(key: key);
@@ -30,39 +31,10 @@ class CompassPointer extends StatelessWidget {
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(50),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Transform.rotate(
-                      alignment: Alignment.bottomCenter,
-                      angle: state.angle + state.accuracy,
-                      child: Container(
-                        height: 50,
-                        width: 3,
-                        color: Colors.red.withOpacity(0.3),
-                      ),
-                    ),
-                    Transform.rotate(
-                      alignment: Alignment.bottomCenter,
-                      angle: state.angle - state.accuracy,
-                      child: Container(
-                        height: 50,
-                        width: 3,
-                        color: Colors.red.withOpacity(0.3),
-                      ),
-                    ),
-                    Transform.rotate(
-                      alignment: Alignment.bottomCenter,
-                      angle: state.angle - state.accuracy,
-                      child: const Icon(
-                        Icons.arrow_circle_up_rounded,
-                        size: 50,
-                      ),
-                    ),
-                  ],
-                ),
+              CustomPointer(
+                rotateAngle: state.angle,
+                accuracyAngle: state.accuracy,
+                pointerSize: 30,
               ),
               _onScreenText(
                   title: 'Угол (рад): ', data: state.angle.toStringAsFixed(2)),

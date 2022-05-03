@@ -40,7 +40,8 @@ class SusaninApp extends StatelessWidget {
         title: 'Susanin',
         theme: ThemeData(
           useMaterial3: true,
-          //   primarySwatch: Colors.grey,
+            // primarySwatch: Colors.green,
+            colorSchemeSeed: Colors.green,
           //   scaffoldBackgroundColor: appTheme.background,
           //   fontFamily: 'Montserrat',
 

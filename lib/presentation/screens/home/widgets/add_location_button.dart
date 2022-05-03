@@ -20,7 +20,6 @@ class AddNewLocationButton extends StatelessWidget {
         if (state.status == AddLocationStatus.loading) {
           return const FloatingActionButton(
             onPressed: null,
-            backgroundColor: Colors.green,
             child: CircularProgressIndicator(
               color: Colors.white,
             ),
@@ -38,7 +37,6 @@ class AddNewLocationButton extends StatelessWidget {
           },
           child: FloatingActionButton(
             onPressed: () => context.read<AddLocationCubit>().onPressAdd(),
-            backgroundColor: Colors.green,
             child: const Icon(Icons.add_location_alt_rounded),
           ),
         );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
+import 'package:susanin/presentation/screens/home/widgets/custom_pointer.dart';
 
 class MainPointer extends StatelessWidget {
   const MainPointer({Key? key}) : super(key: key);
@@ -26,19 +27,17 @@ class MainPointer extends StatelessWidget {
           );
         } else {
           final result =
-              '${state.longitude}\n${state.latitude}\nУгол (рад): ${state.angle.toStringAsFixed(2)}\nТочность (м): ${state.positionAccuracy.toStringAsFixed(2)}';
+              '${state.userLongitude}\n${state.userLatitude}\nУгол (рад): ${state.angle.toStringAsFixed(2)}\nТочность (м): ${state.positionAccuracy.toStringAsFixed(2)}';
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  Transform.rotate(
-                    angle: state.angle,
-                    child: const Icon(
-                      Icons.arrow_circle_up_rounded,
-                      size: 150,
-                    ),
+                  CustomPointer(
+                    rotateAngle: state.angle,
+                    accuracyAngle: state.compassAccuracy,
+                    pointerSize: 60,
                   ),
                   CircleAvatar(
                     radius: state.positionAccuracy,
