@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 class CustomPointer extends StatelessWidget {
@@ -14,16 +16,16 @@ class CustomPointer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        CircleAvatar(radius: pointerSize * 1.2),
-        Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Transform.rotate(
-            alignment: Alignment.center,
-            angle: rotateAngle,
-            child: Container(
+    return Padding(
+      padding: EdgeInsets.all(pointerSize * 0.5),
+      child: Transform.rotate(
+        alignment: Alignment.center,
+        angle: rotateAngle,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            CircleAvatar(radius: pointerSize),
+            Container(
               alignment: Alignment.center,
               transformAlignment: Alignment.center,
               child: CustomPaint(
@@ -33,9 +35,9 @@ class CustomPointer extends StatelessWidget {
                 ),
               ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -49,15 +51,15 @@ class CustomArc extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 2;
+      ..color = Colors.red
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = pointerSize / 1.5;
     canvas.drawArc(
-        Offset(-pointerSize, -pointerSize) &
+        Offset(-pointerSize, -pointerSize + pointerSize * 0.5) &
             Size(pointerSize * 2, pointerSize * 2),
-        accuracyAngle / 2 - 1, //radians
-        -accuracyAngle / 2 - 1, //radians
-        true,
+        -math.pi / 2 - accuracyAngle / 2, //radians
+        accuracyAngle, //radians
+        false,
         paint);
   }
 

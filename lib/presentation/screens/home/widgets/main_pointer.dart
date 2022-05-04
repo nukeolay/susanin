@@ -11,9 +11,11 @@ class MainPointer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MainPointerCubit, MainPointerState>(
       builder: (context, state) {
-        if (state.status == MainPointerStatus.loading) {
+        // print(state);
+        if (state.locationServiceStatus == LocationServiceStatus.loading) {
           return const CircularProgressIndicator();
-        } else if (state.status != MainPointerStatus.loaded) {
+        } else if (state.locationServiceStatus !=
+            LocationServiceStatus.loaded) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -21,29 +23,20 @@ class MainPointer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: _onScreenText(
-                    'ServiceFailure: ${state.status == MainPointerStatus.serviceFailure}\nPermissionFailure: ${state.status == MainPointerStatus.permissionFailure}\nisCompassError: ${state.isCompassError}\nUnknownFailure: ${state.status == MainPointerStatus.unknownFailure}'),
+                    'ServiceFailure: ${state.locationServiceStatus == LocationServiceStatus.disabled}\nPermissionFailure: ${state.locationServiceStatus == LocationServiceStatus.noPermission}\nisCompassError: ${state.compassStatus == CompassStatus.failure}\nUnknownFailure: ${state.locationServiceStatus == LocationServiceStatus.unknownFailure}'),
               ),
             ],
           );
         } else {
           final result =
-              '${state.userLongitude}\n${state.userLatitude}\nУгол (рад): ${state.angle.toStringAsFixed(2)}\nТочность (м): ${state.positionAccuracy.toStringAsFixed(2)}';
+              'UserLat: ${state.userLongitude}\nUserLat: ${state.userLatitude}\nУгол (рад): ${state.angle.toStringAsFixed(2)}\nТочность (м): ${state.positionAccuracy.toStringAsFixed(2)}\nPoint id: ${state.activeLocationId}\nName: ${state.pointName}\nPointLat: ${state.pointLatitude}\nPointLon: ${state.pointLongitude}';
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  CustomPointer(
-                    rotateAngle: state.angle,
-                    accuracyAngle: state.compassAccuracy,
-                    pointerSize: 60,
-                  ),
-                  CircleAvatar(
-                    radius: state.positionAccuracy,
-                    backgroundColor: Colors.red.withOpacity(0.3),
-                  ),
-                ],
+              CustomPointer(
+                rotateAngle: state.angle,
+                accuracyAngle: state.compassAccuracy + state.positionAccuracy/10,
+                pointerSize: 60,
               ),
               _onScreenText(result),
             ],
@@ -56,7 +49,7 @@ class MainPointer extends StatelessWidget {
   Widget _onScreenText(String text) {
     return Text(
       text,
-      style: const TextStyle(fontSize: 20),
+      style: const TextStyle(fontSize: 10),
     );
   }
 }

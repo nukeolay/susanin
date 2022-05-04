@@ -23,14 +23,14 @@ class SusaninApp extends StatelessWidget {
             create: (context) => serviceLocator<MainPointerCubit>()),
         BlocProvider<CompassCubit>(
             create: (context) => serviceLocator<CompassCubit>()),
-        BlocProvider<LocationsListCubit>.value(
-            value: serviceLocator<LocationsListCubit>()),
+        BlocProvider<LocationsListCubit>(
+            create: (context) => serviceLocator<LocationsListCubit>()),
         BlocProvider<AddLocationCubit>(
             create: (context) => serviceLocator<AddLocationCubit>()),
         BlocProvider<LocationPointValidateBloc>(
             create: (context) => serviceLocator<LocationPointValidateBloc>()),
 
-        // ! TODO добавлять сюда bloc
+              // ! TODO добавлять сюда bloc
       ],
       child: MaterialApp(
         localizationsDelegates: context.localizationDelegates,
@@ -40,8 +40,8 @@ class SusaninApp extends StatelessWidget {
         title: 'Susanin',
         theme: ThemeData(
           useMaterial3: true,
-            // primarySwatch: Colors.green,
-            colorSchemeSeed: Colors.green,
+          // primarySwatch: Colors.green,
+          colorSchemeSeed: Colors.green,
           //   scaffoldBackgroundColor: appTheme.background,
           //   fontFamily: 'Montserrat',
 

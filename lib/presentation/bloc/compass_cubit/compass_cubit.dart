@@ -33,7 +33,7 @@ class CompassCubit extends Cubit<CompassState> {
           (compass) => emit(state.copyWith(
                 status: CompassStatus.loaded,
                 angle: (compass.north * (math.pi / 180) * -1),
-                accuracy: (compass.accuracy * (math.pi / 180) * -1),
+                accuracy: (compass.accuracy * (math.pi / 180)),
               )));
     });
   }

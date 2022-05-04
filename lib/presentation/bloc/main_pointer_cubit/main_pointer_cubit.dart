@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:async/async.dart' show StreamGroup;
 import 'package:dartz/dartz.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/domain/compass/entities/compass.dart';
@@ -12,7 +10,9 @@ import 'package:susanin/domain/location/entities/position.dart';
 import 'package:susanin/domain/location/usecases/get_bearing_between.dart';
 import 'package:susanin/domain/location/usecases/get_distance_between.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
+import 'package:susanin/domain/location_points/entities/location_point.dart';
 import 'package:susanin/domain/location_points/usecases/get_locations_stream.dart';
+import 'package:susanin/domain/settings/entities/settings.dart';
 import 'package:susanin/domain/settings/usecases/get_settings_stream.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
 
@@ -24,9 +24,14 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   final GetDistanceBetween _getDistanceBetween;
   final GetBearingBetween _getBearingBetween;
 
-  late final Stream<Either<Failure, Equatable>> _pointerStream;
-  late final StreamSubscription<Either<Failure, Equatable>>
-      _pointerSubscription;
+  late final StreamSubscription<Either<Failure, PositionEntity>>
+      _positionSubscription;
+  late final StreamSubscription<Either<Failure, List<LocationPointEntity>>>
+      _locationsSubscription;
+  late final StreamSubscription<Either<Failure, SettingsEntity>>
+      _settingsSubscription;
+  late final StreamSubscription<Either<Failure, CompassEntity>>
+      _compassSubscription;
 
   MainPointerCubit({
     required GetPositionStream getPositionStream,
@@ -42,71 +47,94 @@ class MainPointerCubit extends Cubit<MainPointerState> {
         _getDistanceBetween = getDistanceBetween,
         _getBearingBetween = getBearingBetween,
         super(const MainPointerState(
+          locationServiceStatus: LocationServiceStatus.loading,
+          compassStatus: CompassStatus.loading,
+          locationsListStatus: LocationsListStatus.loading,
+          settingsStatus: SettingsStatus.loading,
           activeLocationId: '',
           userLatitude: 0,
           userLongitude: 0,
+          locations: [],
           positionAccuracy: 0,
           angle: 0,
           compassAccuracy: 0,
-          isCompassError: false,
-          status: MainPointerStatus.loading,
         )) {
     _init();
   }
 
   void _init() {
-    _pointerStream =
-        StreamGroup.merge([_getPositionStream(), _getCompassStream()]);
-    _pointerSubscription = _pointerStream.listen((event) {
+    _compassSubscription = _getCompassStream().listen((event) {
+      event.fold(
+          (failure) =>
+              emit(state.copyWith(compassStatus: CompassStatus.failure)),
+          (compass) => emit(state.copyWith(
+                compassStatus: CompassStatus.loaded,
+                angle: (compass.north * (math.pi / 180) * -1),
+                compassAccuracy: (compass.accuracy * (math.pi / 180) * -1),
+              )));
+    });
+
+    _positionSubscription = _getPositionStream().listen((event) {
       event.fold(
         (failure) {
-          final MainPointerState _state;
-          if (failure is LocationServiceDeniedFailure) {
-            _state = state.copyWith(
-              status: MainPointerStatus.permissionFailure,
-            );
-          } else if (failure is LocationServiceDisabledFailure ||
+          if (failure is LocationServiceDeniedFailure ||
               failure is LocationServiceDeniedForeverFailure) {
-            _state = state.copyWith(
-              status: MainPointerStatus.serviceFailure,
-            );
-          } else if (failure is CompassFailure) {
-            _state = state.copyWith(
-              isCompassError: true,
-            );
+            emit(state.copyWith(
+                locationServiceStatus: LocationServiceStatus.noPermission));
+          } else if (failure is LocationServiceDisabledFailure) {
+            emit(state.copyWith(
+                locationServiceStatus: LocationServiceStatus.disabled));
           } else {
-            _state = state.copyWith(
-              status: MainPointerStatus.unknownFailure,
-            );
+            emit(state.copyWith(
+                locationServiceStatus: LocationServiceStatus.unknownFailure));
           }
-          emit(_state);
         },
-        (event) {
-          if (event is PositionEntity) {
-            final _state = state.copyWith(
-              status: MainPointerStatus.loaded,
-              userLatitude: event.latitude,
-              userLongitude: event.longitude,
-              positionAccuracy: event.accuracy,
-            );
-            emit(_state);
-          } else if (event is CompassEntity &&
-              state.status == MainPointerStatus.loaded) {
-            final _state = state.copyWith(
-              angle: (event.north * (math.pi / 180) * -1),
-              compassAccuracy: (event.accuracy * (math.pi / 180) * -1),
-              isCompassError: false,
-            );
-            emit(_state);
-          }
+        (position) {
+          emit(state.copyWith(
+            locationServiceStatus: LocationServiceStatus.loaded,
+            userLatitude: position.latitude,
+            userLongitude: position.longitude,
+            positionAccuracy: position.accuracy,
+          ));
         },
       );
+    });
+
+    _settingsSubscription = _getSettingsStream().listen((event) {
+      event.fold(
+          (failure) =>
+              emit(state.copyWith(settingsStatus: SettingsStatus.failure)),
+          (settings) {
+        final index = state.locations
+            .indexWhere((location) => location.id == settings.activeLocationId);
+        if (index != -1) {
+          emit(state.copyWith(
+            settingsStatus: SettingsStatus.loaded,
+            activeLocationId: settings.activeLocationId,
+          ));
+        }
+      });
+    });
+
+    _locationsSubscription = _getLocationsStream().listen((event) {
+      event.fold(
+          (failure) => emit(
+              state.copyWith(locationsListStatus: LocationsListStatus.failure)),
+          (locations) {
+        emit(state.copyWith(
+          locationsListStatus: LocationsListStatus.loaded,
+          locations: locations,
+        ));
+      });
     });
   }
 
   @override
   Future<void> close() async {
-    _pointerSubscription.cancel();
+    _positionSubscription.cancel();
+    _compassSubscription.cancel();
+    _locationsSubscription.cancel();
+    _settingsSubscription.cancel();
     super.close();
   }
 }
