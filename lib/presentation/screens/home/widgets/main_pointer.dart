@@ -1,17 +1,28 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:susanin/domain/location/usecases/request_permission.dart';
+import 'package:susanin/internal/service_locator.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
-import 'package:susanin/presentation/screens/home/widgets/custom_pointer.dart';
+import 'package:susanin/presentation/screens/home/widgets/pointer.dart';
 
 class MainPointer extends StatelessWidget {
   const MainPointer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MainPointerCubit, MainPointerState>(
+    return BlocConsumer<MainPointerCubit, MainPointerState>(
+      listenWhen: (previous, current) =>
+          previous.locationServiceStatus !=
+              LocationServiceStatus.noPermission ||
+          current.locationServiceStatus != LocationServiceStatus.noPermission,
+      listener: (context, state) async {
+        if (state.locationServiceStatus == LocationServiceStatus.noPermission) {
+          await _showGetPermissionDialog(context);
+        }
+      },
       builder: (context, state) {
-        // print(state);
         if (state.locationServiceStatus == LocationServiceStatus.loading) {
           return const CircularProgressIndicator();
         } else if (state.locationServiceStatus !=
@@ -29,13 +40,13 @@ class MainPointer extends StatelessWidget {
           );
         } else {
           final result =
-              'UserLat: ${state.userLongitude}\nUserLat: ${state.userLatitude}\nУгол (рад): ${state.angle.toStringAsFixed(2)}\nТочность (м): ${state.positionAccuracy.toStringAsFixed(2)}\nPoint id: ${state.activeLocationId}\nName: ${state.pointName}\nPointLat: ${state.pointLatitude}\nPointLon: ${state.pointLongitude}';
+              'UserLat: ${state.userLongitude}\nUserLat: ${state.userLatitude}\nУгол (рад): ${state.angle.toStringAsFixed(2)}\nТочность (м): ${state.positionAccuracy.toStringAsFixed(2)}\nPoint id: ${state.activeLocationId}\nName: ${state.pointName}\nPointLat: ${state.pointLatitude}\nPointLon: ${state.pointLongitude}\nDistance: ${state.distance}\nLaxity: ${state.laxity}';
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CustomPointer(
+              Pointer(
                 rotateAngle: state.angle,
-                accuracyAngle: state.compassAccuracy + state.positionAccuracy/10,
+                accuracyAngle: state.laxity,
                 pointerSize: 60,
               ),
               _onScreenText(result),
@@ -52,4 +63,31 @@ class MainPointer extends StatelessWidget {
       style: const TextStyle(fontSize: 10),
     );
   }
+}
+
+Future<bool?> _showGetPermissionDialog(BuildContext context) async {
+  return showDialog<bool>(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return CupertinoAlertDialog(
+        title: const Text('Allow Susanin to access your location?'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Don`t Allow'),
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+          ),
+          TextButton(
+            child: const Text('Allow'),
+            onPressed: () async {
+              await serviceLocator<RequestPermission>()();
+              Navigator.pop(context, true);
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

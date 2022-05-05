@@ -73,7 +73,6 @@ Future<void> init() async {
     () => AddLocationCubit(
       addLocation: serviceLocator(),
       getPositionStream: serviceLocator(),
-      setActiveLocation: serviceLocator(),
     ),
   );
 
@@ -105,13 +104,20 @@ Future<void> init() async {
     () => GetLocations(serviceLocator()),
   );
   serviceLocator.registerLazySingleton<AddLocation>(
-    () => AddLocation(serviceLocator()),
+    () => AddLocation(
+      locationPointsRepository: serviceLocator(),
+      setActiveLocation: serviceLocator(),
+    ),
   );
   serviceLocator.registerLazySingleton<UpdateLocation>(
     () => UpdateLocation(serviceLocator()),
   );
   serviceLocator.registerLazySingleton<DeleteLocation>(
-    () => DeleteLocation(serviceLocator()),
+    () => DeleteLocation(
+      locationPointsRepository: serviceLocator(),
+      setActiveLocation: serviceLocator(),
+      getSettings: serviceLocator(),
+    ),
   );
 
   // Settings

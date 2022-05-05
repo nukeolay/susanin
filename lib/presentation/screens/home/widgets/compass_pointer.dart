@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_state.dart';
-import 'package:susanin/presentation/screens/home/widgets/custom_pointer.dart';
+import 'package:susanin/presentation/screens/home/widgets/pointer.dart';
 
 class CompassPointer extends StatelessWidget {
   const CompassPointer({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class CompassPointer extends StatelessWidget {
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CustomPointer(
+              Pointer(
                 rotateAngle: state.angle,
                 accuracyAngle: state.accuracy,
                 pointerSize: 30,

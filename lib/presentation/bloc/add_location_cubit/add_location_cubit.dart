@@ -12,7 +12,6 @@ import 'package:susanin/presentation/bloc/add_location_cubit/add_location_state.
 class AddLocationCubit extends Cubit<AddLocationState> {
   final AddLocation _addLocation;
   final GetPositionStream _getPositionStream;
-  final SetActiveLocation _setActiveLocation;
   late final Stream<Either<Failure, PositionEntity>> _positionStream;
   late final StreamSubscription<Either<Failure, PositionEntity>>
       _positionSubscription;
@@ -20,10 +19,8 @@ class AddLocationCubit extends Cubit<AddLocationState> {
   AddLocationCubit({
     required AddLocation addLocation,
     required GetPositionStream getPositionStream,
-    required SetActiveLocation setActiveLocation,
   })  : _addLocation = addLocation,
         _getPositionStream = getPositionStream,
-        _setActiveLocation = setActiveLocation,
         super(const AddLocationState(
           status: AddLocationStatus.loading,
           latitude: 0,
@@ -72,7 +69,6 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     addLocationResult.fold(
       (failure) => emit(state.copyWith(status: AddLocationStatus.failure)),
       (result) {
-        _setActiveLocation(result.id);
         emit(state.copyWith(status: AddLocationStatus.normal));
       },
     );
@@ -91,7 +87,6 @@ class AddLocationCubit extends Cubit<AddLocationState> {
         emit(state.copyWith(status: AddLocationStatus.failure));
       },
       (result) {
-        _setActiveLocation(result.id);
         emit(state.copyWith(status: AddLocationStatus.normal));
       },
     );

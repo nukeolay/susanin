@@ -2,29 +2,43 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-class CustomPointer extends StatelessWidget {
+class Pointer extends StatelessWidget {
   final double rotateAngle;
   final double accuracyAngle;
   final double pointerSize;
+  final double? locationAccuracy;
 
-  const CustomPointer({
+  const Pointer({
     required this.rotateAngle,
     required this.accuracyAngle,
     required this.pointerSize,
+    this.locationAccuracy,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(pointerSize * 0.5),
+      padding: const EdgeInsets.all(50.0),
       child: Transform.rotate(
         alignment: Alignment.center,
         angle: rotateAngle,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            CircleAvatar(radius: pointerSize),
+            CircleAvatar(
+              radius: pointerSize * 0.7,
+              backgroundColor: Colors.green,
+            ),
+            locationAccuracy != null
+                ? CircleAvatar(
+                    radius: locationAccuracy,
+                    backgroundColor: Colors.redAccent,
+                  )
+                : CircleAvatar(
+                    radius: pointerSize * 0.1,
+                    backgroundColor: Colors.white,
+                  ),
             Container(
               alignment: Alignment.center,
               transformAlignment: Alignment.center,
@@ -51,14 +65,14 @@ class CustomArc extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
-      ..color = Colors.red
+      ..color = Colors.white
       ..style = PaintingStyle.stroke
-      ..strokeWidth = pointerSize / 1.5;
+      ..strokeWidth = 8;
     canvas.drawArc(
-        Offset(-pointerSize, -pointerSize + pointerSize * 0.5) &
-            Size(pointerSize * 2, pointerSize * 2),
-        -math.pi / 2 - accuracyAngle / 2, //radians
-        accuracyAngle, //radians
+        Offset(-pointerSize / 2, -pointerSize / 2) &
+            Size(pointerSize, pointerSize),
+        -math.pi / 2 - accuracyAngle / 2,
+        accuracyAngle,
         false,
         paint);
   }
