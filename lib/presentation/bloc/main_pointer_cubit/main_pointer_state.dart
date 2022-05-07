@@ -27,11 +27,19 @@ enum SettingsStatus {
   failure,
 }
 
+enum PositionAccuracyStatus {
+  fine,
+  good,
+  poor,
+  bad,
+}
+
 class MainPointerState extends Equatable {
   final LocationServiceStatus locationServiceStatus;
   final CompassStatus compassStatus;
   final LocationsListStatus locationsListStatus;
   final SettingsStatus settingsStatus;
+  final PositionAccuracyStatus positionAccuracyStatus;
   final String activeLocationId;
   final double userLatitude;
   final double userLongitude;
@@ -39,10 +47,9 @@ class MainPointerState extends Equatable {
   final double pointLatitude;
   final double pointLongitude;
   final List<LocationPointEntity> locations;
-  final double positionAccuracy;
   final double angle;
   final double compassAccuracy;
-  final int distance;
+  final String distance;
   final double laxity;
 
   const MainPointerState({
@@ -50,6 +57,7 @@ class MainPointerState extends Equatable {
     required this.compassStatus,
     required this.locationsListStatus,
     required this.settingsStatus,
+    required this.positionAccuracyStatus,
     required this.activeLocationId,
     required this.userLatitude,
     required this.userLongitude,
@@ -57,7 +65,6 @@ class MainPointerState extends Equatable {
     required this.pointLatitude,
     required this.pointLongitude,
     required this.locations,
-    required this.positionAccuracy,
     required this.angle,
     required this.compassAccuracy,
     required this.distance,
@@ -70,6 +77,7 @@ class MainPointerState extends Equatable {
         compassStatus,
         locationsListStatus,
         settingsStatus,
+        positionAccuracyStatus,
         activeLocationId,
         userLatitude,
         userLongitude,
@@ -77,7 +85,6 @@ class MainPointerState extends Equatable {
         pointLatitude,
         pointLongitude,
         locations,
-        positionAccuracy,
         angle,
         compassAccuracy,
         distance,
@@ -89,6 +96,7 @@ class MainPointerState extends Equatable {
     CompassStatus? compassStatus,
     LocationsListStatus? locationsListStatus,
     SettingsStatus? settingsStatus,
+    PositionAccuracyStatus? positionAccuracyStatus,
     String? activeLocationId,
     double? userLatitude,
     double? userLongitude,
@@ -96,10 +104,9 @@ class MainPointerState extends Equatable {
     double? pointLatitude,
     double? pointLongitude,
     List<LocationPointEntity>? locations,
-    double? positionAccuracy,
     double? angle,
     double? compassAccuracy,
-    int? distance,
+    String? distance,
     double? laxity,
   }) {
     return MainPointerState(
@@ -108,6 +115,8 @@ class MainPointerState extends Equatable {
       compassStatus: compassStatus ?? this.compassStatus,
       locationsListStatus: locationsListStatus ?? this.locationsListStatus,
       settingsStatus: settingsStatus ?? this.settingsStatus,
+      positionAccuracyStatus:
+          positionAccuracyStatus ?? this.positionAccuracyStatus,
       activeLocationId: activeLocationId ?? this.activeLocationId,
       userLatitude: userLatitude ?? this.userLatitude,
       userLongitude: userLongitude ?? this.userLongitude,
@@ -115,11 +124,34 @@ class MainPointerState extends Equatable {
       pointLatitude: pointLatitude ?? this.pointLatitude,
       pointLongitude: pointLongitude ?? this.pointLongitude,
       locations: locations ?? this.locations,
-      positionAccuracy: positionAccuracy ?? this.positionAccuracy,
       angle: angle ?? this.angle,
       compassAccuracy: compassAccuracy ?? this.compassAccuracy,
       distance: distance ?? this.distance,
       laxity: laxity ?? this.laxity,
     );
+  }
+
+  bool get isLoading {
+    final isCompassLoading = compassStatus == CompassStatus.loading;
+    final isSettingsLoading = settingsStatus == SettingsStatus.loading;
+    final isLocationLoading =
+        locationServiceStatus == LocationServiceStatus.loading;
+    final isLocationsLoading =
+        locationsListStatus == LocationsListStatus.loading;
+    return isCompassLoading ||
+        isSettingsLoading ||
+        isLocationLoading ||
+        isLocationsLoading;
+  }
+
+  bool get isFailure {
+    final isSettingsFailure = settingsStatus == SettingsStatus.failure;
+    final isLocationServiceFailure =
+        locationServiceStatus == LocationServiceStatus.disabled ||
+            locationServiceStatus == LocationServiceStatus.noPermission ||
+            locationServiceStatus == LocationServiceStatus.unknownFailure;
+    final isLocationsFailure =
+        locationsListStatus == LocationsListStatus.loading;
+    return isSettingsFailure || isLocationServiceFailure || isLocationsFailure;
   }
 }

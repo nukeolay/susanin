@@ -24,8 +24,6 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   final GetDistanceBetween _getDistanceBetween;
   final GetBearingBetween _getBearingBetween;
   final double minPointerWidth = 0.4;
-  
-
   late final StreamSubscription<Either<Failure, PositionEntity>>
       _positionSubscription;
   late final StreamSubscription<Either<Failure, List<LocationPointEntity>>>
@@ -49,36 +47,37 @@ class MainPointerCubit extends Cubit<MainPointerState> {
         _getDistanceBetween = getDistanceBetween,
         _getBearingBetween = getBearingBetween,
         super(const MainPointerState(
-          locationServiceStatus: LocationServiceStatus.loading,
           compassStatus: CompassStatus.loading,
-          locationsListStatus: LocationsListStatus.loading,
           settingsStatus: SettingsStatus.loading,
-          activeLocationId: '',
-          userLatitude: 0,
-          userLongitude: 0,
+          locationServiceStatus: LocationServiceStatus.loading,
+          locationsListStatus: LocationsListStatus.loading,
+          positionAccuracyStatus: PositionAccuracyStatus.bad,
           pointName: '',
           pointLatitude: 0,
           pointLongitude: 0,
-          locations: [],
-          positionAccuracy: 0,
+          userLongitude: 0,
+          userLatitude: 0,
+          activeLocationId: '',
           angle: 0,
           compassAccuracy: 0,
-          distance: 0,
+          distance: '',
           laxity: 0,
+          locations: [],
         )) {
     _init();
   }
 
   void _init() {
     _compassSubscription = _getCompassStream().listen((event) {
-      event.fold(
-          (failure) =>
-              emit(state.copyWith(compassStatus: CompassStatus.failure)),
-          (compass) => emit(state.copyWith(
-                compassStatus: CompassStatus.loaded,
-                angle: _getBearing(compass.north),
-                compassAccuracy: (compass.accuracy * (math.pi / 180) * -1),
-              )));
+      event.fold((failure) {
+        emit(state.copyWith(compassStatus: CompassStatus.failure));
+      }, (compass) {
+        emit(state.copyWith(
+          compassStatus: CompassStatus.loaded,
+          angle: _getBearing(compass.north),
+          compassAccuracy: (compass.accuracy * (math.pi / 180) * -1),
+        ));
+      });
     });
 
     _positionSubscription = _getPositionStream().listen((event) {
@@ -98,15 +97,16 @@ class MainPointerCubit extends Cubit<MainPointerState> {
         },
         (position) {
           final distance = _getDistance(position);
+          final accuracy = position.accuracy;
           emit(state.copyWith(
             locationServiceStatus: LocationServiceStatus.loaded,
             userLatitude: position.latitude,
             userLongitude: position.longitude,
-            positionAccuracy: position.accuracy,
-            distance: distance,
-            laxity: math.atan(position.accuracy / distance) < minPointerWidth
+            positionAccuracyStatus: _getPositionAccuracyStatus(accuracy),
+            distance: _getDistanceString(distance),
+            laxity: math.atan(accuracy / distance) < minPointerWidth
                 ? minPointerWidth
-                : math.atan(position.accuracy / distance),
+                : math.atan(accuracy / distance),
           ));
         },
       );
@@ -122,6 +122,8 @@ class MainPointerCubit extends Cubit<MainPointerState> {
         if (index != -1) {
           emit(state.copyWith(
             settingsStatus: SettingsStatus.loaded,
+            locationServiceStatus: LocationServiceStatus
+                .loading, // чтобы до определения следующей геопозиции не показывались координаты
             activeLocationId: settings.activeLocationId,
             pointName: state.locations[index].name,
             pointLatitude: state.locations[index].latitude,
@@ -130,6 +132,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
         } else {
           emit(state.copyWith(
             settingsStatus: SettingsStatus.loaded,
+            locationServiceStatus: LocationServiceStatus.loading,
             activeLocationId: settings.activeLocationId,
             pointName: '',
             pointLatitude: 0,
@@ -185,6 +188,16 @@ class MainPointerCubit extends Cubit<MainPointerState> {
     ).toInt();
   }
 
+  String _getDistanceString(int distance) {
+    if (distance < 5) {
+      return 'на месте';
+    } else if (distance < 500) {
+      return '${distance.truncate()} m';
+    } else {
+      return '${(distance / 1000).toStringAsFixed(1)} km';
+    }
+  }
+
   double _getBearing(double compassNorth) {
     return _getBearingBetween(
           startLatitude: state.userLatitude,
@@ -195,8 +208,15 @@ class MainPointerCubit extends Cubit<MainPointerState> {
         (compassNorth * (math.pi / 180) * -1);
   }
 
-  double _getLocationAccuracy() {
-    // !
-    return 0;
+  PositionAccuracyStatus _getPositionAccuracyStatus(double accuracy) {
+    if (accuracy < 10) {
+      return PositionAccuracyStatus.fine;
+    } else if (accuracy < 20) {
+      return PositionAccuracyStatus.good;
+    } else if (accuracy < 100) {
+      return PositionAccuracyStatus.poor;
+    } else {
+      return PositionAccuracyStatus.bad;
+    }
   }
 }

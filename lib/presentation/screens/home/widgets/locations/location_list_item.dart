@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 
@@ -45,12 +46,17 @@ class LocationListItem extends StatelessWidget {
       },
       child: ListTile(
         selected: isActive,
+        leading: CircleAvatar(
+          child: const Icon(Icons.location_on_rounded),
+          backgroundColor: isActive ? Colors.green : Colors.grey,
+          foregroundColor: Colors.white,
+        ),
         title: Text(
           location.name,
           style: const TextStyle(fontSize: 20),
           overflow: TextOverflow.ellipsis,
         ),
-        subtitle: Text(location.toString()),
+        subtitle: Text(DateFormat('dd-MM-yyy').format(location.creationTime)),
         onTap: () => context
             .read<LocationsListCubit>()
             .onPressSetActive(id: location.id),

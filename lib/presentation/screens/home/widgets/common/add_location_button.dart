@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_state.dart';
-import 'package:susanin/presentation/screens/home/widgets/location_bottom_sheet.dart';
+import 'package:susanin/presentation/screens/home/widgets/common/location_bottom_sheet.dart';
 
 class AddNewLocationButton extends StatelessWidget {
   const AddNewLocationButton({Key? key}) : super(key: key);

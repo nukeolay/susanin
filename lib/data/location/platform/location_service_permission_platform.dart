@@ -8,7 +8,6 @@ class LocationServicePropertiesPlatformImpl
     implements LocationServicePermissionPlatform {
   @override
   Future<bool> requestPermission() async {
-    print('he');
     final permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {
