@@ -2,11 +2,13 @@ import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/domain/location/usecases/request_permission.dart';
 import 'package:susanin/internal/service_locator.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
+import 'package:susanin/presentation/screens/home/widgets/main_bar/detailed_info_bottom_sheet.dart';
 import 'package:susanin/presentation/screens/home/widgets/main_bar/main_pointer.dart';
 
 class MainBar extends StatelessWidget {
@@ -37,6 +39,7 @@ class MainBar extends StatelessWidget {
             key: const ValueKey('main_pointer'),
             direction: DismissDirection.endToStart,
             confirmDismiss: (DismissDirection dismissDirection) {
+              HapticFeedback.vibrate();
               return Future.value(false);
             },
             child: BlocConsumer<MainPointerCubit, MainPointerState>(
@@ -100,13 +103,17 @@ class MainBar extends StatelessWidget {
                           subText: 'список локаций пуст',
                         );
                       } else {
-                        return MainPointer(
-                          rotateAngle: state.angle,
-                          accuracyAngle: state.laxity * 5,
-                          positionAccuracyStatus: state.positionAccuracyStatus,
-                          mainText:
-                              state.locations.isEmpty ? '' : state.distance,
-                          subText: state.pointName,
+                        return GestureDetector(
+                          onTap: () => _showBottomSheet(context),
+                          child: MainPointer(
+                            rotateAngle: state.angle,
+                            accuracyAngle: state.laxity * 5,
+                            positionAccuracyStatus:
+                                state.positionAccuracyStatus,
+                            mainText:
+                                state.locations.isEmpty ? '' : state.distance,
+                            subText: state.pointName,
+                          ),
                         );
                       }
                     },
@@ -145,6 +152,17 @@ Future<bool?> _showGetPermissionDialog(BuildContext context) async {
           ),
         ],
       );
+    },
+  );
+}
+
+void _showBottomSheet(BuildContext context) async {
+  await showModalBottomSheet<void>(
+    context: context,
+    backgroundColor: Colors.transparent,
+    isScrollControlled: true,
+    builder: (BuildContext context) {
+      return DetailedInfoBottomSheet();
     },
   );
 }

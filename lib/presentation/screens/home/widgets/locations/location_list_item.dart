@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
@@ -39,8 +40,10 @@ class LocationListItem extends StatelessWidget {
       },
       confirmDismiss: (DismissDirection dismissDirection) async {
         if (dismissDirection == DismissDirection.startToEnd) {
+          HapticFeedback.vibrate();
           return _showConfirmationDialog(context);
         } else {
+          HapticFeedback.vibrate();
           await Share.share(
               '${location.name} https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}');
           return false;

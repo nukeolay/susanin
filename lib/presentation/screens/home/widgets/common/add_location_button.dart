@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_state.dart';
@@ -33,10 +34,14 @@ class AddNewLocationButton extends StatelessWidget {
         }
         return GestureDetector(
           onLongPress: () {
+            HapticFeedback.vibrate();
             context.read<AddLocationCubit>().onLongPressAdd();
           },
           child: FloatingActionButton(
-            onPressed: () => context.read<AddLocationCubit>().onPressAdd(),
+            onPressed: () {
+              HapticFeedback.vibrate();
+              context.read<AddLocationCubit>().onPressAdd();
+            },
             child: const Icon(Icons.add_location_alt_rounded),
           ),
         );

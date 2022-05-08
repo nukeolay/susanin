@@ -80,9 +80,9 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                       keyboardType: TextInputType.name,
                       autofocus: true,
                       decoration: InputDecoration(
-                        labelText: 'Location Name',
+                        labelText: 'Название локации',
                         errorText: !validatorState.isNameValid
-                            ? 'Please enter location name'
+                            ? 'Пожалуйста, введите название'
                             : null,
                       ),
                       onChanged: (value) {
@@ -96,9 +96,9 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                       keyboardType:
                           const TextInputType.numberWithOptions(decimal: true),
                       decoration: InputDecoration(
-                        labelText: 'Latitude',
+                        labelText: 'Широта',
                         errorText: !validatorState.isLatutideValid
-                            ? 'Wrong latitude value'
+                            ? 'Некорректное значение'
                             : null,
                       ),
                       onChanged: (value) {
@@ -112,9 +112,9 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                       keyboardType:
                           const TextInputType.numberWithOptions(decimal: true),
                       decoration: InputDecoration(
-                        labelText: 'Longitude',
+                        labelText: 'Долгота',
                         errorText: !validatorState.isLongitudeValid
-                            ? 'Wrong longitude value'
+                            ? 'Некорректное значение'
                             : null,
                       ),
                       onChanged: (value) {
@@ -130,10 +130,19 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TextButton(
-                      child: const Text('Cancel'),
+                      child: const Text('Отмена'),
                       onPressed: () => Navigator.pop(context)),
                   ElevatedButton(
-                      child: const Text('Save'),
+                      child: const Text('Сохранить'),
+                      style: ButtonStyle(
+                        elevation: MaterialStateProperty.all(0),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
                       onPressed: validatorState.isNameValid &&
                               validatorState.isLatutideValid &&
                               validatorState.isLongitudeValid
