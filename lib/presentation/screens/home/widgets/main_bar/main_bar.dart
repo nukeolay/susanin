@@ -45,95 +45,105 @@ class MainBar extends StatelessWidget {
                   bottomRight: Radius.circular(20),
                 ),
               ),
-              child: BlocConsumer<MainPointerCubit, MainPointerState>(
-                listenWhen: (previous, current) =>
-                    previous.locationServiceStatus !=
-                        LocationServiceStatus.noPermission ||
-                    current.locationServiceStatus !=
-                        LocationServiceStatus.noPermission,
-                listener: (context, state) async {
-                  if (state.locationServiceStatus ==
-                      LocationServiceStatus.noPermission) {
-                    await _showGetPermissionDialog(context);
-                  }
-                },
-                builder: (context, state) {
-                  if (state.isLoading) {
-                    return const Center(
-                        child: CircularProgressIndicator(
-                      color: Colors.white,
-                    ));
-                  } else if (state.isFailure) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const CircularProgressIndicator(color: Colors.red),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: _onScreenText(
-                              'ServiceFailure: ${state.locationServiceStatus == LocationServiceStatus.disabled}\nPermissionFailure: ${state.locationServiceStatus == LocationServiceStatus.noPermission}\nisCompassError: ${state.compassStatus == CompassStatus.failure}\nUnknownFailure: ${state.locationServiceStatus == LocationServiceStatus.unknownFailure}'),
-                        ),
-                      ],
-                    );
-                  // } else if (state.locations.isEmpty) {
-                  //   // вынести нижные виджеты в отдельный класс и продублировать тут и радиус раскрытия поменять и загрузку можно сделать
-                  //   return Text('drtfyghj');
-                  } else {
-                    return Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Pointer(
-                          rotateAngle: state.angle,
-                          accuracyAngle: state.laxity * 5,
-                          pointerSize: 90,
-                          foregroundColor: Colors.green,
-                          backGroundColor: Colors.white,
-                          centerColor: state.positionAccuracyStatus ==
-                                  PositionAccuracyStatus.fine
-                              ? Colors.green
-                              : state.positionAccuracyStatus ==
-                                      PositionAccuracyStatus.good
-                                  ? Colors.greenAccent
-                                  : state.positionAccuracyStatus ==
-                                          PositionAccuracyStatus.poor
-                                      ? Colors.amber
-                                      : Colors.red,
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  state.locations.isEmpty ? '' : state.distance,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 30,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    state.pointName,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.fade,
-                                    softWrap: false,
+              child: Material(
+                elevation: 10,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+                color: Colors.green,
+                child: BlocConsumer<MainPointerCubit, MainPointerState>(
+                  listenWhen: (previous, current) =>
+                      previous.locationServiceStatus !=
+                          LocationServiceStatus.noPermission ||
+                      current.locationServiceStatus !=
+                          LocationServiceStatus.noPermission,
+                  listener: (context, state) async {
+                    if (state.locationServiceStatus ==
+                        LocationServiceStatus.noPermission) {
+                      await _showGetPermissionDialog(context);
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state.isLoading) {
+                      return const Center(
+                          child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ));
+                    } else if (state.isFailure) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const CircularProgressIndicator(color: Colors.red),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: _onScreenText(
+                                'ServiceFailure: ${state.locationServiceStatus == LocationServiceStatus.disabled}\nPermissionFailure: ${state.locationServiceStatus == LocationServiceStatus.noPermission}\nisCompassError: ${state.compassStatus == CompassStatus.failure}\nUnknownFailure: ${state.locationServiceStatus == LocationServiceStatus.unknownFailure}'),
+                          ),
+                        ],
+                      );
+                      // } else if (state.locations.isEmpty) {
+                      //   // вынести нижные виджеты в отдельный класс и продублировать тут и радиус раскрытия поменять и загрузку можно сделать
+                      //   return Text('drtfyghj');
+                    } else {
+                      return Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Pointer(
+                            rotateAngle: state.angle,
+                            accuracyAngle: state.laxity * 5,
+                            pointerSize: 90,
+                            foregroundColor: Colors.green,
+                            backGroundColor: Colors.white,
+                            centerColor: state.positionAccuracyStatus ==
+                                    PositionAccuracyStatus.fine
+                                ? Colors.green
+                                : state.positionAccuracyStatus ==
+                                        PositionAccuracyStatus.good
+                                    ? Colors.greenAccent
+                                    : state.positionAccuracyStatus ==
+                                            PositionAccuracyStatus.poor
+                                        ? Colors.amber
+                                        : Colors.red,
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    state.locations.isEmpty
+                                        ? ''
+                                        : state.distance,
+                                    overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                      fontSize: 12,
+                                      fontSize: 30,
                                       color: Colors.white,
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Flexible(
+                                    child: Text(
+                                      state.pointName,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.fade,
+                                      softWrap: false,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  }
-                },
+                        ],
+                      );
+                    }
+                  },
+                ),
               ),
             ),
           ),

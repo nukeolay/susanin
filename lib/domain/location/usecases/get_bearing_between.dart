@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:vector_math/vector_math.dart'; // ! TODO попробовать без этого пакета
-
 class GetBearingBetween {
   double call({
     required double startLatitude,
@@ -9,10 +7,10 @@ class GetBearingBetween {
     required double endLatitude,
     required double endLongitude,
   }) {
-    final startLongitudeRadians = radians(startLongitude);
-    final startLatitudeRadians = radians(startLatitude);
-    final endLongitudeRadians = radians(endLongitude);
-    final endLatitudeRadians = radians(endLatitude);
+    final startLongitudeRadians = toRadians(startLongitude);
+    final startLatitudeRadians = toRadians(startLatitude);
+    final endLongitudeRadians = toRadians(endLongitude);
+    final endLatitudeRadians = toRadians(endLatitude);
 
     final y = sin(endLongitudeRadians - startLongitudeRadians) *
         cos(endLatitudeRadians);
@@ -21,5 +19,9 @@ class GetBearingBetween {
             cos(endLatitudeRadians) *
             cos(endLongitudeRadians - startLongitudeRadians);
     return atan2(y, x);
+  }
+
+  double toRadians(double degree) {
+    return degree * pi / 180;
   }
 }

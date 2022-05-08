@@ -33,9 +33,13 @@ class Pointer extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              CircleAvatar(
-                radius: pointerSize * 0.7,
-                backgroundColor: backGroundColor,
+              Material(
+                elevation: 2,
+                borderRadius: BorderRadius.circular(100),
+                child: CircleAvatar(
+                  radius: pointerSize * 0.7,
+                  backgroundColor: backGroundColor,
+                ),
               ),
               locationAccuracy != null
                   ? CircleAvatar(
