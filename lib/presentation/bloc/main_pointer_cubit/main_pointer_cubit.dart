@@ -209,9 +209,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   }
 
   PositionAccuracyStatus _getPositionAccuracyStatus(double accuracy) {
-    if (accuracy < 10) {
-      return PositionAccuracyStatus.fine;
-    } else if (accuracy < 20) {
+    if (accuracy < 15) {
       return PositionAccuracyStatus.good;
     } else if (accuracy < 100) {
       return PositionAccuracyStatus.poor;

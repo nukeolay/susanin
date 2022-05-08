@@ -27,23 +27,30 @@ class LocationList extends StatelessWidget {
           if (state.status == LocationsListStatus.loading) {
             return const CircularProgressIndicator();
           } else if (state.locations.isEmpty) {
-            return const Text('Нет сохраненных локаций');
+            return const Center(
+                child: Text(
+              'Нет сохраненных локаций',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 30),
+            ));
           } else {
             final locations = state.locations;
             return ListView.builder(
-                shrinkWrap: true,
-                itemCount: locations.length,
-                padding: EdgeInsets.only(top: topPadding, bottom: 100),
-                itemBuilder: (context, index) {
-                  final key =
-                      ValueKey(locations[locations.length - index - 1].name);
-                  return LocationListItem(
-                    location: locations[locations.length - index - 1],
-                    isActive: locations[locations.length - index - 1].id ==
-                        state.activeLocationId,
-                    key: key,
-                  );
-                });
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: locations.length,
+              padding: EdgeInsets.only(top: topPadding, bottom: 100),
+              itemBuilder: (context, index) {
+                final key =
+                    ValueKey(locations[locations.length - index - 1].name);
+                return LocationListItem(
+                  location: locations[locations.length - index - 1],
+                  isActive: locations[locations.length - index - 1].id ==
+                      state.activeLocationId,
+                  key: key,
+                );
+              },
+            );
           }
         }),
       ),

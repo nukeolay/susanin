@@ -6,7 +6,6 @@ import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/domain/location/entities/position.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location_points/usecases/add_location.dart';
-import 'package:susanin/domain/settings/usecases/set_active_location.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_state.dart';
 
 class AddLocationCubit extends Cubit<AddLocationState> {

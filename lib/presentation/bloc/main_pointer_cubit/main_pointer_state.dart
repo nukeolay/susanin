@@ -28,7 +28,6 @@ enum SettingsStatus {
 }
 
 enum PositionAccuracyStatus {
-  fine,
   good,
   poor,
   bad,
