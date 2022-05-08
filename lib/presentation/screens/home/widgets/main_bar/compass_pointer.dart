@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
@@ -37,7 +35,7 @@ class CompassPointer extends StatelessWidget {
               accuracyAngle: state.accuracy,
               pointerSize: 40,
               foregroundColor: Colors.white,
-              backGroundColor: Colors.green,
+              backGroundColor: Colors.grey,
             );
           }
         },

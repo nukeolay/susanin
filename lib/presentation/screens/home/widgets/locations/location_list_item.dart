@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 
@@ -19,16 +20,16 @@ class LocationListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
       key: key!,
-      secondaryBackground: Container(
+      background: Container(
         color: Colors.red,
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 12.0),
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.only(left: 15.0),
         child: const Icon(Icons.delete_forever_rounded, color: Colors.white),
       ),
-      background: Container(
+      secondaryBackground: Container(
         color: Colors.green,
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.only(left: 12.0),
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 15.0),
         child: const Icon(Icons.share_rounded, color: Colors.white),
       ),
       onDismissed: (value) async {
@@ -37,10 +38,11 @@ class LocationListItem extends StatelessWidget {
             .onDeleteLocation(id: location.id);
       },
       confirmDismiss: (DismissDirection dismissDirection) async {
-        if (dismissDirection == DismissDirection.endToStart) {
+        if (dismissDirection == DismissDirection.startToEnd) {
           return _showConfirmationDialog(context);
         } else {
-          // ! TODO implement share
+          await Share.share(
+              '${location.name} https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}');
           return false;
         }
       },

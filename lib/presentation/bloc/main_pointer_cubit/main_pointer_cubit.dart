@@ -153,9 +153,9 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           emit(state.copyWith(
             locationsListStatus: LocationsListStatus.loaded,
             locations: locations,
-            pointName: state.locations[index].name,
-            pointLatitude: state.locations[index].latitude,
-            pointLongitude: state.locations[index].longitude,
+            pointName: locations[index].name,
+            pointLatitude: locations[index].latitude,
+            pointLongitude: locations[index].longitude,
           ));
         } else {
           emit(state.copyWith(

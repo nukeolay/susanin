@@ -46,7 +46,7 @@ class MainBar extends StatelessWidget {
                 ),
               ),
               child: Material(
-                elevation: 10,
+                elevation: 3,
                 borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(20),
                   bottomRight: Radius.circular(20),

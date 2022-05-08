@@ -41,6 +41,7 @@ dependencies:
       ref: master
   flutter_bloc: ^8.0.1
   shared_preferences: ^2.0.13
+  share_plus: ^4.0.4
   cupertino_icons: ^1.0.2
 
 dev_dependencies:

@@ -6,7 +6,8 @@ import 'package:susanin/presentation/screens/home/widgets/common/location_bottom
 import 'package:susanin/presentation/screens/home/widgets/locations/location_list_item.dart';
 
 class LocationList extends StatelessWidget {
-  const LocationList({Key? key}) : super(key: key);
+  final double topPadding;
+  const LocationList({required this.topPadding, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class LocationList extends StatelessWidget {
             return ListView.builder(
                 shrinkWrap: true,
                 itemCount: locations.length,
+                padding: EdgeInsets.only(top: topPadding, bottom: 100),
                 itemBuilder: (context, index) {
                   final key =
                       ValueKey(locations[locations.length - index - 1].name);

@@ -9,14 +9,21 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const mainBarHeight = 150.0;
+    const mainBarMargin = 10.0;
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        body: Stack(
           children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                LocationList(topPadding: mainBarHeight + 2 * mainBarMargin),
+              ],
+            ),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              height: 150,
+              margin: const EdgeInsets.symmetric(vertical: mainBarMargin),
+              height: mainBarHeight,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
@@ -25,7 +32,6 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const LocationList(),
           ],
         ),
         floatingActionButton: const AddNewLocationButton(),
