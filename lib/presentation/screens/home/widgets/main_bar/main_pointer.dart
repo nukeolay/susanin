@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
-import 'package:susanin/presentation/screens/home/widgets/main_bar/pointer.dart';
+import 'package:susanin/presentation/screens/home/widgets/common/pointer.dart';
 
 class MainPointer extends StatelessWidget {
   final double rotateAngle;

@@ -98,6 +98,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   void onLongPressEdit({required String id}) async {
     final location =
         state.locations.firstWhere(((location) => location.id == id));
+    _setActiveLocation(id);
     emit(EditLocationState(
       activeLocationId: id,
       id: id,

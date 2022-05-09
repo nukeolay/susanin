@@ -3,26 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
-import 'package:susanin/presentation/screens/home/widgets/main_bar/pointer.dart';
+import 'package:susanin/presentation/screens/home/widgets/common/custom_bottom_sheet.dart';
+import 'package:susanin/presentation/screens/home/widgets/common/pointer.dart';
 
 class DetailedInfoBottomSheet extends StatelessWidget {
   const DetailedInfoBottomSheet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Container(
-        padding: EdgeInsets.only(
-          top: 8.0,
-          left: 8.0,
-          right: 8.0,
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
-          color: Colors.white,
-        ),
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: CustomBottomSheet(
         child: BlocBuilder<MainPointerCubit, MainPointerState>(
             builder: (context, state) {
           return Column(
@@ -53,10 +44,17 @@ class DetailedInfoBottomSheet extends StatelessWidget {
                           : Colors.red,
                 );
               }),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  state.distance,
+                  style: const TextStyle(fontSize: 50),
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Text('точность текущей геолокации: '),
+                  const Text('точность определения геолокации: '),
                   Text(
                     '${state.positionAccuracy.toStringAsFixed(1)} м',
                     style: const TextStyle(fontSize: 16),
@@ -74,66 +72,16 @@ class DetailedInfoBottomSheet extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10.0),
-              Container(
-                padding: const EdgeInsets.all(12.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey.shade100,
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      state.pointName,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                    const SizedBox(height: 3.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        CopyButton(
-                          title: 'широта',
-                          value: state.pointLatitude.toString(),
-                        ),
-                        CopyButton(
-                          title: 'долгота',
-                          value: state.pointLongitude.toString(),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              LocationDetails(
+                pointName: state.pointName,
+                pointLatitude: state.pointLatitude.toString(),
+                pointLongitude: state.pointLongitude.toString(),
               ),
               const SizedBox(height: 10.0),
-              Container(
-                padding: const EdgeInsets.all(12.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey.shade100,
-                ),
-                child: Column(
-                  children: [
-                    const Text(
-                      'ваши координаты',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    const SizedBox(height: 3.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        CopyButton(
-                          title: 'широта',
-                          value: state.userLatitude.toString(),
-                        ),
-                        CopyButton(
-                          title: 'долгота',
-                          value: state.userLongitude.toString(),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              LocationDetails(
+                pointName: 'ваше местоположение',
+                pointLatitude: state.userLatitude.toString(),
+                pointLongitude: state.userLongitude.toString(),
               ),
               const SizedBox(height: 5.0),
               SizedBox(
@@ -149,11 +97,56 @@ class DetailedInfoBottomSheet extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onPressed: () => Navigator.pop(context)),
+                    onPressed: () {
+                      HapticFeedback.vibrate();
+                      Navigator.pop(context);
+                    }),
               ),
+              const SizedBox(height: 5.0),
             ],
           );
         }),
+      ),
+    );
+  }
+}
+
+class LocationDetails extends StatelessWidget {
+  final String pointName;
+  final String pointLatitude;
+  final String pointLongitude;
+
+  const LocationDetails({
+    Key? key,
+    required this.pointName,
+    required this.pointLatitude,
+    required this.pointLongitude,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.grey.shade100,
+      ),
+      child: Column(
+        children: [
+          Text(
+            pointName,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 20),
+          ),
+          const SizedBox(height: 5.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              CopyButton(title: 'широта', value: pointLatitude),
+              CopyButton(title: 'долгота', value: pointLongitude),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -172,17 +165,18 @@ class CopyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       child: Row(
         children: [
           Column(
             children: [
               Text(
                 value,
-                style: const TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
               Text(
                 title,
+                style: const TextStyle(color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
             ],

@@ -104,6 +104,7 @@ class MainBar extends StatelessWidget {
                         );
                       } else {
                         return GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             HapticFeedback.vibrate();
                             _showBottomSheet(context);
