@@ -39,6 +39,7 @@ class MainPointerState extends Equatable {
   final LocationsListStatus locationsListStatus;
   final SettingsStatus settingsStatus;
   final PositionAccuracyStatus positionAccuracyStatus;
+  final double positionAccuracy;
   final String activeLocationId;
   final double userLatitude;
   final double userLongitude;
@@ -57,6 +58,7 @@ class MainPointerState extends Equatable {
     required this.locationsListStatus,
     required this.settingsStatus,
     required this.positionAccuracyStatus,
+    required this.positionAccuracy,
     required this.activeLocationId,
     required this.userLatitude,
     required this.userLongitude,
@@ -77,6 +79,7 @@ class MainPointerState extends Equatable {
         locationsListStatus,
         settingsStatus,
         positionAccuracyStatus,
+        positionAccuracy,
         activeLocationId,
         userLatitude,
         userLongitude,
@@ -96,6 +99,7 @@ class MainPointerState extends Equatable {
     LocationsListStatus? locationsListStatus,
     SettingsStatus? settingsStatus,
     PositionAccuracyStatus? positionAccuracyStatus,
+    double? positionAccuracy,
     String? activeLocationId,
     double? userLatitude,
     double? userLongitude,
@@ -116,6 +120,7 @@ class MainPointerState extends Equatable {
       settingsStatus: settingsStatus ?? this.settingsStatus,
       positionAccuracyStatus:
           positionAccuracyStatus ?? this.positionAccuracyStatus,
+      positionAccuracy: positionAccuracy ?? this.positionAccuracy,
       activeLocationId: activeLocationId ?? this.activeLocationId,
       userLatitude: userLatitude ?? this.userLatitude,
       userLongitude: userLongitude ?? this.userLongitude,

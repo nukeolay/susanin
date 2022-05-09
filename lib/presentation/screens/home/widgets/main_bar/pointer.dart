@@ -10,6 +10,7 @@ class Pointer extends StatelessWidget {
   final Color backGroundColor;
   final double? locationAccuracy;
   final Color? centerColor;
+  final double? elevation;
 
   const Pointer({
     required this.rotateAngle,
@@ -19,6 +20,7 @@ class Pointer extends StatelessWidget {
     required this.backGroundColor,
     this.centerColor,
     this.locationAccuracy,
+    this.elevation,
     Key? key,
   }) : super(key: key);
 
@@ -34,8 +36,8 @@ class Pointer extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Material(
-                elevation: 3,
-                borderRadius: BorderRadius.circular(100),
+                elevation: elevation ?? 3,
+                borderRadius: BorderRadius.circular(1000),
                 child: CircleAvatar(
                   radius: pointerSize * 0.7,
                   backgroundColor: backGroundColor,
@@ -44,7 +46,7 @@ class Pointer extends StatelessWidget {
               locationAccuracy != null
                   ? CircleAvatar(
                       radius: locationAccuracy,
-                      backgroundColor: Colors.redAccent,
+                      backgroundColor: Colors.redAccent, // ! TODO вспомнить зачем это?
                     )
                   : CircleAvatar(
                       radius: pointerSize * 0.15,

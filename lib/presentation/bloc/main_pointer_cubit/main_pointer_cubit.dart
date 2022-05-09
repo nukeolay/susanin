@@ -52,6 +52,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           locationServiceStatus: LocationServiceStatus.loading,
           locationsListStatus: LocationsListStatus.loading,
           positionAccuracyStatus: PositionAccuracyStatus.bad,
+          positionAccuracy: 0,
           pointName: '',
           pointLatitude: 0,
           pointLongitude: 0,
@@ -103,6 +104,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
             userLatitude: position.latitude,
             userLongitude: position.longitude,
             positionAccuracyStatus: _getPositionAccuracyStatus(accuracy),
+            positionAccuracy: accuracy,
             distance: _getDistanceString(distance),
             laxity: math.atan(accuracy / distance) < minPointerWidth
                 ? minPointerWidth
@@ -190,11 +192,11 @@ class MainPointerCubit extends Cubit<MainPointerState> {
 
   String _getDistanceString(int distance) {
     if (distance < 5) {
-      return 'на месте';
+      return 'тут';
     } else if (distance < 500) {
-      return '${distance.truncate()} m';
+      return '${distance.truncate()} м';
     } else {
-      return '${(distance / 1000).toStringAsFixed(1)} km';
+      return '${(distance / 1000).toStringAsFixed(1)} км';
     }
   }
 

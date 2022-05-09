@@ -104,7 +104,10 @@ class MainBar extends StatelessWidget {
                         );
                       } else {
                         return GestureDetector(
-                          onTap: () => _showBottomSheet(context),
+                          onTap: () {
+                            HapticFeedback.vibrate();
+                            _showBottomSheet(context);
+                          },
                           child: MainPointer(
                             rotateAngle: state.angle,
                             accuracyAngle: state.laxity * 5,
@@ -162,7 +165,7 @@ void _showBottomSheet(BuildContext context) async {
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
     builder: (BuildContext context) {
-      return DetailedInfoBottomSheet();
+      return const DetailedInfoBottomSheet();
     },
   );
 }
