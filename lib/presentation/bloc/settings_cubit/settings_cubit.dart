@@ -3,6 +3,10 @@ import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/domain/compass/usecases/get_compass_stream.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location/usecases/request_permission.dart';
+import 'package:susanin/domain/settings/entities/settings.dart';
+import 'package:susanin/domain/settings/usecases/get_settings.dart';
+import 'package:susanin/domain/settings/usecases/get_theme_mode.dart';
+import 'package:susanin/domain/settings/usecases/toggle_theme.dart';
 import 'package:susanin/domain/wakelock/usecases/get_wakelock_enabled_status.dart';
 import 'package:susanin/domain/wakelock/usecases/toggle_wakelock.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_state.dart';
@@ -13,6 +17,8 @@ class SettingsCubit extends Cubit<SettingsState> {
   final RequestPermission _requestPermission;
   final GetWakelockEnabledStatus _getWakelockEnabledStatus;
   final ToggleWakelock _toggleWakelock;
+  final GetThemeMode _getThemeMode;
+  final ToggleTheme _toggleTheme;
 
   SettingsCubit({
     required GetPositionStream getPositionStream,
@@ -20,11 +26,15 @@ class SettingsCubit extends Cubit<SettingsState> {
     required RequestPermission requestPermission,
     required GetWakelockEnabledStatus getWakelockEnabledStatus,
     required ToggleWakelock toggleWakelock,
+    required GetThemeMode getThemeMode,
+    required ToggleTheme toggleTheme,
   })  : _getPositionStream = getPositionStream,
         _getCompassStream = getCompassStream,
         _requestPermission = requestPermission,
         _getWakelockEnabledStatus = getWakelockEnabledStatus,
         _toggleWakelock = toggleWakelock,
+        _getThemeMode = getThemeMode,
+        _toggleTheme = toggleTheme,
         super(const SettingsState(
           locationSettingsStatus: LocationSettingsStatus.loading,
           compassSettingsStatus: CompassSettingsStatus.loading,
@@ -36,10 +46,9 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   void _init() {
+    _updateTheme();
     _updateCompassStatus();
-
     _updateLocationServiceStatus();
-
     _updateWakelockStatus();
   }
 
@@ -58,6 +67,16 @@ class SettingsCubit extends Cubit<SettingsState> {
     ));
     await _toggleWakelock();
     await _updateWakelockStatus();
+  }
+
+  Future<void> toggleTheme() async {
+    emit(state.copyWith(isDarkTheme: !state.isDarkTheme));
+    await _toggleTheme();
+  }
+
+  void _updateTheme() {
+    final isDarkTheme = _getThemeMode();
+    emit(state.copyWith(isDarkTheme: isDarkTheme));
   }
 
   Future<void> _updateWakelockStatus() async {

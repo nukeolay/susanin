@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_event.dart';
-import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_state.dart';
+import 'package:susanin/presentation/bloc/location_point_validate_bloc/location_point_validate_event.dart';
+import 'package:susanin/presentation/bloc/location_point_validate_bloc/location_point_validate_state.dart';
 
 class LocationPointValidateBloc
     extends Bloc<LocationPointValidateEvent, LocationPointValidateState> {

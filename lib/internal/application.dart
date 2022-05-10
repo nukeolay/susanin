@@ -7,10 +7,11 @@ import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/internal/service_locator.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
-import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_bloc.dart';
+import 'package:susanin/presentation/bloc/location_point_validate_bloc/location_point_validate_bloc.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
+import 'package:susanin/presentation/bloc/settings_cubit/settings_state.dart';
 import 'package:susanin/presentation/screens/home/home_screen.dart';
 
 class SusaninApp extends StatelessWidget {
@@ -40,6 +41,8 @@ class SusaninApp extends StatelessWidget {
         locale: context.locale,
         debugShowCheckedModeBanner: false,
         title: 'Susanin',
+        // themeMode: state.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
+        // darkTheme: ThemeData.dark(),
         theme: ThemeData(
           useMaterial3: true,
           // primarySwatch: Colors.green,

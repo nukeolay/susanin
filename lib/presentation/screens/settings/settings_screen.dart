@@ -21,7 +21,7 @@ class SettingsScreen extends StatelessWidget {
           return ListView(
             physics: const BouncingScrollPhysics(),
             children: [
-              const ThemeOption(),
+              ThemeOption(state: state),
               WakelockOption(state: state),
               LocationOption(state: state),
               CompassOption(state: state),

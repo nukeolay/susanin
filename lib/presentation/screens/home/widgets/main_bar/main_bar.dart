@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +6,7 @@ import 'package:susanin/domain/location/usecases/request_permission.dart';
 import 'package:susanin/internal/service_locator.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
+import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
 import 'package:susanin/presentation/screens/home/widgets/main_bar/detailed_info_bottom_sheet.dart';
 import 'package:susanin/presentation/screens/home/widgets/main_bar/main_pointer.dart';
 
@@ -40,6 +39,7 @@ class MainBar extends StatelessWidget {
             direction: DismissDirection.endToStart,
             confirmDismiss: (DismissDirection dismissDirection) {
               HapticFeedback.vibrate();
+              context.read<SettingsCubit>().toggleTheme();
               return Future.value(false);
             },
             child: BlocConsumer<MainPointerCubit, MainPointerState>(
@@ -65,43 +65,13 @@ class MainBar extends StatelessWidget {
                   child: Builder(
                     builder: (context) {
                       if (state.isLoading) {
-                        return const MainPointer(
-                          rotateAngle: 0,
-                          accuracyAngle: math.pi * 2,
-                          positionAccuracyStatus: PositionAccuracyStatus.good,
-                          isShimmering: true,
-                          shimmerBaseColor: Colors.green,
-                          shimmerHighlightColor: Colors.white,
-                          mainText: '',
-                          subText: '',
-                        );
+                        return const MainPointerLoading();
                         // } else if (state.compassStatus == CompassStatus.failure) {
                         // ! TODO implement UI for no compass devices
                       } else if (state.isFailure) {
-                        return MainPointer(
-                          rotateAngle: 0,
-                          accuracyAngle: math.pi * 2,
-                          positionAccuracyStatus: state.positionAccuracyStatus,
-                          isShimmering: true,
-                          shimmerBaseColor: Colors.red,
-                          shimmerHighlightColor: Colors.white,
-                          mainText: 'Ошибка',
-                          subText: state.locationServiceStatus ==
-                                  LocationServiceStatus.disabled
-                              ? 'GPS выключен'
-                              : state.locationServiceStatus ==
-                                      LocationServiceStatus.noPermission
-                                  ? 'Отсутствует доступ к GPS'
-                                  : 'Неизвестный сбой',
-                        );
+                        return MainPointerFailure(state: state);
                       } else if (state.locations.isEmpty) {
-                        return MainPointer(
-                          rotateAngle: 0,
-                          accuracyAngle: math.pi * 2,
-                          positionAccuracyStatus: state.positionAccuracyStatus,
-                          mainText: '... ... ... ...',
-                          subText: 'список локаций пуст',
-                        );
+                        return MainPointerEmpty(state: state);
                       } else {
                         return GestureDetector(
                           behavior: HitTestBehavior.translucent,
@@ -109,15 +79,7 @@ class MainBar extends StatelessWidget {
                             HapticFeedback.vibrate();
                             _showBottomSheet(context);
                           },
-                          child: MainPointer(
-                            rotateAngle: state.angle,
-                            accuracyAngle: state.laxity * 5,
-                            positionAccuracyStatus:
-                                state.positionAccuracyStatus,
-                            mainText:
-                                state.locations.isEmpty ? '' : state.distance,
-                            subText: state.pointName,
-                          ),
+                          child: MainPointerDefault(state: state),
                         );
                       }
                     },

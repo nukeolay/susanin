@@ -27,13 +27,15 @@ import 'package:susanin/domain/location_points/usecases/add_location.dart';
 import 'package:susanin/domain/settings/repositories/repository.dart';
 import 'package:susanin/domain/settings/usecases/get_settings.dart';
 import 'package:susanin/domain/settings/usecases/get_settings_stream.dart';
+import 'package:susanin/domain/settings/usecases/get_theme_mode.dart';
 import 'package:susanin/domain/settings/usecases/set_active_location.dart';
+import 'package:susanin/domain/settings/usecases/toggle_theme.dart';
 import 'package:susanin/domain/wakelock/repositories/repository.dart';
 import 'package:susanin/domain/wakelock/usecases/get_wakelock_enabled_status.dart';
 import 'package:susanin/domain/wakelock/usecases/toggle_wakelock.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
-import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_bloc.dart';
+import 'package:susanin/presentation/bloc/location_point_validate_bloc/location_point_validate_bloc.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
@@ -88,6 +90,8 @@ Future<void> init() async {
       requestPermission: serviceLocator(),
       getWakelockEnabledStatus: serviceLocator(),
       toggleWakelock: serviceLocator(),
+      getThemeMode: serviceLocator(),
+      toggleTheme: serviceLocator(),
     ),
   );
 
@@ -144,6 +148,12 @@ Future<void> init() async {
   );
   serviceLocator.registerLazySingleton<SetActiveLocation>(
     () => SetActiveLocation(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<ToggleTheme>(
+    () => ToggleTheme(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<GetThemeMode>(
+    () => GetThemeMode(serviceLocator()),
   );
 
   // Wakelock

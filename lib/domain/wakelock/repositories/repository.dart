@@ -1,4 +1,4 @@
-import 'package:susanin/domain/wakelock/entities/wakelockdart';
+import 'package:susanin/domain/wakelock/entities/wakelock.dart';
 
 abstract class WakelockRepository {
   Future<WakelockEntity> get wakelock;

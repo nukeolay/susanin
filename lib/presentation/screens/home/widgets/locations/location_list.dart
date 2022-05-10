@@ -18,7 +18,7 @@ class LocationList extends StatelessWidget {
             _showBottomSheet(context, state as EditLocationState);
           } else if (state.status == LocationsListStatus.failure) {
             const snackBar = SnackBar(
-              content: Text('Error handling action'),
+              content: Text('Ошибка при выполнении действия'),
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }

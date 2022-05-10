@@ -94,3 +94,76 @@ class MainPointer extends StatelessWidget {
     );
   }
 }
+
+class MainPointerLoading extends StatelessWidget {
+  const MainPointerLoading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const MainPointer(
+      rotateAngle: 0,
+      accuracyAngle: math.pi * 2,
+      positionAccuracyStatus: PositionAccuracyStatus.good,
+      isShimmering: true,
+      shimmerBaseColor: Colors.green,
+      shimmerHighlightColor: Colors.white,
+      mainText: '',
+      subText: '',
+    );
+  }
+}
+
+class MainPointerFailure extends StatelessWidget {
+  final MainPointerState state;
+  const MainPointerFailure({required this.state, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MainPointer(
+      rotateAngle: 0,
+      accuracyAngle: math.pi * 2,
+      positionAccuracyStatus: state.positionAccuracyStatus,
+      isShimmering: true,
+      shimmerBaseColor: Colors.red,
+      shimmerHighlightColor: Colors.white,
+      mainText: 'Ошибка',
+      subText: state.locationServiceStatus == LocationServiceStatus.disabled
+          ? 'GPS выключен'
+          : state.locationServiceStatus == LocationServiceStatus.noPermission
+              ? 'Отсутствует доступ к GPS'
+              : 'Неизвестный сбой',
+    );
+  }
+}
+
+class MainPointerEmpty extends StatelessWidget {
+  final MainPointerState state;
+  const MainPointerEmpty({required this.state, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MainPointer(
+      rotateAngle: 0,
+      accuracyAngle: math.pi * 2,
+      positionAccuracyStatus: state.positionAccuracyStatus,
+      mainText: '... ... ... ...',
+      subText: 'список локаций пуст',
+    );
+  }
+}
+
+class MainPointerDefault extends StatelessWidget {
+  final MainPointerState state;
+  const MainPointerDefault({required this.state, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MainPointer(
+      rotateAngle: state.angle,
+      accuracyAngle: state.laxity * 5,
+      positionAccuracyStatus: state.positionAccuracyStatus,
+      mainText: state.locations.isEmpty ? '' : state.distance,
+      subText: state.pointName,
+    );
+  }
+}

@@ -119,17 +119,17 @@ class ExtraOptions extends StatelessWidget {
 }
 
 class ThemeOption extends StatelessWidget {
-  const ThemeOption({Key? key}) : super(key: key);
+  final SettingsState state;
+  const ThemeOption({required this.state, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SettingsOption(
-      title: 'Оформление',
-      child: SettingsButton(
-          text: 'Тема (светлая / темная)',
-          status: ButtonStatus.success,
-          action: () {}),
-    );
+        title: 'Оформление',
+        child: SettingsButton(
+            text: state.isDarkTheme ? 'Темная тема' : 'Светлая тема',
+            status: ButtonStatus.success,
+            action: () => context.read<SettingsCubit>().toggleTheme()));
   }
 }
 
@@ -142,12 +142,12 @@ class WakelockOption extends StatelessWidget {
     return SettingsOption(
       title: 'Автоматическое выключение экрана',
       child: SettingsButton(
-          text: state.wakelockSettingsStatus == WakelockSettingsStatus.disabled
+          text: state.wakelockSettingsStatus == WakelockSettingsStatus.enabled
               ? 'Выключено'
               : state.wakelockSettingsStatus == WakelockSettingsStatus.disabled
                   ? 'Включено'
                   : 'Загрузка',
-          status: state.wakelockSettingsStatus == WakelockSettingsStatus.disabled
+          status: state.wakelockSettingsStatus == WakelockSettingsStatus.enabled
               ? ButtonStatus.failed
               : state.wakelockSettingsStatus == WakelockSettingsStatus.loading
                   ? ButtonStatus.loading

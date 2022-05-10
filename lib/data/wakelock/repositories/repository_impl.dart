@@ -1,5 +1,5 @@
 import 'package:susanin/data/wakelock/platform/wakelock_platform.dart';
-import 'package:susanin/domain/wakelock/entities/wakelockdart';
+import 'package:susanin/domain/wakelock/entities/wakelock.dart';
 import 'package:susanin/domain/wakelock/repositories/repository.dart';
 
 class WakelockRepositoryImpl implements WakelockRepository {

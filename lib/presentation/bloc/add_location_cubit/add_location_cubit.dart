@@ -55,7 +55,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
       status: AddLocationStatus.editing,
       latitude: state.latitude,
       longitude: state.longitude,
-      name: DateTime.now().toString(),
+      name: _generateName(),
     ));
   }
 
@@ -64,7 +64,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     final addLocationResult = await _addLocation(LocationArgument(
         latitude: state.latitude,
         longitude: state.longitude,
-        name: DateTime.now().toString()));
+        name: _generateName()));
     addLocationResult.fold(
       (failure) => emit(state.copyWith(status: AddLocationStatus.failure)),
       (result) {
@@ -89,5 +89,10 @@ class AddLocationCubit extends Cubit<AddLocationState> {
         emit(state.copyWith(status: AddLocationStatus.normal));
       },
     );
+  }
+
+  String _generateName() {
+    final dateTime = DateTime.now().toString();
+    return 'point ${dateTime.substring(dateTime.length - 6)}';
   }
 }
