@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:susanin/presentation/screens/home/home_screen.dart';
+import 'package:susanin/presentation/screens/no_compass/no_compass_screen.dart';
 import 'package:susanin/presentation/screens/settings/settings_screen.dart';
 import 'package:susanin/presentation/screens/tutorial/tutorial_screen.dart';
 
@@ -7,6 +8,7 @@ class Routes {
   static const home = '/home-screen';
   static const tutorial = '/tutorial-screen';
   static const settings = '/settings-screen';
+  static const noCompass = '/no-compass-screen';
 
   static Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
     return MaterialPageRoute(
@@ -19,6 +21,8 @@ class Routes {
             return const TutorialScreen();
           case settings:
             return const SettingsScreen();
+          case noCompass:
+            return const NoCompassScreen();
           default:
             return const HomeScreen();
         }

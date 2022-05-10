@@ -9,6 +9,8 @@ import 'package:susanin/data/location_points/datasources/location_points_data_so
 import 'package:susanin/data/location_points/repositories/repository_impl.dart';
 import 'package:susanin/data/settings/datasources/settings_data_source.dart';
 import 'package:susanin/data/settings/repositories/repository_impl.dart';
+import 'package:susanin/data/wakelock/platform/wakelock_platform.dart';
+import 'package:susanin/data/wakelock/repositories/repository_impl.dart';
 import 'package:susanin/domain/compass/repositories/repository.dart';
 import 'package:susanin/domain/compass/usecases/get_compass_stream.dart';
 import 'package:susanin/domain/location/repositories/repository.dart';
@@ -26,11 +28,15 @@ import 'package:susanin/domain/settings/repositories/repository.dart';
 import 'package:susanin/domain/settings/usecases/get_settings.dart';
 import 'package:susanin/domain/settings/usecases/get_settings_stream.dart';
 import 'package:susanin/domain/settings/usecases/set_active_location.dart';
+import 'package:susanin/domain/wakelock/repositories/repository.dart';
+import 'package:susanin/domain/wakelock/usecases/get_wakelock_enabled_status.dart';
+import 'package:susanin/domain/wakelock/usecases/toggle_wakelock.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
 import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_bloc.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
+import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
@@ -73,6 +79,15 @@ Future<void> init() async {
     () => AddLocationCubit(
       addLocation: serviceLocator(),
       getPositionStream: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory(
+    () => SettingsCubit(
+      getCompassStream: serviceLocator(),
+      getPositionStream: serviceLocator(),
+      requestPermission: serviceLocator(),
+      getWakelockEnabledStatus: serviceLocator(),
+      toggleWakelock: serviceLocator(),
     ),
   );
 
@@ -131,6 +146,14 @@ Future<void> init() async {
     () => SetActiveLocation(serviceLocator()),
   );
 
+  // Wakelock
+  serviceLocator.registerLazySingleton<GetWakelockEnabledStatus>(
+    () => GetWakelockEnabledStatus(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<ToggleWakelock>(
+    () => ToggleWakelock(serviceLocator()),
+  );
+
   // ---Repository---
   // PositionRepository
   serviceLocator.registerLazySingleton<LocationServiceRepository>(
@@ -170,6 +193,11 @@ Future<void> init() async {
     () => SettingsDataSourceImpl(serviceLocator()),
   );
 
-  // // ---Core---
-  // // empty
+  // WakelockRepository
+  serviceLocator.registerLazySingleton<WakelockRepository>(
+    () => WakelockRepositoryImpl(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<WakelockPlatform>(
+    () => WakelockPlatformImpl(),
+  );
 }

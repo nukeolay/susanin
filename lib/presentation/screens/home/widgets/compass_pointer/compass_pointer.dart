@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_state.dart';
 import 'package:susanin/presentation/screens/home/widgets/common/pointer.dart';
@@ -16,18 +17,13 @@ class CompassPointer extends StatelessWidget {
           if (state.status == CompassStatus.loading) {
             return const CircularProgressIndicator();
           } else if (state.status == CompassStatus.failure) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const CircularProgressIndicator(color: Colors.red),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: _onScreenText(
-                    title: 'Ошибка: ',
-                    data: state.status.toString(),
-                  ),
-                ),
-              ],
+            return IconButton(
+              icon: const Icon(
+                Icons.question_mark_rounded,
+                color: Colors.grey,
+                size: 30,
+              ),
+              onPressed: () => Navigator.of(context).pushNamed(Routes.noCompass),
             );
           } else {
             return Pointer(
@@ -40,25 +36,6 @@ class CompassPointer extends StatelessWidget {
           }
         },
       ),
-    );
-  }
-
-  Widget _onScreenText({required String title, required String data}) {
-    return Column(
-      children: [
-        Text(title,
-            style: const TextStyle(
-              fontSize: 10,
-              color: Colors.green,
-            )),
-        Text(
-          data,
-          style: const TextStyle(
-            fontSize: 20,
-            color: Colors.green,
-          ),
-        ),
-      ],
     );
   }
 }

@@ -35,6 +35,7 @@ dependencies:
   easy_localization: ^3.0.0
   intl: ^0.17.0
   geolocator: ^8.2.0
+  wakelock: ^0.6.1+2
   flutter_compass: #laggy on android with version 0.7.0 from pub.dev, so get from github
     git:
       url: https://github.com/hemanthrajv/flutter_compass.git

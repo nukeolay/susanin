@@ -10,6 +10,7 @@ import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
 import 'package:susanin/presentation/bloc/location_point_validate/location_point_validate_bloc.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
+import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
 import 'package:susanin/presentation/screens/home/home_screen.dart';
 
 class SusaninApp extends StatelessWidget {
@@ -29,8 +30,9 @@ class SusaninApp extends StatelessWidget {
             create: (context) => serviceLocator<AddLocationCubit>()),
         BlocProvider<LocationPointValidateBloc>(
             create: (context) => serviceLocator<LocationPointValidateBloc>()),
-
-              // ! TODO добавлять сюда bloc
+        BlocProvider<SettingsCubit>(
+            create: (context) => serviceLocator<SettingsCubit>()),
+        // ! TODO добавлять сюда bloc
       ],
       child: MaterialApp(
         localizationsDelegates: context.localizationDelegates,
