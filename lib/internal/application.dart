@@ -44,10 +44,42 @@ class SusaninApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Susanin',
           themeMode: state.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
-          darkTheme: ThemeData.dark().copyWith(),
+          darkTheme: ThemeData.dark().copyWith(
+            primaryColor: Colors.green,
+            iconTheme: const IconThemeData(
+              color: Colors.grey,
+              size: 30,
+            ),
+            floatingActionButtonTheme: const FloatingActionButtonThemeData(
+              disabledElevation: 0,
+            ),
+            disabledColor: Colors.grey,
+            hintColor: Colors.white,
+            listTileTheme: const ListTileThemeData(
+              selectedColor: Colors.green,
+            ),
+          ),
           theme: ThemeData(
             useMaterial3: true,
             primarySwatch: Colors.green,
+            // colorSchemeSeed: Colors.green,
+            iconTheme: const IconThemeData(
+              color: Colors.grey,
+              size: 30,
+            ),
+            floatingActionButtonTheme: const FloatingActionButtonThemeData(
+              disabledElevation: 0,
+            ),
+            disabledColor: Colors.grey,
+            // dialogBackgroundColor: Colors.white,
+            hintColor: Colors.white,
+            listTileTheme: const ListTileThemeData(
+              selectedColor: Colors.green,
+            ),
+            errorColor: Colors.red,
+            // textSelectionTheme: const TextSelectionThemeData(selectionColor: Colors.red),
+            // textTheme: TextTheme(sel),
+            // TextSelectionThemeData.selectionColor() Colors.green,
             // colorSchemeSeed: Colors.green,
             //   scaffoldBackgroundColor: appTheme.background,
             //   fontFamily: 'Montserrat',

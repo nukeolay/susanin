@@ -22,16 +22,22 @@ class LocationListItem extends StatelessWidget {
     return Dismissible(
       key: key!,
       background: Container(
-        color: Colors.red,
+        color: Theme.of(context).errorColor,
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.only(left: 15.0),
-        child: const Icon(Icons.delete_forever_rounded, color: Colors.white),
+        child: Icon(
+          Icons.delete_forever_rounded,
+          color: Theme.of(context).hintColor,
+        ),
       ),
       secondaryBackground: Container(
-        color: Colors.green,
+        color: Theme.of(context).primaryColor,
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 15.0),
-        child: const Icon(Icons.share_rounded, color: Colors.white),
+        child: Icon(
+          Icons.share_rounded,
+          color: Theme.of(context).hintColor,
+        ),
       ),
       onDismissed: (value) async {
         await context
@@ -52,9 +58,12 @@ class LocationListItem extends StatelessWidget {
       child: ListTile(
         selected: isActive,
         leading: CircleAvatar(
+          radius: 25,
           child: const Icon(Icons.location_on_rounded),
-          backgroundColor: isActive ? Colors.green : Colors.grey,
-          foregroundColor: Colors.white,
+          backgroundColor: isActive
+              ? Theme.of(context).primaryColor
+              : Theme.of(context).disabledColor,
+          foregroundColor: Theme.of(context).hintColor,
         ),
         title: Text(
           location.name,

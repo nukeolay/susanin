@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/routes/routes.dart';
+import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
 import 'package:susanin/presentation/screens/home/widgets/common/add_location_button.dart';
 import 'package:susanin/presentation/screens/home/widgets/compass_pointer/compass_pointer.dart';
 import 'package:susanin/presentation/screens/home/widgets/locations/location_list.dart';
@@ -15,8 +17,11 @@ class HomeScreen extends StatelessWidget {
     const mainBarMargin = 10.0;
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light
-            .copyWith(statusBarColor: Theme.of(context).primaryColor),
+        value: context.watch<SettingsCubit>().state.isDarkTheme
+            ? SystemUiOverlayStyle.light.copyWith(
+                statusBarColor: Theme.of(context).scaffoldBackgroundColor)
+            : SystemUiOverlayStyle.dark.copyWith(
+                statusBarColor: Theme.of(context).scaffoldBackgroundColor),
         child: SafeArea(
           child: Stack(
             children: [
@@ -38,11 +43,7 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         const CompassPointer(),
                         IconButton(
-                          icon: const Icon(
-                            Icons.settings,
-                            color: Colors.grey,
-                            size: 30,
-                          ),
+                          icon: const Icon(Icons.settings),
                           onPressed: () =>
                               Navigator.of(context).pushNamed(Routes.settings),
                         ),

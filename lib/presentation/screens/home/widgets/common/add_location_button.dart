@@ -19,17 +19,17 @@ class AddNewLocationButton extends StatelessWidget {
       }),
       builder: ((context, state) {
         if (state.status == AddLocationStatus.loading) {
-          return const FloatingActionButton(
+          return FloatingActionButton(
             onPressed: null,
             child: CircularProgressIndicator(
-              color: Colors.white,
+              color: Theme.of(context).hintColor,
             ),
           );
         } else if (state.status == AddLocationStatus.failure) {
-          return const FloatingActionButton(
+          return FloatingActionButton(
             onPressed: null,
-            backgroundColor: Colors.grey,
-            child: Icon(Icons.not_interested_rounded),
+            backgroundColor: Theme.of(context).disabledColor,
+            child: const Icon(Icons.not_interested_rounded),
           );
         }
         return GestureDetector(

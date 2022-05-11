@@ -19,20 +19,26 @@ class MainBar extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              color: Theme.of(context).textTheme.bodyText1!.color,
+              borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(20),
                 bottomRight: Radius.circular(20),
               ),
             ),
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.only(right: 30.0),
-            child: const Icon(
-              Icons.dark_mode_rounded,
-              color: Colors.white,
-              size: 50,
-            ),
+            child: context.watch<SettingsCubit>().state.isDarkTheme
+                ? const Icon(
+                    Icons.light_mode_rounded,
+                    color: Colors.orange,
+                    size: 50,
+                  )
+                : const Icon(
+                    Icons.dark_mode_rounded,
+                    color: Colors.yellowAccent,
+                    size: 50,
+                  ),
           ),
           Dismissible(
             key: const ValueKey('main_pointer'),
@@ -61,7 +67,9 @@ class MainBar extends StatelessWidget {
                     topRight: Radius.circular(20),
                     bottomRight: Radius.circular(20),
                   ),
-                  color: state.isFailure ? Colors.red : Colors.green,
+                  color: state.isFailure
+                      ? Theme.of(context).errorColor
+                      : Theme.of(context).primaryColor,
                   child: Builder(
                     builder: (context) {
                       if (state.isLoading) {

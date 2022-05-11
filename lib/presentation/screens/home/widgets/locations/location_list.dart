@@ -25,7 +25,8 @@ class LocationList extends StatelessWidget {
         }),
         builder: ((context, state) {
           if (state.status == LocationsListStatus.loading) {
-            return const CircularProgressIndicator();
+            return const SingleChildScrollView(
+                child: CircularProgressIndicator());
           } else if (state.locations.isEmpty) {
             return const Center(
                 child: Text(

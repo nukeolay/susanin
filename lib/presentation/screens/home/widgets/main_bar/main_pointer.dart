@@ -12,8 +12,8 @@ class MainPointer extends StatelessWidget {
   final String mainText;
   final String subText;
   final bool isShimmering;
-  final Color shimmerBaseColor;
-  final Color shimmerHighlightColor;
+  final Color? shimmerBaseColor;
+  final Color? shimmerHighlightColor;
 
   const MainPointer({
     required this.rotateAngle,
@@ -22,8 +22,8 @@ class MainPointer extends StatelessWidget {
     required this.mainText,
     required this.subText,
     this.isShimmering = false,
-    this.shimmerBaseColor = Colors.green,
-    this.shimmerHighlightColor = Colors.white,
+    this.shimmerBaseColor,
+    this.shimmerHighlightColor,
     Key? key,
   }) : super(key: key);
 
@@ -34,13 +34,14 @@ class MainPointer extends StatelessWidget {
       children: [
         isShimmering
             ? Shimmer.fromColors(
-                baseColor: shimmerBaseColor,
-                highlightColor: shimmerHighlightColor,
-                child: const Pointer(
+                baseColor: shimmerBaseColor ?? Theme.of(context).primaryColor,
+                highlightColor:
+                    shimmerHighlightColor ?? Theme.of(context).hintColor,
+                child: Pointer(
                   rotateAngle: 0,
                   accuracyAngle: math.pi * 2,
                   pointerSize: 90,
-                  foregroundColor: Colors.green,
+                  foregroundColor: Theme.of(context).primaryColor,
                   backGroundColor: Colors.white,
                   centerColor: Colors.amber,
                 ),
@@ -56,7 +57,7 @@ class MainPointer extends StatelessWidget {
                         ? Colors.green
                         : positionAccuracyStatus == PositionAccuracyStatus.poor
                             ? Colors.amber
-                            : Colors.red,
+                            : Theme.of(context).errorColor,
               ),
         Expanded(
           child: Padding(
@@ -69,9 +70,9 @@ class MainPointer extends StatelessWidget {
                   mainText,
                   overflow: TextOverflow.fade,
                   textAlign: TextAlign.right,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 30,
-                    color: Colors.white,
+                    color: Theme.of(context).hintColor,
                   ),
                 ),
                 Flexible(
@@ -81,9 +82,9 @@ class MainPointer extends StatelessWidget {
                     overflow: TextOverflow.fade,
                     softWrap: true,
                     textAlign: TextAlign.right,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white,
+                      color: Theme.of(context).hintColor,
                     ),
                   ),
                 ),
@@ -101,13 +102,13 @@ class MainPointerLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MainPointer(
+    return MainPointer(
       rotateAngle: 0,
       accuracyAngle: math.pi * 2,
       positionAccuracyStatus: PositionAccuracyStatus.good,
       isShimmering: true,
-      shimmerBaseColor: Colors.green,
-      shimmerHighlightColor: Colors.white,
+      shimmerBaseColor: Theme.of(context).primaryColor,
+      shimmerHighlightColor: Theme.of(context).hintColor,
       mainText: '',
       subText: '',
     );
@@ -125,8 +126,8 @@ class MainPointerFailure extends StatelessWidget {
       accuracyAngle: math.pi * 2,
       positionAccuracyStatus: state.positionAccuracyStatus,
       isShimmering: true,
-      shimmerBaseColor: Colors.red,
-      shimmerHighlightColor: Colors.white,
+      shimmerBaseColor: Theme.of(context).errorColor,
+      shimmerHighlightColor: Theme.of(context).hintColor,
       mainText: 'Ошибка',
       subText: state.locationServiceStatus == LocationServiceStatus.disabled
           ? 'GPS выключен'
@@ -147,8 +148,8 @@ class MainPointerEmpty extends StatelessWidget {
       rotateAngle: 0,
       accuracyAngle: math.pi * 2,
       positionAccuracyStatus: state.positionAccuracyStatus,
-      mainText: '... ... ... ...',
-      subText: 'список локаций пуст',
+      mainText: 'список локаций пуст',
+      subText: '',
     );
   }
 }
