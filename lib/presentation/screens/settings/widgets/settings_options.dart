@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_state.dart';
 import 'package:susanin/presentation/screens/settings/widgets/settings_button.dart';
@@ -107,7 +108,7 @@ class ExtraOptions extends StatelessWidget {
           SettingsButton(
               text: 'Просмотр инструкции',
               status: ButtonStatus.success,
-              action: () {}),
+              action: () => Navigator.of(context).pushNamed(Routes.tutorial)),
           SettingsButton(
               text: 'Поставить оценку приложению',
               status: ButtonStatus.success,

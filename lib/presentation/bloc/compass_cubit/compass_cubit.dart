@@ -43,7 +43,7 @@ class CompassCubit extends Cubit<CompassState> {
 
   @override
   Future<void> close() async {
-    _compassSubscription.cancel();
+    await _compassSubscription.cancel();
     super.close();
   }
 }

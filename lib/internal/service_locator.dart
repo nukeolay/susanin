@@ -114,6 +114,7 @@ Future<void> init() async {
   serviceLocator.registerSingleton<GetThemeMode>(
     GetThemeMode(serviceLocator<SettingsRepository>()),
   );
+  
   // Position
   serviceLocator.registerSingleton<GetPositionStream>(
     GetPositionStream(serviceLocator<LocationServiceRepository>()),

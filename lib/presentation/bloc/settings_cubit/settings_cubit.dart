@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/domain/compass/usecases/get_compass_stream.dart';
+import 'package:susanin/domain/location/entities/position.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location/usecases/request_permission.dart';
 import 'package:susanin/domain/settings/usecases/get_theme_mode.dart';
@@ -17,6 +21,8 @@ class SettingsCubit extends Cubit<SettingsState> {
   final ToggleWakelock _toggleWakelock;
   final GetThemeMode _getThemeMode;
   final ToggleTheme _toggleTheme;
+  late final StreamSubscription<Either<Failure, PositionEntity>>
+      _positionSubscription;
 
   SettingsCubit({
     required GetPositionStream getPositionStream,
@@ -48,6 +54,12 @@ class SettingsCubit extends Cubit<SettingsState> {
     _updateCompassStatus();
     _updateLocationServiceStatus();
     _updateWakelockStatus();
+  }
+
+  @override
+  Future<void> close() async {
+    await _positionSubscription.cancel();
+    super.close();
   }
 
   Future<void> getPermission() async {
@@ -87,22 +99,23 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   Future<void> _updateLocationServiceStatus() async {
-    final currentPosition = await _getPositionStream().first;
-    currentPosition.fold((failure) {
-      if (failure is LocationServiceDeniedFailure ||
-          failure is LocationServiceDeniedForeverFailure) {
-        emit(state.copyWith(
-            locationSettingsStatus: LocationSettingsStatus.noPermission));
-      } else {
-        emit(state.copyWith(
-            locationSettingsStatus: LocationSettingsStatus.granted));
-      }
-    },
-        (position) => emit(
-              state.copyWith(
-                locationSettingsStatus: LocationSettingsStatus.granted,
-              ),
-            ));
+    _positionSubscription = _getPositionStream().listen((event) {
+      event.fold((failure) {
+        if (failure is LocationServiceDeniedFailure ||
+            failure is LocationServiceDeniedForeverFailure) {
+          emit(state.copyWith(
+              locationSettingsStatus: LocationSettingsStatus.noPermission));
+        } else {
+          emit(state.copyWith(
+              locationSettingsStatus: LocationSettingsStatus.granted));
+        }
+      },
+          (position) => emit(
+                state.copyWith(
+                  locationSettingsStatus: LocationSettingsStatus.granted,
+                ),
+              ));
+    });
   }
 
   Future<void> _updateCompassStatus() async {

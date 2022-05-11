@@ -67,7 +67,8 @@ class MainPointer extends StatelessWidget {
               children: [
                 Text(
                   mainText,
-                  overflow: TextOverflow.ellipsis,
+                  overflow: TextOverflow.fade,
+                  textAlign: TextAlign.right,
                   style: const TextStyle(
                     fontSize: 30,
                     color: Colors.white,

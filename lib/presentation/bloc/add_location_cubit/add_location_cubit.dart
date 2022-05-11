@@ -46,7 +46,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
 
   @override
   Future<void> close() async {
-    _positionSubscription.cancel();
+    await _positionSubscription.cancel();
     super.close();
   }
 

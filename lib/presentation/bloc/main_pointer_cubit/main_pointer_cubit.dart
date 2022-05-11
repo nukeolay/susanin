@@ -188,10 +188,10 @@ class MainPointerCubit extends Cubit<MainPointerState> {
 
   @override
   Future<void> close() async {
-    _positionSubscription.cancel();
-    _compassSubscription.cancel();
-    _locationsSubscription.cancel();
-    _settingsSubscription.cancel();
+    await _positionSubscription.cancel();
+    await _compassSubscription.cancel();
+    await _locationsSubscription.cancel();
+    await _settingsSubscription.cancel();
     super.close();
   }
 
