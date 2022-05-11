@@ -10,7 +10,6 @@ import 'package:susanin/presentation/bloc/compass_cubit/compass_state.dart';
 
 class CompassCubit extends Cubit<CompassState> {
   final GetCompassStream _getCompassStream;
-  late final Stream<Either<Failure, CompassEntity>> _compassStream;
   late final StreamSubscription<Either<Failure, CompassEntity>>
       _compassSubscription;
 
@@ -26,16 +25,20 @@ class CompassCubit extends Cubit<CompassState> {
   }
 
   void _init() {
-    _compassStream = _getCompassStream();
-    _compassSubscription = _compassStream.listen((event) {
-      event.fold(
-          (failure) => emit(state.copyWith(status: CompassStatus.failure)),
-          (compass) => emit(state.copyWith(
-                status: CompassStatus.loaded,
-                angle: (compass.north * (math.pi / 180) * -1),
-                accuracy: (compass.accuracy * (math.pi / 180)),
-              )));
-    });
+    _compassSubscription = _getCompassStream().listen(_compassHandler);
+  }
+
+  void _compassHandler(Either<Failure, CompassEntity> event) {
+    event.fold(
+      (failure) => emit(state.copyWith(status: CompassStatus.failure)),
+      (compass) => emit(
+        state.copyWith(
+          status: CompassStatus.loaded,
+          angle: (compass.north * (math.pi / 180) * -1),
+          accuracy: (compass.accuracy * (math.pi / 180)),
+        ),
+      ),
+    );
   }
 
   @override

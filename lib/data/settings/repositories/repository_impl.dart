@@ -18,9 +18,9 @@ class SettingsRepositoryImpl extends SettingsRepository {
   final StreamController<Either<Failure, SettingsEntity>> _streamController =
       StreamController.broadcast();
 
-  void _init() async {
+  void _init() {
     try {
-      final settings = await Future.value(settingsDataSource.load());
+      final settings = settingsDataSource.load();
       _settingsOrFailure = Right(settings);
       _streamController.add(Right(settings));
     } catch (error) {

@@ -5,9 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 import 'package:susanin/domain/location_points/usecases/delete_location.dart';
+import 'package:susanin/domain/location_points/usecases/get_locations.dart';
 import 'package:susanin/domain/location_points/usecases/get_locations_stream.dart';
 import 'package:susanin/domain/location_points/usecases/update_location.dart';
 import 'package:susanin/domain/settings/entities/settings.dart';
+import 'package:susanin/domain/settings/usecases/get_settings.dart';
 import 'package:susanin/domain/settings/usecases/get_settings_stream.dart';
 import 'package:susanin/domain/settings/usecases/set_active_location.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_state.dart';
@@ -18,10 +20,9 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   final UpdateLocation _updateLocation;
   final DeleteLocation _deleteLocation;
   final SetActiveLocation _setActiveLocation;
+  final GetLocations _getLocations;
+  final GetSettings _getSettings;
 
-  late final Stream<Either<Failure, List<LocationPointEntity>>>
-      _locationsStream;
-  late final Stream<Either<Failure, SettingsEntity>> _settingsStream;
   late final StreamSubscription<Either<Failure, SettingsEntity>>
       _settingsSubscription;
   late final StreamSubscription<Either<Failure, List<LocationPointEntity>>>
@@ -33,11 +34,15 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     required UpdateLocation updateLocation,
     required DeleteLocation deleteLocation,
     required SetActiveLocation setActiveLocation,
+    required GetLocations getLocations,
+    required GetSettings getSettings,
   })  : _getSettingsStream = getSettingsStream,
         _getLocationsStream = getLocationsStream,
         _updateLocation = updateLocation,
         _deleteLocation = deleteLocation,
         _setActiveLocation = setActiveLocation,
+        _getLocations = getLocations,
+        _getSettings = getSettings,
         super(const LocationsListState(
           status: LocationsListStatus.loading,
           locations: [],
@@ -47,28 +52,30 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   void _init() {
-    _locationsStream = _getLocationsStream();
-    _settingsStream = _getSettingsStream();
+    _settingHandler(_getSettings());
+    _locationsHandler(_getLocations());
+    _settingsSubscription = _getSettingsStream().listen(_settingHandler);
+    _locationsSubscription = _getLocationsStream().listen(_locationsHandler);
+  }
 
-    _settingsSubscription = _settingsStream.listen((event) {
-      event.fold(
-        (failure) => emit(state.copyWith(status: LocationsListStatus.failure)),
-        (settings) =>
-            emit(state.copyWith(activeLocationId: settings.activeLocationId)),
-      );
-    });
+  void _settingHandler(Either<Failure, SettingsEntity> event) {
+    event.fold(
+      (failure) => emit(state.copyWith(status: LocationsListStatus.failure)),
+      (settings) =>
+          emit(state.copyWith(activeLocationId: settings.activeLocationId)),
+    );
+  }
 
-    _locationsSubscription = _locationsStream.listen((event) {
-      event.fold(
-        (failure) => emit(state.copyWith(status: LocationsListStatus.failure)),
-        (locations) {
-          emit(state.copyWith(
-            status: LocationsListStatus.loaded,
-            locations: locations,
-          ));
-        },
-      );
-    });
+  void _locationsHandler(Either<Failure, List<LocationPointEntity>> event) {
+    event.fold(
+      (failure) => emit(state.copyWith(status: LocationsListStatus.failure)),
+      (locations) {
+        emit(state.copyWith(
+          status: LocationsListStatus.loaded,
+          locations: locations,
+        ));
+      },
+    );
   }
 
   @override

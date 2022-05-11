@@ -3,8 +3,6 @@ import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/domain/compass/usecases/get_compass_stream.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location/usecases/request_permission.dart';
-import 'package:susanin/domain/settings/entities/settings.dart';
-import 'package:susanin/domain/settings/usecases/get_settings.dart';
 import 'package:susanin/domain/settings/usecases/get_theme_mode.dart';
 import 'package:susanin/domain/settings/usecases/toggle_theme.dart';
 import 'package:susanin/domain/wakelock/usecases/get_wakelock_enabled_status.dart';

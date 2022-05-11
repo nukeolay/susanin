@@ -35,47 +35,50 @@ class SusaninApp extends StatelessWidget {
             create: (context) => serviceLocator<SettingsCubit>()),
         // ! TODO добавлять сюда bloc
       ],
-      child: MaterialApp(
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        debugShowCheckedModeBanner: false,
-        title: 'Susanin',
-        // themeMode: state.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
-        // darkTheme: ThemeData.dark(),
-        theme: ThemeData(
-          useMaterial3: true,
-          // primarySwatch: Colors.green,
-          colorSchemeSeed: Colors.green,
-          //   scaffoldBackgroundColor: appTheme.background,
-          //   fontFamily: 'Montserrat',
+      child:
+          BlocBuilder<SettingsCubit, SettingsState>(builder: (context, state) {
+        return MaterialApp(
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          debugShowCheckedModeBanner: false,
+          title: 'Susanin',
+          themeMode: state.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
+          darkTheme: ThemeData.dark().copyWith(),
+          theme: ThemeData(
+            useMaterial3: true,
+            // primarySwatch: Colors.green,
+            colorSchemeSeed: Colors.green,
+            //   scaffoldBackgroundColor: appTheme.background,
+            //   fontFamily: 'Montserrat',
 
-          //   textButtonTheme: TextButtonThemeData(
-          //     style: ButtonStyle(
-          //       textStyle: MaterialStateProperty.all(
-          //         TextStyle(color: appTheme.buttonTextColor),
-          //       ),
-          //     ),
-          //   ),
-          //   textTheme: TextTheme(
-          //     button: TextStyle(
-          //       color: appTheme.buttonTextColor,
-          //     ),
-          //     bodyText2: TextStyle(
-          //       color: appTheme.buttonTextColor,
-          //     ),
-          //   ),
-          pageTransitionsTheme: const PageTransitionsTheme(
-            builders: {
-              TargetPlatform.android: CustomPageTransitionBuilder(),
-              TargetPlatform.iOS: CustomPageTransitionBuilder(),
-            },
+            //   textButtonTheme: TextButtonThemeData(
+            //     style: ButtonStyle(
+            //       textStyle: MaterialStateProperty.all(
+            //         TextStyle(color: appTheme.buttonTextColor),
+            //       ),
+            //     ),
+            //   ),
+            //   textTheme: TextTheme(
+            //     button: TextStyle(
+            //       color: appTheme.buttonTextColor,
+            //     ),
+            //     bodyText2: TextStyle(
+            //       color: appTheme.buttonTextColor,
+            //     ),
+            //   ),
+            pageTransitionsTheme: const PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: CustomPageTransitionBuilder(),
+                TargetPlatform.iOS: CustomPageTransitionBuilder(),
+              },
+            ),
           ),
-        ),
-        home:
-            const HomeScreen(), // если первый запуск (провряем settings), то показать TutorialScreen
-        onGenerateRoute: Routes.onGenerateRoute,
-      ),
+          home:
+              const HomeScreen(), // если первый запуск (провряем settings), то показать TutorialScreen
+          onGenerateRoute: Routes.onGenerateRoute,
+        );
+      }),
     );
   }
 }

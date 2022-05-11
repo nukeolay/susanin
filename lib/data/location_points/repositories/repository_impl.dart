@@ -20,8 +20,8 @@ class LocationPointsRepositoryImpl extends LocationPointsRepository {
 
   void _init() async {
     try {
-      final locations = (await Future.value(locationsDataSource
-              .load())) // used Future.delayed to fix locations_list_cubit init bug
+      final locations = locationsDataSource
+          .load()
           .map((location) => LocationPointEntity(
                 id: location.id,
                 latitude: location.latitude,
