@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
-import 'package:susanin/core/errors/exceptions.dart'
-    as susanin;
+import 'package:susanin/core/errors/exceptions.dart' as susanin;
 import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/data/location/platform/location_service_permission_platform.dart';
 import 'package:susanin/data/location/platform/position_platform.dart';
@@ -23,8 +22,9 @@ class LocationServiceRepositoryImpl implements LocationServiceRepository {
     while (true) {
       await Future.delayed(const Duration(milliseconds: 1000));
       try {
-        await for (final positionPlatform
-            in position.positionStream) {
+        await for (final positionPlatform in position.positionStream) {
+          print(
+              'LocationServiceRepositoryImpl (positionStream): $positionPlatform');
           yield Right(PositionEntity(
             longitude: positionPlatform.longitude,
             latitude: positionPlatform.latitude,

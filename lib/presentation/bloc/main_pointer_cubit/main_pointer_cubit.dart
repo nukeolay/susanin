@@ -144,6 +144,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   void _positionHandler(Either<Failure, PositionEntity> event) {
     event.fold(
       (failure) {
+        print('FAILURE (_positionHandler): $failure');
         if (failure is LocationServiceDeniedFailure ||
             failure is LocationServiceDeniedForeverFailure) {
           emit(state.copyWith(
@@ -157,6 +158,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
         }
       },
       (position) {
+        print('POSITION (_positionHandler): $position');
         final distance = _getDistance(position);
         final accuracy = position.accuracy;
         emit(state.copyWith(
