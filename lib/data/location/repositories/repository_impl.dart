@@ -32,12 +32,18 @@ class LocationServiceRepositoryImpl implements LocationServiceRepository {
           ));
         }
       } on susanin.LocationServiceDisabledException {
+        print(
+            'LocationServiceRepositoryImpl (LocationServiceDisabledException)');
         yield Left(LocationServiceDisabledFailure());
       } on susanin.LocationServiceDeniedException {
+        print('LocationServiceRepositoryImpl (LocationServiceDeniedException)');
         yield Left(LocationServiceDeniedFailure());
       } on susanin.LocationServiceDeniedForeverException {
+        print(
+            'LocationServiceRepositoryImpl (LocationServiceDeniedForeverException)');
         yield Left(LocationServiceDeniedForeverFailure());
       } catch (error) {
+        print('LocationServiceRepositoryImpl (error): $error');
         yield Left(LocationServiceUnknownFailure());
       }
     }

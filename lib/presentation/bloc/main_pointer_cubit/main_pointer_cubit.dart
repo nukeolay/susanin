@@ -142,6 +142,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   }
 
   void _positionHandler(Either<Failure, PositionEntity> event) {
+    print('EVENT (_positionHandler): $event');
     event.fold(
       (failure) {
         print('FAILURE (_positionHandler): $failure');
@@ -176,6 +177,12 @@ class MainPointerCubit extends Cubit<MainPointerState> {
     );
   }
 
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    print('MainPointerCubit (onError): $error\nstackTrace: $stackTrace');
+    super.onError(error, stackTrace);
+  }
+
   void _compassHandler(Either<Failure, CompassEntity> event) {
     event.fold((failure) {
       emit(state.copyWith(compassStatus: CompassStatus.failure));
@@ -190,6 +197,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
 
   @override
   Future<void> close() async {
+    print('ЗАКРЫЛ');
     await _positionSubscription.cancel();
     await _compassSubscription.cancel();
     await _locationsSubscription.cancel();
