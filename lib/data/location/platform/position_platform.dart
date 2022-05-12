@@ -20,19 +20,16 @@ class PositionPlatformImpl implements PositionPlatform {
       await Future.delayed(const Duration(milliseconds: 1000));
       try {
         isServiceEnabled = await Geolocator.isLocationServiceEnabled();
-        print('PositionPlatformImpl (isServiceEnabled): $isServiceEnabled');
         if (!isServiceEnabled) {
           throw const LocationServiceDisabledException();
         }
         permission = await Geolocator.checkPermission();
-        print('PositionPlatformImpl (permission): $permission');
         if (permission == LocationPermission.denied ||
             permission == LocationPermission.deniedForever) {
           throw const PermissionDeniedException(null);
         }
 
         Position position = await Geolocator.getCurrentPosition();
-        print('PositionPlatformImpl (position): $position');
         yield PositionModel(
           longitude: position.longitude,
           latitude: position.latitude,

@@ -81,8 +81,6 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                   ),
                   TextFormField(
                     controller: latitudeController,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
                     decoration: InputDecoration(
                       labelText: 'Широта',
                       errorText: !validatorState.isLatutideValid
@@ -97,8 +95,6 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                   ),
                   TextFormField(
                     controller: longitudeController,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
                     decoration: InputDecoration(
                       labelText: 'Долгота',
                       errorText: !validatorState.isLongitudeValid
