@@ -22,7 +22,7 @@ class SettingsOption extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.grey.shade100,
+        color: Theme.of(context).cardColor,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

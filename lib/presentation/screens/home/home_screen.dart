@@ -33,18 +33,18 @@ class HomeScreen extends StatelessWidget {
                   LocationList(topPadding: mainBarHeight + 2 * mainBarMargin),
                 ],
               ),
-              BlocBuilder<MainPointerCubit, MainPointerState>(
-                  builder: (context, state) {
-                return Center(
-                  child: Container(
-                    color: Colors.black.withOpacity(0.5),
-                    child: Text(
-                      state.toString(),
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ),
-                );
-              }),
+              // BlocBuilder<MainPointerCubit, MainPointerState>(
+              //     builder: (context, state) {
+              //   return Center(
+              //     child: Container(
+              //       color: Colors.black.withOpacity(0.5),
+              //       child: Text(
+              //         state.toString(),
+              //         style: const TextStyle(color: Colors.white),
+              //       ),
+              //     ),
+              //   );
+              // }),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: mainBarMargin),
                 height: mainBarHeight,

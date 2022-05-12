@@ -20,6 +20,7 @@ class LocationServiceRepositoryImpl implements LocationServiceRepository {
   @override
   Stream<Either<Failure, PositionEntity>> get positionStream async* {
     while (true) {
+      print('NEW TURN');
       await Future.delayed(const Duration(milliseconds: 1000));
       try {
         await for (final positionPlatform in position.positionStream) {
@@ -30,6 +31,7 @@ class LocationServiceRepositoryImpl implements LocationServiceRepository {
             latitude: positionPlatform.latitude,
             accuracy: positionPlatform.accuracy,
           ));
+          // return; // ! TODO поставил, когда отлаживал на iphone
         }
       } on susanin.LocationServiceDisabledException {
         print(

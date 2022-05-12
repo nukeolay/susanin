@@ -55,7 +55,7 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                  color: Colors.grey,
+                  color: Theme.of(context).primaryColorDark,
                   borderRadius: BorderRadius.circular(20.0)),
               width: 40,
               height: 7,
@@ -114,35 +114,49 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                TextButton(
-                    child: const Text('Отмена'),
-                    onPressed: () => Navigator.pop(context)),
-                ElevatedButton(
-                    child: const Text('Сохранить'),
-                    style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(0),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(
+                      child: const Text('Отмена'),
+                      style: ButtonStyle(
+                        elevation: MaterialStateProperty.all(0),
+                        backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).scaffoldBackgroundColor,
+                        ),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
                         ),
                       ),
-                    ),
-                    onPressed: validatorState.isNameValid &&
-                            validatorState.isLatutideValid &&
-                            validatorState.isLongitudeValid
-                        ? () {
-                            widget.saveLocation(
-                              latitudeController.text,
-                              longitudeController.text,
-                              nameController.text,
-                            );
-                            Navigator.pop(context);
-                          }
-                        : null),
-              ],
+                      onPressed: () => Navigator.pop(context)),
+                  ElevatedButton(
+                      child: const Text('Сохранить'),
+                      style: ButtonStyle(
+                        elevation: MaterialStateProperty.all(0),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                      onPressed: validatorState.isNameValid &&
+                              validatorState.isLatutideValid &&
+                              validatorState.isLongitudeValid
+                          ? () {
+                              widget.saveLocation(
+                                latitudeController.text,
+                                longitudeController.text,
+                                nameController.text,
+                              );
+                              Navigator.pop(context);
+                            }
+                          : null),
+                ],
+              ),
             ),
           ],
         );

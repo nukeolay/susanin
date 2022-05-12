@@ -50,11 +50,11 @@ class MainPointer extends StatelessWidget {
                 rotateAngle: rotateAngle,
                 accuracyAngle: accuracyAngle,
                 pointerSize: 90,
-                foregroundColor: Colors.green,
+                foregroundColor: Theme.of(context).primaryColor,
                 backGroundColor: Colors.white,
                 centerColor:
                     positionAccuracyStatus == PositionAccuracyStatus.good
-                        ? Colors.green
+                        ? Theme.of(context).primaryColor
                         : positionAccuracyStatus == PositionAccuracyStatus.poor
                             ? Colors.amber
                             : Theme.of(context).errorColor,

@@ -21,8 +21,9 @@ class DetailedInfoBottomSheet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Container(
+                margin: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
-                    color: Colors.grey,
+                    color: Theme.of(context).primaryColorDark,
                     borderRadius: BorderRadius.circular(20.0)),
                 width: 40,
                 height: 7,
@@ -89,7 +90,8 @@ class DetailedInfoBottomSheet extends StatelessWidget {
                 child: ElevatedButton(
                     child: const Text('Свернуть'),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.grey),
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).cardColor),
                       elevation: MaterialStateProperty.all(0),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
@@ -129,7 +131,7 @@ class LocationDetails extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.grey.shade100,
+        color: Theme.of(context).cardColor,
       ),
       child: Column(
         children: [
