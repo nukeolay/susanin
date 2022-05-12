@@ -95,7 +95,7 @@ class MainBar extends StatelessWidget {
                 );
               },
             ),
-          )
+          ),
         ],
       ),
     );

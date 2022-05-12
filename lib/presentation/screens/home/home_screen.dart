@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/routes/routes.dart';
+import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
+import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
 import 'package:susanin/presentation/screens/home/widgets/common/add_location_button.dart';
 import 'package:susanin/presentation/screens/home/widgets/compass_pointer/compass_pointer.dart';
@@ -31,6 +33,18 @@ class HomeScreen extends StatelessWidget {
                   LocationList(topPadding: mainBarHeight + 2 * mainBarMargin),
                 ],
               ),
+              BlocBuilder<MainPointerCubit, MainPointerState>(
+                  builder: (context, state) {
+                return Center(
+                  child: Container(
+                    color: Colors.black.withOpacity(0.5),
+                    child: Text(
+                      state.toString(),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                );
+              }),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: mainBarMargin),
                 height: mainBarHeight,

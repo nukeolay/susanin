@@ -158,4 +158,9 @@ class MainPointerState extends Equatable {
         locationsListStatus == LocationsListStatus.loading;
     return isSettingsFailure || isLocationServiceFailure || isLocationsFailure;
   }
+
+  @override
+  String toString() {
+    return 'LocationServiceStatus: $locationServiceStatus\nCompassStatus: $compassStatus\nLocationsListStatus: $locationsListStatus\nSettingsStatus: $settingsStatus\nPositionAccuracyStatus: $positionAccuracyStatus\npositionAccuracy: $positionAccuracy\nactiveLocationId: $activeLocationId\nuserLatitude: $userLatitude\nuserLongitude: $userLongitude\npointName: $pointName\npointLatitude: $pointLatitude\npointLongitude: $pointLongitude\nlocations: $locations\nangle: $angle\ncompassAccuracy: $compassAccuracy\ndistance: $distance\nlaxity: $laxity';
+  }
 }
