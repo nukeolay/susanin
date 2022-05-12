@@ -17,7 +17,8 @@ class PositionPlatformImpl implements PositionPlatform {
     bool isServiceEnabled;
     LocationPermission permission;
     while (true) {
-      await Future.delayed(const Duration(milliseconds: 1000));
+      await Future.delayed(const Duration(
+          milliseconds: 1000)); // pause before retrive next location
       try {
         isServiceEnabled = await Geolocator.isLocationServiceEnabled();
         if (!isServiceEnabled) {

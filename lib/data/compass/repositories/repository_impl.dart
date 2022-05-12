@@ -13,7 +13,7 @@ class CompassRepositoryImpl implements CompassRepository {
   Stream<Either<Failure, CompassEntity>> get compassStream async* {
     try {
       await for (final compassPlatform in compass.compassStream) {
-        yield Right(compassPlatform);
+        yield Right(compassPlatform); // ! TODO await for replace with listen
       }
     } catch (error) {
       yield Left(CompassFailure());

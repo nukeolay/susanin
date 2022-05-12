@@ -8,7 +8,6 @@ import 'package:susanin/data/location/platform/position_platform.dart';
 import 'package:susanin/domain/location/entities/position.dart';
 import 'package:susanin/domain/location/repositories/repository.dart';
 
-
 class LocationServiceRepositoryImpl implements LocationServiceRepository {
   final PositionPlatform position;
   final LocationServicePermissionPlatform properties;
@@ -28,26 +27,26 @@ class LocationServiceRepositoryImpl implements LocationServiceRepository {
       _streamController.stream;
 
   void _init() async {
-    while (true) {
-      await Future.delayed(const Duration(milliseconds: 1000));
-      position.positionStream.listen((event) {
-        _streamController.add(Right(PositionEntity(
-          longitude: event.longitude,
-          latitude: event.latitude,
-          accuracy: event.accuracy,
-        )));
-      }).onError((error) {
-        if (error is LocationServiceDisabledException) {
-          _streamController.add(Left(LocationServiceDisabledFailure()));
-        } else if (error is LocationServiceDeniedException) {
-          _streamController.add(Left(LocationServiceDeniedFailure()));
-        } else if (error is LocationServiceDeniedForeverException) {
-          _streamController.add(Left(LocationServiceDeniedForeverFailure()));
-        } else {
-          _streamController.add(Left(LocationServiceUnknownFailure()));
-        }
-      });
-    }
+    position.positionStream.listen((event) {
+      _streamController.add(Right(PositionEntity(
+        longitude: event.longitude,
+        latitude: event.latitude,
+        accuracy: event.accuracy,
+      )));
+    }).onError((error) async {
+      if (error is LocationServiceDisabledException) {
+        _streamController.add(Left(LocationServiceDisabledFailure()));
+      } else if (error is LocationServiceDeniedException) {
+        _streamController.add(Left(LocationServiceDeniedFailure()));
+      } else if (error is LocationServiceDeniedForeverException) {
+        _streamController.add(Left(LocationServiceDeniedForeverFailure()));
+      } else {
+        _streamController.add(Left(LocationServiceUnknownFailure()));
+      }
+      await Future.delayed(const Duration(
+          milliseconds: 1000)); // pause before next try after error
+      _init();
+    });
   }
 
   @override
