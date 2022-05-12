@@ -34,11 +34,11 @@ class DetailedInfoBottomSheet extends StatelessWidget {
                   accuracyAngle: state.laxity * 5,
                   pointerSize: constants.maxWidth,
                   elevation: 0,
-                  foregroundColor: Colors.green,
-                  backGroundColor: Colors.white,
+                  foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+                  backGroundColor: Theme.of(context).colorScheme.primary,
                   centerColor: state.positionAccuracyStatus ==
                           PositionAccuracyStatus.good
-                      ? Colors.green
+                      ? Theme.of(context).colorScheme.inversePrimary
                       : state.positionAccuracyStatus ==
                               PositionAccuracyStatus.poor
                           ? Colors.amber

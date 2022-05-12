@@ -46,7 +46,13 @@ class SusaninApp extends StatelessWidget {
           themeMode: state.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
           darkTheme: ThemeData.dark().copyWith(
             useMaterial3: true,
-            primaryColor: Colors.green,
+            primaryColor: Colors.purple,
+            colorScheme: const ColorScheme.dark().copyWith(
+              primary: Colors.purple,
+              background: ThemeData.dark().scaffoldBackgroundColor,
+              secondary: Colors.white,
+              inversePrimary: Colors.white,
+            ),
             iconTheme: const IconThemeData(
               color: Colors.grey,
               size: 30,
@@ -58,13 +64,18 @@ class SusaninApp extends StatelessWidget {
             disabledColor: Colors.grey,
             hintColor: Colors.white,
             listTileTheme: const ListTileThemeData(
-              selectedColor: Colors.green,
+              selectedColor: Colors.purple,
             ),
           ),
           theme: ThemeData(
             useMaterial3: true,
-            primarySwatch: Colors.green,
-            // colorSchemeSeed: Colors.green,
+            primaryColor: Colors.green,
+            colorScheme: const ColorScheme.light().copyWith(
+              primary: Colors.green,
+              background: ThemeData.light().scaffoldBackgroundColor,
+              secondary: Colors.green,
+              inversePrimary: Colors.white,
+            ), // colorSchemeSeed: Colors.green,
             iconTheme: const IconThemeData(
               color: Colors.grey,
               size: 30,

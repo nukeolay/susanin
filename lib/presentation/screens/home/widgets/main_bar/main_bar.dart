@@ -69,7 +69,7 @@ class MainBar extends StatelessWidget {
                   ),
                   color: state.isFailure
                       ? Theme.of(context).errorColor
-                      : Theme.of(context).primaryColor,
+                      : Theme.of(context).colorScheme.primary,
                   child: Builder(
                     builder: (context) {
                       if (state.isLoading) {

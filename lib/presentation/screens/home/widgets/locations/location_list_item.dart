@@ -27,7 +27,7 @@ class LocationListItem extends StatelessWidget {
         padding: const EdgeInsets.only(left: 15.0),
         child: Icon(
           Icons.delete_forever_rounded,
-          color: Theme.of(context).hintColor,
+          color: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
       secondaryBackground: Container(
@@ -36,7 +36,7 @@ class LocationListItem extends StatelessWidget {
         padding: const EdgeInsets.only(right: 15.0),
         child: Icon(
           Icons.share_rounded,
-          color: Theme.of(context).hintColor,
+          color: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
       onDismissed: (value) async {
@@ -61,9 +61,9 @@ class LocationListItem extends StatelessWidget {
           radius: 25,
           child: const Icon(Icons.location_on_rounded),
           backgroundColor: isActive
-              ? Theme.of(context).primaryColor
+              ? Theme.of(context).colorScheme.primary
               : Theme.of(context).disabledColor,
-          foregroundColor: Theme.of(context).hintColor,
+          foregroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
         title: Text(
           location.name,

@@ -38,6 +38,8 @@ class AddNewLocationButton extends StatelessWidget {
             context.read<AddLocationCubit>().onLongPressAdd();
           },
           child: FloatingActionButton(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.inversePrimary,
             onPressed: () {
               HapticFeedback.vibrate();
               context.read<AddLocationCubit>().onPressAdd();

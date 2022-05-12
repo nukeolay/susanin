@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
@@ -24,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
               ThemeOption(state: state),
               WakelockOption(state: state),
               LocationOption(state: state),
-              CompassOption(state: state),
+              if (!Platform.isIOS) CompassOption(state: state),
               const ExtraOptions(),
             ],
           );

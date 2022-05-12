@@ -34,15 +34,16 @@ class MainPointer extends StatelessWidget {
       children: [
         isShimmering
             ? Shimmer.fromColors(
-                baseColor: shimmerBaseColor ?? Theme.of(context).primaryColor,
-                highlightColor:
-                    shimmerHighlightColor ?? Theme.of(context).hintColor,
+                baseColor:
+                    shimmerBaseColor ?? Theme.of(context).colorScheme.primary,
+                highlightColor: shimmerHighlightColor ??
+                    Theme.of(context).colorScheme.inversePrimary,
                 child: Pointer(
                   rotateAngle: 0,
                   accuracyAngle: math.pi * 2,
                   pointerSize: 90,
-                  foregroundColor: Theme.of(context).primaryColor,
-                  backGroundColor: Colors.white,
+                  foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+                  backGroundColor: Theme.of(context).colorScheme.secondary,
                   centerColor: Colors.amber,
                 ),
               )
@@ -50,11 +51,11 @@ class MainPointer extends StatelessWidget {
                 rotateAngle: rotateAngle,
                 accuracyAngle: accuracyAngle,
                 pointerSize: 90,
-                foregroundColor: Theme.of(context).primaryColor,
-                backGroundColor: Colors.white,
+                foregroundColor: Theme.of(context).colorScheme.secondary,
+                backGroundColor: Theme.of(context).colorScheme.background,
                 centerColor:
                     positionAccuracyStatus == PositionAccuracyStatus.good
-                        ? Theme.of(context).primaryColor
+                        ? Theme.of(context).colorScheme.secondary
                         : positionAccuracyStatus == PositionAccuracyStatus.poor
                             ? Colors.amber
                             : Theme.of(context).errorColor,
@@ -72,7 +73,7 @@ class MainPointer extends StatelessWidget {
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     fontSize: 30,
-                    color: Theme.of(context).hintColor,
+                    color: Theme.of(context).colorScheme.inversePrimary,
                   ),
                 ),
                 Flexible(
@@ -84,7 +85,7 @@ class MainPointer extends StatelessWidget {
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Theme.of(context).hintColor,
+                      color: Theme.of(context).colorScheme.inversePrimary
                     ),
                   ),
                 ),
@@ -102,13 +103,11 @@ class MainPointerLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainPointer(
+    return const MainPointer(
       rotateAngle: 0,
       accuracyAngle: math.pi * 2,
       positionAccuracyStatus: PositionAccuracyStatus.good,
       isShimmering: true,
-      shimmerBaseColor: Theme.of(context).primaryColor,
-      shimmerHighlightColor: Theme.of(context).hintColor,
       mainText: '',
       subText: '',
     );
