@@ -25,9 +25,9 @@ class Pointer extends StatelessWidget {
   }) : super(key: key);
 
   double _getPositionAccuracyRadius(double positionAccuracy) {
-    final ratio = pointerSize / 100;
+    final ratio = pointerSize / 70;
     if (positionAccuracy < 15) {
-      return ratio * 15;
+      return ratio * 10.5;
     }
     if (ratio * positionAccuracy > pointerSize) {
       return pointerSize;

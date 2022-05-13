@@ -8,13 +8,16 @@ abstract class CompassPlatform {
 }
 
 class CompassPlatformImpl implements CompassPlatform {
+  CompassPlatformImpl() {
+    print('CALLED PLATFORM COMPASS 1');
+  }
   @override
   Stream<CompassModel> get compassStream {
-    print('CALLED PLATFORM COMPASS');
+    print('CALLED PLATFORM COMPASS 2');
     try {
       Stream<CompassEvent> compassEvents = FlutterCompass.events!;
       return compassEvents.map((event) {
-        print(event);
+        // print(event);
         return CompassModel(
           north: event.heading!,
           accuracy: event.accuracy!,
