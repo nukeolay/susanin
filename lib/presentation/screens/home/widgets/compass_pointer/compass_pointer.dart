@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_state.dart';
@@ -15,7 +16,17 @@ class CompassPointer extends StatelessWidget {
       child: BlocBuilder<CompassCubit, CompassState>(
         builder: (context, state) {
           if (state.status == CompassStatus.loading) {
-            return const CircularProgressIndicator();
+            return Shimmer.fromColors(
+              baseColor: Theme.of(context).colorScheme.primary,
+              highlightColor: Theme.of(context).colorScheme.inversePrimary,
+              child: const Pointer(
+                rotateAngle: 0,
+                accuracyAngle: 0,
+                pointerSize: 40,
+                foregroundColor: Colors.white,
+                backGroundColor: Colors.grey,
+              ),
+            );
           } else if (state.status == CompassStatus.failure) {
             return IconButton(
               icon: const Icon(
@@ -23,7 +34,8 @@ class CompassPointer extends StatelessWidget {
                 color: Colors.grey,
                 size: 30,
               ),
-              onPressed: () => Navigator.of(context).pushNamed(Routes.noCompass),
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(Routes.noCompass),
             );
           } else {
             return Pointer(

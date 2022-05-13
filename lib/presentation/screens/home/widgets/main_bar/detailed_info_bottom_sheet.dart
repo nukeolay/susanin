@@ -32,6 +32,7 @@ class DetailedInfoBottomSheet extends StatelessWidget {
                 return Pointer(
                   rotateAngle: state.angle,
                   accuracyAngle: state.laxity * 5,
+                  positionAccuracy: state.positionAccuracy,
                   pointerSize: constants.maxWidth,
                   elevation: 0,
                   foregroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -93,6 +94,12 @@ class DetailedInfoBottomSheet extends StatelessWidget {
                       backgroundColor: MaterialStateProperty.all(
                           Theme.of(context).cardColor),
                       elevation: MaterialStateProperty.all(0),
+                      textStyle: MaterialStateProperty.all(
+                        TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),

@@ -8,7 +8,7 @@ class Pointer extends StatelessWidget {
   final double pointerSize;
   final Color foregroundColor;
   final Color backGroundColor;
-  final double? locationAccuracy;
+  final double? positionAccuracy;
   final Color? centerColor;
   final double? elevation;
 
@@ -19,10 +19,21 @@ class Pointer extends StatelessWidget {
     required this.foregroundColor,
     required this.backGroundColor,
     this.centerColor,
-    this.locationAccuracy,
+    this.positionAccuracy,
     this.elevation,
     Key? key,
   }) : super(key: key);
+
+  double _getPositionAccuracyRadius(double positionAccuracy) {
+    final ratio = pointerSize / 100;
+    if (positionAccuracy < 15) {
+      return ratio * 15;
+    }
+    if (ratio * positionAccuracy > pointerSize) {
+      return pointerSize;
+    }
+    return positionAccuracy * ratio;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +54,14 @@ class Pointer extends StatelessWidget {
                   backgroundColor: backGroundColor,
                 ),
               ),
-              locationAccuracy != null
+              positionAccuracy != null
                   ? CircleAvatar(
-                      radius: locationAccuracy,
-                      backgroundColor: Theme.of(context)
-                          .errorColor, // ! TODO вспомнить зачем это?
+                      radius: _getPositionAccuracyRadius(positionAccuracy!),
+                      backgroundColor: centerColor ?? foregroundColor,
                     )
                   : CircleAvatar(
                       radius: pointerSize * 0.15,
-                      backgroundColor: centerColor ?? foregroundColor,
+                      backgroundColor: foregroundColor,
                     ),
               Container(
                 alignment: Alignment.center,

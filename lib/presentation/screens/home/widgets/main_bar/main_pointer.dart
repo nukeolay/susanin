@@ -12,6 +12,7 @@ class MainPointer extends StatelessWidget {
   final String mainText;
   final String subText;
   final bool isShimmering;
+  final double? positionAccuracy;
   final Color? shimmerBaseColor;
   final Color? shimmerHighlightColor;
 
@@ -21,6 +22,7 @@ class MainPointer extends StatelessWidget {
     required this.positionAccuracyStatus,
     required this.mainText,
     required this.subText,
+    this.positionAccuracy,
     this.isShimmering = false,
     this.shimmerBaseColor,
     this.shimmerHighlightColor,
@@ -44,13 +46,14 @@ class MainPointer extends StatelessWidget {
                   pointerSize: 90,
                   foregroundColor: Theme.of(context).colorScheme.inversePrimary,
                   backGroundColor: Theme.of(context).colorScheme.secondary,
-                  centerColor: Colors.amber,
+                  centerColor: Theme.of(context).colorScheme.inversePrimary,
                 ),
               )
             : Pointer(
                 rotateAngle: rotateAngle,
                 accuracyAngle: accuracyAngle,
                 pointerSize: 90,
+                positionAccuracy: positionAccuracy,
                 foregroundColor: Theme.of(context).colorScheme.secondary,
                 backGroundColor: Theme.of(context).colorScheme.background,
                 centerColor:
@@ -84,9 +87,8 @@ class MainPointer extends StatelessWidget {
                     softWrap: true,
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.inversePrimary
-                    ),
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.inversePrimary),
                   ),
                 ),
               ],
@@ -162,6 +164,7 @@ class MainPointerDefault extends StatelessWidget {
     return MainPointer(
       rotateAngle: state.angle,
       accuracyAngle: state.laxity * 5,
+      positionAccuracy: state.positionAccuracy,
       positionAccuracyStatus: state.positionAccuracyStatus,
       mainText: state.locations.isEmpty ? '' : state.distance,
       subText: state.pointName,
