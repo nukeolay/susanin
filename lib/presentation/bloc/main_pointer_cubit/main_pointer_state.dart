@@ -27,18 +27,11 @@ enum SettingsStatus {
   failure,
 }
 
-enum PositionAccuracyStatus {
-  good,
-  poor,
-  bad,
-}
-
 class MainPointerState extends Equatable {
   final LocationServiceStatus locationServiceStatus;
   final CompassStatus compassStatus;
   final LocationsListStatus locationsListStatus;
   final SettingsStatus settingsStatus;
-  final PositionAccuracyStatus positionAccuracyStatus;
   final double positionAccuracy;
   final String activeLocationId;
   final double userLatitude;
@@ -57,7 +50,6 @@ class MainPointerState extends Equatable {
     required this.compassStatus,
     required this.locationsListStatus,
     required this.settingsStatus,
-    required this.positionAccuracyStatus,
     required this.positionAccuracy,
     required this.activeLocationId,
     required this.userLatitude,
@@ -78,7 +70,6 @@ class MainPointerState extends Equatable {
         compassStatus,
         locationsListStatus,
         settingsStatus,
-        positionAccuracyStatus,
         positionAccuracy,
         activeLocationId,
         userLatitude,
@@ -98,7 +89,6 @@ class MainPointerState extends Equatable {
     CompassStatus? compassStatus,
     LocationsListStatus? locationsListStatus,
     SettingsStatus? settingsStatus,
-    PositionAccuracyStatus? positionAccuracyStatus,
     double? positionAccuracy,
     String? activeLocationId,
     double? userLatitude,
@@ -118,8 +108,6 @@ class MainPointerState extends Equatable {
       compassStatus: compassStatus ?? this.compassStatus,
       locationsListStatus: locationsListStatus ?? this.locationsListStatus,
       settingsStatus: settingsStatus ?? this.settingsStatus,
-      positionAccuracyStatus:
-          positionAccuracyStatus ?? this.positionAccuracyStatus,
       positionAccuracy: positionAccuracy ?? this.positionAccuracy,
       activeLocationId: activeLocationId ?? this.activeLocationId,
       userLatitude: userLatitude ?? this.userLatitude,
@@ -161,6 +149,6 @@ class MainPointerState extends Equatable {
 
   @override
   String toString() {
-    return 'LocationServiceStatus: $locationServiceStatus\nCompassStatus: $compassStatus\nLocationsListStatus: $locationsListStatus\nSettingsStatus: $settingsStatus\nPositionAccuracyStatus: $positionAccuracyStatus\npositionAccuracy: $positionAccuracy\nactiveLocationId: $activeLocationId\nuserLatitude: $userLatitude\nuserLongitude: $userLongitude\npointName: $pointName\npointLatitude: $pointLatitude\npointLongitude: $pointLongitude\nlocations: $locations\nangle: $angle\ncompassAccuracy: $compassAccuracy\ndistance: $distance\nlaxity: $laxity';
+    return 'LocationServiceStatus: $locationServiceStatus\nCompassStatus: $compassStatus\nLocationsListStatus: $locationsListStatus\nSettingsStatus: $settingsStatus\npositionAccuracy: $positionAccuracy\nactiveLocationId: $activeLocationId\nuserLatitude: $userLatitude\nuserLongitude: $userLongitude\npointName: $pointName\npointLatitude: $pointLatitude\npointLongitude: $pointLongitude\nlocations: $locations\nangle: $angle\ncompassAccuracy: $compassAccuracy\ndistance: $distance\nlaxity: $laxity';
   }
 }

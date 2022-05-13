@@ -22,7 +22,7 @@ class AddNewLocationButton extends StatelessWidget {
           return FloatingActionButton(
             onPressed: null,
             child: CircularProgressIndicator(
-              color: Theme.of(context).hintColor,
+              color: Theme.of(context).colorScheme.inversePrimary,
             ),
           );
         } else if (state.status == AddLocationStatus.failure) {

@@ -90,7 +90,10 @@ class SusaninApp extends StatelessWidget {
             listTileTheme: const ListTileThemeData(
               selectedColor: Colors.green,
             ),
+            primaryColorDark: Colors.grey,
             errorColor: Colors.red,
+          
+            // textTheme: ThemeData.dark().textTheme,
             // textSelectionTheme: const TextSelectionThemeData(selectionColor: Colors.red),
             // textTheme: TextTheme(sel),
             // TextSelectionThemeData.selectionColor() Colors.green,

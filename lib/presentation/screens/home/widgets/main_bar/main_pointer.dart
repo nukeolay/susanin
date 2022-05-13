@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
@@ -8,7 +6,6 @@ import 'package:susanin/presentation/screens/home/widgets/common/pointer.dart';
 class MainPointer extends StatelessWidget {
   final double rotateAngle;
   final double accuracyAngle;
-  final PositionAccuracyStatus positionAccuracyStatus;
   final String mainText;
   final String subText;
   final bool isShimmering;
@@ -19,7 +16,6 @@ class MainPointer extends StatelessWidget {
   const MainPointer({
     required this.rotateAngle,
     required this.accuracyAngle,
-    required this.positionAccuracyStatus,
     required this.mainText,
     required this.subText,
     this.positionAccuracy,
@@ -42,11 +38,10 @@ class MainPointer extends StatelessWidget {
                     Theme.of(context).colorScheme.inversePrimary,
                 child: Pointer(
                   rotateAngle: 0,
-                  accuracyAngle: math.pi * 2,
+                  accuracyAngle: accuracyAngle,
                   pointerSize: 90,
                   foregroundColor: Theme.of(context).colorScheme.inversePrimary,
                   backGroundColor: Theme.of(context).colorScheme.secondary,
-                  centerColor: Theme.of(context).colorScheme.inversePrimary,
                 ),
               )
             : Pointer(
@@ -56,12 +51,6 @@ class MainPointer extends StatelessWidget {
                 positionAccuracy: positionAccuracy,
                 foregroundColor: Theme.of(context).colorScheme.secondary,
                 backGroundColor: Theme.of(context).colorScheme.background,
-                centerColor:
-                    positionAccuracyStatus == PositionAccuracyStatus.good
-                        ? Theme.of(context).colorScheme.secondary
-                        : positionAccuracyStatus == PositionAccuracyStatus.poor
-                            ? Colors.amber
-                            : Theme.of(context).errorColor,
               ),
         Expanded(
           child: Padding(
@@ -107,8 +96,7 @@ class MainPointerLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MainPointer(
       rotateAngle: 0,
-      accuracyAngle: math.pi * 2,
-      positionAccuracyStatus: PositionAccuracyStatus.good,
+      accuracyAngle: 0,
       isShimmering: true,
       mainText: '',
       subText: '',
@@ -124,11 +112,10 @@ class MainPointerFailure extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainPointer(
       rotateAngle: 0,
-      accuracyAngle: math.pi * 2,
-      positionAccuracyStatus: state.positionAccuracyStatus,
+      accuracyAngle: 0,
       isShimmering: true,
       shimmerBaseColor: Theme.of(context).errorColor,
-      shimmerHighlightColor: Theme.of(context).hintColor,
+      shimmerHighlightColor: Theme.of(context).colorScheme.inversePrimary,
       mainText: 'Ошибка',
       subText: state.locationServiceStatus == LocationServiceStatus.disabled
           ? 'GPS выключен'
@@ -147,9 +134,9 @@ class MainPointerEmpty extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainPointer(
       rotateAngle: 0,
-      accuracyAngle: math.pi * 2,
-      positionAccuracyStatus: state.positionAccuracyStatus,
-      mainText: 'список локаций пуст',
+      accuracyAngle: 0,
+      positionAccuracy: state.positionAccuracy,
+      mainText: '',
       subText: '',
     );
   }
@@ -163,9 +150,8 @@ class MainPointerDefault extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainPointer(
       rotateAngle: state.angle,
-      accuracyAngle: state.laxity * 5,
+      accuracyAngle: state.laxity,
       positionAccuracy: state.positionAccuracy,
-      positionAccuracyStatus: state.positionAccuracyStatus,
       mainText: state.locations.isEmpty ? '' : state.distance,
       subText: state.pointName,
     );

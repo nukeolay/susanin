@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/domain/location/usecases/request_permission.dart';
 import 'package:susanin/internal/service_locator.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
-import 'package:susanin/presentation/screens/home/widgets/main_bar/detailed_info_bottom_sheet.dart';
 import 'package:susanin/presentation/screens/home/widgets/main_bar/main_pointer.dart';
 
 class MainBar extends StatelessWidget {
@@ -85,7 +85,8 @@ class MainBar extends StatelessWidget {
                           behavior: HitTestBehavior.translucent,
                           onTap: () {
                             HapticFeedback.vibrate();
-                            _showBottomSheet(context);
+                            Navigator.of(context)
+                                .pushNamed(Routes.detailedLocationInfo);
                           },
                           child: MainPointerDefault(state: state),
                         );
@@ -126,17 +127,6 @@ Future<bool?> _showGetPermissionDialog(BuildContext context) async {
           ),
         ],
       );
-    },
-  );
-}
-
-void _showBottomSheet(BuildContext context) async {
-  await showModalBottomSheet<void>(
-    context: context,
-    backgroundColor: Colors.transparent,
-    isScrollControlled: true,
-    builder: (BuildContext context) {
-      return const DetailedInfoBottomSheet();
     },
   );
 }

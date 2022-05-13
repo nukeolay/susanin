@@ -9,7 +9,6 @@ class Pointer extends StatelessWidget {
   final Color foregroundColor;
   final Color backGroundColor;
   final double? positionAccuracy;
-  final Color? centerColor;
   final double? elevation;
 
   const Pointer({
@@ -18,19 +17,18 @@ class Pointer extends StatelessWidget {
     required this.pointerSize,
     required this.foregroundColor,
     required this.backGroundColor,
-    this.centerColor,
     this.positionAccuracy,
     this.elevation,
     Key? key,
   }) : super(key: key);
 
   double _getPositionAccuracyRadius(double positionAccuracy) {
-    final ratio = pointerSize / 70;
-    if (positionAccuracy < 15) {
-      return ratio * 10.5;
+    final ratio = pointerSize / 70; // scale
+    if (ratio * positionAccuracy < pointerSize * 0.1) { // minimum center circle size
+      return 0;
     }
-    if (ratio * positionAccuracy > pointerSize) {
-      return pointerSize;
+    if (ratio * positionAccuracy >= pointerSize * 0.7) { //maximum center circle size
+      return pointerSize * 0.7;
     }
     return positionAccuracy * ratio;
   }
@@ -54,15 +52,15 @@ class Pointer extends StatelessWidget {
                   backgroundColor: backGroundColor,
                 ),
               ),
-              positionAccuracy != null
-                  ? CircleAvatar(
-                      radius: _getPositionAccuracyRadius(positionAccuracy!),
-                      backgroundColor: centerColor ?? foregroundColor,
-                    )
-                  : CircleAvatar(
-                      radius: pointerSize * 0.15,
-                      backgroundColor: foregroundColor,
-                    ),
+              if (positionAccuracy != null)
+                CircleAvatar(
+                  radius: _getPositionAccuracyRadius(positionAccuracy!),
+                  backgroundColor: foregroundColor.withOpacity(0.2),
+                ),
+              CircleAvatar(
+                radius: pointerSize * 0.1,
+                backgroundColor: foregroundColor,
+              ),
               Container(
                 alignment: Alignment.center,
                 transformAlignment: Alignment.center,

@@ -31,7 +31,6 @@ class HomeScreen extends StatelessWidget {
                   LocationList(topPadding: mainBarHeight + 2 * mainBarMargin),
                 ],
               ),
-
               Container(
                 margin: const EdgeInsets.symmetric(vertical: mainBarMargin),
                 height: mainBarHeight,
@@ -44,10 +43,11 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         const CompassPointer(),
                         IconButton(
-                          icon: const Icon(Icons.settings),
-                          onPressed: () =>
-                              Navigator.of(context).pushNamed(Routes.settings),
-                        ),
+                            icon: const Icon(Icons.settings),
+                            onPressed: () {
+                              HapticFeedback.vibrate();
+                              Navigator.of(context).pushNamed(Routes.settings);
+                            }),
                       ],
                     ),
                   ],

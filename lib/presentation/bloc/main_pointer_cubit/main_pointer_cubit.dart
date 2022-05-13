@@ -59,7 +59,6 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           settingsStatus: SettingsStatus.loading,
           locationServiceStatus: LocationServiceStatus.loading,
           locationsListStatus: LocationsListStatus.loading,
-          positionAccuracyStatus: PositionAccuracyStatus.bad,
           positionAccuracy: 0,
           pointName: '',
           pointLatitude: 0,
@@ -163,7 +162,6 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           locationServiceStatus: LocationServiceStatus.loaded,
           userLatitude: position.latitude,
           userLongitude: position.longitude,
-          positionAccuracyStatus: _getPositionAccuracyStatus(accuracy),
           positionAccuracy: accuracy,
           distance: _getDistanceString(distance),
           laxity: math.atan(accuracy / distance) < minPointerWidth
@@ -222,15 +220,5 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           endLongitude: state.pointLongitude,
         ) +
         (compassNorth * (math.pi / 180) * -1);
-  }
-
-  PositionAccuracyStatus _getPositionAccuracyStatus(double accuracy) {
-    if (accuracy < 15) {
-      return PositionAccuracyStatus.good;
-    } else if (accuracy < 100) {
-      return PositionAccuracyStatus.poor;
-    } else {
-      return PositionAccuracyStatus.bad;
-    }
   }
 }
