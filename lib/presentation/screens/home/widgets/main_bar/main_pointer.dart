@@ -38,12 +38,9 @@ class MainPointer extends StatelessWidget {
                     shimmerBaseColor ?? Theme.of(context).colorScheme.primary,
                 highlightColor: shimmerHighlightColor ??
                     Theme.of(context).colorScheme.inversePrimary,
-                child: Pointer(
-                  rotateAngle: 0,
-                  accuracyAngle: accuracyAngle,
-                  pointerSize: pointerSize,
-                  foregroundColor: Theme.of(context).colorScheme.inversePrimary,
-                  backGroundColor: Theme.of(context).colorScheme.secondary,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircleAvatar(radius: pointerSize * 0.7),
                 ),
               )
             : Pointer(

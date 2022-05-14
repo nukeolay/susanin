@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_state.dart';
 import 'package:susanin/presentation/screens/home/widgets/common/pointer.dart';
+import 'package:susanin/presentation/screens/home/widgets/compass_pointer/calibrate_bottom_sheet.dart';
 
 class CompassPointer extends StatelessWidget {
   const CompassPointer({Key? key}) : super(key: key);
@@ -19,12 +23,9 @@ class CompassPointer extends StatelessWidget {
             return Shimmer.fromColors(
               baseColor: Theme.of(context).colorScheme.primary,
               highlightColor: Theme.of(context).colorScheme.inversePrimary,
-              child: const Pointer(
-                rotateAngle: 0,
-                accuracyAngle: 0,
-                pointerSize: 40,
-                foregroundColor: Colors.white,
-                backGroundColor: Colors.grey,
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: CircleAvatar(radius: 40 * 0.7),
               ),
             );
           } else if (state.status == CompassStatus.failure) {
@@ -38,16 +39,75 @@ class CompassPointer extends StatelessWidget {
                   Navigator.of(context).pushNamed(Routes.noCompass),
             );
           } else {
-            return Pointer(
-              rotateAngle: state.angle,
-              accuracyAngle: state.accuracy,
-              pointerSize: 40,
-              foregroundColor: Colors.white,
-              backGroundColor: Colors.grey,
+            return GestureDetector(
+              child: LoadedCompass(state: state),
+              behavior: HitTestBehavior.translucent,
+              onTap: state.needCalibration
+                  ? () {
+                      HapticFeedback.vibrate();
+                      _showBottomSheet(context);
+                    }
+                  : null,
             );
           }
         },
       ),
     );
+  }
+
+  void _showBottomSheet(BuildContext context) async {
+    await showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return const CalibrateBottomSheet();
+      },
+    );
+  }
+}
+
+class LoadedCompass extends StatefulWidget {
+  final CompassState state;
+  const LoadedCompass({required this.state, Key? key}) : super(key: key);
+
+  @override
+  State<LoadedCompass> createState() => _LoadedCompassState();
+}
+
+class _LoadedCompassState extends State<LoadedCompass> {
+  final _animationDuration = const Duration(milliseconds: 500);
+  late final Timer _timer;
+  late Color _color;
+
+  @override
+  void initState() {
+    _timer = Timer.periodic(_animationDuration, (timer) => _changeColor());
+    _color = Colors.red;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Pointer(
+      rotateAngle: widget.state.angle,
+      accuracyAngle: widget.state.accuracy,
+      pointerSize: 40,
+      foregroundColor: Colors.white,
+      backGroundColor: widget.state.needCalibration ? _color : Colors.grey,
+    );
+  }
+
+  void _changeColor() {
+    final newColor = _color == Colors.red ? Colors.grey : Colors.red;
+    setState(() {
+      _color = newColor;
+    });
   }
 }

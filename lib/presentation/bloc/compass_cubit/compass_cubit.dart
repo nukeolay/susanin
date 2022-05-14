@@ -20,6 +20,7 @@ class CompassCubit extends Cubit<CompassState> {
           status: CompassStatus.loading,
           angle: 0,
           accuracy: 0,
+          needCalibration: false,
         )) {
     _init();
   }
@@ -29,16 +30,19 @@ class CompassCubit extends Cubit<CompassState> {
   }
 
   void _compassHandler(Either<Failure, CompassEntity> event) {
-    event.fold(
-      (failure) => emit(state.copyWith(status: CompassStatus.failure)),
-      (compass) => emit(
+    event.fold((failure) => emit(state.copyWith(status: CompassStatus.failure)),
+        (compass) {
+      final angle = compass.north * (math.pi / 180) * -1;
+      final accuracy = compass.accuracy * (math.pi / 180);
+      emit(
         state.copyWith(
           status: CompassStatus.loaded,
-          angle: (compass.north * (math.pi / 180) * -1),
-          accuracy: (compass.accuracy * (math.pi / 180)),
+          angle: angle,
+          accuracy: accuracy,
+          needCalibration: accuracy > 0.262,
         ),
-      ),
-    );
+      );
+    });
   }
 
   @override

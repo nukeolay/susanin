@@ -22,6 +22,10 @@ class CompassPlatformImpl implements CompassPlatform {
   Stream<CompassModel> get compassStream => _streamController.stream;
 
   void _init() {
+    if (FlutterCompass.events == null) {
+      // This device has no compass
+      throw CompassException();
+    }
     try {
       FlutterCompass.events!.listen((event) {
         // print(event);
