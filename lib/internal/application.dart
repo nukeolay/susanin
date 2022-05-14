@@ -33,7 +33,6 @@ class SusaninApp extends StatelessWidget {
             create: (context) => serviceLocator<LocationPointValidateBloc>()),
         BlocProvider<SettingsCubit>(
             create: (context) => serviceLocator<SettingsCubit>()),
-        // ! TODO добавлять сюда bloc
       ],
       child:
           BlocBuilder<SettingsCubit, SettingsState>(builder: (context, state) {
@@ -59,7 +58,7 @@ class SusaninApp extends StatelessWidget {
             ),
             floatingActionButtonTheme: const FloatingActionButtonThemeData(
               disabledElevation: 0,
-              backgroundColor: Colors.green,
+              backgroundColor: Colors.purple,
             ),
             disabledColor: Colors.grey,
             hintColor: Colors.white,
@@ -75,47 +74,23 @@ class SusaninApp extends StatelessWidget {
               background: ThemeData.light().scaffoldBackgroundColor,
               secondary: Colors.green,
               inversePrimary: Colors.white,
-            ), // colorSchemeSeed: Colors.green,
+            ),
             iconTheme: const IconThemeData(
               color: Colors.grey,
               size: 30,
             ),
             floatingActionButtonTheme: const FloatingActionButtonThemeData(
               disabledElevation: 0,
+              backgroundColor: Colors.green,
             ),
             cardColor: Colors.grey.shade100,
             disabledColor: Colors.grey,
-            // dialogBackgroundColor: Colors.white,
             hintColor: Colors.white,
             listTileTheme: const ListTileThemeData(
               selectedColor: Colors.green,
             ),
             primaryColorDark: Colors.grey,
             errorColor: Colors.red,
-          
-            // textTheme: ThemeData.dark().textTheme,
-            // textSelectionTheme: const TextSelectionThemeData(selectionColor: Colors.red),
-            // textTheme: TextTheme(sel),
-            // TextSelectionThemeData.selectionColor() Colors.green,
-            // colorSchemeSeed: Colors.green,
-            //   scaffoldBackgroundColor: appTheme.background,
-            //   fontFamily: 'Montserrat',
-
-            //   textButtonTheme: TextButtonThemeData(
-            //     style: ButtonStyle(
-            //       textStyle: MaterialStateProperty.all(
-            //         TextStyle(color: appTheme.buttonTextColor),
-            //       ),
-            //     ),
-            //   ),
-            //   textTheme: TextTheme(
-            //     button: TextStyle(
-            //       color: appTheme.buttonTextColor,
-            //     ),
-            //     bodyText2: TextStyle(
-            //       color: appTheme.buttonTextColor,
-            //     ),
-            //   ),
             pageTransitionsTheme: const PageTransitionsTheme(
               builders: {
                 TargetPlatform.android: CustomPageTransitionBuilder(),

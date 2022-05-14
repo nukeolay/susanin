@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +44,11 @@ class DetailedLocationInfoScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
-                      state.distance,
+                      state.distance < 5
+                          ? 'менее 5 м'
+                          : state.distance < 500
+                              ? '${state.distance} м'
+                              : '${(state.distance / 1000).toStringAsFixed(1)} км',
                       style: const TextStyle(fontSize: 50),
                     ),
                   ),

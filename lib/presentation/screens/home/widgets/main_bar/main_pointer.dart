@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
@@ -29,6 +31,7 @@ class MainPointer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         isShimmering
             ? Shimmer.fromColors(
@@ -54,7 +57,7 @@ class MainPointer extends StatelessWidget {
               ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(6.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -62,6 +65,7 @@ class MainPointer extends StatelessWidget {
                 Text(
                   mainText,
                   overflow: TextOverflow.fade,
+                  maxLines: 1,
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     fontSize: 30,
@@ -152,7 +156,13 @@ class MainPointerDefault extends StatelessWidget {
       rotateAngle: state.angle,
       accuracyAngle: state.laxity,
       positionAccuracy: state.positionAccuracy,
-      mainText: state.locations.isEmpty ? '' : state.distance,
+      mainText: state.locations.isEmpty
+          ? ''
+          : state.distance < 5
+              ? 'менее 5 м'
+              : state.distance < 500
+                  ? '${state.distance} м'
+                  : '${(state.distance / 1000).toStringAsFixed(1)} км',
       subText: state.pointName,
     );
   }

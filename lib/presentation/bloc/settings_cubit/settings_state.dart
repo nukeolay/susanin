@@ -12,52 +12,40 @@ enum CompassSettingsStatus {
   success,
 }
 
-enum WakelockSettingsStatus {
-  loading,
-  enabled,
-  disabled,
-}
-
 class SettingsState extends Equatable {
   final LocationSettingsStatus locationSettingsStatus;
   final CompassSettingsStatus compassSettingsStatus;
-  final WakelockSettingsStatus wakelockSettingsStatus;
   final bool isDarkTheme;
-  final bool isAutoScreenOff;
+  final bool isScreenAlwaysOn;
 
   const SettingsState({
     required this.locationSettingsStatus,
     required this.compassSettingsStatus,
-    required this.wakelockSettingsStatus,
     required this.isDarkTheme,
-    required this.isAutoScreenOff,
+    required this.isScreenAlwaysOn,
   });
 
   @override
   List<Object> get props => [
         locationSettingsStatus,
         compassSettingsStatus,
-        wakelockSettingsStatus,
         isDarkTheme,
-        isAutoScreenOff,
+        isScreenAlwaysOn,
       ];
 
   SettingsState copyWith({
     LocationSettingsStatus? locationSettingsStatus,
     CompassSettingsStatus? compassSettingsStatus,
-    WakelockSettingsStatus? wakelockSettingsStatus,
     bool? isDarkTheme,
-    bool? isAutoScreenOff,
+    bool? isScreenAlwaysOn,
   }) {
     return SettingsState(
       locationSettingsStatus:
           locationSettingsStatus ?? this.locationSettingsStatus,
       compassSettingsStatus:
           compassSettingsStatus ?? this.compassSettingsStatus,
-      wakelockSettingsStatus:
-          wakelockSettingsStatus ?? this.wakelockSettingsStatus,
       isDarkTheme: isDarkTheme ?? this.isDarkTheme,
-      isAutoScreenOff: isAutoScreenOff ?? this.isAutoScreenOff,
+      isScreenAlwaysOn: isScreenAlwaysOn ?? this.isScreenAlwaysOn,
     );
   }
 }

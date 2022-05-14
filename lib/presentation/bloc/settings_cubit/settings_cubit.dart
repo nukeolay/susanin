@@ -42,9 +42,8 @@ class SettingsCubit extends Cubit<SettingsState> {
         super(const SettingsState(
           locationSettingsStatus: LocationSettingsStatus.loading,
           compassSettingsStatus: CompassSettingsStatus.loading,
-          wakelockSettingsStatus: WakelockSettingsStatus.loading,
           isDarkTheme: false,
-          isAutoScreenOff: false,
+          isScreenAlwaysOn: false,
         )) {
     _init();
   }
@@ -72,9 +71,6 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   Future<void> toggleWakelock() async {
-    emit(state.copyWith(
-      wakelockSettingsStatus: WakelockSettingsStatus.loading,
-    ));
     await _toggleWakelock();
     await _updateWakelockStatus();
   }
@@ -91,11 +87,7 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   Future<void> _updateWakelockStatus() async {
     final wakelockStatus = await _getWakelockEnabledStatus();
-    emit(state.copyWith(
-      wakelockSettingsStatus: wakelockStatus
-          ? WakelockSettingsStatus.enabled
-          : WakelockSettingsStatus.disabled,
-    ));
+    emit(state.copyWith(isScreenAlwaysOn: wakelockStatus));
   }
 
   Future<void> _updateLocationServiceStatus() async {

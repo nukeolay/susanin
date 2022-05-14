@@ -68,7 +68,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           activeLocationId: '',
           angle: 0,
           compassAccuracy: 0,
-          distance: '',
+          distance: 0,
           laxity: 0,
           locations: [],
         )) {
@@ -163,10 +163,8 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           userLatitude: position.latitude,
           userLongitude: position.longitude,
           positionAccuracy: accuracy,
-          distance: _getDistanceString(distance),
-          laxity: math.atan(accuracy / distance) < minPointerWidth
-              ? minPointerWidth
-              : math.atan(accuracy / distance),
+          distance: distance,
+          laxity: _getLaxity(accuracy: accuracy, distance: distance),
         ));
       },
     );
@@ -202,16 +200,6 @@ class MainPointerCubit extends Cubit<MainPointerState> {
     ).toInt();
   }
 
-  String _getDistanceString(int distance) {
-    if (distance < 5) {
-      return 'тут';
-    } else if (distance < 500) {
-      return '${distance.truncate()} м';
-    } else {
-      return '${(distance / 1000).toStringAsFixed(1)} км';
-    }
-  }
-
   double _getBearing(double compassNorth) {
     return _getBearingBetween(
           startLatitude: state.userLatitude,
@@ -220,5 +208,15 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           endLongitude: state.pointLongitude,
         ) +
         (compassNorth * (math.pi / 180) * -1);
+  }
+
+  double _getLaxity({
+    required double accuracy,
+    required int distance,
+  }) {
+    final laxity = math.atan(accuracy / distance) < minPointerWidth
+        ? minPointerWidth
+        : math.atan(accuracy / distance);
+    return distance < 5 ? math.pi * 2 : laxity;
   }
 }

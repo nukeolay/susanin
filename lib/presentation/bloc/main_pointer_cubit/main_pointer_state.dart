@@ -42,7 +42,7 @@ class MainPointerState extends Equatable {
   final List<LocationPointEntity> locations;
   final double angle;
   final double compassAccuracy;
-  final String distance;
+  final int distance;
   final double laxity;
 
   const MainPointerState({
@@ -99,7 +99,7 @@ class MainPointerState extends Equatable {
     List<LocationPointEntity>? locations,
     double? angle,
     double? compassAccuracy,
-    String? distance,
+    int? distance,
     double? laxity,
   }) {
     return MainPointerState(
