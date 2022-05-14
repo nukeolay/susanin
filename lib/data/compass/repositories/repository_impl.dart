@@ -26,13 +26,11 @@ class CompassRepositoryImpl implements CompassRepository {
     }).onError((error) {
       _streamController.add(Left(CompassFailure()));
     });
+  }
 
-    // try {
-    //   await for (final compassPlatform in compass.compassStream) {
-    //     yield Right(compassPlatform); // ! TODO await for replace with listen
-    //   }
-    // } catch (error) {
-    //   yield Left(CompassFailure());
-    // }
+  @override
+  Future<void> close() async {
+    await _streamController.close();
+    await compass.close();
   }
 }

@@ -53,4 +53,9 @@ class LocationServiceRepositoryImpl implements LocationServiceRepository {
   Future<bool> requestPermission() {
     return properties.requestPermission();
   }
+
+  @override
+  Future<void> close() async {
+    await _streamController.close();
+  }
 }

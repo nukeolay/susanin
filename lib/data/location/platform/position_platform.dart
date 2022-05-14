@@ -4,9 +4,11 @@ import 'package:susanin/data/location/models/position_model.dart';
 
 abstract class PositionPlatform {
   Stream<PositionModel> get positionStream;
+  void close();
 }
 
 class PositionPlatformImpl implements PositionPlatform {
+  bool _isClosed = false;
   final locationSettings = const LocationSettings(
     accuracy: LocationAccuracy.best,
     distanceFilter: 0,
@@ -16,7 +18,7 @@ class PositionPlatformImpl implements PositionPlatform {
   Stream<PositionModel> get positionStream async* {
     bool isServiceEnabled;
     LocationPermission permission;
-    while (true) {
+    while (!_isClosed) {
       await Future.delayed(const Duration(
           milliseconds: 1000)); // pause before retrive next location
       try {
@@ -44,5 +46,10 @@ class PositionPlatformImpl implements PositionPlatform {
         throw susanin.SusaninException();
       }
     }
+  }
+
+  @override
+  void close() {
+    _isClosed = true;
   }
 }

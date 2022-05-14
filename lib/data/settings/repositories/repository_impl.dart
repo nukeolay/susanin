@@ -51,4 +51,9 @@ class SettingsRepositoryImpl extends SettingsRepository {
       _streamController.add(Left(SaveSettingsFailure()));
     }
   }
+
+  @override
+  Future<void> close() async {
+    await _streamController.close();
+  }
 }

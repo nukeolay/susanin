@@ -5,4 +5,5 @@ import 'package:susanin/domain/location/entities/position.dart';
 abstract class LocationServiceRepository {
   Stream<Either<Failure, PositionEntity>> get positionStream;
   Future<bool> requestPermission();
+  Future<void> close();
 }

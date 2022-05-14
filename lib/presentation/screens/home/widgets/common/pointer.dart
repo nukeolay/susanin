@@ -10,6 +10,7 @@ class Pointer extends StatelessWidget {
   final Color backGroundColor;
   final double? positionAccuracy;
   final double? elevation;
+  final scale = 100;
 
   const Pointer({
     required this.rotateAngle,
@@ -23,14 +24,21 @@ class Pointer extends StatelessWidget {
   }) : super(key: key);
 
   double _getPositionAccuracyRadius(double positionAccuracy) {
-    final ratio = pointerSize / 70; // scale
-    if (ratio * positionAccuracy < pointerSize * 0.1) { // minimum center circle size
+    final ratio = pointerSize / scale; // scale
+    if (ratio * positionAccuracy < pointerSize * 0.1) {
+      // minimum center circle size
       return 0;
     }
-    if (ratio * positionAccuracy >= pointerSize * 0.7) { //maximum center circle size
+    if (ratio * positionAccuracy >= pointerSize * 0.7) {
+      //maximum center circle size
       return pointerSize * 0.7;
     }
     return positionAccuracy * ratio;
+  }
+
+  bool _isPositionAccuracyMax(double positionAccuracy) {
+    final ratio = pointerSize / scale; // scale
+    return ratio * positionAccuracy >= pointerSize * 0.7;
   }
 
   @override
@@ -55,7 +63,9 @@ class Pointer extends StatelessWidget {
               if (positionAccuracy != null)
                 CircleAvatar(
                   radius: _getPositionAccuracyRadius(positionAccuracy!),
-                  backgroundColor: foregroundColor.withOpacity(0.2),
+                  backgroundColor: _isPositionAccuracyMax(positionAccuracy!)
+                      ? Theme.of(context).errorColor.withOpacity(0.2)
+                      : foregroundColor.withOpacity(0.2),
                 ),
               CircleAvatar(
                 radius: pointerSize * 0.1,

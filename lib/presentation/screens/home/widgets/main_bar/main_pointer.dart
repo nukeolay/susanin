@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
@@ -29,6 +27,7 @@ class MainPointer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pointerSize = MediaQuery.of(context).size.width * 0.22;
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,7 +41,7 @@ class MainPointer extends StatelessWidget {
                 child: Pointer(
                   rotateAngle: 0,
                   accuracyAngle: accuracyAngle,
-                  pointerSize: 90,
+                  pointerSize: pointerSize,
                   foregroundColor: Theme.of(context).colorScheme.inversePrimary,
                   backGroundColor: Theme.of(context).colorScheme.secondary,
                 ),
@@ -50,7 +49,7 @@ class MainPointer extends StatelessWidget {
             : Pointer(
                 rotateAngle: rotateAngle,
                 accuracyAngle: accuracyAngle,
-                pointerSize: 90,
+                pointerSize: pointerSize,
                 positionAccuracy: positionAccuracy,
                 foregroundColor: Theme.of(context).colorScheme.secondary,
                 backGroundColor: Theme.of(context).colorScheme.background,

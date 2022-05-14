@@ -73,4 +73,9 @@ class LocationPointsRepositoryImpl extends LocationPointsRepository {
       _streamController.add(Left(SaveLocationPointsFailure()));
     }
   }
+
+  @override
+  Future<void> close() async {
+    await _streamController.close();
+  }
 }

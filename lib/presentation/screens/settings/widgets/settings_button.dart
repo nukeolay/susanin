@@ -16,6 +16,7 @@ class SettingsButton extends StatelessWidget {
       child: ElevatedButton(
         child: Text(
           text,
+          textAlign: TextAlign.center,
           style: const TextStyle(
             color: Colors.white,
             fontSize: 16
