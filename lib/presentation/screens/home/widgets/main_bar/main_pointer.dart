@@ -58,14 +58,16 @@ class MainPointer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  mainText,
-                  overflow: TextOverflow.fade,
-                  maxLines: 1,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Theme.of(context).colorScheme.inversePrimary,
+                Flexible(
+                  child: Text(
+                    mainText,
+                    overflow: TextOverflow.fade,
+                    maxLines: 2,
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
                   ),
                 ),
                 Flexible(

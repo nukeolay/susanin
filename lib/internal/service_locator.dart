@@ -52,7 +52,7 @@ Future<void> init() async {
 // ---Repository---
   // PositionRepository
   serviceLocator.registerSingleton<PositionPlatform>(
-    // ! TODO попробовать заменить все синглтоны на лейзи синглтоны
+    // ! TODO replace singletons to lazy singletons
     PositionPlatformImpl(),
   );
   serviceLocator.registerSingleton<LocationServicePermissionPlatform>(

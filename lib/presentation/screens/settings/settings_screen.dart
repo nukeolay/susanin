@@ -20,10 +20,13 @@ class SettingsScreen extends StatelessWidget {
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Theme.of(context).scaffoldBackgroundColor,
-          statusBarIconBrightness:
+          statusBarIconBrightness: // android
               context.watch<SettingsCubit>().state.isDarkTheme
                   ? Brightness.light
                   : Brightness.dark,
+          statusBarBrightness: context.watch<SettingsCubit>().state.isDarkTheme
+              ? Brightness.dark // ios
+              : Brightness.light,
         ),
       ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(

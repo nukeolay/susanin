@@ -49,7 +49,7 @@ class DeleteLocation
             newActiveLocationId = locations[newIndex].id;
           }
           await _setActiveLocation(
-              newActiveLocationId); // ! TODO сделать nullable и не передавать ''
+              newActiveLocationId); // ! TODO maybe make some fields nullable so not pass '' values
         }
         // updating locations list
         await _locationPointsRepository.save(locations);

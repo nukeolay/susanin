@@ -14,7 +14,7 @@ class NoCompassScreen extends StatelessWidget {
         padding: EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
-          child: Text('Описание проблемы'), // ! TODO оформить
+          child: Text('Описание проблемы'), // ! TODO fill screen with info
         ),
       ),
     );

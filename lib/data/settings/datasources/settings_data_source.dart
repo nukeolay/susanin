@@ -17,7 +17,7 @@ class SettingsDataSourceImpl implements SettingsDataSource {
   const SettingsDataSourceImpl(this.sharedPreferences);
 
   @override
-  SettingsModel load() { // ! TODO тут можно убрать async и может тогда все будет проинициализировано, и в остальных аналогичных случаях тоже
+  SettingsModel load() {
     final jsonSettings = sharedPreferences.getString(settingsKey);
     if (jsonSettings == null) {
       return const SettingsModel(

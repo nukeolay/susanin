@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
+import 'package:susanin/presentation/screens/common_widgets/hide_button.dart';
 import 'package:susanin/presentation/screens/detailed_location_info/widgets/location_details.dart';
 import 'package:susanin/presentation/screens/home/widgets/common/pointer.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
@@ -53,7 +53,13 @@ class DetailedLocationInfoScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('точность определения геолокации: '),
+                      const Flexible(
+                        child: Text(
+                          'точность определения геолокации: ',
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                        ),
+                      ),
                       Text(
                         '${state.positionAccuracy.toStringAsFixed(1)} м',
                         style: const TextStyle(
@@ -66,14 +72,14 @@ class DetailedLocationInfoScreen extends StatelessWidget {
                   const SizedBox(height: 10.0),
                   LocationDetails(
                     pointName: state.pointName,
-                    pointLatitude: state.pointLatitude.toString(),
-                    pointLongitude: state.pointLongitude.toString(),
+                    pointLatitude: state.pointLatitude.toStringAsFixed(7),
+                    pointLongitude: state.pointLongitude.toStringAsFixed(7),
                   ),
                   const SizedBox(height: 10.0),
                   LocationDetails(
                     pointName: 'текущее местоположение',
-                    pointLatitude: state.userLatitude.toString(),
-                    pointLongitude: state.userLongitude.toString(),
+                    pointLatitude: state.userLatitude.toStringAsFixed(7),
+                    pointLongitude: state.userLongitude.toStringAsFixed(7),
                   ),
                 ],
               );
@@ -81,31 +87,7 @@ class DetailedLocationInfoScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
-        child: SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-              child: const Text('К выбору локаций'),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                    Theme.of(context).primaryColorDark),
-                elevation: MaterialStateProperty.all(0),
-                foregroundColor: MaterialStateProperty.all(
-                  Theme.of(context).colorScheme.inversePrimary,
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-              ),
-              onPressed: () {
-                HapticFeedback.vibrate();
-                Navigator.pop(context);
-              }),
-        ),
-      ),
+      bottomNavigationBar: const HideButton(text: 'К выбору локаций'),
     );
   }
 }

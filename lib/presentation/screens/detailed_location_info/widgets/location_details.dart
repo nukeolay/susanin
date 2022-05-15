@@ -72,31 +72,38 @@ class CopyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      child: Row(
-        children: [
-          Column(
-            children: [
-              Text(
-                value,
-                textAlign: TextAlign.center,
+    return Flexible(
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    value,
+                    textAlign: TextAlign.center,
+                    softWrap: true,
+                  ),
+                  Text(
+                    title,
+                    style: const TextStyle(color: Colors.grey),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
-              Text(
-                title,
-                style: const TextStyle(color: Colors.grey),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
+        onTap: () {
+          HapticFeedback.vibrate();
+          Clipboard.setData(
+            ClipboardData(text: value),
+          );
+        },
       ),
-      onTap: () {
-        HapticFeedback.vibrate();
-        Clipboard.setData(
-          ClipboardData(text: value),
-        );
-      },
     );
   }
 }

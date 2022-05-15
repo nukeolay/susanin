@@ -15,9 +15,9 @@ class CompassPlatformImpl implements CompassPlatform {
       StreamController.broadcast();
 
   CompassPlatformImpl() {
-    print('CALLED PLATFORM COMPASS 1');
     _init();
   }
+  
   @override
   Stream<CompassModel> get compassStream => _streamController.stream;
 
@@ -28,17 +28,14 @@ class CompassPlatformImpl implements CompassPlatform {
     }
     try {
       FlutterCompass.events!.listen((event) {
-        // print(event);
         _streamController.add(CompassModel(
           north: event.heading!,
           accuracy: event.accuracy!,
         ));
       }).onError((error) {
-        print(error.toString());
         throw CompassException();
       });
     } catch (error) {
-      print(error.toString());
       throw CompassException();
     }
   }
@@ -48,26 +45,3 @@ class CompassPlatformImpl implements CompassPlatform {
     await _streamController.close();
   }
 }
-
-// class CompassPlatformImpl implements CompassPlatform {
-//   CompassPlatformImpl() {
-//     print('CALLED PLATFORM COMPASS 1');
-//   }
-//   @override
-//   Stream<CompassModel> get compassStream {
-//     print('CALLED PLATFORM COMPASS 2');
-//     try {
-//       Stream<CompassEvent> compassEvents = FlutterCompass.events!;
-//       return compassEvents.map((event) {
-//         // print(event);
-//         return CompassModel(
-//           north: event.heading!,
-//           accuracy: event.accuracy!,
-//         );
-//       });
-//     } catch (error) {
-//       print(error.toString());
-//       throw CompassException();
-//     }
-//   }
-// }

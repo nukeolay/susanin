@@ -13,25 +13,26 @@ class SettingsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton(
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: ElevatedButton(
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
-        ),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Theme.of(context).disabledColor),
-          elevation: MaterialStateProperty.all(0),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+          style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all(Theme.of(context).disabledColor),
+            elevation: MaterialStateProperty.all(0),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
             ),
           ),
+          onPressed: action,
         ),
-        onPressed: action,
       ),
     );
   }

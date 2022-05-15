@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_state.dart';
-import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
-import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
-import 'package:susanin/presentation/screens/home/widgets/common/custom_bottom_sheet.dart';
+import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
+import 'package:susanin/presentation/screens/common_widgets/hide_button.dart';
+import 'package:susanin/presentation/screens/common_widgets/custom_bottom_sheet.dart';
 
 class CalibrateBottomSheet extends StatelessWidget {
   const CalibrateBottomSheet({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class CalibrateBottomSheet extends StatelessWidget {
     return CustomBottomSheet(
       child: BlocBuilder<CompassCubit, CompassState>(builder: (context, state) {
         final compassAccuracy = state.accuracy * 180 / 3.14;
+        final needCalibration = state.needCalibration;
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -31,62 +33,53 @@ class CalibrateBottomSheet extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Низкая точность компаса: ',
-                      style: TextStyle(fontSize: 20),
+                    Flexible(
+                      child: Text(
+                        needCalibration
+                            ? 'Низкая точность компаса: '
+                            : 'Точность компаса высокая: ',
+                        style: const TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                      ),
                     ),
                     Text(
                       '${compassAccuracy.toStringAsFixed(0)}°',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
+                        color: needCalibration
+                            ? Theme.of(context).errorColor
+                            : Colors.green,
                       ),
                     ),
                   ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(12.0),
-                  margin: const EdgeInsets.all(8.0),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Theme.of(context).cardColor,
+                if (needCalibration)
+                  Lottie.asset(
+                    context.read<SettingsCubit>().state.isDarkTheme
+                        ? 'assets/animations/calibrate_dark.json'
+                        : 'assets/animations/calibrate_light.json',
+                    repeat: true,
                   ),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Test text',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      Text('Test text')
-                    ],
+                if (needCalibration)
+                  Container(
+                    padding: const EdgeInsets.all(12.0),
+                    margin: const EdgeInsets.all(8.0),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Theme.of(context).cardColor,
+                    ),
+                    child: const Text(
+                      'Чтобы увеличить точность компаса, несколько раз переместите телефон в пространстве как указано выше',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ),
-                ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    child: const Text('Свернуть'),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          Theme.of(context).primaryColorDark),
-                      elevation: MaterialStateProperty.all(0),
-                      foregroundColor: MaterialStateProperty.all(
-                        Theme.of(context).colorScheme.inversePrimary,
-                      ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    ),
-                    onPressed: () => Navigator.pop(context)),
-              ),
-            ),
+            const HideButton(text: 'Свернуть'),
           ],
         );
       }),
