@@ -51,15 +51,15 @@ Future<void> init() async {
 
 // ---Repository---
   // PositionRepository
-  serviceLocator.registerSingleton<PositionPlatform>(
+  serviceLocator.registerLazySingleton<PositionPlatform>(
     // ! TODO replace singletons to lazy singletons
-    PositionPlatformImpl(),
+    () => PositionPlatformImpl(),
   );
-  serviceLocator.registerSingleton<LocationServicePermissionPlatform>(
-    LocationServicePropertiesPlatformImpl(),
+  serviceLocator.registerLazySingleton<LocationServicePermissionPlatform>(
+    () => LocationServicePropertiesPlatformImpl(),
   );
-  serviceLocator.registerSingleton<LocationServiceRepository>(
-    LocationServiceRepositoryImpl(
+  serviceLocator.registerLazySingleton<LocationServiceRepository>(
+    () => LocationServiceRepositoryImpl(
       position: serviceLocator<PositionPlatform>(),
       properties: serviceLocator<LocationServicePermissionPlatform>(),
     ),
@@ -74,59 +74,59 @@ Future<void> init() async {
   );
 
   // LocationPointsRepository
-  serviceLocator.registerSingleton<LocationsDataSource>(
-    LocationsDataSourceImpl(serviceLocator<SharedPreferences>()),
+  serviceLocator.registerLazySingleton<LocationsDataSource>(
+    () => LocationsDataSourceImpl(serviceLocator<SharedPreferences>()),
   );
-  serviceLocator.registerSingleton<LocationPointsRepository>(
-    LocationPointsRepositoryImpl(serviceLocator<LocationsDataSource>()),
+  serviceLocator.registerLazySingleton<LocationPointsRepository>(
+    () => LocationPointsRepositoryImpl(serviceLocator<LocationsDataSource>()),
   );
 
   // SettingsRepository
-  serviceLocator.registerSingleton<SettingsDataSource>(
-    SettingsDataSourceImpl(serviceLocator<SharedPreferences>()),
+  serviceLocator.registerLazySingleton<SettingsDataSource>(
+    () => SettingsDataSourceImpl(serviceLocator<SharedPreferences>()),
   );
-  serviceLocator.registerSingleton<SettingsRepository>(
-    SettingsRepositoryImpl(serviceLocator<SettingsDataSource>()),
+  serviceLocator.registerLazySingleton<SettingsRepository>(
+    () => SettingsRepositoryImpl(serviceLocator<SettingsDataSource>()),
   );
 
   // WakelockRepository
-  serviceLocator.registerSingleton<WakelockPlatform>(
-    WakelockPlatformImpl(),
+  serviceLocator.registerLazySingleton<WakelockPlatform>(
+    () => WakelockPlatformImpl(),
   );
-  serviceLocator.registerSingleton<WakelockRepository>(
-    WakelockRepositoryImpl(serviceLocator<WakelockPlatform>()),
+  serviceLocator.registerLazySingleton<WakelockRepository>(
+    () => WakelockRepositoryImpl(serviceLocator<WakelockPlatform>()),
   );
 
 // ---UseCases---
   // Settings
-  serviceLocator.registerSingleton<GetSettingsStream>(
-    GetSettingsStream(serviceLocator<SettingsRepository>()),
+  serviceLocator.registerLazySingleton<GetSettingsStream>(
+    () => GetSettingsStream(serviceLocator<SettingsRepository>()),
   );
-  serviceLocator.registerSingleton<GetSettings>(
-    GetSettings(serviceLocator<SettingsRepository>()),
+  serviceLocator.registerLazySingleton<GetSettings>(
+    () => GetSettings(serviceLocator<SettingsRepository>()),
   );
-  serviceLocator.registerSingleton<SetActiveLocation>(
-    SetActiveLocation(serviceLocator<SettingsRepository>()),
+  serviceLocator.registerLazySingleton<SetActiveLocation>(
+    () => SetActiveLocation(serviceLocator<SettingsRepository>()),
   );
-  serviceLocator.registerSingleton<ToggleTheme>(
-    ToggleTheme(serviceLocator<SettingsRepository>()),
+  serviceLocator.registerLazySingleton<ToggleTheme>(
+    () => ToggleTheme(serviceLocator<SettingsRepository>()),
   );
-  serviceLocator.registerSingleton<GetThemeMode>(
-    GetThemeMode(serviceLocator<SettingsRepository>()),
+  serviceLocator.registerLazySingleton<GetThemeMode>(
+    () => GetThemeMode(serviceLocator<SettingsRepository>()),
   );
   
   // Position
-  serviceLocator.registerSingleton<GetPositionStream>(
-    GetPositionStream(serviceLocator<LocationServiceRepository>()),
+  serviceLocator.registerLazySingleton<GetPositionStream>(
+    () => GetPositionStream(serviceLocator<LocationServiceRepository>()),
   );
-  serviceLocator.registerSingleton<GetDistanceBetween>(
-    GetDistanceBetween(),
+  serviceLocator.registerLazySingleton<GetDistanceBetween>(
+    () => GetDistanceBetween(),
   );
-  serviceLocator.registerSingleton<GetBearingBetween>(
-    GetBearingBetween(),
+  serviceLocator.registerLazySingleton<GetBearingBetween>(
+    () => GetBearingBetween(),
   );
-  serviceLocator.registerSingleton<RequestPermission>(
-    RequestPermission(serviceLocator<LocationServiceRepository>()),
+  serviceLocator.registerLazySingleton<RequestPermission>(
+    () => RequestPermission(serviceLocator<LocationServiceRepository>()),
   );
 
   // Compass
@@ -135,23 +135,23 @@ Future<void> init() async {
   );
 
   // LocationPoints
-  serviceLocator.registerSingleton<GetLocationsStream>(
-    GetLocationsStream(serviceLocator<LocationPointsRepository>()),
+  serviceLocator.registerLazySingleton<GetLocationsStream>(
+    () => GetLocationsStream(serviceLocator<LocationPointsRepository>()),
   );
-  serviceLocator.registerSingleton<GetLocations>(
-    GetLocations(serviceLocator<LocationPointsRepository>()),
+  serviceLocator.registerLazySingleton<GetLocations>(
+    () => GetLocations(serviceLocator<LocationPointsRepository>()),
   );
-  serviceLocator.registerSingleton<AddLocation>(
-    AddLocation(
+  serviceLocator.registerLazySingleton<AddLocation>(
+    () => AddLocation(
       locationPointsRepository: serviceLocator<LocationPointsRepository>(),
       setActiveLocation: serviceLocator<SetActiveLocation>(),
     ),
   );
-  serviceLocator.registerSingleton<UpdateLocation>(
-    UpdateLocation(serviceLocator<LocationPointsRepository>()),
+  serviceLocator.registerLazySingleton<UpdateLocation>(
+    () => UpdateLocation(serviceLocator<LocationPointsRepository>()),
   );
-  serviceLocator.registerSingleton<DeleteLocation>(
-    DeleteLocation(
+  serviceLocator.registerLazySingleton<DeleteLocation>(
+    () => DeleteLocation(
       locationPointsRepository: serviceLocator<LocationPointsRepository>(),
       setActiveLocation: serviceLocator<SetActiveLocation>(),
       getSettings: serviceLocator<GetSettings>(),
@@ -159,11 +159,11 @@ Future<void> init() async {
   );
 
   // Wakelock
-  serviceLocator.registerSingleton<GetWakelockEnabledStatus>(
-    GetWakelockEnabledStatus(serviceLocator<WakelockRepository>()),
+  serviceLocator.registerLazySingleton<GetWakelockEnabledStatus>(
+    () => GetWakelockEnabledStatus(serviceLocator<WakelockRepository>()),
   );
-  serviceLocator.registerSingleton<ToggleWakelock>(
-    ToggleWakelock(serviceLocator<WakelockRepository>()),
+  serviceLocator.registerLazySingleton<ToggleWakelock>(
+    () => ToggleWakelock(serviceLocator<WakelockRepository>()),
   );
 
 // BLoC / Cubit

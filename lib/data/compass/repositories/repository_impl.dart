@@ -9,23 +9,28 @@ import 'package:susanin/domain/compass/repositories/repository.dart';
 class CompassRepositoryImpl implements CompassRepository {
   final CompassPlatform compass;
 
-  CompassRepositoryImpl(this.compass) {
-    _init();
-  }
+  CompassRepositoryImpl(this.compass);
 
   final StreamController<Either<Failure, CompassEntity>> _streamController =
       StreamController.broadcast();
 
   @override
-  Stream<Either<Failure, CompassEntity>> get compassStream =>
-      _streamController.stream;
+  Stream<Either<Failure, CompassEntity>> get compassStream {
+    _init(); // ! TODO сделать так же в других репозиториях и источниках данных, чтобы в конструкторе не было инициализации потов, тогда можно будет уйти от юзкейсов, которые отдают единичные значения
+    return _streamController.stream;
+  }
 
   void _init() async {
-    compass.compassStream.listen((event) {
-      _streamController.add(Right(event));
-    }).onError((error) {
+    await Future.value();
+    try {
+      compass.compassStream.listen((event) {
+        _streamController.add(Right(event));
+      }).onError((error) {
+        _streamController.add(Left(CompassFailure()));
+      });
+    } catch (error) {
       _streamController.add(Left(CompassFailure()));
-    });
+    }
   }
 
   @override

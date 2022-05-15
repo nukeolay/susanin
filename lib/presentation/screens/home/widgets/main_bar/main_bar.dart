@@ -74,8 +74,9 @@ class MainBar extends StatelessWidget {
                     builder: (context) {
                       if (state.isLoading) {
                         return const MainPointerLoading();
-                        // } else if (state.compassStatus == CompassStatus.failure) {
-                        // ! TODO implement UI for no compass devices
+                      // } else if (state.compassStatus == CompassStatus.failure) {
+                      //   //! TODO implement UI for no compass devices
+                      //   return Text('No compass');
                       } else if (state.isFailure) {
                         return MainPointerFailure(state: state);
                       } else if (state.locations.isEmpty) {

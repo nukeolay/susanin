@@ -14,14 +14,8 @@ class CompassPlatformImpl implements CompassPlatform {
   final StreamController<CompassModel> _streamController =
       StreamController.broadcast();
 
-  CompassPlatformImpl() {
-    _init();
-  }
-  
   @override
-  Stream<CompassModel> get compassStream => _streamController.stream;
-
-  void _init() {
+  Stream<CompassModel> get compassStream {
     if (FlutterCompass.events == null) {
       // This device has no compass
       throw CompassException();
@@ -38,6 +32,7 @@ class CompassPlatformImpl implements CompassPlatform {
     } catch (error) {
       throw CompassException();
     }
+    return _streamController.stream;
   }
 
   @override

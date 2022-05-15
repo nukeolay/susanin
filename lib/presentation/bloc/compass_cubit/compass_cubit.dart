@@ -39,7 +39,7 @@ class CompassCubit extends Cubit<CompassState> {
           status: CompassStatus.loaded,
           angle: angle,
           accuracy: accuracy,
-          needCalibration: accuracy > 0.262,
+          needCalibration: accuracy > 0.262, // 15 degrees
         ),
       );
     });
