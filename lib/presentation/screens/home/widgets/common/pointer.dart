@@ -1,0 +1,122 @@
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+
+class Pointer extends StatelessWidget {
+  final double rotateAngle;
+  final double accuracyAngle;
+  final double pointerSize;
+  final Color foregroundColor;
+  final Color backGroundColor;
+  final double? positionAccuracy;
+  final double? elevation;
+  final scale = 100;
+
+  const Pointer({
+    required this.rotateAngle,
+    required this.accuracyAngle,
+    required this.pointerSize,
+    required this.foregroundColor,
+    required this.backGroundColor,
+    this.positionAccuracy,
+    this.elevation,
+    Key? key,
+  }) : super(key: key);
+
+  double _getPositionAccuracyRadius(double positionAccuracy) {
+    final ratio = pointerSize / scale; // scale
+    if (ratio * positionAccuracy < pointerSize * 0.1) {
+      // minimum center circle size
+      return 0;
+    }
+    if (ratio * positionAccuracy >= pointerSize * 0.7) {
+      //maximum center circle size
+      return pointerSize * 0.7;
+    }
+    return positionAccuracy * ratio;
+  }
+
+  bool _isPositionAccuracyMax(double positionAccuracy) {
+    final ratio = pointerSize / scale; // scale
+    return ratio * positionAccuracy >= pointerSize * 0.7;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FittedBox(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Transform.rotate(
+          alignment: Alignment.center,
+          angle: rotateAngle,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Material(
+                elevation: elevation ?? 3,
+                borderRadius: BorderRadius.circular(1000),
+                child: CircleAvatar(
+                  radius: pointerSize * 0.7,
+                  backgroundColor: backGroundColor,
+                ),
+              ),
+              if (positionAccuracy != null)
+                CircleAvatar(
+                  radius: _getPositionAccuracyRadius(positionAccuracy!),
+                  backgroundColor: _isPositionAccuracyMax(positionAccuracy!)
+                      ? Theme.of(context).errorColor.withOpacity(0.2)
+                      : foregroundColor.withOpacity(0.2),
+                ),
+              CircleAvatar(
+                radius: pointerSize * 0.1,
+                backgroundColor: foregroundColor,
+              ),
+              Container(
+                alignment: Alignment.center,
+                transformAlignment: Alignment.center,
+                child: CustomPaint(
+                  painter: CustomArc(
+                    accuracyAngle: accuracyAngle,
+                    pointerSize: pointerSize,
+                    paintColor: foregroundColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomArc extends CustomPainter {
+  final double accuracyAngle;
+  final double pointerSize;
+  final Color paintColor;
+
+  CustomArc({
+    required this.accuracyAngle,
+    required this.paintColor,
+    required this.pointerSize,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = paintColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = pointerSize * 0.1
+      ..strokeCap = StrokeCap.round;
+    canvas.drawArc(
+        Offset(-pointerSize / 2, -pointerSize / 2) &
+            Size(pointerSize, pointerSize),
+        -math.pi / 2 - accuracyAngle / 2,
+        accuracyAngle,
+        false,
+        paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+}
