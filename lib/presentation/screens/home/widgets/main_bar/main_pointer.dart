@@ -14,8 +14,8 @@ class MainPointer extends StatelessWidget {
   final Color? shimmerHighlightColor;
 
   const MainPointer({
-    required this.rotateAngle,
-    required this.accuracyAngle,
+    this.rotateAngle = 0,
+    this.accuracyAngle = 0,
     required this.mainText,
     required this.subText,
     this.positionAccuracy,
@@ -97,8 +97,6 @@ class MainPointerLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MainPointer(
-      rotateAngle: 0,
-      accuracyAngle: 0,
       isShimmering: true,
       mainText: '',
       subText: '',
@@ -112,16 +110,16 @@ class MainPointerFailure extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final serviceStatus = state.locationServiceStatus;
+
     return MainPointer(
-      rotateAngle: 0,
-      accuracyAngle: 0,
       isShimmering: true,
       shimmerBaseColor: Theme.of(context).errorColor,
       shimmerHighlightColor: Theme.of(context).colorScheme.inversePrimary,
       mainText: 'Ошибка',
-      subText: state.locationServiceStatus == LocationServiceStatus.disabled
+      subText: serviceStatus == LocationServiceStatus.disabled
           ? 'GPS выключен'
-          : state.locationServiceStatus == LocationServiceStatus.noPermission
+          : serviceStatus == LocationServiceStatus.noPermission
               ? 'Отсутствует доступ к GPS'
               : 'Неизвестный сбой',
     );
@@ -135,8 +133,6 @@ class MainPointerEmpty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainPointer(
-      rotateAngle: 0,
-      accuracyAngle: 0,
       positionAccuracy: state.positionAccuracy,
       mainText: '',
       subText: '',
@@ -152,15 +148,9 @@ class MainPointerDefault extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainPointer(
       rotateAngle: state.angle,
-      accuracyAngle: state.laxity,
+      accuracyAngle: state.pointerArc,
       positionAccuracy: state.positionAccuracy,
-      mainText: state.locations.isEmpty
-          ? ''
-          : state.distance < 5
-              ? 'менее 5 м'
-              : state.distance < 500
-                  ? '${state.distance} м'
-                  : '${(state.distance / 1000).toStringAsFixed(1)} км',
+      mainText: state.locations.isEmpty ? '' : state.distance,
       subText: state.pointName,
     );
   }

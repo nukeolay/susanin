@@ -31,7 +31,7 @@ class DetailedLocationInfoScreen extends StatelessWidget {
                   LayoutBuilder(builder: (context, constants) {
                     return Pointer(
                       rotateAngle: state.angle,
-                      accuracyAngle: state.laxity,
+                      accuracyAngle: state.pointerArc,
                       positionAccuracy: state.positionAccuracy,
                       pointerSize: constants.maxWidth * 0.6,
                       elevation: 0,
@@ -42,11 +42,7 @@ class DetailedLocationInfoScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
-                      state.distance < 5
-                          ? 'менее 5 м'
-                          : state.distance < 500
-                              ? '${state.distance} м'
-                              : '${(state.distance / 1000).toStringAsFixed(1)} км',
+                      state.distance,
                       style: const TextStyle(fontSize: 50),
                     ),
                   ),

@@ -40,7 +40,9 @@ class ExtraOptions extends StatelessWidget {
           SettingsButton(
               text: 'Просмотр инструкции',
               action: () => Navigator.of(context).pushNamed(Routes.tutorial)),
-          SettingsButton(text: 'Поставить оценку приложению', action: () {}),
+          SettingsButton(
+              text: 'Поставить оценку приложению',
+              action: () {}), // ! TODO add link
         ],
       ),
     );

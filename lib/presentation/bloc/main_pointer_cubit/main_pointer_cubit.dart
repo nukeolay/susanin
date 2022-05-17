@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:susanin/core/constants/pointer_constants.dart';
 import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/domain/compass/entities/compass.dart';
 import 'package:susanin/domain/compass/usecases/get_compass_stream.dart';
@@ -27,7 +28,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   final GetBearingBetween _getBearingBetween;
   final GetSettings _getSettings;
   final GetLocations _getLocations;
-  final double minPointerWidth = 0.4;
+
   late final StreamSubscription<Either<Failure, PositionEntity>>
       _positionSubscription;
   late final StreamSubscription<Either<Failure, List<LocationPointEntity>>>
@@ -68,8 +69,8 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           activeLocationId: '',
           angle: 0,
           compassAccuracy: 0,
-          distance: 0,
-          laxity: 0,
+          distance: '',
+          pointerArc: 0,
           locations: [],
         )) {
     _init();
@@ -163,8 +164,8 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           userLatitude: position.latitude,
           userLongitude: position.longitude,
           positionAccuracy: accuracy,
-          distance: distance,
-          laxity: _getLaxity(accuracy: accuracy, distance: distance),
+          distance: _getDistanceString(distance),
+          pointerArc: _getLaxity(accuracy: accuracy, distance: distance),
         ));
       },
     );
@@ -200,6 +201,16 @@ class MainPointerCubit extends Cubit<MainPointerState> {
     ).toInt();
   }
 
+  String _getDistanceString(int distance) {
+    if (distance < PointerConstants.minDistance) {
+      return 'менее 5 м'; // ! TODO change to EN, and add '.tr()' in UI to translate
+    }
+    if (distance < PointerConstants.distanceThreshold) {
+      return '${distance.truncate()} м';
+    }
+    return '${(distance / 1000).toStringAsFixed(1)} км';
+  }
+
   double _getBearing(double compassNorth) {
     return _getBearingBetween(
           startLatitude: state.userLatitude,
@@ -214,9 +225,9 @@ class MainPointerCubit extends Cubit<MainPointerState> {
     required double accuracy,
     required int distance,
   }) {
-    final laxity = math.atan(accuracy / distance) < minPointerWidth
-        ? minPointerWidth
+    final laxity = math.atan(accuracy / distance) < PointerConstants.minLaxity
+        ? PointerConstants.minLaxity
         : math.atan(accuracy / distance);
-    return distance < 5 ? math.pi * 2 : laxity;
+    return distance < PointerConstants.minDistance ? math.pi * 2 : laxity;
   }
 }

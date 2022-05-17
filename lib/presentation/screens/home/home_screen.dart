@@ -15,9 +15,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     const mainBarHeight = 150.0;
     const mainBarMargin = 10.0;
+    final isDarkTheme = context.watch<SettingsCubit>().state.isDarkTheme;
+
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: context.watch<SettingsCubit>().state.isDarkTheme
+        value: isDarkTheme
             ? SystemUiOverlayStyle.light.copyWith(
                 statusBarColor: Theme.of(context).scaffoldBackgroundColor)
             : SystemUiOverlayStyle.dark.copyWith(

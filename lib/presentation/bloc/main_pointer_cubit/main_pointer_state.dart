@@ -42,8 +42,8 @@ class MainPointerState extends Equatable {
   final List<LocationPointEntity> locations;
   final double angle;
   final double compassAccuracy;
-  final int distance;
-  final double laxity;
+  final String distance;
+  final double pointerArc;
 
   const MainPointerState({
     required this.locationServiceStatus,
@@ -61,7 +61,7 @@ class MainPointerState extends Equatable {
     required this.angle,
     required this.compassAccuracy,
     required this.distance,
-    required this.laxity,
+    required this.pointerArc,
   });
 
   @override
@@ -81,7 +81,7 @@ class MainPointerState extends Equatable {
         angle,
         compassAccuracy,
         distance,
-        laxity,
+        pointerArc,
       ];
 
   MainPointerState copyWith({
@@ -99,8 +99,8 @@ class MainPointerState extends Equatable {
     List<LocationPointEntity>? locations,
     double? angle,
     double? compassAccuracy,
-    int? distance,
-    double? laxity,
+    String? distance,
+    double? pointerArc,
   }) {
     return MainPointerState(
       locationServiceStatus:
@@ -119,7 +119,7 @@ class MainPointerState extends Equatable {
       angle: angle ?? this.angle,
       compassAccuracy: compassAccuracy ?? this.compassAccuracy,
       distance: distance ?? this.distance,
-      laxity: laxity ?? this.laxity,
+      pointerArc: pointerArc ?? this.pointerArc,
     );
   }
 
@@ -149,6 +149,6 @@ class MainPointerState extends Equatable {
 
   @override
   String toString() {
-    return 'LocationServiceStatus: $locationServiceStatus\nCompassStatus: $compassStatus\nLocationsListStatus: $locationsListStatus\nSettingsStatus: $settingsStatus\npositionAccuracy: $positionAccuracy\nactiveLocationId: $activeLocationId\nuserLatitude: $userLatitude\nuserLongitude: $userLongitude\npointName: $pointName\npointLatitude: $pointLatitude\npointLongitude: $pointLongitude\nlocations: $locations\nangle: $angle\ncompassAccuracy: $compassAccuracy\ndistance: $distance\nlaxity: $laxity';
+    return 'LocationServiceStatus: $locationServiceStatus\nCompassStatus: $compassStatus\nLocationsListStatus: $locationsListStatus\nSettingsStatus: $settingsStatus\npositionAccuracy: $positionAccuracy\nactiveLocationId: $activeLocationId\nuserLatitude: $userLatitude\nuserLongitude: $userLongitude\npointName: $pointName\npointLatitude: $pointLatitude\npointLongitude: $pointLongitude\nlocations: $locations\nangle: $angle\ncompassAccuracy: $compassAccuracy\ndistance: $distance\npointerArc: $pointerArc';
   }
 }

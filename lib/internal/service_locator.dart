@@ -52,7 +52,6 @@ Future<void> init() async {
 // ---Repository---
   // PositionRepository
   serviceLocator.registerLazySingleton<PositionPlatform>(
-    // ! TODO replace singletons to lazy singletons
     () => PositionPlatformImpl(),
   );
   serviceLocator.registerLazySingleton<LocationServicePermissionPlatform>(
@@ -114,7 +113,7 @@ Future<void> init() async {
   serviceLocator.registerLazySingleton<GetThemeMode>(
     () => GetThemeMode(serviceLocator<SettingsRepository>()),
   );
-  
+
   // Position
   serviceLocator.registerLazySingleton<GetPositionStream>(
     () => GetPositionStream(serviceLocator<LocationServiceRepository>()),

@@ -15,6 +15,7 @@ class MainBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkTheme = context.watch<SettingsCubit>().state.isDarkTheme;
     return Expanded(
       child: Stack(
         children: [
@@ -28,7 +29,7 @@ class MainBar extends StatelessWidget {
             ),
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.only(right: 30.0),
-            child: context.watch<SettingsCubit>().state.isDarkTheme
+            child: isDarkTheme
                 ? const Icon(
                     Icons.light_mode_rounded,
                     color: Colors.orange,
@@ -74,24 +75,26 @@ class MainBar extends StatelessWidget {
                     builder: (context) {
                       if (state.isLoading) {
                         return const MainPointerLoading();
-                      // } else if (state.compassStatus == CompassStatus.failure) {
-                      //   //! TODO implement UI for no compass devices
-                      //   return Text('No compass');
-                      } else if (state.isFailure) {
-                        return MainPointerFailure(state: state);
-                      } else if (state.locations.isEmpty) {
-                        return MainPointerEmpty(state: state);
-                      } else {
-                        return GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {
-                            HapticFeedback.vibrate();
-                            Navigator.of(context)
-                                .pushNamed(Routes.detailedLocationInfo);
-                          },
-                          child: MainPointerDefault(state: state),
-                        );
                       }
+                      // ! TODO implement UI for no compass devices
+                      // if (state.compassStatus == CompassStatus.failure) {
+                      //   return Text('No compass');
+                      // }
+                      if (state.isFailure) {
+                        return MainPointerFailure(state: state);
+                      }
+                      if (state.locations.isEmpty) {
+                        return MainPointerEmpty(state: state);
+                      }
+                      return GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          HapticFeedback.vibrate();
+                          Navigator.of(context)
+                              .pushNamed(Routes.detailedLocationInfo);
+                        },
+                        child: MainPointerDefault(state: state),
+                      );
                     },
                   ),
                 );
