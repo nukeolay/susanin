@@ -71,9 +71,10 @@ class LocationListItem extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         subtitle: Text(DateFormat('dd-MM-yyy').format(location.creationTime)),
-        onTap: () => context
-            .read<LocationsListCubit>()
-            .onPressSetActive(id: location.id),
+        onTap: () {
+          HapticFeedback.vibrate();
+          context.read<LocationsListCubit>().onPressSetActive(id: location.id);
+        },
         onLongPress: () =>
             context.read<LocationsListCubit>().onLongPressEdit(id: location.id),
       ),
