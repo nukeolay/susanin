@@ -31,10 +31,9 @@ class DetailedLocationInfoScreen extends StatelessWidget {
                   LayoutBuilder(builder: (context, constants) {
                     return Pointer(
                       rotateAngle: state.angle,
-                      accuracyAngle: state.pointerArc,
+                      arcRadius: state.pointerArc,
                       positionAccuracy: state.positionAccuracy,
-                      pointerSize: constants.maxWidth * 0.6,
-                      elevation: 0,
+                      radius: constants.maxWidth * 0.6,
                       foregroundColor: Theme.of(context).colorScheme.secondary,
                       backGroundColor: Theme.of(context).cardColor,
                     );

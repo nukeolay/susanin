@@ -97,8 +97,8 @@ class _LoadedCompassState extends State<LoadedCompass> {
   Widget build(BuildContext context) {
     return Pointer(
       rotateAngle: widget.state.angle,
-      accuracyAngle: widget.state.accuracy,
-      pointerSize: 40,
+      arcRadius: widget.state.accuracy,
+      radius: 40,
       foregroundColor: Colors.white,
       backGroundColor: widget.state.needCalibration ? _color : Colors.grey,
     );

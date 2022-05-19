@@ -4,41 +4,39 @@ import 'package:flutter/material.dart';
 
 class Pointer extends StatelessWidget {
   final double rotateAngle;
-  final double accuracyAngle;
-  final double pointerSize;
+  final double arcRadius;
+  final double radius;
   final Color foregroundColor;
   final Color backGroundColor;
   final double? positionAccuracy;
-  final double? elevation;
   final scale = 100;
 
   const Pointer({
     required this.rotateAngle,
-    required this.accuracyAngle,
-    required this.pointerSize,
+    required this.arcRadius,
+    required this.radius,
     required this.foregroundColor,
     required this.backGroundColor,
     this.positionAccuracy,
-    this.elevation,
     Key? key,
   }) : super(key: key);
 
   double _getPositionAccuracyRadius(double positionAccuracy) {
-    final ratio = pointerSize / scale; // scale
-    if (ratio * positionAccuracy < pointerSize * 0.1) {
+    final ratio = radius / scale; // scale
+    if (ratio * positionAccuracy < radius * 0.1) {
       // minimum center circle size
       return 0;
     }
-    if (ratio * positionAccuracy >= pointerSize * 0.7) {
+    if (ratio * positionAccuracy >= radius * 0.7) {
       //maximum center circle size
-      return pointerSize * 0.7;
+      return radius * 0.7;
     }
     return positionAccuracy * ratio;
   }
 
   bool _isPositionAccuracyMax(double positionAccuracy) {
-    final ratio = pointerSize / scale; // scale
-    return ratio * positionAccuracy >= pointerSize * 0.7;
+    final ratio = radius / scale; // scale
+    return ratio * positionAccuracy >= radius * 0.7;
   }
 
   @override
@@ -52,33 +50,25 @@ class Pointer extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Material(
-                elevation: elevation ?? 3,
-                borderRadius: BorderRadius.circular(1000),
-                child: CircleAvatar(
-                  radius: pointerSize * 0.7,
-                  backgroundColor: backGroundColor,
-                ),
+              CircleAvatar(
+                radius: radius * 0.7,
+                backgroundColor: backGroundColor,
               ),
               if (positionAccuracy != null)
                 CircleAvatar(
                   radius: _getPositionAccuracyRadius(positionAccuracy!),
                   backgroundColor: _isPositionAccuracyMax(positionAccuracy!)
-                      ? Theme.of(context).errorColor.withOpacity(0.2)
+                      ? Theme.of(context).errorColor
                       : foregroundColor.withOpacity(0.2),
                 ),
-              CircleAvatar(
-                radius: pointerSize * 0.1,
-                backgroundColor: foregroundColor,
-              ),
               Container(
                 alignment: Alignment.center,
                 transformAlignment: Alignment.center,
                 child: CustomPaint(
                   painter: CustomArc(
-                    accuracyAngle: accuracyAngle,
-                    pointerSize: pointerSize,
-                    paintColor: foregroundColor,
+                    arcRadius: arcRadius,
+                    radius: radius,
+                    color: foregroundColor,
                   ),
                 ),
               ),
@@ -91,30 +81,30 @@ class Pointer extends StatelessWidget {
 }
 
 class CustomArc extends CustomPainter {
-  final double accuracyAngle;
-  final double pointerSize;
-  final Color paintColor;
+  final double arcRadius;
+  final double radius;
+  final Color color;
 
   CustomArc({
-    required this.accuracyAngle,
-    required this.paintColor,
-    required this.pointerSize,
+    required this.arcRadius,
+    required this.color,
+    required this.radius,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
-      ..color = paintColor
+      ..color = color
       ..style = PaintingStyle.stroke
-      ..strokeWidth = pointerSize * 0.1
+      ..strokeWidth = radius * 0.1
       ..strokeCap = StrokeCap.round;
-    canvas.drawArc(
-        Offset(-pointerSize / 2, -pointerSize / 2) &
-            Size(pointerSize, pointerSize),
-        -math.pi / 2 - accuracyAngle / 2,
-        accuracyAngle,
-        false,
-        paint);
+    canvas.drawArc(Offset(-radius / 2, -radius / 2) & Size(radius, radius),
+        -math.pi / 2 - arcRadius / 2, arcRadius, false, paint);
+    canvas.drawCircle(
+      const Offset(0, 0),
+      radius * 0.03,
+      paint,
+    );
   }
 
   @override

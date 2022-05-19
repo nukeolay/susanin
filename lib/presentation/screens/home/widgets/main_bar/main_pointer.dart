@@ -45,8 +45,8 @@ class MainPointer extends StatelessWidget {
               )
             : Pointer(
                 rotateAngle: rotateAngle,
-                accuracyAngle: accuracyAngle,
-                pointerSize: pointerSize,
+                arcRadius: accuracyAngle,
+                radius: pointerSize,
                 positionAccuracy: positionAccuracy,
                 foregroundColor: Theme.of(context).colorScheme.secondary,
                 backGroundColor: Theme.of(context).colorScheme.background,

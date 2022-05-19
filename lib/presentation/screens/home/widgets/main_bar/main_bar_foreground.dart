@@ -22,15 +22,17 @@ class MainBarForeground extends StatelessWidget {
         context.read<SettingsCubit>().toggleTheme();
         return Future.value(false);
       },
-      child: Material(
-        elevation: 3,
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(20),
-          bottomRight: Radius.circular(20),
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+          color: state.isFailure
+              ? Theme.of(context).errorColor
+              : Theme.of(context).colorScheme.primary,
         ),
-        color: state.isFailure
-            ? Theme.of(context).errorColor
-            : Theme.of(context).colorScheme.primary,
         child: Builder(
           builder: (context) {
             if (state.isLoading) {
