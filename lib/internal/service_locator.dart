@@ -20,6 +20,8 @@ import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location/usecases/request_permission.dart';
 import 'package:susanin/domain/location_points/repositories/repository.dart';
 import 'package:susanin/domain/location_points/usecases/delete_location.dart';
+import 'package:susanin/domain/location_points/usecases/get_active_location.dart';
+import 'package:susanin/domain/location_points/usecases/get_active_location_stream.dart';
 import 'package:susanin/domain/location_points/usecases/get_locations.dart';
 import 'package:susanin/domain/location_points/usecases/get_locations_stream.dart';
 import 'package:susanin/domain/location_points/usecases/update_location.dart';
@@ -35,6 +37,7 @@ import 'package:susanin/domain/wakelock/usecases/get_wakelock_enabled_status.dar
 import 'package:susanin/domain/wakelock/usecases/toggle_wakelock.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
+import 'package:susanin/presentation/bloc/detailed_info_cubit/detailed_info_cubit.dart';
 import 'package:susanin/presentation/bloc/location_point_validate_bloc/location_point_validate_bloc.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
@@ -156,6 +159,18 @@ Future<void> init() async {
       getSettings: serviceLocator<GetSettings>(),
     ),
   );
+  serviceLocator.registerLazySingleton<GetActiveLocation>(
+    () => GetActiveLocation(
+      locationPointsRepository: serviceLocator<LocationPointsRepository>(),
+      settingsRepository: serviceLocator<SettingsRepository>(),
+    ),
+  );
+  serviceLocator.registerLazySingleton<GetActiveLocationStream>(
+    () => GetActiveLocationStream(
+      locationPointsRepository: serviceLocator<LocationPointsRepository>(),
+      settingsRepository: serviceLocator<SettingsRepository>(),
+    ),
+  );
 
   // Wakelock
   serviceLocator.registerLazySingleton<GetWakelockEnabledStatus>(
@@ -169,13 +184,19 @@ Future<void> init() async {
   serviceLocator.registerFactory(
     () => MainPointerCubit(
       getPositionStream: serviceLocator<GetPositionStream>(),
+      getActiveLocationStream: serviceLocator<GetActiveLocationStream>(),
+      getActiveLocation: serviceLocator<GetActiveLocation>(),
       getDistanceBetween: serviceLocator<GetDistanceBetween>(),
       getCompassStream: serviceLocator<GetCompassStream>(),
       getBearingBetween: serviceLocator<GetBearingBetween>(),
-      getLocationsStream: serviceLocator<GetLocationsStream>(),
-      getSettingsStream: serviceLocator<GetSettingsStream>(),
-      getSettings: serviceLocator<GetSettings>(),
-      getLocations: serviceLocator<GetLocations>(),
+    ),
+  );
+  serviceLocator.registerFactory(
+    () => DetailedInfoCubit(
+      getPositionStream: serviceLocator<GetPositionStream>(),
+      getDistanceBetween: serviceLocator<GetDistanceBetween>(),
+      getCompassStream: serviceLocator<GetCompassStream>(),
+      getBearingBetween: serviceLocator<GetBearingBetween>(),
     ),
   );
   serviceLocator.registerFactory(

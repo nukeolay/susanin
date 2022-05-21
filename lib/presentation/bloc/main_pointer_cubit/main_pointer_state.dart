@@ -15,13 +15,7 @@ enum CompassStatus {
   failure,
 }
 
-enum LocationsListStatus {
-  loading,
-  loaded,
-  failure,
-}
-
-enum SettingsStatus {
+enum ActiveLocationStatus {
   loading,
   loaded,
   failure,
@@ -30,37 +24,29 @@ enum SettingsStatus {
 class MainPointerState extends Equatable {
   final LocationServiceStatus locationServiceStatus;
   final CompassStatus compassStatus;
-  final LocationsListStatus locationsListStatus;
-  final SettingsStatus settingsStatus;
+  final ActiveLocationStatus activeLocationStatus;
+  final String mainText;
+  final String subText;
   final double positionAccuracy;
-  final String activeLocationId;
   final double userLatitude;
   final double userLongitude;
-  final String pointName;
-  final double pointLatitude;
-  final double pointLongitude;
-  final List<LocationPointEntity> locations;
+  final LocationPointEntity activeLocationPoint;
   final double angle;
-  final double compassAccuracy;
-  final String distance;
+  // final double compassAccuracy;
   final double pointerArc;
 
   const MainPointerState({
     required this.locationServiceStatus,
     required this.compassStatus,
-    required this.locationsListStatus,
-    required this.settingsStatus,
+    required this.activeLocationStatus,
+    required this.mainText,
+    required this.subText,
     required this.positionAccuracy,
-    required this.activeLocationId,
     required this.userLatitude,
     required this.userLongitude,
-    required this.pointName,
-    required this.pointLatitude,
-    required this.pointLongitude,
-    required this.locations,
+    required this.activeLocationPoint,
     required this.angle,
-    required this.compassAccuracy,
-    required this.distance,
+    // required this.compassAccuracy,
     required this.pointerArc,
   });
 
@@ -68,87 +54,65 @@ class MainPointerState extends Equatable {
   List<Object> get props => [
         locationServiceStatus,
         compassStatus,
-        locationsListStatus,
-        settingsStatus,
+        activeLocationStatus,
+        mainText,
+        subText,
         positionAccuracy,
-        activeLocationId,
         userLatitude,
         userLongitude,
-        pointName,
-        pointLatitude,
-        pointLongitude,
-        locations,
+        activeLocationPoint,
         angle,
-        compassAccuracy,
-        distance,
+        // compassAccuracy,
         pointerArc,
       ];
 
   MainPointerState copyWith({
     LocationServiceStatus? locationServiceStatus,
     CompassStatus? compassStatus,
-    LocationsListStatus? locationsListStatus,
-    SettingsStatus? settingsStatus,
+    ActiveLocationStatus? activeLocationStatus,
+    String? mainText,
+    String? subText,
     double? positionAccuracy,
-    String? activeLocationId,
     double? userLatitude,
     double? userLongitude,
-    String? pointName,
-    double? pointLatitude,
-    double? pointLongitude,
-    List<LocationPointEntity>? locations,
+    LocationPointEntity? activeLocationPoint,
     double? angle,
-    double? compassAccuracy,
-    String? distance,
+    // double? compassAccuracy,
     double? pointerArc,
   }) {
     return MainPointerState(
       locationServiceStatus:
           locationServiceStatus ?? this.locationServiceStatus,
       compassStatus: compassStatus ?? this.compassStatus,
-      locationsListStatus: locationsListStatus ?? this.locationsListStatus,
-      settingsStatus: settingsStatus ?? this.settingsStatus,
+      activeLocationStatus: activeLocationStatus ?? this.activeLocationStatus,
+      mainText: mainText ?? this.mainText,
+      subText: subText ?? this.subText,
       positionAccuracy: positionAccuracy ?? this.positionAccuracy,
-      activeLocationId: activeLocationId ?? this.activeLocationId,
       userLatitude: userLatitude ?? this.userLatitude,
       userLongitude: userLongitude ?? this.userLongitude,
-      pointName: pointName ?? this.pointName,
-      pointLatitude: pointLatitude ?? this.pointLatitude,
-      pointLongitude: pointLongitude ?? this.pointLongitude,
-      locations: locations ?? this.locations,
+      activeLocationPoint: activeLocationPoint ?? this.activeLocationPoint,
       angle: angle ?? this.angle,
-      compassAccuracy: compassAccuracy ?? this.compassAccuracy,
-      distance: distance ?? this.distance,
+      // compassAccuracy: compassAccuracy ?? this.compassAccuracy,
       pointerArc: pointerArc ?? this.pointerArc,
     );
   }
 
   bool get isLoading {
     final isCompassLoading = compassStatus == CompassStatus.loading;
-    final isSettingsLoading = settingsStatus == SettingsStatus.loading;
     final isLocationLoading =
         locationServiceStatus == LocationServiceStatus.loading;
-    final isLocationsLoading =
-        locationsListStatus == LocationsListStatus.loading;
-    return isCompassLoading ||
-        isSettingsLoading ||
-        isLocationLoading ||
-        isLocationsLoading;
+    final isActiveLocationLoading =
+        activeLocationStatus == ActiveLocationStatus.loading;
+    return isCompassLoading || isLocationLoading || isActiveLocationLoading;
   }
 
   bool get isFailure {
-    final isSettingsFailure = settingsStatus == SettingsStatus.failure;
     final isLocationServiceFailure =
         locationServiceStatus == LocationServiceStatus.disabled ||
             locationServiceStatus == LocationServiceStatus.noPermission ||
             locationServiceStatus == LocationServiceStatus.unknownFailure;
-    final isLocationsFailure =
-        locationsListStatus == LocationsListStatus.loading;
-    return isSettingsFailure || isLocationServiceFailure || isLocationsFailure;
-  }
-
-  @override
-  String toString() {
-    return 'LocationServiceStatus: $locationServiceStatus\nCompassStatus: $compassStatus\nLocationsListStatus: $locationsListStatus\nSettingsStatus: $settingsStatus\npositionAccuracy: $positionAccuracy\nactiveLocationId: $activeLocationId\nuserLatitude: $userLatitude\nuserLongitude: $userLongitude\npointName: $pointName\npointLatitude: $pointLatitude\npointLongitude: $pointLongitude\nlocations: $locations\nangle: $angle\ncompassAccuracy: $compassAccuracy\ndistance: $distance\npointerArc: $pointerArc';
+    final isActiveLocationFailure =
+        activeLocationStatus == ActiveLocationStatus.failure;
+    return isActiveLocationFailure || isLocationServiceFailure;
   }
 }

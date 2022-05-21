@@ -45,14 +45,17 @@ class MainBarForeground extends StatelessWidget {
             if (state.isFailure) {
               return MainPointerFailure(state: state);
             }
-            if (state.locations.isEmpty) {
-              return MainPointerEmpty(state: state);
-            }
+            // if (state.locations.isEmpty) {
+            //   return MainPointerEmpty(state: state);
+            // }
             return GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 HapticFeedback.vibrate();
-                Navigator.of(context).pushNamed(Routes.detailedLocationInfo);
+                Navigator.of(context).pushNamed(
+                  Routes.detailedLocationInfo,
+                  arguments: state.activeLocationPoint,
+                ); // ! TODO передавать activeLocationPoint
               },
               child: MainPointerDefault(state: state),
             );

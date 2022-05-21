@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:susanin/presentation/screens/detailed_location_info/detailed_location_info_screen.dart';
+import 'package:susanin/presentation/screens/detailed_info/detailed_location_info_screen.dart';
 import 'package:susanin/presentation/screens/home/home_screen.dart';
 import 'package:susanin/presentation/screens/no_compass/no_compass_screen.dart';
 import 'package:susanin/presentation/screens/settings/settings_screen.dart';
@@ -24,7 +24,7 @@ class Routes {
           case settings:
             return const SettingsScreen();
           case detailedLocationInfo:
-            return const DetailedLocationInfoScreen();
+            return const DetailedInfoScreen();
           case noCompass:
             return const NoCompassScreen();
           default:

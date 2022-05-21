@@ -7,6 +7,7 @@ import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/internal/service_locator.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
+import 'package:susanin/presentation/bloc/detailed_info_cubit/detailed_info_cubit.dart';
 import 'package:susanin/presentation/bloc/location_point_validate_bloc/location_point_validate_bloc.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
@@ -23,6 +24,8 @@ class SusaninApp extends StatelessWidget {
       providers: [
         BlocProvider<MainPointerCubit>(
             create: (context) => serviceLocator<MainPointerCubit>()),
+        BlocProvider<DetailedInfoCubit>(
+            create: (context) => serviceLocator<DetailedInfoCubit>()),
         BlocProvider<CompassCubit>(
             create: (context) => serviceLocator<CompassCubit>()),
         BlocProvider<LocationsListCubit>(

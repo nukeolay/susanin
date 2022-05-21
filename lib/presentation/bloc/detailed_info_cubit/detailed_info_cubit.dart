@@ -12,85 +12,57 @@ import 'package:susanin/domain/location/usecases/get_bearing_between.dart';
 import 'package:susanin/domain/location/usecases/get_distance_between.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
-import 'package:susanin/domain/location_points/usecases/get_active_location.dart';
-import 'package:susanin/domain/location_points/usecases/get_active_location_stream.dart';
-import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
+import 'package:susanin/presentation/bloc/detailed_info_cubit/detailed_info_state.dart';
 
-class MainPointerCubit extends Cubit<MainPointerState> {
+class DetailedInfoCubit extends Cubit<DetailedInfoState> {
   final GetPositionStream _getPositionStream;
-  final GetActiveLocationStream _getActiveLocationStream;
-  final GetActiveLocation _getActiveLocation;
   final GetCompassStream _getCompassStream;
   final GetDistanceBetween _getDistanceBetween;
   final GetBearingBetween _getBearingBetween;
 
   late final StreamSubscription<Either<Failure, PositionEntity>>
       _positionSubscription;
-  late final StreamSubscription<Either<Failure, LocationPointEntity>>
-      _activeLocationStream;
   late final StreamSubscription<Either<Failure, CompassEntity>>
       _compassSubscription;
 
-  MainPointerCubit({
+  DetailedInfoCubit({
     required GetPositionStream getPositionStream,
-    required GetActiveLocationStream getActiveLocationStream,
-    required GetActiveLocation getActiveLocation,
     required GetDistanceBetween getDistanceBetween,
     required GetCompassStream getCompassStream,
     required GetBearingBetween getBearingBetween,
   })  : _getPositionStream = getPositionStream,
-        _getActiveLocationStream = getActiveLocationStream,
-        _getActiveLocation = getActiveLocation,
         _getCompassStream = getCompassStream,
         _getDistanceBetween = getDistanceBetween,
         _getBearingBetween = getBearingBetween,
-        super(MainPointerState(
-          compassStatus: CompassStatus.loading,
-          activeLocationStatus: ActiveLocationStatus.loading,
+        super(const DetailedInfoState(
           locationServiceStatus: LocationServiceStatus.loading,
-          mainText: '',
-          subText: '',
+          errorMessage: '',
+          hasCompass: true,
+          distance: '',
           positionAccuracy: 0,
-          activeLocationPoint: LocationPointEntity(
-              id: '',
-              latitude: 0,
-              longitude: 0,
-              name: '',
-              creationTime: DateTime.now()),
-          userLongitude: 0,
-          userLatitude: 0,
           angle: 0,
-          // compassAccuracy: 0,
           pointerArc: 0,
+          locationName: '',
+          locationLatitude: 0,
+          locationLongitude: 0,
+          userLatitude: 0,
+          userLongitude: 0,
         )) {
     _init();
   }
 
-  void _init() async {
-    _activeLocationHandler(_getActiveLocation());
-    _activeLocationStream =
-        _getActiveLocationStream().listen(_activeLocationHandler);
-    _compassSubscription = _getCompassStream().listen(_compassHandler);
-    _positionSubscription = _getPositionStream().listen(_positionHandler);
+  void setActiveLocation(LocationPointEntity activeLocation) {
+    emit(state.copyWith(
+      locationServiceStatus: LocationServiceStatus.loading,
+      locationName: activeLocation.name,
+      locationLatitude: activeLocation.latitude,
+      locationLongitude: activeLocation.longitude,
+    ));
   }
 
-  void _activeLocationHandler(Either<Failure, LocationPointEntity> event) {
-    event.fold(
-        (failure) => emit(
-            state.copyWith(activeLocationStatus: ActiveLocationStatus.failure)),
-        (activeLocation) {
-      if (state.isFailure) {
-        emit(state.copyWith(
-            activeLocationStatus: ActiveLocationStatus.loaded,
-            activeLocationPoint: activeLocation));
-      } else {
-        emit(state.copyWith(
-            activeLocationStatus: ActiveLocationStatus.loaded,
-            subText: activeLocation.name,
-            activeLocationPoint: activeLocation,
-            locationServiceStatus: LocationServiceStatus.loading));
-      }
-    });
+  void _init() async {
+    _compassSubscription = _getCompassStream().listen(_compassHandler);
+    _positionSubscription = _getPositionStream().listen(_positionHandler);
   }
 
   void _positionHandler(Either<Failure, PositionEntity> event) {
@@ -100,18 +72,15 @@ class MainPointerCubit extends Cubit<MainPointerState> {
             failure is LocationServiceDeniedForeverFailure) {
           emit(state.copyWith(
               locationServiceStatus: LocationServiceStatus.noPermission,
-              mainText: 'Ошибка',
-              subText: 'Отсутствует доступ к GPS'));
+              errorMessage: 'Отсутствует доступ к GPS'));
         } else if (failure is LocationServiceDisabledFailure) {
           emit(state.copyWith(
               locationServiceStatus: LocationServiceStatus.disabled,
-              mainText: 'Ошибка',
-              subText: 'GPS выключен'));
+              errorMessage: 'GPS выключен'));
         } else {
           emit(state.copyWith(
               locationServiceStatus: LocationServiceStatus.unknownFailure,
-              mainText: 'Ошибка',
-              subText: 'Неизвестный сбой'));
+              errorMessage: 'Неизвестный сбой'));
         }
       },
       (position) {
@@ -122,8 +91,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
             userLatitude: position.latitude,
             userLongitude: position.longitude,
             positionAccuracy: accuracy,
-            mainText: _getDistanceString(distance),
-            subText: state.activeLocationPoint.name,
+            distance: _getDistanceString(distance),
             pointerArc: _getLaxity(accuracy: accuracy, distance: distance)));
       },
     );
@@ -131,13 +99,9 @@ class MainPointerCubit extends Cubit<MainPointerState> {
 
   void _compassHandler(Either<Failure, CompassEntity> event) {
     event.fold((failure) {
-      emit(state.copyWith(compassStatus: CompassStatus.failure));
+      emit(state.copyWith(hasCompass: false));
     }, (compass) {
-      emit(state.copyWith(
-          compassStatus: CompassStatus.loaded,
-          angle: _getBearing(compass.north),
-          // compassAccuracy: (compass.accuracy * (pi / 180) * -1)
-          ));
+      emit(state.copyWith(hasCompass: true, angle: _getBearing(compass.north)));
     });
   }
 
@@ -145,7 +109,6 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   Future<void> close() async {
     await _positionSubscription.cancel();
     await _compassSubscription.cancel();
-    await _activeLocationStream.cancel();
     super.close();
   }
 
@@ -153,8 +116,8 @@ class MainPointerCubit extends Cubit<MainPointerState> {
     return _getDistanceBetween(
       startLatitude: position.latitude,
       startLongitude: position.longitude,
-      endLatitude: state.activeLocationPoint.latitude,
-      endLongitude: state.activeLocationPoint.longitude,
+      endLatitude: state.locationLatitude,
+      endLongitude: state.locationLongitude,
     ).toInt();
   }
 
@@ -172,8 +135,8 @@ class MainPointerCubit extends Cubit<MainPointerState> {
     return _getBearingBetween(
           startLatitude: state.userLatitude,
           startLongitude: state.userLongitude,
-          endLatitude: state.activeLocationPoint.latitude,
-          endLongitude: state.activeLocationPoint.longitude,
+          endLatitude: state.locationLatitude,
+          endLongitude: state.locationLongitude,
         ) -
         (compassNorth * (pi / 180));
   }

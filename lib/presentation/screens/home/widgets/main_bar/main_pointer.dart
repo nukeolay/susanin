@@ -110,18 +110,12 @@ class MainPointerFailure extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final serviceStatus = state.locationServiceStatus;
-
     return MainPointer(
       isShimmering: true,
       shimmerBaseColor: Theme.of(context).errorColor,
       shimmerHighlightColor: Theme.of(context).colorScheme.inversePrimary,
-      mainText: 'Ошибка',
-      subText: serviceStatus == LocationServiceStatus.disabled
-          ? 'GPS выключен'
-          : serviceStatus == LocationServiceStatus.noPermission
-              ? 'Отсутствует доступ к GPS'
-              : 'Неизвестный сбой',
+      mainText: state.mainText,
+      subText: state.subText,
     );
   }
 }
@@ -150,8 +144,8 @@ class MainPointerDefault extends StatelessWidget {
       rotateAngle: state.angle,
       accuracyAngle: state.pointerArc,
       positionAccuracy: state.positionAccuracy,
-      mainText: state.locations.isEmpty ? '' : state.distance,
-      subText: state.pointName,
+      mainText: state.mainText,
+      subText: state.subText,
     );
   }
 }
