@@ -72,11 +72,11 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
             failure is LocationServiceDeniedForeverFailure) {
           emit(state.copyWith(
               locationServiceStatus: LocationServiceStatus.noPermission,
-              errorMessage: 'Отсутствует доступ к GPS'));
+              errorMessage: 'Отсутствует доступ к сервису геолокации'));
         } else if (failure is LocationServiceDisabledFailure) {
           emit(state.copyWith(
               locationServiceStatus: LocationServiceStatus.disabled,
-              errorMessage: 'GPS выключен'));
+              errorMessage: 'Сервис геолокации выключен'));
         } else {
           emit(state.copyWith(
               locationServiceStatus: LocationServiceStatus.unknownFailure,

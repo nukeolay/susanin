@@ -55,9 +55,9 @@ class SusaninApp extends StatelessWidget {
           themeMode: state.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
           darkTheme: ThemeData.dark().copyWith(
             useMaterial3: true,
-            primaryColor: Colors.purple,
+            primaryColor: Colors.green,
             colorScheme: const ColorScheme.dark().copyWith(
-              primary: Colors.purple,
+              primary: Colors.green,
               background: ThemeData.dark().scaffoldBackgroundColor,
               secondary: Colors.white,
               inversePrimary: Colors.white,
@@ -68,12 +68,12 @@ class SusaninApp extends StatelessWidget {
             ),
             floatingActionButtonTheme: const FloatingActionButtonThemeData(
               disabledElevation: 0,
-              backgroundColor: Colors.purple,
+              backgroundColor: Colors.green,
             ),
             disabledColor: Colors.grey,
             hintColor: Colors.white,
             listTileTheme: const ListTileThemeData(
-              selectedColor: Colors.purple,
+              selectedColor: Colors.green,
             ),
           ),
           theme: ThemeData(

@@ -28,6 +28,7 @@ class MainPointer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pointerSize = MediaQuery.of(context).size.width * 0.22;
+    final fontSize = MediaQuery.of(context).size.width * 0.07;
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,7 +66,7 @@ class MainPointer extends StatelessWidget {
                     maxLines: 2,
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: fontSize,
                       color: Theme.of(context).colorScheme.inversePrimary,
                     ),
                   ),
@@ -78,7 +79,7 @@ class MainPointer extends StatelessWidget {
                     softWrap: true,
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: fontSize * 0.6,
                         color: Theme.of(context).colorScheme.inversePrimary),
                   ),
                 ),
@@ -114,6 +115,20 @@ class MainPointerFailure extends StatelessWidget {
       isShimmering: true,
       shimmerBaseColor: Theme.of(context).errorColor,
       shimmerHighlightColor: Theme.of(context).colorScheme.inversePrimary,
+      mainText: state.mainText,
+      subText: state.subText,
+    );
+  }
+}
+
+class MainPointerNoCompass extends StatelessWidget {
+  final MainPointerState state;
+  const MainPointerNoCompass({required this.state, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MainPointer(
+      positionAccuracy: state.positionAccuracy,
       mainText: state.mainText,
       subText: state.subText,
     );

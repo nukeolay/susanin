@@ -17,7 +17,7 @@ class TutorialSettings extends StatelessWidget {
     return Column(
       children: [
         const TutorialText(
-            'Для корректной работы приложения необходимо выдайте разрешение на определение геолокации.'),
+            'Для корректной работы приложения необходимо разрешение на определение геолокации.'),
         const SizedBox(height: 10),
         LocationServiceSwitch(state: state),
         ThemeSwitch(state: state),

@@ -11,7 +11,7 @@ class TutorialText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fontSize = MediaQuery.of(context).size.width * 0.05;
+    final fontSize = MediaQuery.of(context).size.width * 0.045;
     return Text(
       text,
       style: TextStyle(

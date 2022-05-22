@@ -51,9 +51,9 @@ class SettingsScreen extends StatelessWidget {
                     HapticFeedback.vibrate();
                     Navigator.of(context).pushNamed(Routes.tutorial);
                   }),
-              SettingsButton(
-                  text: 'Поставить оценку приложению',
-                  action: () {}), // ! TODO add link
+              // SettingsButton(
+              //     text: 'Поставить оценку приложению',
+              //     action: () {}), // ! TODO add link
             ],
           ),
         ),

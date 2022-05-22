@@ -122,18 +122,26 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                         backgroundColor: MaterialStateProperty.all(
                           Theme.of(context).scaffoldBackgroundColor,
                         ),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
                       ),
-                      onPressed: () => Navigator.pop(context)),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
                   ElevatedButton(
                       child: const Text('Сохранить'),
                       style: ButtonStyle(
                         elevation: MaterialStateProperty.all(0),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context).primaryColor),
+                        foregroundColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.inversePrimary),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),

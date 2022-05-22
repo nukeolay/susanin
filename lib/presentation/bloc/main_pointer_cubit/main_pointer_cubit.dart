@@ -106,12 +106,12 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           emit(state.copyWith(
               locationServiceStatus: LocationServiceStatus.noPermission,
               mainText: 'Ошибка',
-              subText: 'Отсутствует доступ к GPS'));
+              subText: 'Разрешение не выдано'));
         } else if (failure is LocationServiceDisabledFailure) {
           emit(state.copyWith(
               locationServiceStatus: LocationServiceStatus.disabled,
               mainText: 'Ошибка',
-              subText: 'GPS выключен'));
+              subText: 'Сервис геолокации выключен'));
         } else {
           emit(state.copyWith(
               locationServiceStatus: LocationServiceStatus.unknownFailure,

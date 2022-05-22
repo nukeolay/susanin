@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
+import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
 import 'package:susanin/presentation/screens/home/widgets/main_bar/main_pointer.dart';
+import 'package:susanin/presentation/screens/home/widgets/main_bar/no_compass_pointer.dart';
 
 class MainBarForeground extends StatelessWidget {
   const MainBarForeground({
@@ -38,15 +40,24 @@ class MainBarForeground extends StatelessWidget {
             if (state.isLoading) {
               return const MainPointerLoading();
             }
-            // ! TODO implement UI for no compass devices
-            // if (state.compassStatus == CompassStatus.failure) {
-            //   return Text('No compass');
-            // }
-            if (state.isFailure) {
-              return MainPointerFailure(state: state);
-            }
             if (state.isEmpty) {
               return MainPointerEmpty(state: state);
+            }
+            if (state.compassStatus == CompassStatus.failure) {
+              return GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  HapticFeedback.vibrate();
+                  Navigator.of(context).pushNamed(
+                    Routes.detailedLocationInfo,
+                    arguments: state.activeLocationPoint,
+                  );
+                },
+                child: NoCompassPointer(state: state),
+              );
+            }
+            if (state.isFailure) {
+              return MainPointerFailure(state: state);
             }
             return GestureDetector(
               behavior: HitTestBehavior.translucent,
@@ -55,7 +66,7 @@ class MainBarForeground extends StatelessWidget {
                 Navigator.of(context).pushNamed(
                   Routes.detailedLocationInfo,
                   arguments: state.activeLocationPoint,
-                ); // ! TODO передавать activeLocationPoint
+                );
               },
               child: MainPointerDefault(state: state),
             );

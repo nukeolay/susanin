@@ -89,14 +89,14 @@ Future<bool?> _showConfirmationDialog(BuildContext context) async {
     builder: (BuildContext context) {
       return CupertinoAlertDialog(
         title: const Text('Удалить локацию?'),
-        actions: <Widget>[
-          TextButton(
+        actions: [
+          CupertinoDialogAction(
             child: const Text('Да'),
             onPressed: () {
               Navigator.pop(context, true);
             },
           ),
-          TextButton(
+          CupertinoDialogAction(
             child: const Text('Нет'),
             onPressed: () {
               Navigator.pop(context, false);
