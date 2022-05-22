@@ -87,11 +87,13 @@ class MainPointerCubit extends Cubit<MainPointerState> {
             activeLocationStatus: ActiveLocationStatus.loaded,
             activeLocationPoint: activeLocation));
       } else {
-        emit(state.copyWith(
-            activeLocationStatus: ActiveLocationStatus.loaded,
-            subText: activeLocation.name,
-            activeLocationPoint: activeLocation,
-            locationServiceStatus: LocationServiceStatus.loading));
+        if (activeLocation != state.activeLocationPoint) {
+          emit(state.copyWith(
+              activeLocationStatus: ActiveLocationStatus.loaded,
+              subText: activeLocation.name,
+              activeLocationPoint: activeLocation,
+              locationServiceStatus: LocationServiceStatus.loading));
+        }
       }
     });
   }
