@@ -79,7 +79,7 @@ class MainPointer extends StatelessWidget {
                     softWrap: true,
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        fontSize: fontSize * 0.6,
+                        fontSize: fontSize * 0.5,
                         color: Theme.of(context).colorScheme.inversePrimary),
                   ),
                 ),
