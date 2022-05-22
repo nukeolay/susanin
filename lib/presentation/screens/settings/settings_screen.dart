@@ -3,8 +3,9 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
-import 'package:susanin/presentation/screens/settings/widgets/settings_options.dart';
+import 'package:susanin/presentation/screens/settings/widgets/settings_button.dart';
 import 'package:susanin/presentation/screens/settings/widgets/settings_switch.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -44,7 +45,15 @@ class SettingsScreen extends StatelessWidget {
               WakelockSwitch(state: state),
               LocationServiceSwitch(state: state),
               if (!Platform.isIOS) HasCompassSwitch(state: state),
-              const ExtraOptions(),
+              SettingsButton(
+                  text: 'Посмотреть инструкцию',
+                  action: () {
+                    HapticFeedback.vibrate();
+                    Navigator.of(context).pushNamed(Routes.tutorial);
+                  }),
+              SettingsButton(
+                  text: 'Поставить оценку приложению',
+                  action: () {}), // ! TODO add link
             ],
           ),
         ),

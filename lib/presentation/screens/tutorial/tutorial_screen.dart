@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/presentation/bloc/tutorial_cubit/tutorial_cubit.dart';
@@ -11,10 +12,10 @@ class TutorialScreen extends StatefulWidget {
   const TutorialScreen({Key? key}) : super(key: key);
 
   @override
-  _OnBoardingState createState() => _OnBoardingState();
+  _TutorialState createState() => _TutorialState();
 }
 
-class _OnBoardingState extends State<TutorialScreen> {
+class _TutorialState extends State<TutorialScreen> {
   List<SlideModel> slides = [];
   int currentIndex = 0;
   PageController pageController = PageController();
@@ -36,58 +37,61 @@ class _OnBoardingState extends State<TutorialScreen> {
 
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
     slides = getSlides(context);
-  }
-
-  @override
-  void initState() {
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Container(
-          height: size.height,
-          width: size.width,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Theme.of(context).colorScheme.secondary,
-                Theme.of(context).scaffoldBackgroundColor,
-                Theme.of(context).scaffoldBackgroundColor,
-              ],
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
+        body: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: Theme.of(context).brightness == Brightness.dark
+              ? SystemUiOverlayStyle.light.copyWith(
+                  statusBarColor: Theme.of(context).scaffoldBackgroundColor)
+              : SystemUiOverlayStyle.dark.copyWith(
+                  statusBarColor: Theme.of(context).scaffoldBackgroundColor),
+          child: Container(
+            height: size.height,
+            width: size.width,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).scaffoldBackgroundColor,
+                  Theme.of(context).scaffoldBackgroundColor,
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
             ),
-          ),
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 5.0),
-                Expanded(
-                  child: PageView.builder(
-                    controller: pageController,
-                    itemCount: slides.length,
-                    onPageChanged: (value) {
-                      setState(() {
-                        currentIndex = value;
-                      });
-                    },
-                    itemBuilder: (context, index) {
-                      return SlideTile(
-                        title: slides[index].title,
-                        imagePath: slides[index].imagePath,
-                        instruction: slides[index].instruction,
-                        height: size.height,
-                      );
-                    },
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 5.0),
+                  Expanded(
+                    child: PageView.builder(
+                      controller: pageController,
+                      itemCount: slides.length,
+                      onPageChanged: (value) {
+                        setState(() {
+                          currentIndex = value;
+                        });
+                      },
+                      itemBuilder: (context, index) {
+                        return SlideTile(
+                          title: slides[index].title,
+                          topContent: slides[index].topContent,
+                          bottomContent: slides[index].bottomContent,
+                          height: size.height,
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

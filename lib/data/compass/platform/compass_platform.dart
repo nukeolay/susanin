@@ -16,6 +16,7 @@ class CompassPlatformImpl implements CompassPlatform {
 
   @override
   Stream<CompassModel> get compassStream {
+    // throw CompassException();
     if (FlutterCompass.events == null) {
       // This device has no compass
       throw CompassException();

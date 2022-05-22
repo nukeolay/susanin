@@ -19,11 +19,14 @@ class SettingsButton extends StatelessWidget {
           child: Text(
             text,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodyText1!.color,
+              fontSize: 16,
+            ),
           ),
           style: ButtonStyle(
             backgroundColor:
-                MaterialStateProperty.all(Theme.of(context).disabledColor),
+                MaterialStateProperty.all(Theme.of(context).cardColor),
             elevation: MaterialStateProperty.all(0),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
