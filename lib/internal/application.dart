@@ -13,7 +13,9 @@ import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cu
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_state.dart';
+import 'package:susanin/presentation/bloc/tutorial_cubit/tutorial_cubit.dart';
 import 'package:susanin/presentation/screens/home/home_screen.dart';
+import 'package:susanin/presentation/screens/tutorial/tutorial_screen.dart';
 
 class SusaninApp extends StatelessWidget {
   const SusaninApp({Key? key}) : super(key: key);
@@ -36,9 +38,14 @@ class SusaninApp extends StatelessWidget {
             create: (context) => serviceLocator<LocationPointValidateBloc>()),
         BlocProvider<SettingsCubit>(
             create: (context) => serviceLocator<SettingsCubit>()),
+        BlocProvider<TutorialCubit>(
+            create: (context) => serviceLocator<TutorialCubit>()),
       ],
       child:
           BlocBuilder<SettingsCubit, SettingsState>(builder: (context, state) {
+        final bool isFirstTime =
+            context.read<TutorialCubit>().state.isFirstTime;
+
         return MaterialApp(
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
@@ -101,8 +108,7 @@ class SusaninApp extends StatelessWidget {
               },
             ),
           ),
-          home:
-              const HomeScreen(), // если первый запуск (провряем settings), то показать TutorialScreen
+          home: isFirstTime ? const TutorialScreen() : const HomeScreen(),
           onGenerateRoute: Routes.onGenerateRoute,
         );
       }),

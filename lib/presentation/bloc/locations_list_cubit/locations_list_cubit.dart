@@ -86,7 +86,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   Future<void> onDeleteLocation({required String id}) async {
-    final deleteLocationResult = await _deleteLocation.call(id);
+    final deleteLocationResult = await _deleteLocation(id);
     deleteLocationResult.fold(
       (failure) {
         emit(state.copyWith(status: LocationsListStatus.failure));

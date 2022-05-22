@@ -16,11 +16,6 @@ class GetActiveLocationStream
   String _activeLocationId = '';
   List<LocationPointEntity> _locations = [];
 
-  // late final StreamSubscription<Either<Failure, List<LocationPointEntity>>>
-  //     _locationsSubscription;
-  // late final StreamSubscription<Either<Failure, SettingsEntity>>
-  //     _settingsSubscription;
-
   final StreamController<Either<Failure, LocationPointEntity>>
       _streamController = StreamController.broadcast();
 
@@ -35,13 +30,11 @@ class GetActiveLocationStream
   void _init() {
     _settingsHandler(_settingsRepository.settingsOrFailure);
     _locationsHandler(_locationPointsRepository.locationsOrFailure);
-    // _settingsSubscription =
     _settingsRepository.settingsStream.listen(_settingsHandler);
-    // _locationsSubscription =
     _locationPointsRepository.locationsStream.listen(_locationsHandler);
   }
 
-   void _settingsHandler(Either<Failure, SettingsEntity> event) {
+  void _settingsHandler(Either<Failure, SettingsEntity> event) {
     event.fold(
       (failure) => _streamController.add(Left(failure)),
       (settings) {
@@ -66,6 +59,8 @@ class GetActiveLocationStream
         _locations.indexWhere((location) => location.id == _activeLocationId);
     if (index != -1) {
       _streamController.add(Right(_locations[index]));
+    } else if (_locations.isEmpty) {
+      _streamController.add(Left(ActiveLocationEmptyFailure()));
     }
   }
 

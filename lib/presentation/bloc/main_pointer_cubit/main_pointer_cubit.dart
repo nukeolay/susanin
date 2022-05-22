@@ -12,8 +12,8 @@ import 'package:susanin/domain/location/usecases/get_bearing_between.dart';
 import 'package:susanin/domain/location/usecases/get_distance_between.dart';
 import 'package:susanin/domain/location/usecases/get_position_stream.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
-import 'package:susanin/domain/location_points/usecases/get_active_location.dart';
-import 'package:susanin/domain/location_points/usecases/get_active_location_stream.dart';
+import 'package:susanin/domain/settings/usecases/get_active_location.dart';
+import 'package:susanin/domain/settings/usecases/get_active_location_stream.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
 
 class MainPointerCubit extends Cubit<MainPointerState> {
@@ -60,7 +60,6 @@ class MainPointerCubit extends Cubit<MainPointerState> {
           userLongitude: 0,
           userLatitude: 0,
           angle: 0,
-          // compassAccuracy: 0,
           pointerArc: 0,
         )) {
     _init();
@@ -75,10 +74,14 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   }
 
   void _activeLocationHandler(Either<Failure, LocationPointEntity> event) {
-    event.fold(
-        (failure) => emit(
-            state.copyWith(activeLocationStatus: ActiveLocationStatus.failure)),
-        (activeLocation) {
+    event.fold((failure) {
+      if (failure is ActiveLocationEmptyFailure) {
+        emit(state.copyWith(activeLocationStatus: ActiveLocationStatus.empty));
+      } else {
+        emit(
+            state.copyWith(activeLocationStatus: ActiveLocationStatus.failure));
+      }
+    }, (activeLocation) {
       if (state.isFailure) {
         emit(state.copyWith(
             activeLocationStatus: ActiveLocationStatus.loaded,
@@ -134,10 +137,9 @@ class MainPointerCubit extends Cubit<MainPointerState> {
       emit(state.copyWith(compassStatus: CompassStatus.failure));
     }, (compass) {
       emit(state.copyWith(
-          compassStatus: CompassStatus.loaded,
-          angle: _getBearing(compass.north),
-          // compassAccuracy: (compass.accuracy * (pi / 180) * -1)
-          ));
+        compassStatus: CompassStatus.loaded,
+        angle: _getBearing(compass.north),
+      ));
     });
   }
 

@@ -14,7 +14,7 @@ class HideButton extends StatelessWidget {
         top: 8.0,
         left: 8.0,
         right: 8.0,
-        bottom: Platform.isIOS ? 16.0 : 8.0,
+        bottom: Platform.isIOS ? 20.0 : 10.0,
       ),
       child: SizedBox(
         width: double.infinity,

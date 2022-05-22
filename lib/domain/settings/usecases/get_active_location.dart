@@ -28,7 +28,12 @@ class GetActiveLocation extends UseCase<Either<Failure, LocationPointEntity>> {
       (failure) => Left(failure),
       (locations) => _locations = locations,
     );
-    return Right(
-        _locations.firstWhere((location) => location.id == _activeLocationId));
+    final index =
+        _locations.indexWhere((location) => location.id == _activeLocationId);
+    if (index != -1) {
+      return Right(_locations[index]);
+    } else {
+      return Left(ActiveLocationEmptyFailure());
+    }
   }
 }

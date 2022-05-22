@@ -45,9 +45,9 @@ class MainBarForeground extends StatelessWidget {
             if (state.isFailure) {
               return MainPointerFailure(state: state);
             }
-            // if (state.locations.isEmpty) {
-            //   return MainPointerEmpty(state: state);
-            // }
+            if (state.isEmpty) {
+              return MainPointerEmpty(state: state);
+            }
             return GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {

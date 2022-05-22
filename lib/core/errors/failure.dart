@@ -30,3 +30,5 @@ class LocationPointCreateFailure extends Failure {}
 class LoadSettingsFailure extends Failure {}
 
 class SaveSettingsFailure extends Failure {}
+
+class ActiveLocationEmptyFailure extends Failure {}

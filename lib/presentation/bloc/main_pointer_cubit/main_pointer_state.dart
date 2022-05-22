@@ -18,6 +18,7 @@ enum CompassStatus {
 enum ActiveLocationStatus {
   loading,
   loaded,
+  empty,
   failure,
 }
 
@@ -32,7 +33,6 @@ class MainPointerState extends Equatable {
   final double userLongitude;
   final LocationPointEntity activeLocationPoint;
   final double angle;
-  // final double compassAccuracy;
   final double pointerArc;
 
   const MainPointerState({
@@ -46,7 +46,6 @@ class MainPointerState extends Equatable {
     required this.userLongitude,
     required this.activeLocationPoint,
     required this.angle,
-    // required this.compassAccuracy,
     required this.pointerArc,
   });
 
@@ -62,7 +61,6 @@ class MainPointerState extends Equatable {
         userLongitude,
         activeLocationPoint,
         angle,
-        // compassAccuracy,
         pointerArc,
       ];
 
@@ -77,7 +75,6 @@ class MainPointerState extends Equatable {
     double? userLongitude,
     LocationPointEntity? activeLocationPoint,
     double? angle,
-    // double? compassAccuracy,
     double? pointerArc,
   }) {
     return MainPointerState(
@@ -92,7 +89,6 @@ class MainPointerState extends Equatable {
       userLongitude: userLongitude ?? this.userLongitude,
       activeLocationPoint: activeLocationPoint ?? this.activeLocationPoint,
       angle: angle ?? this.angle,
-      // compassAccuracy: compassAccuracy ?? this.compassAccuracy,
       pointerArc: pointerArc ?? this.pointerArc,
     );
   }
@@ -115,4 +111,6 @@ class MainPointerState extends Equatable {
         activeLocationStatus == ActiveLocationStatus.failure;
     return isActiveLocationFailure || isLocationServiceFailure;
   }
+
+  bool get isEmpty => activeLocationStatus == ActiveLocationStatus.empty;
 }

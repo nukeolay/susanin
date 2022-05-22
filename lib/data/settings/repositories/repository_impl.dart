@@ -43,7 +43,7 @@ class SettingsRepositoryImpl extends SettingsRepository {
         isFirstTime: settings.isFirstTime,
         activeLocationId: settings.activeLocationId,
       ));
-      final loadedSettings = settingsDataSource.load(); // убрал await
+      final loadedSettings = settingsDataSource.load();
       _settingsOrFailure = Right(loadedSettings);
       _streamController.add(Right(loadedSettings));
     } catch (error) {
