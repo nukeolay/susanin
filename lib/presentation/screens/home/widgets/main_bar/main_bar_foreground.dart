@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
-import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
 import 'package:susanin/presentation/screens/home/widgets/main_bar/main_pointer.dart';
 import 'package:susanin/presentation/screens/home/widgets/main_bar/no_compass_pointer.dart';
 
@@ -16,14 +15,13 @@ class MainBarForeground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<MainPointerCubit>().state;
-    return Dismissible(
-      key: const ValueKey('main_pointer'),
-      direction: DismissDirection.endToStart,
-      confirmDismiss: (DismissDirection dismissDirection) {
-        HapticFeedback.vibrate();
-        context.read<SettingsCubit>().toggleTheme();
-        return Future.value(false);
-      },
+    return Card(
+      elevation: 10,
+      margin: const EdgeInsets.all(0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      
       child: Container(
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(

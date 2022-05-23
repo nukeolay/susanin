@@ -28,7 +28,7 @@ class MainPointer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pointerSize = MediaQuery.of(context).size.width * 0.22;
-    final fontSize = MediaQuery.of(context).size.width * 0.07;
+    final fontSize = MediaQuery.of(context).size.width * 0.06;
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
