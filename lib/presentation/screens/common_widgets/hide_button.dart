@@ -34,7 +34,7 @@ class HideButton extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              HapticFeedback.vibrate();
+              HapticFeedback.heavyImpact();
               Navigator.pop(context);
             }),
       ),

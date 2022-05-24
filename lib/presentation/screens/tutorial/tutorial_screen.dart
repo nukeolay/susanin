@@ -122,7 +122,7 @@ class _TutorialState extends State<TutorialScreen> {
                             fontSize: 21.0),
                       ),
                       onTap: () {
-                        HapticFeedback.vibrate();
+                        HapticFeedback.heavyImpact();
                         pageController.animateToPage(currentIndex + 1,
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.linear);
@@ -135,7 +135,7 @@ class _TutorialState extends State<TutorialScreen> {
                               color: Theme.of(context).primaryColor,
                               fontSize: 21.0)),
                       onTap: () {
-                        HapticFeedback.vibrate();
+                        HapticFeedback.heavyImpact();
                         context.read<TutorialCubit>().start();
                         Navigator.of(context).pushReplacementNamed(Routes.home);
                       }),

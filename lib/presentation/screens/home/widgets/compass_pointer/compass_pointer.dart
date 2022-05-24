@@ -44,7 +44,7 @@ class CompassPointer extends StatelessWidget {
               behavior: HitTestBehavior.translucent,
               onTap: state.needCalibration
                   ? () {
-                      HapticFeedback.vibrate();
+                      HapticFeedback.heavyImpact();
                       _showBottomSheet(context);
                     }
                   : null,

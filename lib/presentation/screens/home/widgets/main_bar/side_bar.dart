@@ -15,7 +15,7 @@ class SideBar extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.settings),
           onPressed: () {
-            HapticFeedback.vibrate();
+            HapticFeedback.heavyImpact();
             Navigator.of(context).pushNamed(Routes.settings);
           },
         ),

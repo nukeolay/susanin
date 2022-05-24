@@ -10,13 +10,13 @@ class MainBarBackground extends StatelessWidget {
     final isDarkTheme = context.watch<SettingsCubit>().state.isDarkTheme;
 
     return Container(
-      // decoration: BoxDecoration(
-      //   color: Theme.of(context).textTheme.bodyText1!.color,
-      //   borderRadius: const BorderRadius.only(
-      //     topRight: Radius.circular(20),
-      //     bottomRight: Radius.circular(20),
-      //   ),
-      // ),
+      decoration: BoxDecoration(
+        color: Theme.of(context).textTheme.bodyText1!.color,
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+      ),
       alignment: Alignment.centerRight,
       padding: const EdgeInsets.only(right: 30.0),
       child: isDarkTheme

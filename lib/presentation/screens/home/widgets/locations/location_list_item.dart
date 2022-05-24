@@ -46,10 +46,10 @@ class LocationListItem extends StatelessWidget {
       },
       confirmDismiss: (DismissDirection dismissDirection) async {
         if (dismissDirection == DismissDirection.startToEnd) {
-          HapticFeedback.vibrate();
+          HapticFeedback.heavyImpact();
           return _showConfirmationDialog(context);
         } else {
-          HapticFeedback.vibrate();
+          HapticFeedback.heavyImpact();
           await Share.share(
               '${location.name} https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}');
           return false;
@@ -72,7 +72,7 @@ class LocationListItem extends StatelessWidget {
         ),
         subtitle: Text(DateFormat('dd-MM-yyy').format(location.creationTime)),
         onTap: () {
-          HapticFeedback.vibrate();
+          HapticFeedback.heavyImpact();
           context.read<LocationsListCubit>().onPressSetActive(id: location.id);
         },
         onLongPress: () =>

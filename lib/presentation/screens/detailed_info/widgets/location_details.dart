@@ -49,7 +49,7 @@ class LocationDetails extends StatelessWidget {
           padding: const EdgeInsets.all(12.0),
           child: IconButton(
               onPressed: () async {
-                HapticFeedback.vibrate();
+                HapticFeedback.heavyImpact();
                 await Share.share(
                     '$pointName https://www.google.com/maps/search/?api=1&query=$pointLatitude,$pointLongitude');
               },
@@ -98,7 +98,7 @@ class CopyButton extends StatelessWidget {
           ],
         ),
         onTap: () {
-          HapticFeedback.vibrate();
+          HapticFeedback.heavyImpact();
           Clipboard.setData(
             ClipboardData(text: value),
           );
