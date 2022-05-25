@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
@@ -18,8 +19,8 @@ class LocationAnimatedList extends StatelessWidget {
           if (state.status == LocationsListStatus.editing) {
             _showBottomSheet(context, state as EditLocationState);
           } else if (state.status == LocationsListStatus.failure) {
-            const snackBar = SnackBar(
-              content: Text('Ошибка при выполнении действия'),
+            final snackBar = SnackBar(
+              content: Text('unknown_error'.tr()),
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
@@ -29,12 +30,16 @@ class LocationAnimatedList extends StatelessWidget {
             return const SingleChildScrollView(
                 child: CircularProgressIndicator());
           } else if (state.locations.isEmpty) {
-            return const Center(
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
-              'Нет сохраненных локаций',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 30),
-            ));
+                  'empty_locations_list'.tr(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 30),
+                ),
+              ),
+            );
           } else {
             final locations = state.locations;
             return AnimatedList(

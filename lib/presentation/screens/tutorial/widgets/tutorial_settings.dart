@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
@@ -16,15 +17,14 @@ class TutorialSettings extends StatelessWidget {
 
     return Column(
       children: [
-        const TutorialText(
-            'Для корректной работы приложения необходимо разрешение на определение геолокации.'),
+        TutorialText('tutorial_settings_permission'.tr()),
         const SizedBox(height: 10),
         LocationServiceSwitch(state: state),
         ThemeSwitch(state: state),
         if (!Platform.isIOS &&
             state.compassSettingsStatus == CompassSettingsStatus.failure)
-          const TutorialText(
-            'К сожалению приложению не далось получить доступ к компасу, поэтому Сусанин не сможет указывать направление к цели, а будет показывать только расстояние до нее.',
+          TutorialText(
+            'tutorial_settings_no_compass'.tr(),
             isErrorText: true,
           ),
       ],

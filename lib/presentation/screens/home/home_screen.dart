@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -76,17 +77,17 @@ Future<bool?> _showGetPermissionDialog(BuildContext context) async {
     barrierDismissible: true,
     builder: (BuildContext context) {
       return CupertinoAlertDialog(
-        title: const Text(
-            'Разрешить приложению доступ к определению геолокации?'), // Allow Susanin to access your location?
+        title: Text(
+            'permission_request'.tr()),
         actions: <Widget>[
           TextButton(
-            child: const Text('Запретить'),
+            child: Text('button_deny'.tr()),
             onPressed: () {
               Navigator.pop(context, false);
             },
           ),
           TextButton(
-            child: const Text('Разрешить'),
+            child: Text('button_allow'.tr()),
             onPressed: () async {
               await serviceLocator<RequestPermission>()();
               Navigator.pop(context, true);

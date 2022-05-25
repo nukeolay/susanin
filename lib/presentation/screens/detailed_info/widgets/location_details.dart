@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
@@ -37,8 +38,8 @@ class LocationDetails extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    CopyButton(title: 'широта', value: pointLatitude),
-                    CopyButton(title: 'долгота', value: pointLongitude),
+                    CopyButton(title: 'latitude'.tr(), value: pointLatitude),
+                    CopyButton(title: 'longitude'.tr(), value: pointLongitude),
                   ],
                 ),
               ],

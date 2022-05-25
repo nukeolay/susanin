@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:dartz/dartz.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/constants/pointer_constants.dart';
 import 'package:susanin/core/errors/failure.dart';
@@ -105,18 +106,18 @@ class MainPointerCubit extends Cubit<MainPointerState> {
             failure is LocationServiceDeniedForeverFailure) {
           emit(state.copyWith(
               locationServiceStatus: LocationServiceStatus.noPermission,
-              mainText: 'Ошибка',
-              subText: 'Разрешение не выдано'));
+              mainText: 'error_title',
+              subText: 'error_geolocation_permission_short'));
         } else if (failure is LocationServiceDisabledFailure) {
           emit(state.copyWith(
               locationServiceStatus: LocationServiceStatus.disabled,
-              mainText: 'Ошибка',
-              subText: 'Сервис геолокации выключен'));
+              mainText: 'error_title',
+              subText: 'error_geolocation_disabled'));
         } else {
           emit(state.copyWith(
               locationServiceStatus: LocationServiceStatus.unknownFailure,
-              mainText: 'Ошибка',
-              subText: 'Неизвестный сбой'));
+              mainText: 'error_title',
+              subText: 'error_unknown'));
         }
       },
       (position) {
@@ -164,12 +165,13 @@ class MainPointerCubit extends Cubit<MainPointerState> {
 
   String _getDistanceString(int distance) {
     if (distance < PointerConstants.minDistance) {
-      return 'менее 5 м'; // ! TODO change to EN, and add '.tr()' in UI to translate
+      return 'less_than_5_m'.tr();
     }
     if (distance < PointerConstants.distanceThreshold) {
-      return '${distance.truncate()} м';
+      return 'distance_meters'.tr(args: [distance.truncate().toString()]);
     }
-    return '${(distance / 1000).toStringAsFixed(1)} км';
+    return 'distance_kilometers'
+        .tr(args: [(distance / 1000).toStringAsFixed(1)]);
   }
 
   double _getBearing(double compassNorth) {

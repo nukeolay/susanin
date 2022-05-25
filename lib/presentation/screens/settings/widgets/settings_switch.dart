@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -52,7 +53,7 @@ class ThemeSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SettingsSwitch(
-      text: 'Темная тема',
+      text: 'dark_theme'.tr(),
       switchValue: state.isDarkTheme,
       action: (_) => context.read<SettingsCubit>().toggleTheme(),
     );
@@ -65,7 +66,7 @@ class WakelockSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SettingsSwitch(
-      text: 'Экран всегда включен',
+      text: 'always_on_display'.tr(),
       switchValue: state.isScreenAlwaysOn,
       action: (_) => context.read<SettingsCubit>().toggleWakelock(),
     );
@@ -82,7 +83,7 @@ class LocationServiceSwitch extends StatelessWidget {
         state.locationSettingsStatus == LocationSettingsStatus.granted;
     return SettingsSwitch(
       isLoading: state.locationSettingsStatus == LocationSettingsStatus.loading,
-      text: 'Доступ к геолокации',
+      text: 'geolocation_permission'.tr(),
       switchValue: isAccessGranted,
       action: isAccessGranted
           ? null
@@ -100,7 +101,7 @@ class HasCompassSwitch extends StatelessWidget {
         state.compassSettingsStatus == CompassSettingsStatus.success;
     return SettingsSwitch(
       isLoading: state.compassSettingsStatus == CompassSettingsStatus.loading,
-      text: 'Наличие компаса в устройстве',
+      text: 'has_compass'.tr(),
       switchValue: hasCompass,
       action: null,
     );

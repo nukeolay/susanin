@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +19,7 @@ class SettingsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Настройки'),
+        title: Text('settings'.tr()),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
@@ -46,7 +47,7 @@ class SettingsScreen extends StatelessWidget {
               LocationServiceSwitch(state: state),
               if (!Platform.isIOS) HasCompassSwitch(state: state),
               SettingsButton(
-                  text: 'Посмотреть инструкцию',
+                  text: 'button_instruction'.tr(),
                   action: () {
                     HapticFeedback.heavyImpact();
                     Navigator.of(context).pushNamedAndRemoveUntil(

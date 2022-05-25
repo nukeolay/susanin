@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:susanin/presentation/screens/tutorial/widgets/hollywood_pointer.dart';
@@ -20,16 +21,15 @@ List<SlideModel> getSlides(BuildContext context) {
 
   SlideModel slideModel1 = SlideModel(
     topContent: Lottie.asset('assets/animations/tutorial_1.json', repeat: true),
-    title: 'Привет!',
-    bottomContent: const TutorialText(
-        'Я помогу тебе найти путь к сохраненной локации.\n\nНикаких карт и доступа к интернету не потребуется. Только разрешение на определение геолокации и наличие компаса в телефоне.\n\nНа следующем экране ты сможешь выдать необходимые разрешения и удостовериться в наличии компаса.'),
+    title: 'tutorial_title_1'.tr(),
+    bottomContent: TutorialText('tutorial_text_1'.tr()),
   );
   slides.add(slideModel1);
   //-----------------------------------------------------------------------------
   //-----------------------------------------------------------------------------
   SlideModel slideModel2 = SlideModel(
     topContent: Lottie.asset('assets/animations/tutorial_2.json', repeat: true),
-    title: 'Настройки',
+    title: 'tutorial_title_2'.tr(),
     bottomContent: const TutorialSettings(),
   );
   slides.add(slideModel2);
@@ -37,9 +37,8 @@ List<SlideModel> getSlides(BuildContext context) {
   //-----------------------------------------------------------------------------
   SlideModel slideModel3 = SlideModel(
     topContent: const HollywoodPointer(),
-    title: 'Вперед за Сусаниным!',
-    bottomContent: const TutorialText(
-        'Если разрешение на доступ к геолокации выдано и компас в устройстве работает правильно, то указатель показывает прямое направление до Голливуда и расстояние до него.\n\nТеперь ты сможешь сохранять локацию на которой  находишься, чтобы найти обратный путь к ней.'),
+    title: 'tutorial_title_3'.tr(),
+    bottomContent: TutorialText('tutorial_text_3'.tr()),
   );
   slides.add(slideModel3);
   //-----------------------------------------------------------------------------

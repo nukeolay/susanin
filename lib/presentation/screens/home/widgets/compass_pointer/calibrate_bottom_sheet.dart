@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -36,8 +37,8 @@ class CalibrateBottomSheet extends StatelessWidget {
                     Flexible(
                       child: Text(
                         needCalibration
-                            ? 'Низкая точность компаса: '
-                            : 'Точность компаса высокая: ',
+                            ? 'low_compass_accuracy'.tr()
+                            : 'normal_compass_accuracy'.tr(),
                         style: const TextStyle(fontSize: 20),
                         textAlign: TextAlign.center,
                         softWrap: true,
@@ -71,15 +72,15 @@ class CalibrateBottomSheet extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       color: Theme.of(context).cardColor,
                     ),
-                    child: const Text(
-                      'Чтобы увеличить точность компаса, несколько раз переместите телефон в пространстве как указано выше',
+                    child: Text(
+                      'compass_calibrate_instruction'.tr(),
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
               ],
             ),
-            const HideButton(text: 'Свернуть'),
+            HideButton(text: 'button_hide'.tr()),
           ],
         );
       }),

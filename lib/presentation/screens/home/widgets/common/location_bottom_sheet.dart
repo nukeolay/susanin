@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/location_point_validate_bloc/location_point_validate_bloc.dart';
@@ -68,9 +69,9 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                     keyboardType: TextInputType.name,
                     autofocus: true,
                     decoration: InputDecoration(
-                      labelText: 'Название локации',
+                      labelText: 'location_name'.tr(),
                       errorText: !validatorState.isNameValid
-                          ? 'Пожалуйста, введите название'
+                          ? 'enter_name'.tr()
                           : null,
                     ),
                     onChanged: (value) {
@@ -82,9 +83,9 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                   TextFormField(
                     controller: latitudeController,
                     decoration: InputDecoration(
-                      labelText: 'Широта',
+                      labelText: 'latitude'.tr(),
                       errorText: !validatorState.isLatutideValid
-                          ? 'Некорректное значение'
+                          ? 'incorrect_value'.tr()
                           : null,
                     ),
                     onChanged: (value) {
@@ -96,9 +97,9 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                   TextFormField(
                     controller: longitudeController,
                     decoration: InputDecoration(
-                      labelText: 'Долгота',
+                      labelText: 'longitude'.tr(),
                       errorText: !validatorState.isLongitudeValid
-                          ? 'Некорректное значение'
+                          ? 'incorrect_value'.tr()
                           : null,
                     ),
                     onChanged: (value) {
@@ -116,7 +117,7 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(
-                      child: const Text('Отмена'),
+                      child: Text('button_cancel'.tr()),
                       style: ButtonStyle(
                         elevation: MaterialStateProperty.all(0),
                         backgroundColor: MaterialStateProperty.all(
@@ -133,7 +134,7 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                         Navigator.pop(context);
                       }),
                   ElevatedButton(
-                      child: const Text('Сохранить'),
+                      child: Text('button_save'.tr()),
                       style: ButtonStyle(
                         elevation: MaterialStateProperty.all(0),
                         backgroundColor: MaterialStateProperty.all(

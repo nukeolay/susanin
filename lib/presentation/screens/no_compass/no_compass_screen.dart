@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -8,7 +9,7 @@ class NoCompassScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Компас не обнаружен'),
+        title: Text('compass_not_found'.tr()),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
       ),
@@ -30,27 +31,27 @@ class NoCompassScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Плохие новости',
+                      'no_compass_bad_news_title'.tr(),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           fontSize: 30, color: Theme.of(context).errorColor),
                     ),
-                    const Text(
-                      'К сожалению, приложение не смогло получить доступ к датчику компаса, возможно он отсутствует в данном устройстве.',
+                    Text(
+                      'no_compass_bad_news_text'.tr(),
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 18),
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      'Хорошие новости',
+                      'no_compass_good_news_title'.tr(),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           fontSize: 30, color: Theme.of(context).primaryColor),
                     ),
-                    const Text(
-                      'Сусанин все равно работает, правда, без указания направления. Будет показывать только расстояние до сохраненной локации.',
+                    Text(
+                      'no_compass_good_news_text'.tr(),
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 18),
                     ),
                   ],
                 ),

@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
@@ -70,7 +70,8 @@ class LocationListItem extends StatelessWidget {
           style: const TextStyle(fontSize: 20),
           overflow: TextOverflow.ellipsis,
         ),
-        subtitle: Text(DateFormat('dd-MM-yyy').format(location.creationTime)),
+        subtitle:
+            Text(DateFormat('date_format'.tr()).format(location.creationTime)),
         onTap: () {
           HapticFeedback.heavyImpact();
           context.read<LocationsListCubit>().onPressSetActive(id: location.id);
@@ -88,16 +89,16 @@ Future<bool?> _showConfirmationDialog(BuildContext context) async {
     barrierDismissible: true,
     builder: (BuildContext context) {
       return CupertinoAlertDialog(
-        title: const Text('Удалить локацию?'),
+        title: Text('delete_location'.tr()),
         actions: [
           CupertinoDialogAction(
-            child: const Text('Да'),
+            child: Text('button_yes'.tr()),
             onPressed: () {
               Navigator.pop(context, true);
             },
           ),
           CupertinoDialogAction(
-            child: const Text('Нет'),
+            child: Text('button_no'.tr()),
             onPressed: () {
               Navigator.pop(context, false);
             },

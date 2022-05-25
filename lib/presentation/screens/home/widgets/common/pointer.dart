@@ -93,17 +93,21 @@ class CustomArc extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint()
+    var paintArc = Paint()
       ..color = color
       ..style = PaintingStyle.stroke
       ..strokeWidth = radius * 0.1
       ..strokeCap = StrokeCap.round;
     canvas.drawArc(Offset(-radius / 2, -radius / 2) & Size(radius, radius),
-        -math.pi / 2 - arcRadius / 2, arcRadius, false, paint);
+        -math.pi / 2 - arcRadius / 2, arcRadius, false, paintArc);
+    var paintCircle = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill
+      ..strokeWidth = radius * 0.1;
     canvas.drawCircle(
       const Offset(0, 0),
-      radius * 0.03,
-      paint,
+      radius * 0.07,
+      paintCircle,
     );
   }
 

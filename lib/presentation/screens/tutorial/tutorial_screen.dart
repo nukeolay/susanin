@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -114,7 +115,7 @@ class _TutorialState extends State<TutorialScreen> {
               currentIndex != slides.length - 1
                   ? GestureDetector(
                       child: Text(
-                        'Далее',
+                        'button_next'.tr(),
                         textAlign: TextAlign.end,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -128,7 +129,7 @@ class _TutorialState extends State<TutorialScreen> {
                             curve: Curves.linear);
                       })
                   : GestureDetector(
-                      child: Text('Начать',
+                      child: Text('button_start'.tr(),
                           textAlign: TextAlign.end,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,

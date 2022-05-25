@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -30,7 +31,7 @@ class DetailedInfoScreen extends StatelessWidget {
                   baseColor: Theme.of(context).colorScheme.primary,
                   highlightColor: Theme.of(context).colorScheme.error,
                   child: Text(
-                    state.errorMessage,
+                    state.errorMessage.tr(),
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 60),
                   ),
@@ -80,15 +81,15 @@ class DetailedInfoScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Flexible(
+                          Flexible(
                             child: Text(
-                              'точность определения геолокации: ',
+                              'accuracy_details'.tr(),
                               textAlign: TextAlign.center,
                               softWrap: true,
                             ),
                           ),
                           Text(
-                            '${state.positionAccuracy.toStringAsFixed(1)} м',
+                            'distance_meters'.tr(args: [state.positionAccuracy.toStringAsFixed(0).toString()]),
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -99,13 +100,14 @@ class DetailedInfoScreen extends StatelessWidget {
                       const SizedBox(height: 10.0),
                       LocationDetails(
                         pointName: state.locationName,
-                        pointLatitude: state.locationLatitude.toStringAsFixed(7),
+                        pointLatitude:
+                            state.locationLatitude.toStringAsFixed(7),
                         pointLongitude:
                             state.locationLongitude.toStringAsFixed(7),
                       ),
                       const SizedBox(height: 10.0),
                       LocationDetails(
-                        pointName: 'текущее местоположение',
+                        pointName: 'current_location'.tr(),
                         pointLatitude: state.userLatitude.toStringAsFixed(7),
                         pointLongitude: state.userLongitude.toStringAsFixed(7),
                       ),
@@ -115,7 +117,7 @@ class DetailedInfoScreen extends StatelessWidget {
           );
         }),
       ),
-      bottomNavigationBar: const HideButton(text: 'К выбору локаций'),
+      bottomNavigationBar: HideButton(text: 'button_back_to_locations'.tr()),
     );
   }
 }

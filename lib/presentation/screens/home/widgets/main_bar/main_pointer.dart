@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
@@ -115,25 +116,25 @@ class MainPointerFailure extends StatelessWidget {
       isShimmering: true,
       shimmerBaseColor: Theme.of(context).errorColor,
       shimmerHighlightColor: Theme.of(context).colorScheme.inversePrimary,
-      mainText: state.mainText,
-      subText: state.subText,
+      mainText: state.mainText.tr(),
+      subText: state.subText.tr(),
     );
   }
 }
 
-class MainPointerNoCompass extends StatelessWidget {
-  final MainPointerState state;
-  const MainPointerNoCompass({required this.state, Key? key}) : super(key: key);
+// class MainPointerNoCompass extends StatelessWidget {
+//   final MainPointerState state;
+//   const MainPointerNoCompass({required this.state, Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return MainPointer(
-      positionAccuracy: state.positionAccuracy,
-      mainText: state.mainText,
-      subText: state.subText,
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return MainPointer(
+//       positionAccuracy: state.positionAccuracy,
+//       mainText: state.mainText,
+//       subText: state.subText,
+//     );
+//   }
+// }
 
 class MainPointerEmpty extends StatelessWidget {
   final MainPointerState state;
