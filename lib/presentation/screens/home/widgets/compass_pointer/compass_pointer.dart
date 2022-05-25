@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,7 +43,7 @@ class CompassPointer extends StatelessWidget {
             return GestureDetector(
               child: LoadedCompass(state: state),
               behavior: HitTestBehavior.translucent,
-              onTap: state.needCalibration
+              onTap: (state.needCalibration && Platform.isAndroid)
                   ? () {
                       HapticFeedback.heavyImpact();
                       _showBottomSheet(context);
@@ -100,7 +101,9 @@ class _LoadedCompassState extends State<LoadedCompass> {
       arcRadius: widget.state.accuracy,
       radius: 40,
       foregroundColor: Colors.white,
-      backGroundColor: widget.state.needCalibration ? _color : Colors.grey,
+      backGroundColor: (widget.state.needCalibration && Platform.isAndroid)
+          ? _color
+          : Colors.grey,
     );
   }
 
