@@ -70,11 +70,11 @@ Future<void> init() async {
   );
 
   // CompassRepository
-  serviceLocator.registerLazySingleton<CompassPlatform>(
-    () => CompassPlatformImpl(),
+  serviceLocator.registerSingleton<CompassPlatform>(
+    CompassPlatformImpl(),
   );
-  serviceLocator.registerLazySingleton<CompassRepository>(
-    () => CompassRepositoryImpl(serviceLocator<CompassPlatform>()),
+  serviceLocator.registerSingleton<CompassRepository>(
+    CompassRepositoryImpl(serviceLocator<CompassPlatform>()),
   );
 
   // LocationPointsRepository
@@ -137,8 +137,8 @@ Future<void> init() async {
   );
 
   // Compass
-  serviceLocator.registerLazySingleton<GetCompassStream>(
-    () => GetCompassStream(serviceLocator<CompassRepository>()),
+  serviceLocator.registerSingleton<GetCompassStream>(
+    GetCompassStream(serviceLocator<CompassRepository>()),
   );
 
   // LocationPoints
