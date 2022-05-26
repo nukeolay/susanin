@@ -10,12 +10,14 @@ class SettingsSwitch extends StatelessWidget {
   final bool switchValue;
   final Function(bool)? action;
   final bool isLoading;
+  final bool isAlert;
   const SettingsSwitch({
     Key? key,
     required this.text,
     required this.switchValue,
     required this.action,
     this.isLoading = false,
+    this.isAlert = false,
   }) : super(key: key);
 
   @override
@@ -24,9 +26,10 @@ class SettingsSwitch extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       margin: const EdgeInsets.only(bottom: 12.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Theme.of(context).cardColor,
-      ),
+          borderRadius: BorderRadius.circular(10),
+          color: isAlert
+              ? Theme.of(context).errorColor
+              : Theme.of(context).cardColor),
       child: isLoading
           ? Shimmer.fromColors(
               baseColor: Theme.of(context).disabledColor,
@@ -85,6 +88,7 @@ class LocationServiceSwitch extends StatelessWidget {
       isLoading: state.locationSettingsStatus == LocationSettingsStatus.loading,
       text: 'geolocation_permission'.tr(),
       switchValue: isAccessGranted,
+      isAlert: !isAccessGranted,
       action: isAccessGranted
           ? null
           : (_) async => await context.read<SettingsCubit>().getPermission(),

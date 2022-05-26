@@ -29,7 +29,7 @@ class MainPointer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pointerSize = MediaQuery.of(context).size.width * 0.22;
-    final fontSize = MediaQuery.of(context).size.width * 0.06;
+    final fontSize = MediaQuery.of(context).size.width * 0.07;
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,38 +54,35 @@ class MainPointer extends StatelessWidget {
                 backGroundColor: Theme.of(context).colorScheme.background,
               ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Flexible(
-                  child: Text(
-                    mainText,
-                    overflow: TextOverflow.fade,
-                    maxLines: 2,
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      fontSize: fontSize,
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                    ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Flexible(
+                child: Text(
+                  mainText,
+                  overflow: TextOverflow.fade,
+                  maxLines: 2,
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    color: Theme.of(context).colorScheme.inversePrimary,
                   ),
                 ),
-                Flexible(
-                  child: Text(
-                    subText,
-                    maxLines: 3,
-                    overflow: TextOverflow.fade,
-                    softWrap: true,
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        fontSize: fontSize * 0.5,
-                        color: Theme.of(context).colorScheme.inversePrimary),
-                  ),
+              ),
+              Flexible(
+                child: Text(
+                  subText,
+                  maxLines: 3,
+                  overflow: TextOverflow.fade,
+                  softWrap: true,
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                      fontSize: fontSize * 0.5,
+                      color: Theme.of(context).colorScheme.inversePrimary),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ],
@@ -121,20 +118,6 @@ class MainPointerFailure extends StatelessWidget {
     );
   }
 }
-
-// class MainPointerNoCompass extends StatelessWidget {
-//   final MainPointerState state;
-//   const MainPointerNoCompass({required this.state, Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MainPointer(
-//       positionAccuracy: state.positionAccuracy,
-//       mainText: state.mainText,
-//       subText: state.subText,
-//     );
-//   }
-// }
 
 class MainPointerEmpty extends StatelessWidget {
   final MainPointerState state;

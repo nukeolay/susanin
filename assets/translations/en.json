@@ -46,7 +46,7 @@
     "error_geolocation_disabled": "Geolocation service disabled.",
     "error_title": "Error",
     "error_unknown": "Unknown error",
-    "less_than_5_m": "less than 5 m",
+    "less_than_5_m": "< 5 m",
     "error_geolocation_permission_short": "Permission not granted",
     "location_name": "location name",
     "enter_name": "Please enter location name",

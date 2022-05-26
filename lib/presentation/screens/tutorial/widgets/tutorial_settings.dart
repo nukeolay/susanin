@@ -14,10 +14,11 @@ class TutorialSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<SettingsCubit>().state;
-
+    final isAccessGranted =
+        state.locationSettingsStatus == LocationSettingsStatus.granted;
     return Column(
       children: [
-        TutorialText('tutorial_settings_permission'.tr()),
+        if (!isAccessGranted) TutorialText('tutorial_settings_permission'.tr()),
         const SizedBox(height: 10),
         LocationServiceSwitch(state: state),
         ThemeSwitch(state: state),
