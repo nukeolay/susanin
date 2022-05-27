@@ -1,19 +1,24 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
-import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 
 class LocationListItem extends StatelessWidget {
   final LocationPointEntity location;
   final bool isActive;
+  // final Animation<double> animation;
+  final VoidCallback? onPress;
+  final VoidCallback? onLongPress;
+  final Function(DismissDirection)? onDismissed;
+  final Future<bool?> Function(DismissDirection)? onConfirmDismiss;
 
   const LocationListItem({
     required this.location,
     required this.isActive,
+    // required this.animation,
+    required this.onPress,
+    required this.onLongPress,
+    required this.onDismissed,
+    required this.onConfirmDismiss,
     Key? key,
   }) : super(key: key);
 
@@ -39,22 +44,11 @@ class LocationListItem extends StatelessWidget {
           color: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
-      onDismissed: (value) async {
-        await context
-            .read<LocationsListCubit>()
-            .onDeleteLocation(id: location.id);
-      },
-      confirmDismiss: (DismissDirection dismissDirection) async {
-        if (dismissDirection == DismissDirection.startToEnd) {
-          HapticFeedback.heavyImpact();
-          return _showConfirmationDialog(context);
-        } else {
-          HapticFeedback.heavyImpact();
-          await Share.share(
-              '${location.name} https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}');
-          return false;
-        }
-      },
+      onDismissed: onDismissed,
+      confirmDismiss: onConfirmDismiss,
+      // child: SizeTransition(
+      //   key: ValueKey(location.id),
+      //   sizeFactor: animation,
       child: ListTile(
         selected: isActive,
         leading: CircleAvatar(
@@ -72,39 +66,10 @@ class LocationListItem extends StatelessWidget {
         ),
         subtitle:
             Text(DateFormat('date_format'.tr()).format(location.creationTime)),
-        onTap: () {
-          HapticFeedback.heavyImpact();
-          context.read<LocationsListCubit>().onPressSetActive(id: location.id);
-        },
-        onLongPress: () =>
-            context.read<LocationsListCubit>().onLongPressEdit(id: location.id),
+        onTap: onPress,
+        onLongPress: onLongPress,
       ),
+      // ),
     );
   }
-}
-
-Future<bool?> _showConfirmationDialog(BuildContext context) async {
-  return showDialog<bool>(
-    context: context,
-    barrierDismissible: true,
-    builder: (BuildContext context) {
-      return CupertinoAlertDialog(
-        title: Text('delete_location'.tr()),
-        actions: [
-          CupertinoDialogAction(
-            child: Text('button_yes'.tr()),
-            onPressed: () {
-              Navigator.pop(context, true);
-            },
-          ),
-          CupertinoDialogAction(
-            child: Text('button_no'.tr()),
-            onPressed: () {
-              Navigator.pop(context, false);
-            },
-          ),
-        ],
-      );
-    },
-  );
 }

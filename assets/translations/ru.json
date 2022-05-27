@@ -16,7 +16,7 @@
     "button_hide": "Свернуть",
     "unknown_error": "Ошибка при выполнении действия",
     "empty_locations_list": "Нет сохраненных локаций",
-    "date_format": "dd-MM-yyy",
+    "date_format": "dd-MM-yyyy",
     "delete_location": "Удалить локацию?",
     "button_yes": "Да",
     "button_no": "Нет",
