@@ -12,7 +12,7 @@ abstract class LocationsDataSource {
 
 class LocationsDataSourceImpl implements LocationsDataSource {
   final SharedPreferences sharedPreferences;
-  static const locationsKey = 'savedLocations';
+  static const locationsKey = 'savedLocationStorage';
 
   const LocationsDataSourceImpl(this.sharedPreferences);
 

@@ -24,13 +24,24 @@ class LocationPointModel extends LocationPointEntity {
       };
 
   factory LocationPointModel.fromJson(Map<String, dynamic> json) {
-    return LocationPointModel(
-      id: json["id"] as String,
-      latitude: json["latitude"] as double,
-      longitude: json["longitude"] as double,
-      name: json["pointName"] as String,
-      creationTime:
-          DateTime.fromMillisecondsSinceEpoch(json["creationTime"] as int),
-    );
+    if (json["id"] == null) {
+      return LocationPointModel(
+        id: DateTime.now().toString(),
+        latitude: json["latitude"] as double,
+        longitude: json["longitude"] as double,
+        name: json["pointName"] as String,
+        creationTime:
+            DateTime.fromMillisecondsSinceEpoch(json["creationTime"] as int),
+      );
+    } else {
+      return LocationPointModel(
+        id: json["id"] as String,
+        latitude: json["latitude"] as double,
+        longitude: json["longitude"] as double,
+        name: json["pointName"] as String,
+        creationTime:
+            DateTime.fromMillisecondsSinceEpoch(json["creationTime"] as int),
+      );
+    }
   }
 }

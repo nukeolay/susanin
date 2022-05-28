@@ -47,16 +47,15 @@ class SettingsScreen extends StatelessWidget {
               WakelockSwitch(state: state),
               LocationServiceSwitch(state: state),
               if (!Platform.isIOS) HasCompassSwitch(state: state),
-              // if (!Platform.isIOS)
-              SettingsButton(
-                  text: 'button_instruction'.tr(),
-                  action: () {
-                    HapticFeedback.heavyImpact();
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        Routes.tutorial, (route) => false);
-                  }),
+              if (Platform.isIOS)
+                SettingsButton(
+                    text: 'button_instruction'.tr(),
+                    action: () {
+                      HapticFeedback.heavyImpact();
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          Routes.tutorial, (route) => false);
+                    }),
               const IosCompassSettings(),
-
               // SettingsButton(
               //     text: 'Поставить оценку приложению',
               //     action: () {}), // ! TODO add link

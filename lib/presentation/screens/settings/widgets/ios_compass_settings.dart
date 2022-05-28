@@ -1,6 +1,6 @@
-import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:app_settings/app_settings.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:susanin/presentation/screens/settings/widgets/settings_button.dart';
 
 class IosCompassSettings extends StatelessWidget {
@@ -19,7 +19,7 @@ class IosCompassSettings extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
-            'Если указатель компаса не вращается при перемещении телефона, необходимо включить калибровку компаса:\nНастройки -> Конфиденциальность -> Службы геолокации -> Калибровка компаса.',
+            'ios_compass_settings_info'.tr(),
             textAlign: TextAlign.left,
             style: const TextStyle(fontSize: 16),
           ),

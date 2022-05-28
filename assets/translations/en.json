@@ -52,5 +52,7 @@
     "enter_name": "Please enter location name",
     "incorrect_value": "Incorrect value",
     "distance_meters": "{} m",
-    "distance_kilometers": "{} km"
+    "distance_kilometers": "{} km",
+    "ios_compass_settings_info": "If the direction pointer does not rotate when you move your phone, you need to enable compass calibration:\nSettings -> Privacy -> Location Services -> System Services -> Compass Calibration."
+
 }
