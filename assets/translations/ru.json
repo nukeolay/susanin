@@ -46,7 +46,7 @@
     "error_geolocation_disabled": "Cервис геолокации выключен",
     "error_title": "Ошибка",
     "error_unknown": "Неизвестный сбой",
-    "less_than_5_m": "< 5 м",
+    "less_than_5_m": "менее 5 м",
     "error_geolocation_permission_short": "Разрешение не выдано",
     "location_name": "название локации",
     "enter_name": "Пожалуйста, введите название",

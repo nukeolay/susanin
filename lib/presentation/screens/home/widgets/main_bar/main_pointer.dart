@@ -59,14 +59,15 @@ class MainPointer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Flexible(
-                child: Text(
-                  mainText,
-                  overflow: TextOverflow.fade,
-                  maxLines: 2,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    color: Theme.of(context).colorScheme.inversePrimary,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    mainText.isEmpty ? ' ' : mainText,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 200,
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
                   ),
                 ),
               ),
@@ -97,8 +98,8 @@ class MainPointerLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MainPointer(
       isShimmering: true,
-      mainText: '',
-      subText: '',
+      mainText: ' ',
+      subText: ' ',
     );
   }
 }
@@ -127,8 +128,8 @@ class MainPointerEmpty extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainPointer(
       positionAccuracy: state.positionAccuracy,
-      mainText: '',
-      subText: '',
+      mainText: ' ',
+      subText: ' ',
     );
   }
 }

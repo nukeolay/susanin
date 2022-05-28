@@ -77,8 +77,7 @@ Future<bool?> _showGetPermissionDialog(BuildContext context) async {
     barrierDismissible: true,
     builder: (BuildContext context) {
       return CupertinoAlertDialog(
-        title: Text(
-            'permission_request'.tr()),
+        title: Text('permission_request'.tr()),
         actions: <Widget>[
           TextButton(
             child: Text('button_deny'.tr()),
