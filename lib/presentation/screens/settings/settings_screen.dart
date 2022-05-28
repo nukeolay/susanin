@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
+import 'package:susanin/presentation/screens/settings/widgets/ios_compass_settings.dart';
 import 'package:susanin/presentation/screens/settings/widgets/settings_button.dart';
 import 'package:susanin/presentation/screens/settings/widgets/settings_switch.dart';
 
@@ -46,6 +47,7 @@ class SettingsScreen extends StatelessWidget {
               WakelockSwitch(state: state),
               LocationServiceSwitch(state: state),
               if (!Platform.isIOS) HasCompassSwitch(state: state),
+              // if (!Platform.isIOS)
               SettingsButton(
                   text: 'button_instruction'.tr(),
                   action: () {
@@ -53,6 +55,8 @@ class SettingsScreen extends StatelessWidget {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         Routes.tutorial, (route) => false);
                   }),
+              const IosCompassSettings(),
+
               // SettingsButton(
               //     text: 'Поставить оценку приложению',
               //     action: () {}), // ! TODO add link

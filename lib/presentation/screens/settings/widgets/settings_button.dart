@@ -14,7 +14,7 @@ class SettingsButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 3.0),
         child: ElevatedButton(
           child: Text(
             text,
@@ -25,9 +25,13 @@ class SettingsButton extends StatelessWidget {
             ),
           ),
           style: ButtonStyle(
+            alignment: Alignment.center,
             backgroundColor:
                 MaterialStateProperty.all(Theme.of(context).cardColor),
             elevation: MaterialStateProperty.all(0),
+            padding: MaterialStateProperty.all<EdgeInsets>(
+              const EdgeInsets.all(18.0),
+            ),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
