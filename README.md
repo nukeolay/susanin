@@ -6,7 +6,9 @@ Easy to use offline navigator created with Flutter framework. Went to forest? Af
 
 - Dart
 - Flutter
-- BLoC
+- bloc / cubit
+- Clean Architecture (Domain, Data and Presentation layers)
+- GetIt
 
 ## Try it here:
 
