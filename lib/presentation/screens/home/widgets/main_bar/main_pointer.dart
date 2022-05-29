@@ -128,7 +128,7 @@ class MainPointerEmpty extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainPointer(
       positionAccuracy: state.positionAccuracy,
-      mainText: ' ',
+      mainText: 'empty_locations_list_header'.tr(),
       subText: ' ',
     );
   }

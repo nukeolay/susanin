@@ -24,7 +24,7 @@ class IosCompassSettings extends StatelessWidget {
             style: const TextStyle(fontSize: 16),
           ),
         ),
-        SettingsButton(
+        SettingsButton( // ! TODO choosee one button
             text: '1 Перейти в настройки',
             action: AppSettings.openAccessibilitySettings),
         SettingsButton(

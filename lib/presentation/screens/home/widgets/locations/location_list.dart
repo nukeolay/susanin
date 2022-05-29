@@ -33,11 +33,21 @@ class LocationList extends StatelessWidget {
                 child: CircularProgressIndicator());
           } else if (state.locations.isEmpty) {
             return Center(
-                child: Text(
-              'empty_locations_list'.tr(),
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 30),
-            ));
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: topPadding,
+                  left: 12.0,
+                  right: 12.0,
+                ),
+                child: SingleChildScrollView(
+                  child: Text(
+                    'empty_locations_list'.tr(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                ),
+              ),
+            );
           } else {
             final locations = state.locations;
             return ListView.builder(
