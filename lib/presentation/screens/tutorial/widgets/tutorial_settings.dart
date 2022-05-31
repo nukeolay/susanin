@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_state.dart';
+import 'package:susanin/presentation/screens/settings/widgets/ios_compass_settings.dart';
 import 'package:susanin/presentation/screens/settings/widgets/settings_switch.dart';
 import 'package:susanin/presentation/screens/tutorial/widgets/tutorial_text.dart';
 
@@ -28,6 +29,7 @@ class TutorialSettings extends StatelessWidget {
             'tutorial_settings_no_compass'.tr(),
             isErrorText: true,
           ),
+        if (Platform.isIOS) const IosCompassSettings(),
       ],
     );
   }

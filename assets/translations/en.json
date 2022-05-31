@@ -37,7 +37,7 @@
     "button_next": "Next",
     "button_start": "Start",
     "tutorial_title_1": "Hello!",
-    "tutorial_text_1": "I'll help you find the path to the saved location.\n\nNo maps or internet access required. Only permission to get your location and compass sensor in this device.\n\nOn the next screen, you can issue the necessary permissions and make sure that the compass is available.",
+    "tutorial_text_1": "I'll help you find the path to the saved location.\n\nNo maps or internet access required. Only permission to get your location and compass sensor in this device.\n\nOn the next screen, you can issue the necessary permissions.",
     "tutorial_title_2": "Settings",
     "tutorial_title_3": "Follow Susanin!",
     "tutorial_text_3": "If all necessary permissions is granted and the compass in the device is working correctly, the pointer shows the direct direction to Hollywood and the distance to it.\n\nNow you can save the location you are in to find your way back to it.",
