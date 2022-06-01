@@ -23,8 +23,7 @@ class SlideTile extends StatelessWidget {
         Expanded(
           flex: 5,
           child: Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: height * 0.03, horizontal: height * 0.03),
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
             child: topContent,
           ),
         ),
@@ -41,8 +40,7 @@ class SlideTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: height * 0.03, horizontal: height * 0.03),
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -18,6 +18,7 @@ class TutorialSettings extends StatelessWidget {
     final isAccessGranted =
         state.locationSettingsStatus == LocationSettingsStatus.granted;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (!isAccessGranted) TutorialText('tutorial_settings_permission'.tr()),
         const SizedBox(height: 10),

@@ -10,10 +10,11 @@ class SlideModel {
   final Widget topContent;
   final Widget bottomContent;
 
-  SlideModel(
-      {required this.title,
-      required this.topContent,
-      required this.bottomContent});
+  SlideModel({
+    required this.title,
+    required this.topContent,
+    required this.bottomContent,
+  });
 }
 
 List<SlideModel> getSlides(BuildContext context) {
