@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 class SlideTile extends StatelessWidget {
@@ -33,7 +31,6 @@ class SlideTile extends StatelessWidget {
             margin: EdgeInsets.only(
               left: height * 0.015,
               right: height * 0.015,
-              bottom: Platform.isIOS ? 70.0 : 60.0,
             ),
             decoration: BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,

@@ -65,7 +65,10 @@ class HollywoodPointer extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 0.0),
                 child: Text(
                   state.distance,
-                  style: const TextStyle(fontSize: 40),
+                  style: TextStyle(
+                    fontSize: 40,
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
                 ),
               ),
             ],

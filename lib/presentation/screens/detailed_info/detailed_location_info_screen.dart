@@ -51,12 +51,7 @@ class DetailedInfoScreen extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               child: Container(
                   alignment: Alignment.center,
-                  padding: const EdgeInsets.only(
-                    top: 8.0,
-                    left: 8.0,
-                    right: 8.0,
-                    bottom: 8.0,
-                  ),
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
@@ -89,7 +84,11 @@ class DetailedInfoScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'distance_meters'.tr(args: [state.positionAccuracy.toStringAsFixed(0).toString()]),
+                            'distance_meters'.tr(args: [
+                              state.positionAccuracy
+                                  .toStringAsFixed(0)
+                                  .toString()
+                            ]),
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
