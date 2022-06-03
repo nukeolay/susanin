@@ -16,7 +16,7 @@ class CompassRepositoryImpl implements CompassRepository {
 
   @override
   Stream<Either<Failure, CompassEntity>> get compassStream {
-    _init(); // ! TODO сделать так же в других репозиториях и источниках данных, чтобы в конструкторе не было инициализации потоков, тогда можно будет уйти от юзкейсов, которые отдают единичные значения
+    _init();
     return _streamController.stream;
   }
 
