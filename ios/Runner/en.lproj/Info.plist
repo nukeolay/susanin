@@ -40,9 +40,9 @@
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>Your location will be used to calculate distance and direction to desired location and guide you there.</string>
+		<string>Your location will be used to guide you to the desired location.</string>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>Your location will be used to calculate distance and direction to desired location and guide you there.</string>
+		<string>Your location will be used to guide you to the desired location.</string>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 </dict>

@@ -9,6 +9,7 @@ import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
 import 'package:susanin/presentation/screens/home/widgets/common/add_location_button.dart';
+import 'package:susanin/presentation/screens/home/widgets/locations/location_animated_list.dart';
 import 'package:susanin/presentation/screens/home/widgets/locations/location_list.dart';
 import 'package:susanin/presentation/screens/home/widgets/main_bar/main_bar.dart';
 import 'package:susanin/presentation/screens/home/widgets/main_bar/side_bar.dart';

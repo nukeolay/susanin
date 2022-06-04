@@ -34,11 +34,8 @@ class LocationList extends StatelessWidget {
           } else if (state.locations.isEmpty) {
             return Center(
               child: Padding(
-                padding: EdgeInsets.only(
-                  top: topPadding,
-                  left: 12.0,
-                  right: 12.0,
-                ),
+                padding:
+                    EdgeInsets.only(top: topPadding, left: 12.0, right: 12.0),
                 child: SingleChildScrollView(
                   child: Text(
                     'empty_locations_list'.tr(),
@@ -59,23 +56,17 @@ class LocationList extends StatelessWidget {
                 final invertedIndex = locations.length - index - 1;
                 final location = locations[invertedIndex];
                 final itemKey = ValueKey(location.name);
+                final cubit = context.read<LocationsListCubit>();
                 return LocationListItem(
-                  location: locations[locations.length - index - 1],
-                  isActive: locations[locations.length - index - 1].id ==
-                      state.activeLocationId,
+                  location: location,
+                  isActive: location.id == state.activeLocationId,
                   onPress: () {
                     HapticFeedback.heavyImpact();
-                    context
-                        .read<LocationsListCubit>()
-                        .onPressSetActive(id: location.id);
+                    cubit.onPressSetActive(id: location.id);
                   },
-                  onLongPress: () => context
-                      .read<LocationsListCubit>()
-                      .onLongPressEdit(id: location.id),
+                  onLongPress: () => cubit.onLongPressEdit(id: location.id),
                   onDismissed: (value) async {
-                    await context
-                        .read<LocationsListCubit>()
-                        .onDeleteLocation(id: location.id);
+                    await cubit.onDeleteLocation(id: location.id);
                   },
                   onConfirmDismiss: (DismissDirection dismissDirection) async {
                     if (dismissDirection == DismissDirection.startToEnd) {
@@ -99,6 +90,7 @@ class LocationList extends StatelessWidget {
   }
 
   void _showBottomSheet(BuildContext context, EditLocationState state) async {
+    final cubit = context.read<LocationsListCubit>();
     await showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
@@ -108,22 +100,17 @@ class LocationList extends StatelessWidget {
           name: state.name,
           latitude: state.latitude.toString(),
           longitude: state.longitude.toString(),
-          saveLocation: (
-            String latitude,
-            String longitude,
-            String name,
-          ) async {
-            await context.read<LocationsListCubit>().onSaveLocation(
-                  latitude: double.parse(latitude),
-                  longitude: double.parse(longitude),
-                  newLocationName: name,
-                  id: state.id,
-                );
+          saveLocation: (String latitude, String longitude, String name) async {
+            await cubit.onSaveLocation(
+                latitude: double.parse(latitude),
+                longitude: double.parse(longitude),
+                newLocationName: name,
+                id: state.id);
           },
         );
       },
     );
-    context.read<LocationsListCubit>().onBottomSheetClose();
+    cubit.onBottomSheetClose();
   }
 }
 

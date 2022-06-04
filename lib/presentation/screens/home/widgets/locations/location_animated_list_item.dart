@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 
-class LocationListItem extends StatelessWidget {
+class LocationAnimatedListItem extends StatelessWidget {
   final LocationPointEntity location;
   final bool isActive;
+  final Animation<double> animation;
   final VoidCallback? onPress;
   final VoidCallback? onLongPress;
   final Function(DismissDirection)? onDismissed;
   final Future<bool?> Function(DismissDirection)? onConfirmDismiss;
 
-  const LocationListItem({
+  const LocationAnimatedListItem({
     required this.location,
     required this.isActive,
+    required this.animation,
     required this.onPress,
     required this.onLongPress,
     required this.onDismissed,
@@ -64,6 +66,7 @@ class LocationListItem extends StatelessWidget {
         onTap: onPress,
         onLongPress: onLongPress,
       ),
+      // ),
     );
   }
 }
