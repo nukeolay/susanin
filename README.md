@@ -9,7 +9,9 @@ Easy to use offline navigator created with Flutter framework. Went to forest? Af
 - bloc / cubit
 - Clean Architecture (Domain, Data and Presentation layers)
 - GetIt
+- Geolocation
 
 ## Try it here:
 
+- <a href="https://apps.apple.com/us/app/susanin-find-your-way-back/id1624344201">App Store</a>
 - <a href="https://play.google.com/store/apps/details?id=com.qumyz.susanin">Google Play</a>

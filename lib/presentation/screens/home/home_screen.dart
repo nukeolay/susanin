@@ -9,8 +9,7 @@ import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
 import 'package:susanin/presentation/screens/home/widgets/common/add_location_button.dart';
-import 'package:susanin/presentation/screens/home/widgets/locations/location_animated_list.dart';
-import 'package:susanin/presentation/screens/home/widgets/locations/location_list.dart';
+import 'package:susanin/presentation/screens/home/widgets/body/locations_body.dart';
 import 'package:susanin/presentation/screens/home/widgets/main_bar/main_bar.dart';
 import 'package:susanin/presentation/screens/home/widgets/main_bar/side_bar.dart';
 
@@ -48,7 +47,8 @@ class HomeScreen extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: const [
-                    LocationList(topPadding: mainBarHeight + 2 * mainBarMargin),
+                    LocationsBody(
+                        topPadding: mainBarHeight + 2 * mainBarMargin),
                   ],
                 ),
                 Container(
