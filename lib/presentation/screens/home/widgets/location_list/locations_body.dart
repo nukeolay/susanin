@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_state.dart';
 import 'package:susanin/presentation/screens/home/widgets/common/location_bottom_sheet.dart';
-import 'package:susanin/presentation/screens/home/widgets/body/location_animated_list.dart';
+import 'package:susanin/presentation/screens/home/widgets/location_list/filled_location_list.dart';
 
-class LocationsBody extends StatelessWidget {
+class LocationList extends StatelessWidget {
   final double topPadding;
-  const LocationsBody({required this.topPadding, Key? key}) : super(key: key);
+  const LocationList({required this.topPadding, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class LocationsBody extends StatelessWidget {
               ),
             );
           } else {
-            return LocationAnimatedList(topPadding: topPadding);
+            return FilledLocationList(topPadding: topPadding);
           }
         }),
       ),

@@ -7,7 +7,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_state.dart';
-import 'package:susanin/presentation/screens/home/widgets/body/location_animated_list_item.dart';
+import 'package:susanin/presentation/screens/home/widgets/location_list/location_list_item.dart';
 
 class LocationAnimatedList extends StatefulWidget {
   final double topPadding;
@@ -54,7 +54,7 @@ class _LocationAnimatedListState extends State<LocationAnimatedList> {
         final location = locations[invertedIndex];
         final itemKey = ValueKey(location.id);
         final cubit = context.read<LocationsListCubit>();
-        return LocationAnimatedListItem(
+        return LocationListItem(
           key: itemKey,
           location: locations[invertedIndex],
           isActive: location.id == state.activeLocationId,

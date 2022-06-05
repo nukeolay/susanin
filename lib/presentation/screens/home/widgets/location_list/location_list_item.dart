@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 
-class LocationAnimatedListItem extends StatelessWidget {
+class LocationListItem extends StatelessWidget {
   final LocationPointEntity location;
   final bool isActive;
   final Animation<double> animation;
@@ -11,7 +11,7 @@ class LocationAnimatedListItem extends StatelessWidget {
   final Function(DismissDirection)? onDismissed;
   final Future<bool?> Function(DismissDirection)? onConfirmDismiss;
 
-  const LocationAnimatedListItem({
+  const LocationListItem({
     required this.location,
     required this.isActive,
     required this.animation,
@@ -63,8 +63,8 @@ class LocationAnimatedListItem extends StatelessWidget {
             style: const TextStyle(fontSize: 20),
             overflow: TextOverflow.ellipsis,
           ),
-          subtitle:
-              Text(DateFormat('date_format'.tr()).format(location.creationTime)),
+          subtitle: Text(
+              DateFormat('date_format'.tr()).format(location.creationTime)),
           onTap: onPress,
           onLongPress: onLongPress,
         ),
