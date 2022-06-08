@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
-import 'package:susanin/presentation/screens/home/widgets/common/pointer.dart';
+import 'package:susanin/presentation/screens/common_widgets/pointer.dart';
 
 class MainPointer extends StatelessWidget {
   final double rotateAngle;

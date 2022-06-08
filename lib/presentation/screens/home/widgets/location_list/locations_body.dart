@@ -19,7 +19,7 @@ class LocationList extends StatelessWidget {
             _showBottomSheet(context, state as EditLocationState);
           } else if (state.status == LocationsListStatus.failure) {
             final snackBar = SnackBar(
-              content: Text('unknown_error'.tr()),
+              content: Text('error_unknown'.tr()),
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }

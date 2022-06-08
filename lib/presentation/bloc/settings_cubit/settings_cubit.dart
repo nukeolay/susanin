@@ -70,9 +70,10 @@ class SettingsCubit extends Cubit<SettingsState> {
     ));
   }
 
-  Future<void> toggleWakelock() async {
+  Future<bool> toggleWakelock() async {
     await _toggleWakelock();
-    await _updateWakelockStatus();
+    final isScreenAlwaysOn = await _updateWakelockStatus();
+    return isScreenAlwaysOn;
   }
 
   Future<void> toggleTheme() async {
@@ -85,9 +86,10 @@ class SettingsCubit extends Cubit<SettingsState> {
     emit(state.copyWith(isDarkTheme: isDarkTheme));
   }
 
-  Future<void> _updateWakelockStatus() async {
+  Future<bool> _updateWakelockStatus() async {
     final wakelockStatus = await _getWakelockEnabledStatus();
     emit(state.copyWith(isScreenAlwaysOn: wakelockStatus));
+    return wakelockStatus;
   }
 
   Future<void> _updateLocationServiceStatus() async {

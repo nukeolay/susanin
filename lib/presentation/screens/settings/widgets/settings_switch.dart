@@ -71,7 +71,7 @@ class WakelockSwitch extends StatelessWidget {
     return SettingsSwitch(
       text: 'always_on_display'.tr(),
       switchValue: state.isScreenAlwaysOn,
-      action: (_) => context.read<SettingsCubit>().toggleWakelock(),
+      action: (_) async => await context.read<SettingsCubit>().toggleWakelock(),
     );
   }
 }

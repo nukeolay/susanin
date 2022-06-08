@@ -8,7 +8,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_state.dart';
-import 'package:susanin/presentation/screens/home/widgets/common/pointer.dart';
+import 'package:susanin/presentation/screens/common_widgets/pointer.dart';
 import 'package:susanin/presentation/screens/home/widgets/compass_pointer/calibrate_bottom_sheet.dart';
 
 class CompassPointer extends StatelessWidget {

@@ -14,7 +14,6 @@
     "normal_compass_accuracy": "Good compass accuracy: ",
     "compass_calibrate_instruction": "Move the phone several times in space as shown on the screen to calibrate compass.",
     "button_hide": "Hide",
-    "unknown_error": "Unknown error",
     "empty_locations_list_header": " ",
     "empty_locations_list": "No saved locations.\n\nAfter saving the current location, you can select it from the list and get it`s direction and distance to it",
     "date_format": "MM-dd-yyyy",
@@ -54,5 +53,7 @@
     "incorrect_value": "Incorrect value",
     "distance_meters": "{} m",
     "distance_kilometers": "{} km",
-    "ios_compass_settings_info": "If the direction pointer does not rotate when you move your phone, you need to enable compass calibration:\nSettings -> Privacy -> Location Services -> System Services -> Compass Calibration."
+    "ios_compass_settings_info": "If the direction pointer does not rotate when you move your phone, you need to enable compass calibration:\nSettings -> Privacy -> Location Services -> System Services -> Compass Calibration.",
+    "always_on_display_on": "Display auto turn off disabled",
+    "always_on_display_off": "Display auto turn off enabled"
 }

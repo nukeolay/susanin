@@ -5,7 +5,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 import 'package:susanin/presentation/bloc/detailed_info_cubit/detailed_info_cubit.dart';
 import 'package:susanin/presentation/bloc/detailed_info_cubit/detailed_info_state.dart';
-import 'package:susanin/presentation/screens/home/widgets/common/pointer.dart';
+import 'package:susanin/presentation/screens/common_widgets/pointer.dart';
 
 class HollywoodPointer extends StatelessWidget {
   const HollywoodPointer({Key? key}) : super(key: key);
