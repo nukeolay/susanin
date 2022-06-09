@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/core/errors/exceptions.dart' as susanin;
 import 'package:susanin/data/location/models/position_model.dart';
@@ -9,10 +11,6 @@ abstract class PositionPlatform {
 
 class PositionPlatformImpl implements PositionPlatform {
   bool _isClosed = false;
-  final locationSettings = const LocationSettings(
-    accuracy: LocationAccuracy.best,
-    distanceFilter: 0,
-  );
 
   @override
   Stream<PositionModel> get positionStream async* {
@@ -51,5 +49,47 @@ class PositionPlatformImpl implements PositionPlatform {
   @override
   void close() {
     _isClosed = true;
+  }
+}
+
+class PositionPlatformImplAlt implements PositionPlatform {
+  final locationSettings = const LocationSettings(
+    accuracy: LocationAccuracy.best,
+    distanceFilter: 0,
+  );
+
+  PositionPlatformImplAlt() {
+    _init();
+  }
+
+  final StreamController<PositionModel> _streamController =
+      StreamController.broadcast();
+
+  @override
+  Stream<PositionModel> get positionStream => _streamController.stream;
+
+  void _init() async {
+    Geolocator.getPositionStream(locationSettings: locationSettings)
+        .listen((event) {
+      _streamController.add(PositionModel(
+        longitude: event.longitude,
+        latitude: event.latitude,
+        accuracy: event.accuracy,
+      ));
+    }).onError((error) {
+      if (error is PermissionDeniedException ||
+          error is InvalidPermissionException) {
+        _streamController.addError(susanin.LocationServiceDeniedException());
+      } else if (error is LocationServiceDisabledException) {
+        _streamController.addError(susanin.LocationServiceDisabledException());
+      } else {
+        _streamController.addError(susanin.SusaninException());
+      }
+    });
+  }
+
+  @override
+  void close() {
+    _streamController.close();
   }
 }

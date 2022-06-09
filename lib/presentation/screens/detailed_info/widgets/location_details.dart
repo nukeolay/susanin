@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:susanin/presentation/screens/detailed_info/widgets/custom_snackbar.dart';
 
 class LocationDetails extends StatelessWidget {
   final String pointName;
@@ -100,6 +101,12 @@ class CopyButton extends StatelessWidget {
         ),
         onTap: () {
           HapticFeedback.heavyImpact();
+          final snackBar = CustomSnackBar(
+              child: Text('copied'.tr(),
+                  textAlign: TextAlign.center));
+          ScaffoldMessenger.of(context)
+            ..removeCurrentSnackBar()
+            ..showSnackBar(snackBar);
           Clipboard.setData(
             ClipboardData(text: value),
           );

@@ -7,6 +7,7 @@ import 'package:susanin/presentation/bloc/detailed_info_cubit/detailed_info_cubi
 import 'package:susanin/presentation/bloc/detailed_info_cubit/detailed_info_state.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
 import 'package:susanin/presentation/screens/common_widgets/hide_button.dart';
+import 'package:susanin/presentation/screens/detailed_info/widgets/custom_snackbar.dart';
 import 'package:susanin/presentation/screens/detailed_info/widgets/detailed_location_info.dart';
 
 class DetailedInfoScreen extends StatelessWidget {
@@ -18,18 +19,15 @@ class DetailedInfoScreen extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as LocationPointEntity;
     context.read<DetailedInfoCubit>().setActiveLocation(activeLocationPoint);
     final radius = MediaQuery.of(context).size.width * 0.7;
+
     Future<void> _toggleWakeLock() async {
       final isScreenAlwaysOn =
           await context.read<SettingsCubit>().toggleWakelock();
-      final snackBar = SnackBar(
-        content: isScreenAlwaysOn
-            ? Text('always_on_display_on'.tr(), textAlign: TextAlign.center)
-            : Text('always_on_display_off'.tr(), textAlign: TextAlign.center),
-        duration: const Duration(milliseconds: 2000),
-        shape: const StadiumBorder(),
-        behavior: SnackBarBehavior.floating,
-        elevation: 0,
-      );
+      final snackBar = CustomSnackBar(
+          child: isScreenAlwaysOn
+              ? Text('always_on_display_on'.tr(), textAlign: TextAlign.center)
+              : Text('always_on_display_off'.tr(),
+                  textAlign: TextAlign.center));
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(snackBar);

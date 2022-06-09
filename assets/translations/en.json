@@ -55,5 +55,6 @@
     "distance_kilometers": "{} km",
     "ios_compass_settings_info": "If the direction pointer does not rotate when you move your phone, you need to enable compass calibration:\nSettings -> Privacy -> Location Services -> System Services -> Compass Calibration.",
     "always_on_display_on": "Display auto turn off disabled",
-    "always_on_display_off": "Display auto turn off enabled"
+    "always_on_display_off": "Display auto turn off enabled",
+    "copied": "Copied"
 }
