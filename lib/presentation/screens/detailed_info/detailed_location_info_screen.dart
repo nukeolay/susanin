@@ -23,11 +23,16 @@ class DetailedInfoScreen extends StatelessWidget {
           await context.read<SettingsCubit>().toggleWakelock();
       final snackBar = SnackBar(
         content: isScreenAlwaysOn
-            ? Text('always_on_display_on'.tr())
-            : Text('always_on_display_off'.tr()),
-        duration: const Duration(milliseconds: 1000),
+            ? Text('always_on_display_on'.tr(), textAlign: TextAlign.center)
+            : Text('always_on_display_off'.tr(), textAlign: TextAlign.center),
+        duration: const Duration(milliseconds: 2000),
+        shape: const StadiumBorder(),
+        behavior: SnackBarBehavior.floating,
+        elevation: 0,
       );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(snackBar);
     }
 
     return Scaffold(
