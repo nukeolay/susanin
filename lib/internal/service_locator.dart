@@ -57,7 +57,7 @@ Future<void> init() async {
 // ---Repository---
   // PositionRepository
   serviceLocator.registerLazySingleton<PositionPlatform>(
-    () => PositionPlatformImpl(),
+    () => PositionPlatformStreamImpl(),
   );
   serviceLocator.registerLazySingleton<LocationServicePermissionPlatform>(
     () => LocationServicePropertiesPlatformImpl(),

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/core/routes/custom_route.dart';
 import 'package:susanin/core/routes/routes.dart';
+import 'package:susanin/core/theme/dark_theme.dart';
+import 'package:susanin/core/theme/light_theme.dart';
 import 'package:susanin/internal/service_locator.dart';
 import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
 import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
@@ -53,61 +54,8 @@ class SusaninApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Susanin',
           themeMode: state.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
-          darkTheme: ThemeData.dark().copyWith(
-            useMaterial3: true,
-            primaryColor: Colors.green,
-            colorScheme: const ColorScheme.dark().copyWith(
-              primary: Colors.green,
-              background: ThemeData.dark().scaffoldBackgroundColor,
-              secondary: Colors.white,
-              inversePrimary: Colors.white,
-            ),
-            iconTheme: const IconThemeData(
-              color: Colors.grey,
-              size: 30,
-            ),
-            floatingActionButtonTheme: const FloatingActionButtonThemeData(
-              disabledElevation: 0,
-              backgroundColor: Colors.green,
-            ),
-            disabledColor: Colors.grey,
-            hintColor: Colors.white,
-            listTileTheme: const ListTileThemeData(
-              selectedColor: Colors.green,
-            ),
-          ),
-          theme: ThemeData(
-            useMaterial3: true,
-            primaryColor: Colors.green,
-            colorScheme: const ColorScheme.light().copyWith(
-              primary: Colors.green,
-              background: ThemeData.light().scaffoldBackgroundColor,
-              secondary: Colors.green,
-              inversePrimary: Colors.white,
-            ),
-            iconTheme: const IconThemeData(
-              color: Colors.grey,
-              size: 30,
-            ),
-            floatingActionButtonTheme: const FloatingActionButtonThemeData(
-              disabledElevation: 0,
-              backgroundColor: Colors.green,
-            ),
-            cardColor: Colors.grey.shade100,
-            disabledColor: Colors.grey,
-            hintColor: Colors.white,
-            listTileTheme: const ListTileThemeData(
-              selectedColor: Colors.green,
-            ),
-            primaryColorDark: Colors.grey,
-            errorColor: Colors.red,
-            pageTransitionsTheme: const PageTransitionsTheme(
-              builders: {
-                TargetPlatform.android: CustomPageTransitionBuilder(),
-                TargetPlatform.iOS: CustomPageTransitionBuilder(),
-              },
-            ),
-          ),
+          darkTheme: darkTheme,
+          theme: lightTheme,
           home: isFirstTime ? const TutorialScreen() : const HomeScreen(),
           onGenerateRoute: Routes.onGenerateRoute,
         );

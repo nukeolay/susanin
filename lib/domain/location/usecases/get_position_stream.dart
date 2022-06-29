@@ -12,4 +12,8 @@ class GetPositionStream
   Stream<Either<Failure, PositionEntity>> call() {
     return _locationServiceRepository.positionStream;
   }
+
+  Future<void> close() async {
+    await _locationServiceRepository.close();
+  }
 }

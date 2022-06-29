@@ -43,9 +43,6 @@ class LocationServiceRepositoryImpl implements LocationServiceRepository {
       } else {
         _streamController.add(Left(LocationServiceUnknownFailure()));
       }
-      await Future.delayed(const Duration(
-          milliseconds: 1000)); // pause before next try after error
-      _init();
     });
   }
 

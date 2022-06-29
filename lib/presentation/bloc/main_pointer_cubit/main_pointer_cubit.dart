@@ -151,6 +151,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
     await _positionSubscription.cancel();
     await _compassSubscription.cancel();
     await _activeLocationStream.cancel();
+    await _getPositionStream.close();
     super.close();
   }
 
