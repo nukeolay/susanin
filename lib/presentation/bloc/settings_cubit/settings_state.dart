@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 enum LocationSettingsStatus {
   loading,
   noPermission,
+  disabled,
   granted,
 }
 

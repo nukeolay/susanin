@@ -41,6 +41,7 @@
     "tutorial_title_3": "Follow Susanin!",
     "tutorial_text_3": "If all necessary permissions is granted and the compass in the device is working correctly, the pointer shows the direct direction to Hollywood and the distance to it.\n\nNow you can save the location you are in to find your way back to it.",
     "tutorial_settings_permission": "Acces to gelocation service is required.",
+    "tutorial_settings_disabled": "LOCATION SERVICE OFF\n\nPlease turn on the location service to continue.",
     "tutorial_settings_no_compass": "Unfortunately, the application was not allowed to access the compass, so Susanin will not be able to indicate the direction to the target, it will only show the distance to target location.",
     "error_geolocation_permission": "Permission not granted.",
     "error_geolocation_disabled": "Geolocation service disabled.",

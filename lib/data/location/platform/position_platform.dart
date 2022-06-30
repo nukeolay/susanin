@@ -55,7 +55,7 @@ class PositionPlatformImpl implements PositionPlatform {
 
 class PositionPlatformStreamImpl implements PositionPlatform {
   final locationSettings = const LocationSettings(
-    accuracy: LocationAccuracy.bestForNavigation,
+    accuracy: LocationAccuracy.best,
     distanceFilter: 0,
   );
 
@@ -83,7 +83,7 @@ class PositionPlatformStreamImpl implements PositionPlatform {
     isReady
         ? _getStream()
         : await Future.delayed(
-            const Duration(milliseconds: 1000), () => _init());
+            const Duration(milliseconds: 500), () => _init());
   }
 
   void _getStream() {

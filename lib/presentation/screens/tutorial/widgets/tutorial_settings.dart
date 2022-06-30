@@ -15,22 +15,35 @@ class TutorialSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<SettingsCubit>().state;
+    final isServiceDisabled =
+        state.locationSettingsStatus == LocationSettingsStatus.disabled;
     final isAccessGranted =
         state.locationSettingsStatus == LocationSettingsStatus.granted;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (!isAccessGranted) TutorialText('tutorial_settings_permission'.tr()),
-        const SizedBox(height: 10),
-        LocationServiceSwitch(state: state),
-        ThemeSwitch(state: state),
-        if (!Platform.isIOS &&
-            state.compassSettingsStatus == CompassSettingsStatus.failure)
+        if (isServiceDisabled)
           TutorialText(
-            'tutorial_settings_no_compass'.tr(),
+            'tutorial_settings_disabled'.tr(),
             isErrorText: true,
           ),
-        if (Platform.isIOS) const IosCompassSettings(),
+        if (!isServiceDisabled) ...[
+          if (!isAccessGranted)
+            TutorialText(
+              'tutorial_settings_permission'.tr(),
+              isErrorText: true,
+            ),
+          const SizedBox(height: 10),
+          LocationServiceSwitch(state: state),
+          ThemeSwitch(state: state),
+          if (!Platform.isIOS &&
+              state.compassSettingsStatus == CompassSettingsStatus.failure)
+            TutorialText(
+              'tutorial_settings_no_compass'.tr(),
+              isErrorText: true,
+            ),
+          if (Platform.isIOS) const IosCompassSettings(),
+        ]
       ],
     );
   }
