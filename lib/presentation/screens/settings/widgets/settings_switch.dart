@@ -84,14 +84,17 @@ class LocationServiceSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     final isAccessGranted =
         state.locationSettingsStatus == LocationSettingsStatus.granted;
+    final isSwitchActive =
+        state.locationSettingsStatus == LocationSettingsStatus.noPermission &&
+            state.locationSettingsStatus != LocationSettingsStatus.disabled;
     return SettingsSwitch(
       isLoading: state.locationSettingsStatus == LocationSettingsStatus.loading,
       text: 'geolocation_permission'.tr(),
       switchValue: isAccessGranted,
-      isAlert: !isAccessGranted,
-      action: isAccessGranted
-          ? null
-          : (_) async => await context.read<SettingsCubit>().getPermission(),
+      isAlert: isSwitchActive,
+      action: isSwitchActive
+          ? (_) async => await context.read<SettingsCubit>().getPermission()
+          : null,
     );
   }
 }

@@ -1,10 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/domain/location/usecases/request_permission.dart';
-import 'package:susanin/internal/service_locator.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
@@ -29,19 +25,8 @@ class HomeScreen extends StatelessWidget {
                 statusBarColor: Theme.of(context).scaffoldBackgroundColor)
             : SystemUiOverlayStyle.dark.copyWith(
                 statusBarColor: Theme.of(context).scaffoldBackgroundColor),
-        child: BlocListener<MainPointerCubit, MainPointerState>(
-          listenWhen: (previous, current) =>
-              previous.locationServiceStatus !=
-                  LocationServiceStatus.noPermission ||
-              current.locationServiceStatus !=
-                  LocationServiceStatus.noPermission,
-          listener: (context, state) async {
-            if (state.locationServiceStatus ==
-                LocationServiceStatus.noPermission) {
-              await _showGetPermissionDialog(context);
-            }
-          },
-          child: SafeArea(
+        child: BlocBuilder<MainPointerCubit, MainPointerState>(
+          builder: (context, state) => SafeArea(
             child: Stack(
               children: [
                 Column(
@@ -69,31 +54,4 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: const AddNewLocationButton(),
     );
   }
-}
-
-Future<bool?> _showGetPermissionDialog(BuildContext context) async {
-  return showDialog<bool>(
-    context: context,
-    barrierDismissible: true,
-    builder: (BuildContext context) {
-      return CupertinoAlertDialog(
-        title: Text('permission_request'.tr()),
-        actions: <Widget>[
-          TextButton(
-            child: Text('button_deny'.tr()),
-            onPressed: () {
-              Navigator.pop(context, false);
-            },
-          ),
-          TextButton(
-            child: Text('button_allow'.tr()),
-            onPressed: () async {
-              await serviceLocator<RequestPermission>()();
-              Navigator.pop(context, true);
-            },
-          ),
-        ],
-      );
-    },
-  );
 }

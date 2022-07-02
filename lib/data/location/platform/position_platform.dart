@@ -82,10 +82,11 @@ class PositionPlatformStreamImpl implements PositionPlatform {
       _streamController.addError(susanin.LocationServiceDisabledException());
       isReady = false;
     }
-    isReady
-        ? _getStream()
-        : await Future.delayed(
-            const Duration(milliseconds: 500), () => _init());
+    isReady ? _getStream() : await _tryInit();
+  }
+
+  Future<void> _tryInit() async {
+    return Future.delayed(const Duration(milliseconds: 500), () => _init());
   }
 
   void _getStream() {
@@ -104,15 +105,7 @@ class PositionPlatformStreamImpl implements PositionPlatform {
         ));
       }
     }).onError((error) async {
-      bool isEnabled = await Geolocator.isLocationServiceEnabled();
-      if (error is PermissionDeniedException ||
-          error is InvalidPermissionException) {
-        _streamController.addError(susanin.LocationServiceDeniedException());
-      } else if (error is LocationServiceDisabledException || !isEnabled) {
-        _streamController.addError(susanin.LocationServiceDisabledException());
-      } else {
-        _streamController.addError(susanin.SusaninException());
-      }
+      await _tryInit();
     });
   }
 
