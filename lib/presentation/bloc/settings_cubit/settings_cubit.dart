@@ -102,7 +102,6 @@ class SettingsCubit extends Cubit<SettingsState> {
         } else if (failure is LocationServiceDisabledFailure) {
           emit(state.copyWith(
               locationSettingsStatus: LocationSettingsStatus.disabled));
-          print('didsbled');
         } else {
           emit(state.copyWith(
               locationSettingsStatus: LocationSettingsStatus.granted));

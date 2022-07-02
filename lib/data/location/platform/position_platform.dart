@@ -69,16 +69,18 @@ class PositionPlatformStreamImpl implements PositionPlatform {
   }
 
   void _init() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    bool isEnabled = await Geolocator.isLocationServiceEnabled();
-    bool isReady = false;
-    if (!(permission == LocationPermission.always ||
-        permission == LocationPermission.whileInUse)) {
+    final permission = await Geolocator.checkPermission();
+    final isGranted = permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse;
+    final isEnabled = await Geolocator.isLocationServiceEnabled();
+    bool isReady = true;
+    if (!isGranted) {
       _streamController.addError(susanin.LocationServiceDeniedException());
-    } else if (!isEnabled) {
+      isReady = false;
+    }
+    if (!isEnabled) {
       _streamController.addError(susanin.LocationServiceDisabledException());
-    } else {
-      isReady = true;
+      isReady = false;
     }
     isReady
         ? _getStream()
@@ -101,11 +103,12 @@ class PositionPlatformStreamImpl implements PositionPlatform {
           accuracy: event.accuracy,
         ));
       }
-    }).onError((error) {
+    }).onError((error) async {
+      bool isEnabled = await Geolocator.isLocationServiceEnabled();
       if (error is PermissionDeniedException ||
           error is InvalidPermissionException) {
         _streamController.addError(susanin.LocationServiceDeniedException());
-      } else if (error is LocationServiceDisabledException) {
+      } else if (error is LocationServiceDisabledException || !isEnabled) {
         _streamController.addError(susanin.LocationServiceDisabledException());
       } else {
         _streamController.addError(susanin.SusaninException());

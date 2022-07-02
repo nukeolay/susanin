@@ -17,33 +17,59 @@ class TutorialSettings extends StatelessWidget {
     final state = context.watch<SettingsCubit>().state;
     final isServiceDisabled =
         state.locationSettingsStatus == LocationSettingsStatus.disabled;
+    return isServiceDisabled
+        ? const ServiceDisabledInfo()
+        : const ServicePermissionInfo();
+  }
+}
+
+class ServiceDisabledInfo extends StatelessWidget {
+  const ServiceDisabledInfo({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        TutorialText(
+          'tutorial_settings_disabled'.tr(),
+          isErrorText: true,
+        ),
+        const SizedBox(height: 30),
+        Center(
+          child: CircularProgressIndicator(color: Theme.of(context).errorColor),
+        )
+      ],
+    );
+  }
+}
+
+class ServicePermissionInfo extends StatelessWidget {
+  const ServicePermissionInfo({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<SettingsCubit>().state;
     final isAccessGranted =
         state.locationSettingsStatus == LocationSettingsStatus.granted;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (isServiceDisabled)
+        if (!isAccessGranted)
           TutorialText(
-            'tutorial_settings_disabled'.tr(),
+            'tutorial_settings_permission'.tr(),
             isErrorText: true,
           ),
-        if (!isServiceDisabled) ...[
-          if (!isAccessGranted)
-            TutorialText(
-              'tutorial_settings_permission'.tr(),
-              isErrorText: true,
-            ),
-          const SizedBox(height: 10),
-          LocationServiceSwitch(state: state),
-          ThemeSwitch(state: state),
-          if (!Platform.isIOS &&
-              state.compassSettingsStatus == CompassSettingsStatus.failure)
-            TutorialText(
-              'tutorial_settings_no_compass'.tr(),
-              isErrorText: true,
-            ),
-          if (Platform.isIOS) const IosCompassSettings(),
-        ]
+        const SizedBox(height: 10),
+        LocationServiceSwitch(state: state),
+        ThemeSwitch(state: state),
+        if (!Platform.isIOS &&
+            state.compassSettingsStatus == CompassSettingsStatus.failure)
+          TutorialText(
+            'tutorial_settings_no_compass'.tr(),
+            isErrorText: true,
+          ),
+        if (Platform.isIOS) const IosCompassSettings(),
       ],
     );
   }

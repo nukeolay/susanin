@@ -22,6 +22,7 @@ class IosCompassSettings extends StatelessWidget {
             style: const TextStyle(fontSize: 16),
           ),
         ),
+        const SizedBox(height: 50.0)
       ],
     );
   }
