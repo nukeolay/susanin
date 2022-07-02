@@ -1,0 +1,2 @@
+NSLocationWhenInUseUsageDescription = "Your location will be used to calculate distance and direction to desired location and guide you there.";
+NSLocationAlwaysAndWhenInUseUsageDescription = "Your location will be used to calculate distance and direction to desired location and guide you there.";
