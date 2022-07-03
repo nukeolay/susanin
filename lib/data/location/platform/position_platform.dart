@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:async/async.dart' show StreamGroup;
 
 import 'package:geolocator/geolocator.dart';
 import 'package:susanin/core/errors/exceptions.dart' as susanin;
@@ -10,6 +9,71 @@ abstract class PositionPlatform {
   void close();
 }
 
+class PositionPlatformStreamImpl implements PositionPlatform {
+  final locationSettings = const LocationSettings(
+    accuracy: LocationAccuracy.best,
+    distanceFilter: 0,
+  );
+
+  final StreamController<PositionModel> _streamController =
+      StreamController.broadcast();
+
+  @override
+  Stream<PositionModel> get positionStream {
+    _init();
+    return _streamController.stream;
+  }
+
+  void _init() async {
+    final permission = await Geolocator.checkPermission();
+    final isGranted = permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse;
+    final isEnabled = await Geolocator.isLocationServiceEnabled();
+    bool isReady = true;
+    if (!isGranted) {
+      _streamController.addError(susanin.LocationServiceDeniedException());
+      isReady = false;
+    }
+    if (!isEnabled) {
+      _streamController.addError(susanin.LocationServiceDisabledException());
+      isReady = false;
+    }
+    isReady ? _getStream() : await _tryInit();
+  }
+
+  Future<void> _tryInit() async {
+    return Future.delayed(const Duration(milliseconds: 500), () => _init());
+  }
+
+  void _getStream() {
+    PositionModel? _lastKnownPosition;
+    Geolocator.getServiceStatusStream().listen((event) {
+      if (event == ServiceStatus.disabled) {
+        _streamController.addError(susanin.LocationServiceDisabledException());
+      }
+      if (event == ServiceStatus.enabled && _lastKnownPosition != null) {
+        _streamController.add(_lastKnownPosition!);
+      }
+    }).onError((error) async {});
+
+    Geolocator.getPositionStream(locationSettings: locationSettings)
+        .listen((event) {
+      _lastKnownPosition = PositionModel(
+        longitude: event.longitude,
+        latitude: event.latitude,
+        accuracy: event.accuracy,
+      );
+      _streamController.add(_lastKnownPosition!);
+    }).onError((error) {});
+  }
+
+  @override
+  void close() {
+    _streamController.close();
+  }
+}
+
+// old version of position stream
 class PositionPlatformImpl implements PositionPlatform {
   bool _isClosed = false;
 
@@ -50,67 +114,5 @@ class PositionPlatformImpl implements PositionPlatform {
   @override
   void close() {
     _isClosed = true;
-  }
-}
-
-class PositionPlatformStreamImpl implements PositionPlatform {
-  final locationSettings = const LocationSettings(
-    accuracy: LocationAccuracy.best,
-    distanceFilter: 0,
-  );
-
-  final StreamController<PositionModel> _streamController =
-      StreamController.broadcast();
-
-  @override
-  Stream<PositionModel> get positionStream {
-    _init();
-    return _streamController.stream;
-  }
-
-  void _init() async {
-    final permission = await Geolocator.checkPermission();
-    final isGranted = permission == LocationPermission.always ||
-        permission == LocationPermission.whileInUse;
-    final isEnabled = await Geolocator.isLocationServiceEnabled();
-    bool isReady = true;
-    if (!isGranted) {
-      _streamController.addError(susanin.LocationServiceDeniedException());
-      isReady = false;
-    }
-    if (!isEnabled) {
-      _streamController.addError(susanin.LocationServiceDisabledException());
-      isReady = false;
-    }
-    isReady ? _getStream() : await _tryInit();
-  }
-
-  Future<void> _tryInit() async {
-    return Future.delayed(const Duration(milliseconds: 500), () => _init());
-  }
-
-  void _getStream() {
-    final positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings);
-    final positionServiceStatusStream = Geolocator.getServiceStatusStream();
-    StreamGroup.merge([positionStream, positionServiceStatusStream])
-        .listen((event) {
-      if (event is ServiceStatus && event == ServiceStatus.disabled) {
-        _streamController.addError(susanin.LocationServiceDisabledException());
-      } else if (event is Position) {
-        _streamController.add(PositionModel(
-          longitude: event.longitude,
-          latitude: event.latitude,
-          accuracy: event.accuracy,
-        ));
-      }
-    }).onError((error) async {
-      await _tryInit();
-    });
-  }
-
-  @override
-  void close() {
-    _streamController.close();
   }
 }
