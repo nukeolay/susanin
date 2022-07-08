@@ -4,16 +4,16 @@ import 'package:dartz/dartz.dart';
 import 'package:susanin/core/errors/exceptions.dart';
 import 'package:susanin/core/errors/failure.dart';
 import 'package:susanin/data/location/platform/location_service_permission_platform.dart';
-import 'package:susanin/data/location/platform/position_platform.dart';
+import 'package:susanin/data/location/platform/position_stream_platform.dart';
 import 'package:susanin/domain/location/entities/position.dart';
 import 'package:susanin/domain/location/repositories/repository.dart';
 
 class LocationServiceRepositoryImpl implements LocationServiceRepository {
-  final PositionPlatform position;
+  final PositionStreamPlatform positionStreamPlatform;
   final LocationServicePermissionPlatform properties;
 
   LocationServiceRepositoryImpl({
-    required this.position,
+    required this.positionStreamPlatform,
     required this.properties,
   }) {
     _init();
@@ -27,7 +27,7 @@ class LocationServiceRepositoryImpl implements LocationServiceRepository {
       _streamController.stream;
 
   void _init() async {
-    position.positionStream.listen((event) {
+    positionStreamPlatform.positionStream.listen((event) {
       _streamController.add(Right(PositionEntity(
         longitude: event.longitude,
         latitude: event.latitude,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/routes/routes.dart';
+import 'package:susanin/domain/location/entities/position.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_state.dart';
 import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
@@ -55,7 +56,14 @@ class MainBarForeground extends StatelessWidget {
                   HapticFeedback.heavyImpact();
                   Navigator.of(context).pushNamed(
                     Routes.detailedLocationInfo,
-                    arguments: state.activeLocationPoint,
+                    arguments: [
+                      state.activeLocationPoint,
+                      PositionEntity(
+                        longitude: state.userLongitude,
+                        latitude: state.userLatitude,
+                        accuracy: state.positionAccuracy,
+                      ),
+                    ],
                   );
                 },
                 child: NoCompassPointer(state: state),
@@ -73,7 +81,14 @@ class MainBarForeground extends StatelessWidget {
                 HapticFeedback.heavyImpact();
                 Navigator.of(context).pushNamed(
                   Routes.detailedLocationInfo,
-                  arguments: state.activeLocationPoint,
+                  arguments: [
+                    state.activeLocationPoint,
+                    PositionEntity(
+                      longitude: state.userLongitude,
+                      latitude: state.userLatitude,
+                      accuracy: state.positionAccuracy,
+                    ),
+                  ],
                 );
               },
               child: MainPointerDefault(state: state),

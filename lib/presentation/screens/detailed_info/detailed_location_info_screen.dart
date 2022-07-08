@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:susanin/domain/location/entities/position.dart';
 import 'package:susanin/domain/location_points/entities/location_point.dart';
 import 'package:susanin/presentation/bloc/detailed_info_cubit/detailed_info_cubit.dart';
 import 'package:susanin/presentation/bloc/detailed_info_cubit/detailed_info_state.dart';
@@ -15,9 +16,14 @@ class DetailedInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final activeLocationPoint =
-        ModalRoute.of(context)!.settings.arguments as LocationPointEntity;
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as List<Object>;
+    final activeLocationPoint = arguments[0] as LocationPointEntity;
+    final currentPosition = arguments[1] as PositionEntity;
+
     context.read<DetailedInfoCubit>().setActiveLocation(activeLocationPoint);
+    context.read<DetailedInfoCubit>().setCurrentPosition(currentPosition);
+
     final radius = MediaQuery.of(context).size.width * 0.7;
 
     Future<void> _toggleWakeLock() async {

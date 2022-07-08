@@ -4,12 +4,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:susanin/core/errors/exceptions.dart' as susanin;
 import 'package:susanin/data/location/models/position_model.dart';
 
-abstract class PositionPlatform {
+abstract class PositionStreamPlatform {
   Stream<PositionModel> get positionStream;
   void close();
 }
 
-class PositionPlatformStreamImpl implements PositionPlatform {
+class PositionStreamPlatformImpl implements PositionStreamPlatform {
   final locationSettings = const LocationSettings(
     accuracy: LocationAccuracy.best,
     distanceFilter: 0,
@@ -74,7 +74,7 @@ class PositionPlatformStreamImpl implements PositionPlatform {
 }
 
 // old version of position stream
-class PositionPlatformImpl implements PositionPlatform {
+class PositionStreamPlatformImplOld implements PositionStreamPlatform {
   bool _isClosed = false;
 
   @override
