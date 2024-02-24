@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:susanin/presentation/screens/detailed_info/detailed_location_info_screen.dart';
-import 'package:susanin/presentation/screens/home/home_screen.dart';
-import 'package:susanin/presentation/screens/no_compass/no_compass_screen.dart';
-import 'package:susanin/presentation/screens/settings/settings_screen.dart';
-import 'package:susanin/presentation/screens/tutorial/tutorial_screen.dart';
+import 'package:susanin/presentation/home/home_screen.dart';
+import 'package:susanin/presentation/detailed_info/detailed_location_info_screen.dart';
+import 'package:susanin/presentation/no_compass/no_compass_screen.dart';
+import 'package:susanin/presentation/settings/settings_screen.dart';
+import 'package:susanin/presentation/tutorial/tutorial_screen.dart';
 
 class Routes {
   static const home = '/home-screen';

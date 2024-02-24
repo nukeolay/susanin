@@ -1,52 +1,90 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:susanin/features/settings/domain/use_cases/toggle_theme.dart';
+import 'package:susanin/internal/repository_initializer.dart';
+import 'package:susanin/features/settings/domain/use_cases/get_settings_stream.dart';
+import 'package:susanin/internal/cubit/app_settings_cubit.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/core/theme/dark_theme.dart';
 import 'package:susanin/core/theme/light_theme.dart';
-import 'package:susanin/internal/service_locator.dart';
-import 'package:susanin/presentation/bloc/add_location_cubit/add_location_cubit.dart';
-import 'package:susanin/presentation/bloc/compass_cubit/compass_cubit.dart';
-import 'package:susanin/presentation/bloc/detailed_info_cubit/detailed_info_cubit.dart';
-import 'package:susanin/presentation/bloc/location_point_validate_bloc/location_point_validate_bloc.dart';
-import 'package:susanin/presentation/bloc/locations_list_cubit/locations_list_cubit.dart';
-import 'package:susanin/presentation/bloc/main_pointer_cubit/main_pointer_cubit.dart';
-import 'package:susanin/presentation/bloc/settings_cubit/settings_cubit.dart';
-import 'package:susanin/presentation/bloc/settings_cubit/settings_state.dart';
-import 'package:susanin/presentation/bloc/tutorial_cubit/tutorial_cubit.dart';
-import 'package:susanin/presentation/screens/home/home_screen.dart';
-import 'package:susanin/presentation/screens/tutorial/tutorial_screen.dart';
+import 'package:susanin/presentation/home/home_screen.dart';
+import 'package:susanin/presentation/tutorial/tutorial_screen.dart';
 
-class SusaninApp extends StatelessWidget {
-  const SusaninApp({Key? key}) : super(key: key);
+class SusaninApp extends StatefulWidget {
+  const SusaninApp({super.key});
+
+  @override
+  State<SusaninApp> createState() => _SusaninAppState();
+}
+
+class _SusaninAppState extends State<SusaninApp> {
+  bool _isLoading = true;
+  final _repositoryInitializer = RepositoryInitializer();
+
+  @override
+  void initState() {
+    _repositoryInitializer.init().then(
+          (_) => setState(
+            () => _isLoading = false,
+          ),
+        );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<MainPointerCubit>(
-            create: (context) => serviceLocator<MainPointerCubit>()),
-        BlocProvider<DetailedInfoCubit>(
-            create: (context) => serviceLocator<DetailedInfoCubit>()),
-        BlocProvider<CompassCubit>(
-            create: (context) => serviceLocator<CompassCubit>()),
-        BlocProvider<LocationsListCubit>(
-            create: (context) => serviceLocator<LocationsListCubit>()),
-        BlocProvider<AddLocationCubit>(
-            create: (context) => serviceLocator<AddLocationCubit>()),
-        BlocProvider<LocationPointValidateBloc>(
-            create: (context) => serviceLocator<LocationPointValidateBloc>()),
-        BlocProvider<SettingsCubit>(
-            create: (context) => serviceLocator<SettingsCubit>()),
-        BlocProvider<TutorialCubit>(
-            create: (context) => serviceLocator<TutorialCubit>()),
-      ],
-      child:
-          BlocBuilder<SettingsCubit, SettingsState>(builder: (context, state) {
-        final bool isFirstTime =
-            context.read<TutorialCubit>().state.isFirstTime;
+    if (_isLoading) {
+      return const MaterialApp(
+        home: Scaffold(
+          // TODO impl SplashScreen
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+    }
 
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(
+          value: _repositoryInitializer.compassRepository,
+        ),
+        RepositoryProvider.value(
+          value: _repositoryInitializer.locationRepository,
+        ),
+        RepositoryProvider.value(
+          value: _repositoryInitializer.placesRepository,
+        ),
+        RepositoryProvider.value(
+          value: _repositoryInitializer.settingsRepository,
+        ),
+        RepositoryProvider.value(
+          value: _repositoryInitializer.wakelockRepository,
+        ),
+      ],
+      child: BlocProvider(
+        create: (context) => AppSettingsCubit(
+          getSettingsStream: GetSettingsStream(
+            _repositoryInitializer.settingsRepository,
+          ),
+          toggleTheme: ToggleTheme(
+            _repositoryInitializer.settingsRepository,
+          ),
+        ),
+        child: const _App(),
+      ),
+    );
+  }
+}
+
+class _App extends StatelessWidget {
+  const _App();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AppSettingsCubit, AppSettingsState>(
+      builder: (context, state) {
         return MaterialApp(
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
@@ -56,10 +94,10 @@ class SusaninApp extends StatelessWidget {
           themeMode: state.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
           darkTheme: darkTheme,
           theme: lightTheme,
-          home: isFirstTime ? const TutorialScreen() : const HomeScreen(),
+          home: state.isFirstTime ? const TutorialScreen() : const HomeScreen(),
           onGenerateRoute: Routes.onGenerateRoute,
         );
-      }),
+      },
     );
   }
 }

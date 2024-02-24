@@ -4,7 +4,7 @@ class LocationServiceDisabledException extends SusaninException {}
 
 class LocationServiceDeniedException extends SusaninException {}
 
-class LocationServiceDeniedForeverException extends SusaninException {}
+class LocationServiceUnknownException extends SusaninException {}
 
 class CompassException extends SusaninException {}
 
