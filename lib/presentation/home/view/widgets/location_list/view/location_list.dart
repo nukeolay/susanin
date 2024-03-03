@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/features/places/domain/use_cases/delete_place.dart';
-import 'package:susanin/features/places/domain/use_cases/get_places_stream.dart';
 import 'package:susanin/features/places/domain/use_cases/update_place.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_active_place_stream.dart';
@@ -32,12 +31,11 @@ class LocationList extends StatelessWidget {
       setActivePlace: setActivePlace,
       getSettings: getSettings,
     );
-    final getPlacesStream = GetPlacesStream(placesRepository);
     final updatePlace = UpdatePlace(placesRepository);
     return BlocProvider(
       create: (_) => LocationsListCubit(
         deletePlace: deletePlace,
-        getPlacesStream: getPlacesStream,
+        placesRepository: placesRepository,
         getActivePlaceStream: getActivePlaceStream,
         setActivePlace: setActivePlace,
         updatePlace: updatePlace,

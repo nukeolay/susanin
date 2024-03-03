@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:susanin/core/use_cases/use_case.dart';
 import 'package:susanin/features/places/domain/entities/place.dart';
+import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/features/places/domain/use_cases/delete_place.dart';
-import 'package:susanin/features/places/domain/use_cases/get_places_stream.dart';
 import 'package:susanin/features/places/domain/use_cases/update_place.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_active_place_stream.dart';
 import 'package:susanin/features/settings/domain/use_cases/set_active_place.dart';
@@ -16,12 +16,12 @@ part 'locations_list_state.dart';
 class LocationsListCubit extends Cubit<LocationsListState> {
   LocationsListCubit({
     required GetActivePlaceStream getActivePlaceStream,
-    required GetPlacesStream getPlacesStream,
+    required PlacesRepository placesRepository,
     required UpdatePlace updatePlace,
     required DeletePlace deletePlace,
     required SetActivePlace setActivePlace,
   })  : _getActivePlaceStream = getActivePlaceStream,
-        _getPlacesStream = getPlacesStream,
+        _placesRepository = placesRepository,
         _updatePlace = updatePlace,
         _deletePlace = deletePlace,
         _setActivePlace = setActivePlace,
@@ -29,7 +29,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     _init();
   }
 
-  final GetPlacesStream _getPlacesStream;
+  final PlacesRepository _placesRepository;
   final GetActivePlaceStream _getActivePlaceStream;
   final UpdatePlace _updatePlace;
   final DeletePlace _deletePlace;
@@ -43,7 +43,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     final activePlaceStream = _getActivePlaceStream(const NoParams());
     final activePlace = activePlaceStream.valueOrNull ?? ActivePlaceEvent.empty;
     _activePlaceHandler(activePlace);
-    final placesStream = _getPlacesStream(const NoParams());
+    final placesStream = _placesRepository.placesStream;
     final initialPlaces = placesStream.valueOrNull ?? [];
     _locationsHandler(initialPlaces);
     _activePlaceSubscription = activePlaceStream.listen(_activePlaceHandler);
