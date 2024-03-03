@@ -7,7 +7,6 @@ import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
-import 'package:susanin/features/settings/domain/use_cases/get_settings.dart';
 import 'package:susanin/presentation/common/widgets/pointer.dart';
 import 'package:susanin/presentation/tutorial/view/slides/3_demo_pointer/cubit/demo_pointer_cubit.dart';
 
@@ -18,15 +17,13 @@ class DemoPointer extends StatelessWidget {
   Widget build(BuildContext context) {
     final compassRepository = context.read<CompassRepository>();
     final locationRepository = context.read<LocationRepository>();
-    final getSettings = GetSettings(
-      context.read<SettingsRepository>(),
-    );
+    final settingsRepository = context.read<SettingsRepository>();
 
     return BlocProvider(
       create: (context) => DemoPointerCubit(
         compassRepository: compassRepository,
         locationRepository: locationRepository,
-        getSettings: getSettings,
+        settingsRepository: settingsRepository,
       ),
       child: const _DemoPointerView(),
     );

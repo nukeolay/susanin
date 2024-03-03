@@ -5,7 +5,6 @@ import 'package:susanin/features/places/domain/repositories/places_repository.da
 import 'package:susanin/features/places/domain/use_cases/delete_place.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_active_place_stream.dart';
-import 'package:susanin/features/settings/domain/use_cases/get_settings.dart';
 import 'package:susanin/features/settings/domain/use_cases/set_active_place.dart';
 import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/view/location_bottom_sheet.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
@@ -24,11 +23,10 @@ class LocationList extends StatelessWidget {
       settingsRepository: settingsRepository,
     );
     final setActivePlace = SetActivePlace(settingsRepository);
-    final getSettings = GetSettings(settingsRepository);
     final deletePlace = DeletePlace(
       placesRepository: placesRepository,
       setActivePlace: setActivePlace,
-      getSettings: getSettings,
+      settingsRepository: settingsRepository,
     );
     return BlocProvider(
       create: (_) => LocationsListCubit(
