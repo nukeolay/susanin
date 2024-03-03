@@ -1,6 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:susanin/features/compass/data/repositories/compass_repository_impl.dart';
-import 'package:susanin/features/compass/data/services/compass_service.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/data/repositories/location_repository_impl.dart';
 import 'package:susanin/features/location/data/services/location_service.dart';
@@ -19,6 +18,22 @@ import 'package:susanin/features/wakelock/domain/repositories/wakelock_repositor
 class RepositoryInitializer {
   RepositoryInitializer();
 
+  late final LocationRepository _locationRepository;
+  late final CompassRepository _compassRepository;
+  late final PlacesRepository _placesRepository;
+  late final SettingsRepository _settingsRepository;
+  late final WakelockRepository _wakelockRepository;
+
+  LocationRepository get locationRepository => _locationRepository;
+  CompassRepository get compassRepository => _compassRepository;
+  PlacesRepository get placesRepository => _placesRepository;
+  SettingsRepository get settingsRepository => _settingsRepository;
+  WakelockRepository get wakelockRepository => _wakelockRepository;
+
+  void dispose() async {
+    await _compassRepository.close();
+  }
+
   Future<void> init() async {
     // External
     final sharedPreferences = await SharedPreferences.getInstance();
@@ -32,8 +47,7 @@ class RepositoryInitializer {
     );
 
     // CompassRepository
-    const compassService = CompassServiceImpl();
-    _compassRepository = CompassRepositoryImpl(compassService);
+    _compassRepository = CompassRepositoryImpl();
 
     // LocationPointsRepository
     final placesService = PlacesServiceImpl(sharedPreferences);
@@ -47,16 +61,4 @@ class RepositoryInitializer {
     const wakelockService = WakelockServiceImpl();
     _wakelockRepository = const WakelockRepositoryImpl(wakelockService);
   }
-
-  late final LocationRepository _locationRepository;
-  late final CompassRepository _compassRepository;
-  late final PlacesRepository _placesRepository;
-  late final SettingsRepository _settingsRepository;
-  late final WakelockRepository _wakelockRepository;
-
-  LocationRepository get locationRepository => _locationRepository;
-  CompassRepository get compassRepository => _compassRepository;
-  PlacesRepository get placesRepository => _placesRepository;
-  SettingsRepository get settingsRepository => _settingsRepository;
-  WakelockRepository get wakelockRepository => _wakelockRepository;
 }

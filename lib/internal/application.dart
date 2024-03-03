@@ -24,12 +24,16 @@ class _SusaninAppState extends State<SusaninApp> {
 
   @override
   void initState() {
-    _repositoryInitializer.init().then(
-          (_) => setState(
-            () => _isLoading = false,
-          ),
-        );
+    _repositoryInitializer
+        .init()
+        .then((_) => setState(() => _isLoading = false));
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _repositoryInitializer.dispose();
+    super.dispose();
   }
 
   @override

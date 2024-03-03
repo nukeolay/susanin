@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:susanin/core/use_cases/use_case.dart';
 import 'package:susanin/features/places/domain/entities/place.dart';
 import 'package:susanin/features/places/domain/use_cases/delete_place.dart';
@@ -119,5 +120,12 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     } else {
       emit(state.copyWith(status: LocationsListStatus.failure));
     }
+  }
+
+  Future<bool> onShare(PlaceEntity place) async {
+    final shareLink =
+        '${place.name} https://www.google.com/maps/search/?api=1&query=${place.latitude},${place.longitude}';
+    await Share.share(shareLink);
+    return false;
   }
 }

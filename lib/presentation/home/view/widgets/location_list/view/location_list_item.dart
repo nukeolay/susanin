@@ -9,7 +9,7 @@ class LocationListItem extends StatelessWidget {
   final VoidCallback? onPress;
   final VoidCallback? onLongPress;
   final Function(DismissDirection)? onDismissed;
-  final Future<bool?> Function(DismissDirection)? onConfirmDismiss;
+  final Future<bool> Function(DismissDirection)? onConfirmDismiss;
 
   const LocationListItem({
     required this.location,
@@ -19,7 +19,7 @@ class LocationListItem extends StatelessWidget {
     required this.onLongPress,
     required this.onDismissed,
     required this.onConfirmDismiss,
-    super.key,
+    required super.key,
   });
 
   @override
