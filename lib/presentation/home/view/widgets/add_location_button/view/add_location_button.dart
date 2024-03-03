@@ -88,17 +88,7 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
           name: state.name,
           latitude: state.latitude.toString(),
           longitude: state.longitude.toString(),
-          saveLocation: (
-            String latitude,
-            String longitude,
-            String name,
-          ) {
-            context.read<AddLocationCubit>().onSaveLocation(
-                  latitude: double.parse(latitude),
-                  longitude: double.parse(longitude),
-                  name: name,
-                );
-          },
+          saveLocation: context.read<AddLocationCubit>().onSaveLocation,
         );
       },
     );

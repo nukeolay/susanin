@@ -24,7 +24,7 @@ class AddPlace extends UseCase<Future<PlaceEntity>, AddParams> {
       creationTime: DateTime.now(),
     );
     places.add(newLocation);
-    await _placesRepository.save(places);
+    await _placesRepository.create(places);
     await _setActiveLocation(SetPlaceParams(placeId: newLocation.id));
     return newLocation;
   }

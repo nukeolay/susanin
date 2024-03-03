@@ -72,15 +72,18 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     await _addLocation(addParams);
   }
 
-  void onSaveLocation({
-    required double latitude,
-    required double longitude,
+  Future<void> onSaveLocation({
+    required String latitude,
+    required String longitude,
     required String name,
   }) async {
     emit(state.copyWith(status: AddLocationStatus.loading));
+    final doubleLatitude = double.tryParse(latitude);
+    final doubleLongitude = double.tryParse(longitude);
+    if (doubleLatitude == null || doubleLongitude == null) return;
     final addParams = AddParams(
-      latitude: latitude,
-      longitude: longitude,
+      latitude: doubleLatitude,
+      longitude: doubleLongitude,
       name: name,
     );
     await _addLocation(addParams);

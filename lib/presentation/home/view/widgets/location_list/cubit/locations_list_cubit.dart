@@ -7,7 +7,6 @@ import 'package:susanin/core/use_cases/use_case.dart';
 import 'package:susanin/features/places/domain/entities/place.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/features/places/domain/use_cases/delete_place.dart';
-import 'package:susanin/features/places/domain/use_cases/update_place.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_active_place_stream.dart';
 import 'package:susanin/features/settings/domain/use_cases/set_active_place.dart';
 
@@ -17,12 +16,10 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   LocationsListCubit({
     required GetActivePlaceStream getActivePlaceStream,
     required PlacesRepository placesRepository,
-    required UpdatePlace updatePlace,
     required DeletePlace deletePlace,
     required SetActivePlace setActivePlace,
   })  : _getActivePlaceStream = getActivePlaceStream,
         _placesRepository = placesRepository,
-        _updatePlace = updatePlace,
         _deletePlace = deletePlace,
         _setActivePlace = setActivePlace,
         super(LocationsListState.initial) {
@@ -31,7 +28,6 @@ class LocationsListCubit extends Cubit<LocationsListState> {
 
   final PlacesRepository _placesRepository;
   final GetActivePlaceStream _getActivePlaceStream;
-  final UpdatePlace _updatePlace;
   final DeletePlace _deletePlace;
   final SetActivePlace _setActivePlace;
 
@@ -83,17 +79,18 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   void onLongPressEdit({required String id}) {
-    final location = state.places.firstWhere(
+    final place = state.places.firstWhere(
       ((location) => location.id == id),
     );
     _setActivePlace(SetPlaceParams(placeId: id));
     emit(EditPlaceState(
       activePlaceId: id,
       status: LocationsListStatus.editing,
-      name: location.name,
-      latitude: location.latitude,
-      longitude: location.longitude,
+      name: place.name,
+      latitude: place.latitude,
+      longitude: place.longitude,
       places: state.places,
+      place: place,
     ));
   }
 
@@ -103,17 +100,21 @@ class LocationsListCubit extends Cubit<LocationsListState> {
 
   Future<void> onSaveLocation({
     required String id,
-    required double latitude,
-    required double longitude,
+    required String latitude,
+    required String longitude,
     required String newLocationName,
   }) async {
-    final updateLocationResult = await _updatePlace(
-      UpdateParams(
-        id: id,
-        latitude: latitude,
-        longitude: longitude,
-        newPlaceName: newLocationName,
-      ),
+    final doubleLatitude = double.tryParse(latitude);
+    final doubleLongitude = double.tryParse(longitude);
+    if (doubleLatitude == null || doubleLongitude == null) return;
+    final location = state.places.firstWhere((element) => element.id == id);
+    final updatedLocation = location.copyWith(
+      latitude: doubleLatitude,
+      longitude: doubleLongitude,
+      name: newLocationName,
+    );
+    final updateLocationResult = await _placesRepository.update(
+      updatedLocation,
     );
     if (updateLocationResult) {
       emit(state.copyWith(status: LocationsListStatus.updated));

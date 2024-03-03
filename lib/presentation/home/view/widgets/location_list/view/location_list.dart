@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/features/places/domain/use_cases/delete_place.dart';
-import 'package:susanin/features/places/domain/use_cases/update_place.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_active_place_stream.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_settings.dart';
@@ -31,14 +30,12 @@ class LocationList extends StatelessWidget {
       setActivePlace: setActivePlace,
       getSettings: getSettings,
     );
-    final updatePlace = UpdatePlace(placesRepository);
     return BlocProvider(
       create: (_) => LocationsListCubit(
         deletePlace: deletePlace,
         placesRepository: placesRepository,
         getActivePlaceStream: getActivePlaceStream,
         setActivePlace: setActivePlace,
-        updatePlace: updatePlace,
       ),
       child: _LocationListWidget(topPadding: topPadding),
     );
@@ -100,14 +97,17 @@ class _LocationListWidget extends StatelessWidget {
           name: state.name,
           latitude: state.latitude.toString(),
           longitude: state.longitude.toString(),
-          saveLocation: (String latitude, String longitude, String name) async {
-            await cubit.onSaveLocation(
-              latitude: double.parse(latitude),
-              longitude: double.parse(longitude),
-              newLocationName: name,
-              id: state.activePlaceId,
-            );
-          },
+          saveLocation: ({
+            required String latitude,
+            required String longitude,
+            required String name,
+          }) =>
+              cubit.onSaveLocation(
+            latitude: latitude,
+            longitude: longitude,
+            newLocationName: name,
+            id: state.activePlaceId,
+          ),
         );
       },
     );

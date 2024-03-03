@@ -30,7 +30,7 @@ class DeletePlace extends UseCase<Future<bool>, DeleteParams> {
       // checking if deleted place was not active
       if (activeLocationId != params.placeId) {
         // updating places list
-        await _placesRepository.save(places);
+        await _placesRepository.create(places);
         return true;
       }
       if (places.isEmpty) {
@@ -41,7 +41,7 @@ class DeletePlace extends UseCase<Future<bool>, DeleteParams> {
       }
       await _setActivePlace(SetPlaceParams(placeId: newActivePlaceId));
       // updating places list
-      await _placesRepository.save(places);
+      await _placesRepository.create(places);
       return true;
     } catch (error) {
       return false;

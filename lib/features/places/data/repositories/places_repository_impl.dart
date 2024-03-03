@@ -26,11 +26,24 @@ class PlacesRepositoryImpl extends PlacesRepository {
   }
 
   @override
-  Future<void> save(List<PlaceEntity> places) async {
+  Future<void> create(List<PlaceEntity> places) async {
     final models = places.map((place) => PlaceModel.fromEntity(place)).toList();
     await _placesService.save(models);
     final loadedLocations = _placesService.load();
     final controller = _streamController ??= _initStreamController();
     controller.add(loadedLocations.map((e) => e.toEntity()).toList());
+  }
+
+  @override
+  Future<bool> update(PlaceEntity place) async {
+    final places = [...placesStream.valueOrNull ?? <PlaceEntity>[]];
+    final index = places.indexWhere((place) => place.id == place.id);
+    try {
+      places[index] = place;
+      await create(places);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }

@@ -8,7 +8,11 @@ class LocationBottomSheet extends StatefulWidget {
   final String name;
   final String latitude;
   final String longitude;
-  final Function saveLocation;
+  final Future<void> Function({
+    required String latitude,
+    required String longitude,
+    required String name,
+  }) saveLocation;
 
   const LocationBottomSheet({
     required this.name,
@@ -115,9 +119,9 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                       isValid: validatorState.isValid,
                       onSave: () {
                         widget.saveLocation(
-                          _latitudeController.text,
-                          _longitudeController.text,
-                          _nameController.text,
+                          latitude: _latitudeController.text,
+                          longitude: _longitudeController.text,
+                          name: _nameController.text,
                         );
                         Navigator.pop(context);
                       },
