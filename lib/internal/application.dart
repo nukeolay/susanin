@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/settings/domain/use_cases/toggle_theme.dart';
 import 'package:susanin/internal/repository_initializer.dart';
-import 'package:susanin/features/settings/domain/use_cases/get_settings_stream.dart';
 import 'package:susanin/internal/cubit/app_settings_cubit.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/core/theme/dark_theme.dart';
@@ -69,9 +68,7 @@ class _SusaninAppState extends State<SusaninApp> {
       ],
       child: BlocProvider(
         create: (context) => AppSettingsCubit(
-          getSettingsStream: GetSettingsStream(
-            _repositoryInitializer.settingsRepository,
-          ),
+          settingsRepository: _repositoryInitializer.settingsRepository,
           toggleTheme: ToggleTheme(
             _repositoryInitializer.settingsRepository,
           ),
