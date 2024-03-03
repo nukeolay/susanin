@@ -47,8 +47,15 @@ class LocationRepositoryImpl implements LocationRepository {
   }
 
   @override
-  Future<bool> requestPermission() async {
-    final result = await _permissionService.requestPermission();
+  Future<LocationStatus> requestPermission() async {
+    final permission = await checkPermission();
+    if (permission) {
+      _initHandler();
+      return LocationStatus.granted;
+    }
+    final isGranted = await _permissionService.requestPermission();
+    final result =
+        isGranted ? LocationStatus.granted : LocationStatus.notPermitted;
     _initHandler();
     return result;
   }

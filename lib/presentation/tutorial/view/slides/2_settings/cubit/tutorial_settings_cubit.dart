@@ -9,7 +9,6 @@ import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/settings/domain/entities/settings.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_theme_mode.dart';
-import 'package:susanin/features/location/domain/use_cases/request_permission.dart';
 import 'package:susanin/features/settings/domain/use_cases/toggle_theme.dart';
 
 part 'tutorial_settings_state.dart';
@@ -18,12 +17,10 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
   TutorialSettingsCubit({
     required LocationRepository locationRepository,
     required CompassRepository compassRepository,
-    required RequestPermission requestPermission,
     required GetThemeMode getThemeMode,
     required ToggleTheme toggleTheme,
   })  : _locationRepository = locationRepository,
         _compassRepository = compassRepository,
-        _requestPermission = requestPermission,
         _getThemeMode = getThemeMode,
         _toggleTheme = toggleTheme,
         super(TutorialSettingsState.initial) {
@@ -32,7 +29,6 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
 
   final LocationRepository _locationRepository;
   final CompassRepository _compassRepository;
-  final RequestPermission _requestPermission;
   final GetThemeMode _getThemeMode;
   final ToggleTheme _toggleTheme;
   StreamSubscription<PositionEntity>? _positionSubscription;
@@ -52,7 +48,7 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
   }
 
   Future<void> getPermission() async {
-    final locationStatus = await _requestPermission(const NoParams());
+    final locationStatus = await _locationRepository.requestPermission();
     emit(state.copyWith(locationStatus: locationStatus));
   }
 

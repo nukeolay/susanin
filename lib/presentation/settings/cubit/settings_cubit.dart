@@ -7,7 +7,6 @@ import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/location/domain/use_cases/request_permission.dart';
 import 'package:susanin/features/wakelock/domain/entities/wakelock_status.dart';
 import 'package:susanin/features/wakelock/domain/use_cases/get_wakelock_status.dart';
 import 'package:susanin/features/wakelock/domain/use_cases/toggle_wakelock.dart';
@@ -18,12 +17,10 @@ class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit({
     required LocationRepository locationRepository,
     required CompassRepository compassRepository,
-    required RequestPermission requestPermission,
     required GetWakelockStatus getWakelockStatus,
     required ToggleWakelock toggleWakelock,
   })  : _locationRepository = locationRepository,
         _compassRepository = compassRepository,
-        _requestPermission = requestPermission,
         _getWakelockStatus = getWakelockStatus,
         _toggleWakelock = toggleWakelock,
         super(SettingsState.initial) {
@@ -32,7 +29,6 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   final LocationRepository _locationRepository;
   final CompassRepository _compassRepository;
-  final RequestPermission _requestPermission;
   final GetWakelockStatus _getWakelockStatus;
   final ToggleWakelock _toggleWakelock;
   StreamSubscription<CompassEntity>? _compassSubscription;
@@ -55,7 +51,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   Future<void> getPermission() async {
-    final status = await _requestPermission(const NoParams());
+    final status = await _locationRepository.requestPermission();
     emit(state.copyWith(locationServiceStatus: status));
   }
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/location/domain/use_cases/request_permission.dart';
 import 'package:susanin/features/wakelock/domain/repositories/wakelock_repository.dart';
 import 'package:susanin/features/wakelock/domain/use_cases/get_wakelock_status.dart';
 import 'package:susanin/features/wakelock/domain/use_cases/toggle_wakelock.dart';
@@ -20,7 +19,6 @@ class SettingsScreen extends StatelessWidget {
 
     final getWakelockStatus = GetWakelockStatus(wakelockRepository);
     final toggleWakelock = ToggleWakelock(wakelockRepository);
-    final requestPermission = RequestPermission(locationRepository);
 
     return BlocProvider(
       create: (context) => SettingsCubit(
@@ -28,7 +26,6 @@ class SettingsScreen extends StatelessWidget {
         locationRepository: locationRepository,
         getWakelockStatus: getWakelockStatus,
         toggleWakelock: toggleWakelock,
-        requestPermission: requestPermission,
       ),
       child: const SettingsView(),
     );
