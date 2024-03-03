@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/compass/domain/use_cases/get_compass_stream.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
 import 'package:susanin/features/location/domain/use_cases/request_permission.dart';
@@ -20,7 +19,6 @@ class SettingsScreen extends StatelessWidget {
     final locationRepository = context.read<LocationRepository>();
     final wakelockRepository = context.read<WakelockRepository>();
 
-    final getCompassStream = GetCompassStream(compassRepository);
     final getPositionStream = GetPositionStream(locationRepository);
     final getWakelockStatus = GetWakelockStatus(wakelockRepository);
     final toggleWakelock = ToggleWakelock(wakelockRepository);
@@ -28,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => SettingsCubit(
-        getCompassStream: getCompassStream,
+        compassRepository: compassRepository,
         getPositionStream: getPositionStream,
         getWakelockStatus: getWakelockStatus,
         toggleWakelock: toggleWakelock,

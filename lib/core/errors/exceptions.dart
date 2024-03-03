@@ -6,8 +6,6 @@ class LocationServiceDeniedException extends SusaninException {}
 
 class LocationServiceUnknownException extends SusaninException {}
 
-class CompassException extends SusaninException {}
-
 class LoadLocationPointsException extends SusaninException {}
 
 class LoadSettingsException extends SusaninException {}

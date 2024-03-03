@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'package:susanin/features/compass/domain/use_cases/get_compass_stream.dart';
 import 'package:susanin/presentation/common/widgets/settings_switch.dart';
 import 'package:susanin/presentation/settings/cubit/settings_cubit.dart';
 

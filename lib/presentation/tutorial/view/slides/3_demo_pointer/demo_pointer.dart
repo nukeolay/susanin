@@ -5,7 +5,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:susanin/core/extensions/extensions.dart';
 
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/compass/domain/use_cases/get_compass_stream.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_settings.dart';
@@ -18,9 +17,7 @@ class DemoPointer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final getCompassStream = GetCompassStream(
-      context.read<CompassRepository>(),
-    );
+    final compassRepository = context.read<CompassRepository>();
     final getPositionStream = GetPositionStream(
       context.read<LocationRepository>(),
     );
@@ -30,7 +27,7 @@ class DemoPointer extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => DemoPointerCubit(
-        getCompassStream: getCompassStream,
+        compassRepository: compassRepository,
         getPositionStream: getPositionStream,
         getSettings: getSettings,
       ),

@@ -4,7 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:susanin/core/use_cases/use_case.dart';
-import 'package:susanin/features/compass/domain/use_cases/get_compass_stream.dart';
+import 'package:susanin/features/compass/domain/entities/compass.dart';
+import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
 import 'package:susanin/features/places/domain/entities/place.dart';
 import 'package:susanin/core/mixins/pointer_calculations.dart';
@@ -17,12 +18,12 @@ part 'detailed_info_state.dart';
 class DetailedInfoCubit extends Cubit<DetailedInfoState> {
   DetailedInfoCubit({
     required GetPositionStream getPositionStream,
-    required GetCompassStream getCompassStream,
+    required CompassRepository compassRepository,
     required GetWakelockStatus getWakelockStatus,
     required ToggleWakelock toggleWakelock,
     required PlaceEntity place,
   })  : _getPositionStream = getPositionStream,
-        _getCompassStream = getCompassStream,
+        _compassRepository = compassRepository,
         _getWakelockStatus = getWakelockStatus,
         _toggleWakelock = toggleWakelock,
         super(DetailedInfoState.initial(place)) {
@@ -30,19 +31,19 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
   }
 
   final GetPositionStream _getPositionStream;
-  final GetCompassStream _getCompassStream;
+  final CompassRepository _compassRepository;
   final GetWakelockStatus _getWakelockStatus;
   final ToggleWakelock _toggleWakelock;
 
   StreamSubscription<PositionEvent>? _positionSubscription;
-  StreamSubscription<CompassEvent>? _compassSubscription;
+  StreamSubscription<CompassEntity>? _compassSubscription;
 
   void _init() {
     _updateWakelockStatus();
     _positionSubscription =
         _getPositionStream(const NoParams()).listen(_positionEventHandler);
     _compassSubscription =
-        _getCompassStream(const NoParams()).listen(_compassEventHandler);
+        _compassRepository.compassStream.listen(_compassEventHandler);
   }
 
   void _positionEventHandler(PositionEvent event) {
@@ -57,12 +58,10 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
     ));
   }
 
-  void _compassEventHandler(CompassEvent event) {
-    final compass = event.entity;
-    final status = event.status;
+  void _compassEventHandler(CompassEntity entity) {
     emit(state.copyWith(
-      hasCompass: status.isSuccess ? true : false,
-      compassNorth: compass?.north,
+      hasCompass: entity.status.isSuccess ? true : false,
+      compassNorth: entity.north,
     ));
   }
 

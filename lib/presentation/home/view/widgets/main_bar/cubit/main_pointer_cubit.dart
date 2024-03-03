@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/use_cases/use_case.dart';
-import 'package:susanin/features/compass/domain/use_cases/get_compass_stream.dart';
+import 'package:susanin/features/compass/domain/entities/compass.dart';
+import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
 import 'package:susanin/features/places/domain/entities/place.dart';
 import 'package:susanin/core/mixins/pointer_calculations.dart';
@@ -15,20 +16,20 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   MainPointerCubit({
     required GetPositionStream getPositionStream,
     required GetActivePlaceStream getActivePlaceStream,
-    required GetCompassStream getCompassStream,
+    required CompassRepository compassRepository,
   })  : _getPositionStream = getPositionStream,
         _getActivePlaceStream = getActivePlaceStream,
-        _getCompassStream = getCompassStream,
+        _compassRepository = compassRepository,
         super(MainPointerState.initial) {
     _init();
   }
 
   final GetPositionStream _getPositionStream;
   final GetActivePlaceStream _getActivePlaceStream;
-  final GetCompassStream _getCompassStream;
+  final CompassRepository _compassRepository;
   StreamSubscription<ActivePlaceEvent>? _activePlaceSubscription;
   StreamSubscription<PositionEvent>? _positionSubscription;
-  StreamSubscription<CompassEvent>? _compassSubscription;
+  StreamSubscription<CompassEntity>? _compassSubscription;
 
   void _init() async {
     _updateActivePlace();
@@ -64,11 +65,10 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   }
 
   void _updateCompassStatus() {
-    final stream = _getCompassStream(const NoParams());
-    _compassSubscription = stream.listen((event) {
+    _compassSubscription = _compassRepository.compassStream.listen((event) {
       emit(state.copyWith(
         compassStatus: event.status,
-        compassNorth: event.entity?.north,
+        compassNorth: event.north,
       ));
     });
   }

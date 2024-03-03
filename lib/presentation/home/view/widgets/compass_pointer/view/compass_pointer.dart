@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:susanin/core/routes/routes.dart';
+import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/compass/domain/use_cases/get_compass_stream.dart';
 import 'package:susanin/presentation/common/widgets/pointer.dart';
 import 'package:susanin/presentation/home/view/widgets/compass_pointer/cubit/compass_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/compass_pointer/view/calibrate_bottom_sheet.dart';
@@ -18,9 +18,8 @@ class CompassPointer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final compassRepository = context.read<CompassRepository>();
-    final getCompassStream = GetCompassStream(compassRepository);
     return BlocProvider(
-      create: (_) => CompassCubit(getCompassStream: getCompassStream),
+      create: (_) => CompassCubit(compassRepository: compassRepository),
       child: const _CompassPointerWidget(),
     );
   }

@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/use_cases/use_case.dart';
+import 'package:susanin/features/compass/domain/entities/compass.dart';
+import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/settings/domain/entities/settings.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_theme_mode.dart';
-import 'package:susanin/features/compass/domain/use_cases/get_compass_stream.dart';
 import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
 import 'package:susanin/features/location/domain/use_cases/request_permission.dart';
 import 'package:susanin/features/settings/domain/use_cases/toggle_theme.dart';
@@ -15,12 +16,12 @@ part 'tutorial_settings_state.dart';
 class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
   TutorialSettingsCubit({
     required GetPositionStream getPositionStream,
-    required GetCompassStream getCompassStream,
+    required CompassRepository compassRepository,
     required RequestPermission requestPermission,
     required GetThemeMode getThemeMode,
     required ToggleTheme toggleTheme,
   })  : _getPositionStream = getPositionStream,
-        _getCompassStream = getCompassStream,
+        _compassRepository = compassRepository,
         _requestPermission = requestPermission,
         _getThemeMode = getThemeMode,
         _toggleTheme = toggleTheme,
@@ -29,12 +30,12 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
   }
 
   final GetPositionStream _getPositionStream;
-  final GetCompassStream _getCompassStream;
+  final CompassRepository _compassRepository;
   final RequestPermission _requestPermission;
   final GetThemeMode _getThemeMode;
   final ToggleTheme _toggleTheme;
   StreamSubscription<PositionEvent>? _positionSubscription;
-  StreamSubscription<CompassEvent>? _compassSubscription;
+  StreamSubscription<CompassEntity>? _compassSubscription;
 
   void _init() {
     _updateTheme();
@@ -72,8 +73,7 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
   }
 
   void _updateCompassStatus() {
-    final stream = _getCompassStream(const NoParams());
-    _compassSubscription = stream.listen((event) {
+    _compassSubscription = _compassRepository.compassStream.listen((event) {
       emit(state.copyWith(compassStatus: event.status));
     });
   }

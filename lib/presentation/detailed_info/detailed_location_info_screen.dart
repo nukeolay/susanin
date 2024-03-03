@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/compass/domain/use_cases/get_compass_stream.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
 import 'package:susanin/features/places/domain/entities/place.dart';
@@ -24,14 +23,13 @@ class DetailedInfoScreen extends StatelessWidget {
     final locationRepository = context.read<LocationRepository>();
     final wakelockRepository = context.read<WakelockRepository>();
 
-    final getCompassStream = GetCompassStream(compassRepository);
     final getPositionStream = GetPositionStream(locationRepository);
     final getWakelockStatus = GetWakelockStatus(wakelockRepository);
     final toggleWakelock = ToggleWakelock(wakelockRepository);
 
     return BlocProvider(
       create: (context) => DetailedInfoCubit(
-        getCompassStream: getCompassStream,
+        compassRepository: compassRepository,
         getPositionStream: getPositionStream,
         getWakelockStatus: getWakelockStatus,
         toggleWakelock: toggleWakelock,

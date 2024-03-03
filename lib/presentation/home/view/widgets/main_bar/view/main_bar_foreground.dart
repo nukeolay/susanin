@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/routes/routes.dart';
-import 'package:susanin/features/compass/domain/use_cases/get_compass_stream.dart';
 import 'package:susanin/internal/cubit/app_settings_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/main_bar/cubit/main_pointer_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/main_bar/view/main_pointer.dart';

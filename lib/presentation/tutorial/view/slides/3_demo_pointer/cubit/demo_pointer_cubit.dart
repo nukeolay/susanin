@@ -4,7 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:susanin/core/use_cases/use_case.dart';
-import 'package:susanin/features/compass/domain/use_cases/get_compass_stream.dart';
+import 'package:susanin/features/compass/domain/entities/compass.dart';
+import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_settings.dart';
 import 'package:susanin/core/mixins/pointer_calculations.dart';
@@ -15,20 +16,20 @@ class DemoPointerCubit extends Cubit<DemoPointerState> {
   DemoPointerCubit({
     required GetSettings getSettings,
     required GetPositionStream getPositionStream,
-    required GetCompassStream getCompassStream,
+    required CompassRepository compassRepository,
   })  : _getSettings = getSettings,
         _getPositionStream = getPositionStream,
-        _getCompassStream = getCompassStream,
+        _compassRepository = compassRepository,
         super(DemoPointerState.initial) {
     _init();
   }
 
   final GetSettings _getSettings;
   final GetPositionStream _getPositionStream;
-  final GetCompassStream _getCompassStream;
+  final CompassRepository _compassRepository;
 
   StreamSubscription<PositionEvent>? _positionSubscription;
-  StreamSubscription<CompassEvent>? _compassSubscription;
+  StreamSubscription<CompassEntity>? _compassSubscription;
 
   void _init() {
     final settings = _getSettings(const NoParams());
@@ -36,7 +37,7 @@ class DemoPointerCubit extends Cubit<DemoPointerState> {
     _positionSubscription =
         _getPositionStream(const NoParams()).listen(_positionEventHandler);
     _compassSubscription =
-        _getCompassStream(const NoParams()).listen(_compassEventHandler);
+        _compassRepository.compassStream.listen(_compassEventHandler);
   }
 
   @override
@@ -46,12 +47,10 @@ class DemoPointerCubit extends Cubit<DemoPointerState> {
     return super.close();
   }
 
-  void _compassEventHandler(CompassEvent event) {
-    final compass = event.entity;
-    final status = event.status;
+  void _compassEventHandler(CompassEntity entity) {
     emit(state.copyWith(
-      hasCompass: status.isSuccess ? true : false,
-      compassNorth: compass?.north,
+      hasCompass: entity.status.isSuccess ? true : false,
+      compassNorth: entity.north,
     ));
   }
 
