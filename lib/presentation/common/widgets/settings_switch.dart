@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
+import 'package:susanin/features/location/domain/entities/position.dart';
 
 class SettingsSwitch extends StatelessWidget {
   const SettingsSwitch({

@@ -1,9 +1,11 @@
-import 'package:susanin/features/location/domain/entities/position.dart';
-
-class PositionModel extends PositionEntity {
+class PositionModel {
   const PositionModel({
-    required super.longitude,
-    required super.latitude,
-    required super.accuracy,
+    required this.longitude,
+    required this.latitude,
+    required this.accuracy,
   });
+
+  final double longitude;
+  final double latitude;
+  final double accuracy;
 }

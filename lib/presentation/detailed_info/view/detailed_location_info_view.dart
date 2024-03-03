@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
 import 'package:susanin/presentation/common/widgets/hide_button.dart';
 import 'package:susanin/presentation/detailed_info/cubit/detailed_info_cubit.dart';
 import 'package:susanin/presentation/detailed_info/view/widgets/custom_snackbar.dart';

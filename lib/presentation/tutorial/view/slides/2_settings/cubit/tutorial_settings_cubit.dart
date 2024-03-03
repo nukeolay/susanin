@@ -5,9 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/use_cases/use_case.dart';
 import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
+import 'package:susanin/features/location/domain/entities/position.dart';
+import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/settings/domain/entities/settings.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_theme_mode.dart';
-import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
 import 'package:susanin/features/location/domain/use_cases/request_permission.dart';
 import 'package:susanin/features/settings/domain/use_cases/toggle_theme.dart';
 
@@ -15,12 +16,12 @@ part 'tutorial_settings_state.dart';
 
 class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
   TutorialSettingsCubit({
-    required GetPositionStream getPositionStream,
+    required LocationRepository locationRepository,
     required CompassRepository compassRepository,
     required RequestPermission requestPermission,
     required GetThemeMode getThemeMode,
     required ToggleTheme toggleTheme,
-  })  : _getPositionStream = getPositionStream,
+  })  : _locationRepository = locationRepository,
         _compassRepository = compassRepository,
         _requestPermission = requestPermission,
         _getThemeMode = getThemeMode,
@@ -29,12 +30,12 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
     _init();
   }
 
-  final GetPositionStream _getPositionStream;
+  final LocationRepository _locationRepository;
   final CompassRepository _compassRepository;
   final RequestPermission _requestPermission;
   final GetThemeMode _getThemeMode;
   final ToggleTheme _toggleTheme;
-  StreamSubscription<PositionEvent>? _positionSubscription;
+  StreamSubscription<PositionEntity>? _positionSubscription;
   StreamSubscription<CompassEntity>? _compassSubscription;
 
   void _init() {
@@ -66,8 +67,7 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
   }
 
   void _updateLocationServiceStatus() {
-    final stream = _getPositionStream(const NoParams());
-    _positionSubscription = stream.listen((event) {
+    _positionSubscription = _locationRepository.positionStream.listen((event) {
       emit(state.copyWith(locationStatus: event.status));
     });
   }

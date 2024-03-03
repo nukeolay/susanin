@@ -6,7 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/use_cases/use_case.dart';
 import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
+import 'package:susanin/features/location/domain/entities/position.dart';
+import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/places/domain/entities/place.dart';
 import 'package:susanin/core/mixins/pointer_calculations.dart';
 import 'package:susanin/features/wakelock/domain/entities/wakelock_status.dart';
@@ -17,12 +18,12 @@ part 'detailed_info_state.dart';
 
 class DetailedInfoCubit extends Cubit<DetailedInfoState> {
   DetailedInfoCubit({
-    required GetPositionStream getPositionStream,
+    required LocationRepository locationRepository,
     required CompassRepository compassRepository,
     required GetWakelockStatus getWakelockStatus,
     required ToggleWakelock toggleWakelock,
     required PlaceEntity place,
-  })  : _getPositionStream = getPositionStream,
+  })  : _locationRepository = locationRepository,
         _compassRepository = compassRepository,
         _getWakelockStatus = getWakelockStatus,
         _toggleWakelock = toggleWakelock,
@@ -30,31 +31,28 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
     _init();
   }
 
-  final GetPositionStream _getPositionStream;
+  final LocationRepository _locationRepository;
   final CompassRepository _compassRepository;
   final GetWakelockStatus _getWakelockStatus;
   final ToggleWakelock _toggleWakelock;
 
-  StreamSubscription<PositionEvent>? _positionSubscription;
+  StreamSubscription<PositionEntity>? _positionSubscription;
   StreamSubscription<CompassEntity>? _compassSubscription;
 
   void _init() {
     _updateWakelockStatus();
     _positionSubscription =
-        _getPositionStream(const NoParams()).listen(_positionEventHandler);
+        _locationRepository.positionStream.listen(_positionEventHandler);
     _compassSubscription =
         _compassRepository.compassStream.listen(_compassEventHandler);
   }
 
-  void _positionEventHandler(PositionEvent event) {
-    final position = event.entity;
-    final status = event.status;
-    final accuracy = position?.accuracy;
+  void _positionEventHandler(PositionEntity entity) {
     emit(state.copyWith(
-      locationServiceStatus: status,
-      userLatitude: position?.latitude,
-      userLongitude: position?.longitude,
-      accuracy: accuracy,
+      locationServiceStatus: entity.status,
+      userLatitude: entity.latitude,
+      userLongitude: entity.longitude,
+      accuracy: entity.accuracy,
     ));
   }
 

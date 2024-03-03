@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_active_place_stream.dart';
@@ -23,7 +22,6 @@ class MainBar extends StatelessWidget {
       placesRepository: placesRepository,
       settingsRepository: settingsRepository,
     );
-    final getPositionStream = GetPositionStream(locationRepository);
     return Expanded(
       child: Stack(
         children: [
@@ -31,7 +29,7 @@ class MainBar extends StatelessWidget {
           BlocProvider(
             create: (context) => MainPointerCubit(
               compassRepository: compassRepository,
-              getPositionStream: getPositionStream,
+              locationRepository: locationRepository,
               getActivePlaceStream: getActivePlaceStream,
             ),
             child: const MainBarForeground(),

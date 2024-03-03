@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
 import 'package:susanin/features/location/domain/use_cases/request_permission.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_theme_mode.dart';
@@ -24,7 +23,6 @@ class TutorialSettings extends StatelessWidget {
     final locationRepository = context.read<LocationRepository>();
     final compassRepository = context.read<CompassRepository>();
 
-    final getPositionStream = GetPositionStream(locationRepository);
     final getThemeMode = GetThemeMode(settingsRepository);
     final toggleTheme = ToggleTheme(settingsRepository);
     final requestPermission = RequestPermission(locationRepository);
@@ -32,7 +30,7 @@ class TutorialSettings extends StatelessWidget {
     return BlocProvider(
       create: (context) => TutorialSettingsCubit(
         compassRepository: compassRepository,
-        getPositionStream: getPositionStream,
+        locationRepository: locationRepository,
         getThemeMode: getThemeMode,
         requestPermission: requestPermission,
         toggleTheme: toggleTheme,

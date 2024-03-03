@@ -1,6 +1,6 @@
 import 'package:susanin/core/use_cases/use_case.dart';
+import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
 
 class RequestPermission extends UseCase<Future<LocationStatus>, NoParams> {
   const RequestPermission(this._locationRepository);

@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/use_cases/use_case.dart';
 import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
+import 'package:susanin/features/location/domain/entities/position.dart';
+import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/places/domain/entities/place.dart';
 import 'package:susanin/core/mixins/pointer_calculations.dart';
 import 'package:susanin/features/settings/domain/use_cases/get_active_place_stream.dart';
@@ -14,21 +15,21 @@ part 'main_pointer_state.dart';
 
 class MainPointerCubit extends Cubit<MainPointerState> {
   MainPointerCubit({
-    required GetPositionStream getPositionStream,
+    required LocationRepository locationRepository,
     required GetActivePlaceStream getActivePlaceStream,
     required CompassRepository compassRepository,
-  })  : _getPositionStream = getPositionStream,
+  })  : _locationRepository = locationRepository,
         _getActivePlaceStream = getActivePlaceStream,
         _compassRepository = compassRepository,
         super(MainPointerState.initial) {
     _init();
   }
 
-  final GetPositionStream _getPositionStream;
+  final LocationRepository _locationRepository;
   final GetActivePlaceStream _getActivePlaceStream;
   final CompassRepository _compassRepository;
   StreamSubscription<ActivePlaceEvent>? _activePlaceSubscription;
-  StreamSubscription<PositionEvent>? _positionSubscription;
+  StreamSubscription<PositionEntity>? _positionSubscription;
   StreamSubscription<CompassEntity>? _compassSubscription;
 
   void _init() async {
@@ -53,13 +54,12 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   }
 
   void _updatePasition() {
-    final stream = _getPositionStream(const NoParams());
-    _positionSubscription = stream.listen((event) {
+    _positionSubscription = _locationRepository.positionStream.listen((event) {
       emit(state.copyWith(
         locationServiceStatus: event.status,
-        userLatitude: event.entity?.latitude,
-        userLongitude: event.entity?.longitude,
-        accuracy: event.entity?.accuracy,
+        userLatitude: event.latitude,
+        userLongitude: event.longitude,
+        accuracy: event.accuracy,
       ));
     });
   }

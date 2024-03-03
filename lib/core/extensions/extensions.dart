@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:susanin/core/constants/pointer_constants.dart';
-import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
+import 'package:susanin/features/location/domain/entities/position.dart';
 
 extension IntExtension on int {
   String toDistanceString() {

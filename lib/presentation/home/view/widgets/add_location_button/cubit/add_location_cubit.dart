@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/core/use_cases/use_case.dart';
-import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
+import 'package:susanin/features/location/domain/entities/position.dart';
+import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/places/domain/use_cases/add_place.dart';
 
 part 'add_location_state.dart';
@@ -11,30 +11,28 @@ part 'add_location_state.dart';
 class AddLocationCubit extends Cubit<AddLocationState> {
   AddLocationCubit({
     required AddPlace addPlace,
-    required GetPositionStream getPositionStream,
+    required LocationRepository locationRepository,
   })  : _addPlace = addPlace,
-        _getPositionStream = getPositionStream,
+        _locationRepository = locationRepository,
         super(AddLocationState.initial) {
     _init();
   }
 
   final AddPlace _addPlace;
-  final GetPositionStream _getPositionStream;
-  late final StreamSubscription<PositionEvent> _positionSubscription;
+  final LocationRepository _locationRepository;
+  late final StreamSubscription<PositionEntity> _positionSubscription;
 
   void _init() {
-    _positionSubscription = _getPositionStream(const NoParams()).listen(
+    _positionSubscription = _locationRepository.positionStream.listen(
       _positionEventHandler,
     );
   }
 
-  void _positionEventHandler(PositionEvent event) {
-    final position = event.entity;
-    final status = event.status;
+  void _positionEventHandler(PositionEntity entity) {
     emit(state.copyWith(
-      status: _locationStatusToAddLocationStatus(status),
-      latitude: position?.latitude,
-      longitude: position?.longitude,
+      status: _locationStatusToAddLocationStatus(entity.status),
+      latitude: entity.latitude,
+      longitude: entity.longitude,
     ));
   }
 

@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/use_cases/use_case.dart';
 import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
+import 'package:susanin/features/location/domain/entities/position.dart';
+import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/location/domain/use_cases/request_permission.dart';
 import 'package:susanin/features/wakelock/domain/entities/wakelock_status.dart';
 import 'package:susanin/features/wakelock/domain/use_cases/get_wakelock_status.dart';
@@ -15,12 +16,12 @@ part 'settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit({
-    required GetPositionStream getPositionStream,
+    required LocationRepository locationRepository,
     required CompassRepository compassRepository,
     required RequestPermission requestPermission,
     required GetWakelockStatus getWakelockStatus,
     required ToggleWakelock toggleWakelock,
-  })  : _getPositionStream = getPositionStream,
+  })  : _locationRepository = locationRepository,
         _compassRepository = compassRepository,
         _requestPermission = requestPermission,
         _getWakelockStatus = getWakelockStatus,
@@ -29,29 +30,28 @@ class SettingsCubit extends Cubit<SettingsState> {
     _init();
   }
 
-  final GetPositionStream _getPositionStream;
+  final LocationRepository _locationRepository;
   final CompassRepository _compassRepository;
   final RequestPermission _requestPermission;
   final GetWakelockStatus _getWakelockStatus;
   final ToggleWakelock _toggleWakelock;
   StreamSubscription<CompassEntity>? _compassSubscription;
-  StreamSubscription<PositionEvent>? _positionSubscription;
+  StreamSubscription<PositionEntity>? _positionSubscription;
 
   void _init() {
     _updateWakelockStatus();
     _compassSubscription =
         _compassRepository.compassStream.listen(_compassEventHandler);
     _positionSubscription =
-        _getPositionStream(const NoParams()).listen(_positionEventHandler);
+        _locationRepository.positionStream.listen(_positionEventHandler);
   }
 
   void _compassEventHandler(CompassEntity entity) {
     emit(state.copyWith(compassStatus: entity.status));
   }
 
-  void _positionEventHandler(PositionEvent event) {
-    final status = event.status;
-    emit(state.copyWith(locationServiceStatus: status));
+  void _positionEventHandler(PositionEntity entity) {
+    emit(state.copyWith(locationServiceStatus: entity.status));
   }
 
   Future<void> getPermission() async {

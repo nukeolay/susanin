@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/location/domain/use_cases/get_position_stream.dart';
+import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/presentation/common/widgets/pointer.dart';
 import 'package:susanin/presentation/home/view/widgets/main_bar/cubit/main_pointer_cubit.dart';
 
