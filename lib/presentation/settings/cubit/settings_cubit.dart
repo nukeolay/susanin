@@ -2,14 +2,12 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/core/use_cases/use_case.dart';
 import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/wakelock/domain/entities/wakelock_status.dart';
 import 'package:susanin/features/wakelock/domain/repositories/wakelock_repository.dart';
-import 'package:susanin/features/wakelock/domain/use_cases/toggle_wakelock.dart';
 
 part 'settings_state.dart';
 
@@ -18,11 +16,9 @@ class SettingsCubit extends Cubit<SettingsState> {
     required LocationRepository locationRepository,
     required CompassRepository compassRepository,
     required WakelockRepository wakelockRepository,
-    required ToggleWakelock toggleWakelock,
   })  : _locationRepository = locationRepository,
         _compassRepository = compassRepository,
         _wakelockRepository = wakelockRepository,
-        _toggleWakelock = toggleWakelock,
         super(SettingsState.initial) {
     _init();
   }
@@ -30,7 +26,6 @@ class SettingsCubit extends Cubit<SettingsState> {
   final LocationRepository _locationRepository;
   final CompassRepository _compassRepository;
   final WakelockRepository _wakelockRepository;
-  final ToggleWakelock _toggleWakelock;
   StreamSubscription<CompassEntity>? _compassSubscription;
   StreamSubscription<PositionEntity>? _positionSubscription;
 
@@ -56,7 +51,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   Future<void> toggleWakelock() async {
-    await _toggleWakelock(const NoParams());
+    await _wakelockRepository.toggle();
     await _updateWakelockStatus();
   }
 

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/core/use_cases/use_case.dart';
 import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
@@ -12,7 +11,6 @@ import 'package:susanin/features/places/domain/entities/place.dart';
 import 'package:susanin/core/mixins/pointer_calculations.dart';
 import 'package:susanin/features/wakelock/domain/entities/wakelock_status.dart';
 import 'package:susanin/features/wakelock/domain/repositories/wakelock_repository.dart';
-import 'package:susanin/features/wakelock/domain/use_cases/toggle_wakelock.dart';
 
 part 'detailed_info_state.dart';
 
@@ -21,12 +19,10 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
     required LocationRepository locationRepository,
     required CompassRepository compassRepository,
     required WakelockRepository wakelockRepository,
-    required ToggleWakelock toggleWakelock,
     required PlaceEntity place,
   })  : _locationRepository = locationRepository,
         _compassRepository = compassRepository,
         _wakelockRepository = wakelockRepository,
-        _toggleWakelock = toggleWakelock,
         super(DetailedInfoState.initial(place)) {
     _init();
   }
@@ -34,7 +30,6 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
   final LocationRepository _locationRepository;
   final CompassRepository _compassRepository;
   final WakelockRepository _wakelockRepository;
-  final ToggleWakelock _toggleWakelock;
 
   StreamSubscription<PositionEntity>? _positionSubscription;
   StreamSubscription<CompassEntity>? _compassSubscription;
@@ -64,7 +59,7 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
   }
 
   Future<void> toggleWakelock() async {
-    await _toggleWakelock(const NoParams());
+    await _wakelockRepository.toggle();
     await _updateWakelockStatus();
   }
 

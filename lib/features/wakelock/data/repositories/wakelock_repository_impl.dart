@@ -18,12 +18,14 @@ class WakelockRepositoryImpl implements WakelockRepository {
   }
 
   @override
-  Future<void> enable() {
-    return _wakelockService.enable();
-  }
-
-  @override
-  Future<void> disable() {
-    return _wakelockService.disable();
+  Future<WakelockStatus> toggle() async {
+    final status = await wakelockStatus;
+    if (status.isEnabled) {
+      await _wakelockService.disable();
+      return WakelockStatus.disabled;
+    } else {
+      await _wakelockService.enable();
+      return WakelockStatus.enabled;
+    }
   }
 }
