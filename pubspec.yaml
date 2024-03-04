@@ -33,9 +33,6 @@ dev_dependencies:
   icons_launcher: ^2.1.7
   flutter_lints: ^3.0.1
 
-dependency_overrides:
-  win32: ^3.0.0 # to fix wakelock & share_plus dependency issue
-
 flutter_icons:
   android: true
   ios: true
