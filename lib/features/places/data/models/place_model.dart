@@ -1,4 +1,4 @@
-import 'package:susanin/features/places/domain/entities/place.dart';
+import 'package:susanin/features/places/domain/entities/place_entity.dart';
 
 class PlaceModel extends PlaceEntity {
   const PlaceModel({

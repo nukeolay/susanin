@@ -10,8 +10,7 @@ class SettingsRepositoryImpl extends SettingsRepository {
   SettingsRepositoryImpl(this._settingsService);
 
   final SettingsService _settingsService;
-  final _streamController =
-      BehaviorSubject<SettingsEntity>(sync: true);
+  final _streamController = BehaviorSubject<SettingsEntity>(sync: true);
 
   @override
   ValueStream<SettingsEntity> get settingsStream {
@@ -19,6 +18,7 @@ class SettingsRepositoryImpl extends SettingsRepository {
     if (stream.valueOrNull != null) {
       return stream;
     }
+    // TODO использовать LocalStorage
     final settingsModel = _settingsService.load();
     final settings = settingsModel?.toEntity() ?? SettingsEntity.empty;
     _streamController.add(settings);
@@ -28,6 +28,7 @@ class SettingsRepositoryImpl extends SettingsRepository {
   @override
   Future<void> save(SettingsEntity settings) async {
     final model = SettingsModel.fromEntity(settings);
+    // TODO использовать LocalStorage
     await _settingsService.save(model);
     _streamController.add(settings);
   }

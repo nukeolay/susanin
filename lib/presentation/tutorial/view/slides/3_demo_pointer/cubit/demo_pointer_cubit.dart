@@ -40,13 +40,6 @@ class DemoPointerCubit extends Cubit<DemoPointerState> {
         _locationRepository.positionStream.listen(_positionEventHandler);
     _compassSubscription =
         _compassRepository.compassStream.listen(_compassEventHandler);
-    if (!settings.isFirstTime) return;
-    _toggleFirstTime(settings);
-  }
-
-  Future<void> _toggleFirstTime(SettingsEntity settings) async {
-    final newSettings = settings.copyWith(isFirstTime: false);
-    await _settingsRepository.save(newSettings);
   }
 
   @override

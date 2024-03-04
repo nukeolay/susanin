@@ -2,10 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
-import 'package:susanin/features/places/domain/use_cases/delete_place.dart';
-import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
-import 'package:susanin/features/settings/domain/use_cases/get_active_place_stream.dart';
-import 'package:susanin/features/settings/domain/use_cases/set_active_place.dart';
 import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/view/location_bottom_sheet.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/filled_location_list.dart';
@@ -17,23 +13,9 @@ class LocationList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final placesRepository = context.read<PlacesRepository>();
-    final settingsRepository = context.read<SettingsRepository>();
-    final getActivePlaceStream = GetActivePlaceStream(
-      placesRepository: placesRepository,
-      settingsRepository: settingsRepository,
-    );
-    final setActivePlace = SetActivePlace(settingsRepository);
-    final deletePlace = DeletePlace(
-      placesRepository: placesRepository,
-      setActivePlace: setActivePlace,
-      settingsRepository: settingsRepository,
-    );
     return BlocProvider(
       create: (_) => LocationsListCubit(
-        deletePlace: deletePlace,
         placesRepository: placesRepository,
-        getActivePlaceStream: getActivePlaceStream,
-        setActivePlace: setActivePlace,
       ),
       child: _LocationListWidget(topPadding: topPadding),
     );

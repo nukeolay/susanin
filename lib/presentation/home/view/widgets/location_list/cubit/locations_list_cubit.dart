@@ -3,70 +3,48 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:susanin/core/use_cases/use_case.dart';
-import 'package:susanin/features/places/domain/entities/place.dart';
+import 'package:susanin/features/places/domain/entities/place_entity.dart';
+import 'package:susanin/features/places/domain/entities/places_entity.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
-import 'package:susanin/features/places/domain/use_cases/delete_place.dart';
-import 'package:susanin/features/settings/domain/use_cases/get_active_place_stream.dart';
-import 'package:susanin/features/settings/domain/use_cases/set_active_place.dart';
 
 part 'locations_list_state.dart';
 
 class LocationsListCubit extends Cubit<LocationsListState> {
   LocationsListCubit({
-    required GetActivePlaceStream getActivePlaceStream,
     required PlacesRepository placesRepository,
-    required DeletePlace deletePlace,
-    required SetActivePlace setActivePlace,
-  })  : _getActivePlaceStream = getActivePlaceStream,
-        _placesRepository = placesRepository,
-        _deletePlace = deletePlace,
-        _setActivePlace = setActivePlace,
+  })  : _placesRepository = placesRepository,
         super(LocationsListState.initial) {
     _init();
   }
 
   final PlacesRepository _placesRepository;
-  final GetActivePlaceStream _getActivePlaceStream;
-  final DeletePlace _deletePlace;
-  final SetActivePlace _setActivePlace;
 
-  StreamSubscription<ActivePlaceEvent>? _activePlaceSubscription;
-  StreamSubscription<List<PlaceEntity>>? _locationsSubscription;
+  StreamSubscription<PlacesEntity>? _placesSubscription;
 
   void _init() {
     // ! TODO проверить, может быть и просто подописка сработает без lastValue
-    final activePlaceStream = _getActivePlaceStream(const NoParams());
-    final activePlace = activePlaceStream.valueOrNull ?? ActivePlaceEvent.empty;
-    _activePlaceHandler(activePlace);
     final placesStream = _placesRepository.placesStream;
-    final initialPlaces = placesStream.valueOrNull ?? [];
-    _locationsHandler(initialPlaces);
-    _activePlaceSubscription = activePlaceStream.listen(_activePlaceHandler);
-    _locationsSubscription = placesStream.listen(_locationsHandler);
+    final initialPlaces = placesStream.valueOrNull;
+    _placesHandler(initialPlaces);
+    _placesSubscription = placesStream.listen(_placesHandler);
   }
 
-  void _activePlaceHandler(ActivePlaceEvent activePlaceEvent) {
-    final place = activePlaceEvent.entity;
-    emit(state.copyWith(activePlaceId: place?.id));
-  }
-
-  void _locationsHandler(List<PlaceEntity> places) {
+  void _placesHandler(PlacesEntity? places) {
     emit(state.copyWith(
       status: LocationsListStatus.loaded,
-      places: places,
+      places: places?.places ?? [],
+      activePlaceId: places?.activePlace?.id,
     ));
   }
 
   @override
   Future<void> close() async {
-    await _locationsSubscription?.cancel();
-    await _activePlaceSubscription?.cancel();
+    await _placesSubscription?.cancel();
     super.close();
   }
 
   Future<void> onDeleteLocation({required String id}) async {
-    final deleteLocationResult = await _deletePlace(DeleteParams(placeId: id));
+    final deleteLocationResult = await _placesRepository.delete(id);
     if (deleteLocationResult) {
       emit(state.copyWith(status: LocationsListStatus.deleted));
     } else {
@@ -74,15 +52,15 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     }
   }
 
-  void onPressSetActive({required String id}) {
-    _setActivePlace(SetPlaceParams(placeId: id));
+  Future<void> onPressSetActive({required String id}) async {
+    await _placesRepository.select(id);
   }
 
-  void onLongPressEdit({required String id}) {
+  void onLongPressEdit({required String id}) async {
     final place = state.places.firstWhere(
       ((location) => location.id == id),
     );
-    _setActivePlace(SetPlaceParams(placeId: id));
+    await _placesRepository.select(id);
     emit(EditPlaceState(
       activePlaceId: id,
       status: LocationsListStatus.editing,

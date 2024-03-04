@@ -4,21 +4,22 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/places/domain/use_cases/add_place.dart';
+import 'package:susanin/features/places/domain/entities/place_entity.dart';
+import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 
 part 'add_location_state.dart';
 
 class AddLocationCubit extends Cubit<AddLocationState> {
   AddLocationCubit({
-    required AddPlace addPlace,
+    required PlacesRepository placesRepository,
     required LocationRepository locationRepository,
-  })  : _addPlace = addPlace,
+  })  : _placesRepository = placesRepository,
         _locationRepository = locationRepository,
         super(AddLocationState.initial) {
     _init();
   }
 
-  final AddPlace _addPlace;
+  final PlacesRepository _placesRepository;
   final LocationRepository _locationRepository;
   late final StreamSubscription<PositionEntity> _positionSubscription;
 
@@ -64,12 +65,11 @@ class AddLocationCubit extends Cubit<AddLocationState> {
 
   void onPressAdd() async {
     emit(state.copyWith(status: AddLocationStatus.loading));
-    final addParams = AddParams(
+    await _addLocation(
       latitude: state.latitude,
       longitude: state.longitude,
       name: _generateName(),
     );
-    await _addLocation(addParams);
   }
 
   Future<void> onSaveLocation({
@@ -81,17 +81,27 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     final doubleLatitude = double.tryParse(latitude);
     final doubleLongitude = double.tryParse(longitude);
     if (doubleLatitude == null || doubleLongitude == null) return;
-    final addParams = AddParams(
+    await _addLocation(
       latitude: doubleLatitude,
       longitude: doubleLongitude,
       name: name,
     );
-    await _addLocation(addParams);
   }
 
-  Future<void> _addLocation(AddParams addParams) async {
+  Future<void> _addLocation({
+    required double latitude,
+    required double longitude,
+    required String name,
+  }) async {
     try {
-      await _addPlace(addParams);
+      final newPlace = PlaceEntity(
+        id: 'id_${DateTime.now()}',
+        latitude: latitude,
+        longitude: longitude,
+        name: name,
+        creationTime: DateTime.now(),
+      );
+      _placesRepository.create(newPlace);
       emit(state.copyWith(status: AddLocationStatus.normal));
     } catch (error) {
       emit(state.copyWith(status: AddLocationStatus.failure));

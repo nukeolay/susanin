@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/routes/routes.dart';
+import 'package:susanin/features/settings/domain/entities/settings.dart';
+import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
 import 'package:susanin/presentation/tutorial/view/models/slide_model.dart';
 import 'package:susanin/presentation/tutorial/view/widgets/slide_tile.dart';
 import 'package:susanin/presentation/tutorial/view/slides/1_welcome/welcome_slide.dart';
@@ -31,6 +34,15 @@ class _TutorialState extends State<TutorialView> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+  Future<void> _finishTutorial() async {
+    final settingsRepository = context.read<SettingsRepository>();
+    final settings =
+        settingsRepository.settingsStream.valueOrNull ?? SettingsEntity.empty;
+    if (!settings.isFirstTime) return;
+    final newSettings = settings.copyWith(isFirstTime: false);
+    await settingsRepository.save(newSettings);
   }
 
   @override
@@ -101,6 +113,7 @@ class _TutorialState extends State<TutorialView> {
         },
         onStart: () {
           HapticFeedback.heavyImpact();
+          _finishTutorial();
           Navigator.of(context).pushReplacementNamed(Routes.home);
         },
       ),

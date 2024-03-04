@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:susanin/features/places/domain/entities/place.dart';
+import 'package:susanin/features/places/domain/entities/place_entity.dart';
 
 class LocationListItem extends StatelessWidget {
   final PlaceEntity location;

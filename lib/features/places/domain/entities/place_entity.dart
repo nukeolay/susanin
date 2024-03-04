@@ -15,6 +15,13 @@ class PlaceEntity extends Equatable {
   final String name;
   final DateTime creationTime;
 
+  PlaceEntity.empty()
+      : id = '',
+        latitude = 0,
+        longitude = 0,
+        name = '',
+        creationTime = DateTime(0);
+
   PlaceEntity copyWith({
     double? latitude,
     double? longitude,

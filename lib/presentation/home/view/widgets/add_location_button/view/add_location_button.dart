@@ -3,9 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
-import 'package:susanin/features/places/domain/use_cases/add_place.dart';
-import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
-import 'package:susanin/features/settings/domain/use_cases/set_active_place.dart';
 import 'package:susanin/presentation/home/view/widgets/add_location_button/cubit/add_location_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/view/location_bottom_sheet.dart';
 
@@ -14,17 +11,11 @@ class AddNewLocationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final setActivePlace = SetActivePlace(
-      context.read<SettingsRepository>(),
-    );
-    final addPlace = AddPlace(
-      placesRepository: context.read<PlacesRepository>(),
-      setActivePlace: setActivePlace, // ! TODO usecase depends on usecase
-    );
+    final placesRepository = context.read<PlacesRepository>();
     final locationRepository = context.read<LocationRepository>();
     return BlocProvider(
       create: (_) => AddLocationCubit(
-        addPlace: addPlace,
+        placesRepository: placesRepository,
         locationRepository: locationRepository,
       ),
       child: const _AddNewLocationButtonWidget(),

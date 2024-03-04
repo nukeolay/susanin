@@ -7,7 +7,7 @@ import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/places/domain/entities/place.dart';
+import 'package:susanin/features/places/domain/entities/place_entity.dart';
 import 'package:susanin/core/mixins/pointer_calculations.dart';
 import 'package:susanin/features/wakelock/domain/entities/wakelock_status.dart';
 import 'package:susanin/features/wakelock/domain/repositories/wakelock_repository.dart';

@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:susanin/core/services/local_storage.dart';
 import 'package:susanin/features/compass/data/repositories/compass_repository_impl.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/data/repositories/location_repository_impl.dart';
@@ -6,7 +7,6 @@ import 'package:susanin/features/location/data/services/location_service.dart';
 import 'package:susanin/features/location/data/services/permission_service.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/places/data/repositories/places_repository_impl.dart';
-import 'package:susanin/features/places/data/services/places_service.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:susanin/features/settings/data/services/settings_service.dart';
@@ -38,6 +38,9 @@ class RepositoryInitializer {
     // External
     final sharedPreferences = await SharedPreferences.getInstance();
 
+    // LocalStorage
+    final localStorage = LocalStorageImpl(sharedPreferences);
+
     // PositionRepository
     const locationService = LocationServiceImpl();
     const permissionService = PermissionServiceImpl();
@@ -50,8 +53,7 @@ class RepositoryInitializer {
     _compassRepository = CompassRepositoryImpl();
 
     // LocationPointsRepository
-    final placesService = PlacesServiceImpl(sharedPreferences);
-    _placesRepository = PlacesRepositoryImpl(placesService);
+    _placesRepository = PlacesRepositoryImpl(localStorage);
 
     // SettingsRepository
     final settingsService = SettingsServiceImpl(sharedPreferences);
