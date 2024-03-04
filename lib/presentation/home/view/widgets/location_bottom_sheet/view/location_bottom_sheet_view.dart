@@ -1,10 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/presentation/common/widgets/custom_bottom_sheet.dart';
-import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/bloc/validator_bloc.dart';
+part of '../location_bottom_sheet.dart';
 
-class LocationBottomSheet extends StatefulWidget {
+class _LocationBottomSheetView extends StatefulWidget {
   final String name;
   final String latitude;
   final String longitude;
@@ -14,19 +10,19 @@ class LocationBottomSheet extends StatefulWidget {
     required String name,
   }) saveLocation;
 
-  const LocationBottomSheet({
+  const _LocationBottomSheetView({
     required this.name,
     required this.latitude,
     required this.longitude,
     required this.saveLocation,
-    super.key,
   });
 
   @override
-  State<LocationBottomSheet> createState() => _LocationBottomSheetState();
+  State<_LocationBottomSheetView> createState() =>
+      _LocationBottomSheetViewState();
 }
 
-class _LocationBottomSheetState extends State<LocationBottomSheet> {
+class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
   late final TextEditingController _nameController;
   late final TextEditingController _latitudeController;
   late final TextEditingController _longitudeController;
@@ -68,7 +64,7 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
               Form(
                 child: Column(
                   children: [
-                    TextFormField(
+                    TextField(
                       controller: _nameController,
                       keyboardType: TextInputType.name,
                       autofocus: true,
@@ -82,7 +78,7 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                         bloc.add(NameChanged(name: value));
                       },
                     ),
-                    TextFormField(
+                    TextField(
                       controller: _latitudeController,
                       decoration: InputDecoration(
                         labelText: 'latitude'.tr(),
@@ -94,7 +90,7 @@ class _LocationBottomSheetState extends State<LocationBottomSheet> {
                         bloc.add(LatitudeChanged(latitude: value));
                       },
                     ),
-                    TextFormField(
+                    TextField(
                       controller: _longitudeController,
                       decoration: InputDecoration(
                         labelText: 'longitude'.tr(),

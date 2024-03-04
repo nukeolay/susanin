@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/presentation/home/view/widgets/add_location_button/cubit/add_location_cubit.dart';
-import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/view/location_bottom_sheet.dart';
+import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/location_bottom_sheet.dart';
 
 class AddNewLocationButton extends StatelessWidget {
   const AddNewLocationButton({super.key});
@@ -74,12 +74,14 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (BuildContext context) {
+      builder: (BuildContext ctx) {
         return LocationBottomSheet(
-          name: state.name,
-          latitude: state.latitude.toString(),
-          longitude: state.longitude.toString(),
-          saveLocation: context.read<AddLocationCubit>().onSaveLocation,
+          model: LocationBottomSheetModel(
+            name: state.name,
+            latitude: state.latitude,
+            longitude: state.longitude,
+            saveLocation: context.read<AddLocationCubit>().onSaveLocation,
+          ),
         );
       },
     );

@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
-import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/view/location_bottom_sheet.dart';
+import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/location_bottom_sheet.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/filled_location_list.dart';
 
@@ -74,19 +74,21 @@ class _LocationListWidget extends StatelessWidget {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return LocationBottomSheet(
-          name: state.name,
-          latitude: state.latitude.toString(),
-          longitude: state.longitude.toString(),
-          saveLocation: ({
-            required String latitude,
-            required String longitude,
-            required String name,
-          }) =>
-              cubit.onSaveLocation(
-            latitude: latitude,
-            longitude: longitude,
-            newLocationName: name,
-            id: state.activePlaceId,
+          model: LocationBottomSheetModel(
+            name: state.name,
+            latitude: state.latitude,
+            longitude: state.longitude,
+            saveLocation: ({
+              required String latitude,
+              required String longitude,
+              required String name,
+            }) =>
+                cubit.onSaveLocation(
+              latitude: latitude,
+              longitude: longitude,
+              newLocationName: name,
+              id: state.activePlaceId,
+            ),
           ),
         );
       },
