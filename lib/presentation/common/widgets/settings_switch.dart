@@ -28,7 +28,7 @@ class SettingsSwitch extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: isAlert
-              ? Theme.of(context).errorColor
+              ? Theme.of(context).colorScheme.error
               : Theme.of(context).cardColor),
       child: isLoading
           ? Shimmer.fromColors(

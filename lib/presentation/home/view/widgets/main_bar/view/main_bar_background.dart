@@ -9,7 +9,7 @@ class MainBarBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).textTheme.bodyText1!.color,
+        color: Theme.of(context).textTheme.bodyLarge!.color,
         borderRadius: const BorderRadius.only(
           topRight: Radius.circular(20),
           bottomRight: Radius.circular(20),

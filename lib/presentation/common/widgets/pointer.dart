@@ -58,7 +58,7 @@ class Pointer extends StatelessWidget {
                 CircleAvatar(
                   radius: _getPositionAccuracyRadius(positionAccuracy!),
                   backgroundColor: _isPositionAccuracyMax(positionAccuracy!)
-                      ? Theme.of(context).errorColor
+                      ? Theme.of(context).colorScheme.error
                       : foregroundColor.withOpacity(0.2),
                 ),
               Container(

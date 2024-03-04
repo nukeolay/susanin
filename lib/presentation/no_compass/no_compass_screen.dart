@@ -34,7 +34,9 @@ class NoCompassScreen extends StatelessWidget {
                       'no_compass_bad_news_title'.tr(),
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          fontSize: 30, color: Theme.of(context).errorColor),
+                        fontSize: 30,
+                        color: Theme.of(context).colorScheme.error,
+                      ),
                     ),
                     Text(
                       'no_compass_bad_news_text'.tr(),

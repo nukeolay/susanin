@@ -35,7 +35,7 @@ class SettingsButton extends StatelessWidget {
             text,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Theme.of(context).textTheme.bodyText1!.color,
+              color: Theme.of(context).textTheme.bodyLarge!.color,
               fontSize: 16,
             ),
           ),

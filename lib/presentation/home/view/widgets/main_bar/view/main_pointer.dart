@@ -128,7 +128,7 @@ class MainPointerFailure extends StatelessWidget {
     final status = state.locationServiceStatus;
     return MainPointer(
       isShimmering: true,
-      shimmerBaseColor: Theme.of(context).errorColor,
+      shimmerBaseColor: Theme.of(context).colorScheme.error,
       shimmerHighlightColor: Theme.of(context).colorScheme.inversePrimary,
       mainText: 'error_title'.tr(),
       subText: _subText(status)?.tr() ?? ' ',

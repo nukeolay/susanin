@@ -29,7 +29,7 @@ class LocationListItem extends StatelessWidget {
       child: Dismissible(
         key: key!,
         background: Container(
-          color: Theme.of(context).errorColor,
+          color: Theme.of(context).colorScheme.error,
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.only(left: 15.0),
           child: Icon(

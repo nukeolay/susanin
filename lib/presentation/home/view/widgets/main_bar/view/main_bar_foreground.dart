@@ -31,7 +31,7 @@ class MainBarForeground extends StatelessWidget {
             bottomRight: Radius.circular(20),
           ),
           color: isFailure
-              ? Theme.of(context).errorColor
+              ? Theme.of(context).colorScheme.error
               : Theme.of(context).colorScheme.primary,
           boxShadow: [
             BoxShadow(
