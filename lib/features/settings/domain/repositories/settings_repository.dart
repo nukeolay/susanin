@@ -5,5 +5,6 @@ abstract class SettingsRepository {
   const SettingsRepository();
 
   ValueStream<SettingsEntity> get settingsStream;
-  Future<void> save(SettingsEntity settings);
+  Future<void> update(SettingsEntity settings);
+  Future<ThemeMode> setTheme(ThemeMode mode);
 }

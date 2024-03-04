@@ -42,7 +42,7 @@ class _TutorialState extends State<TutorialView> {
         settingsRepository.settingsStream.valueOrNull ?? SettingsEntity.empty;
     if (!settings.isFirstTime) return;
     final newSettings = settings.copyWith(isFirstTime: false);
-    await settingsRepository.save(newSettings);
+    await settingsRepository.update(newSettings);
   }
 
   @override

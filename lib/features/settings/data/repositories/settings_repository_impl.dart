@@ -26,10 +26,22 @@ class SettingsRepositoryImpl extends SettingsRepository {
   }
 
   @override
-  Future<void> save(SettingsEntity settings) async {
+  Future<void> update(SettingsEntity settings) async {
     final model = SettingsModel.fromEntity(settings);
     // TODO использовать LocalStorage
     await _settingsService.save(model);
     _streamController.add(settings);
+  }
+
+  @override
+  Future<ThemeMode> setTheme(ThemeMode mode) async {
+    final settings = settingsStream.valueOrNull ?? SettingsEntity.empty;
+    try {
+      final newSettings = settings.copyWith(themeMode: mode);
+      await update(newSettings);
+      return mode;
+    } catch (error) {
+      return mode.isDark ? ThemeMode.light : ThemeMode.dark;
+    }
   }
 }

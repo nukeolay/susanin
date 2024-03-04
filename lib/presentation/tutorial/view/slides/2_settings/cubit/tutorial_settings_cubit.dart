@@ -2,14 +2,12 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/core/use_cases/use_case.dart';
 import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/settings/domain/entities/settings.dart';
-import 'package:susanin/features/settings/domain/use_cases/get_theme_mode.dart';
-import 'package:susanin/features/settings/domain/use_cases/toggle_theme.dart';
+import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
 
 part 'tutorial_settings_state.dart';
 
@@ -17,22 +15,20 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
   TutorialSettingsCubit({
     required LocationRepository locationRepository,
     required CompassRepository compassRepository,
-    required GetThemeMode getThemeMode,
-    required ToggleTheme toggleTheme,
+    required SettingsRepository settingsRepository,
   })  : _locationRepository = locationRepository,
         _compassRepository = compassRepository,
-        _getThemeMode = getThemeMode,
-        _toggleTheme = toggleTheme,
+        _settingsRepository = settingsRepository,
         super(TutorialSettingsState.initial) {
     _init();
   }
 
   final LocationRepository _locationRepository;
   final CompassRepository _compassRepository;
-  final GetThemeMode _getThemeMode;
-  final ToggleTheme _toggleTheme;
+  final SettingsRepository _settingsRepository;
   StreamSubscription<PositionEntity>? _positionSubscription;
   StreamSubscription<CompassEntity>? _compassSubscription;
+  StreamSubscription<SettingsEntity>? _settingsSubscription;
 
   void _init() {
     _updateTheme();
@@ -44,6 +40,7 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
   Future<void> close() async {
     await _compassSubscription?.cancel();
     await _positionSubscription?.cancel();
+    await _settingsSubscription?.cancel();
     super.close();
   }
 
@@ -52,14 +49,19 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
     emit(state.copyWith(locationStatus: locationStatus));
   }
 
-  Future<void> toggleTheme() async {
-    emit(state.copyWith(isDarkTheme: !state.isDarkTheme));
-    await _toggleTheme(const NoParams());
+  Future<void> toggleTheme() {
+    return _settingsRepository.setTheme(
+      state.isDarkTheme ? ThemeMode.light : ThemeMode.dark,
+    );
   }
 
   void _updateTheme() {
-    final themeMode = _getThemeMode(const NoParams());
-    emit(state.copyWith(isDarkTheme: themeMode.isDark));
+    final settings =
+        _settingsRepository.settingsStream.valueOrNull ?? SettingsEntity.empty;
+    emit(state.copyWith(isDarkTheme: settings.themeMode.isDark));
+    _settingsSubscription = _settingsRepository.settingsStream.listen((event) {
+      emit(state.copyWith(isDarkTheme: event.themeMode.isDark));
+    });
   }
 
   void _updateLocationServiceStatus() {

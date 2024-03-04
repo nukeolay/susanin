@@ -6,8 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
-import 'package:susanin/features/settings/domain/use_cases/get_theme_mode.dart';
-import 'package:susanin/features/settings/domain/use_cases/toggle_theme.dart';
 import 'package:susanin/presentation/common/widgets/ios_compass_settings.dart';
 import 'package:susanin/presentation/common/widgets/settings_switch.dart';
 import 'package:susanin/presentation/tutorial/view/slides/2_settings/cubit/tutorial_settings_cubit.dart';
@@ -22,15 +20,11 @@ class TutorialSettings extends StatelessWidget {
     final locationRepository = context.read<LocationRepository>();
     final compassRepository = context.read<CompassRepository>();
 
-    final getThemeMode = GetThemeMode(settingsRepository);
-    final toggleTheme = ToggleTheme(settingsRepository);
-
     return BlocProvider(
       create: (context) => TutorialSettingsCubit(
         compassRepository: compassRepository,
         locationRepository: locationRepository,
-        getThemeMode: getThemeMode,
-        toggleTheme: toggleTheme,
+        settingsRepository: settingsRepository,
       ),
       child: const _TutorialSettingsView(),
     );
