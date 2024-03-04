@@ -5,6 +5,8 @@ import 'package:susanin/presentation/common/widgets/custom_bottom_sheet.dart';
 import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/bloc/validator_bloc.dart';
 
 part 'view/location_bottom_sheet_view.dart';
+part 'view/widgets/save_button.dart';
+part 'view/widgets/cancel_button.dart';
 
 class LocationBottomSheetModel {
   const LocationBottomSheetModel({
