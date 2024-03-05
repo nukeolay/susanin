@@ -3,14 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class Pointer extends StatelessWidget {
-  final double rotateAngle;
-  final double arcRadius;
-  final double radius;
-  final Color foregroundColor;
-  final Color backGroundColor;
-  final double? positionAccuracy;
-  final scale = 100;
-
   const Pointer({
     required this.rotateAngle,
     required this.arcRadius,
@@ -20,6 +12,14 @@ class Pointer extends StatelessWidget {
     this.positionAccuracy,
     super.key,
   });
+
+  final double rotateAngle;
+  final double arcRadius;
+  final double radius;
+  final Color foregroundColor;
+  final Color backGroundColor;
+  final double? positionAccuracy;
+  int get scale => 100;
 
   double _getPositionAccuracyRadius(double positionAccuracy) {
     final ratio = radius / scale; // scale
@@ -45,7 +45,6 @@ class Pointer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Transform.rotate(
-          alignment: Alignment.center,
           angle: rotateAngle,
           child: Stack(
             alignment: Alignment.center,
@@ -81,31 +80,36 @@ class Pointer extends StatelessWidget {
 }
 
 class CustomArc extends CustomPainter {
-  final double arcRadius;
-  final double radius;
-  final Color color;
-
-  CustomArc({
+  const CustomArc({
     required this.arcRadius,
     required this.color,
     required this.radius,
   });
 
+  final double arcRadius;
+  final double radius;
+  final Color color;
+
   @override
   void paint(Canvas canvas, Size size) {
-    var paintArc = Paint()
+    final paintArc = Paint()
       ..color = color
       ..style = PaintingStyle.stroke
       ..strokeWidth = radius * 0.1
       ..strokeCap = StrokeCap.round;
-    canvas.drawArc(Offset(-radius / 2, -radius / 2) & Size(radius, radius),
-        -math.pi / 2 - arcRadius / 2, arcRadius, false, paintArc);
-    var paintCircle = Paint()
+    canvas.drawArc(
+      Offset(-radius / 2, -radius / 2) & Size(radius, radius),
+      -math.pi / 2 - arcRadius / 2,
+      arcRadius,
+      false,
+      paintArc,
+    );
+    final paintCircle = Paint()
       ..color = color
       ..style = PaintingStyle.fill
       ..strokeWidth = radius * 0.1;
     canvas.drawCircle(
-      const Offset(0, 0),
+      Offset.zero,
       radius * 0.07,
       paintCircle,
     );

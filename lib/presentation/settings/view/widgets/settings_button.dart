@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class SettingsButton extends StatelessWidget {
-  final String text;
-  final VoidCallback? action;
   const SettingsButton({
     required this.text,
     required this.action,
     super.key,
   });
+  final String text;
+  final VoidCallback? action;
 
   @override
   Widget build(BuildContext context) {

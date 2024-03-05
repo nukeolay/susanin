@@ -23,14 +23,15 @@ class HomeView extends StatelessWidget {
         // TODO remove AnnotatedRegion
         value: isDarkTheme
             ? SystemUiOverlayStyle.light.copyWith(
-                statusBarColor: Theme.of(context).scaffoldBackgroundColor)
+                statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+              )
             : SystemUiOverlayStyle.dark.copyWith(
-                statusBarColor: Theme.of(context).scaffoldBackgroundColor),
+                statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+              ),
         child: SafeArea(
           child: Stack(
             children: [
               const Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   LocationList(topPadding: mainBarHeight + 2 * mainBarMargin),
                 ],

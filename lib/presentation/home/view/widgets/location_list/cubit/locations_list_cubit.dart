@@ -22,7 +22,6 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   StreamSubscription<PlacesEntity>? _placesSubscription;
 
   void _init() {
-    // ! TODO проверить, может быть и просто подописка сработает без lastValue
     final placesStream = _placesRepository.placesStream;
     final initialPlaces = placesStream.valueOrNull;
     _placesHandler(initialPlaces);
@@ -30,11 +29,13 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   void _placesHandler(PlacesEntity? places) {
-    emit(state.copyWith(
-      status: LocationsListStatus.loaded,
-      places: places?.places ?? [],
-      activePlaceId: places?.activePlace?.id,
-    ));
+    emit(
+      state.copyWith(
+        status: LocationsListStatus.loaded,
+        places: places?.places ?? [],
+        activePlaceId: places?.activePlace?.id,
+      ),
+    );
   }
 
   @override
@@ -56,20 +57,20 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     await _placesRepository.select(id);
   }
 
-  void onLongPressEdit({required String id}) async {
-    final place = state.places.firstWhere(
-      ((location) => location.id == id),
-    );
+  Future<void> onLongPressEdit({required String id}) async {
+    final place = state.places.firstWhere((location) => location.id == id);
     await _placesRepository.select(id);
-    emit(EditPlaceState(
-      activePlaceId: id,
-      status: LocationsListStatus.editing,
-      name: place.name,
-      latitude: place.latitude,
-      longitude: place.longitude,
-      places: state.places,
-      place: place,
-    ));
+    emit(
+      EditPlaceState(
+        activePlaceId: id,
+        status: LocationsListStatus.editing,
+        name: place.name,
+        latitude: place.latitude,
+        longitude: place.longitude,
+        places: state.places,
+        place: place,
+      ),
+    );
   }
 
   void onBottomSheetClose() {

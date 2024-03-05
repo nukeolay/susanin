@@ -8,11 +8,6 @@ class PositionEntity extends Equatable {
     required this.accuracy,
   });
 
-  final LocationStatus status;
-  final double? longitude;
-  final double? latitude;
-  final double? accuracy;
-
   const PositionEntity.value({
     required this.longitude,
     required this.latitude,
@@ -42,6 +37,11 @@ class PositionEntity extends Equatable {
         latitude = null,
         accuracy = null,
         status = LocationStatus.unknownError;
+
+  final LocationStatus status;
+  final double? longitude;
+  final double? latitude;
+  final double? accuracy;
 
   @override
   List<Object?> get props => [

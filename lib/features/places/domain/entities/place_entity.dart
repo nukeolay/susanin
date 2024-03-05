@@ -9,12 +9,6 @@ class PlaceEntity extends Equatable {
     required this.creationTime,
   });
 
-  final String id;
-  final double latitude;
-  final double longitude;
-  final String name;
-  final DateTime creationTime;
-
   PlaceEntity.empty()
       : id = '',
         latitude = 0,
@@ -35,6 +29,12 @@ class PlaceEntity extends Equatable {
       creationTime: creationTime,
     );
   }
+
+  final String id;
+  final double latitude;
+  final double longitude;
+  final String name;
+  final DateTime creationTime;
 
   @override
   String toString() {

@@ -28,7 +28,7 @@ class CompassPointer extends StatelessWidget {
 class _CompassPointerWidget extends StatelessWidget {
   const _CompassPointerWidget();
 
-  void _showBottomSheet(BuildContext context) async {
+  Future<void> _showBottomSheet(BuildContext context) async {
     await showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
@@ -83,8 +83,8 @@ class _CompassPointerWidget extends StatelessWidget {
 }
 
 class _LoadedCompass extends StatefulWidget {
-  final CompassState state;
   const _LoadedCompass({required this.state});
+  final CompassState state;
 
   @override
   State<_LoadedCompass> createState() => _LoadedCompassState();

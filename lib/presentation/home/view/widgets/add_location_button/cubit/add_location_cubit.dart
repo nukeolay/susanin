@@ -30,11 +30,13 @@ class AddLocationCubit extends Cubit<AddLocationState> {
   }
 
   void _positionEventHandler(PositionEntity entity) {
-    emit(state.copyWith(
-      status: _locationStatusToAddLocationStatus(entity.status),
-      latitude: entity.latitude,
-      longitude: entity.longitude,
-    ));
+    emit(
+      state.copyWith(
+        status: _locationStatusToAddLocationStatus(entity.status),
+        latitude: entity.latitude,
+        longitude: entity.longitude,
+      ),
+    );
   }
 
   AddLocationStatus _locationStatusToAddLocationStatus(LocationStatus status) {
@@ -57,13 +59,15 @@ class AddLocationCubit extends Cubit<AddLocationState> {
   }
 
   void onLongPressAdd() {
-    emit(state.copyWith(
-      status: AddLocationStatus.editing,
-      name: _generateName(),
-    ));
+    emit(
+      state.copyWith(
+        status: AddLocationStatus.editing,
+        name: _generateName(),
+      ),
+    );
   }
 
-  void onPressAdd() async {
+  Future<void> onPressAdd() async {
     emit(state.copyWith(status: AddLocationStatus.loading));
     await _addLocation(
       latitude: state.latitude,

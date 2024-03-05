@@ -9,18 +9,22 @@ abstract class LocationService {
 }
 
 class LocationServiceImpl implements LocationService {
-  const LocationServiceImpl();
+  const LocationServiceImpl({
+    required this.accuracy,
+    required this.distanceFilter,
+  });
 
-  final _locationSettings = const LocationSettings(
-    accuracy: LocationAccuracy.best,
-    distanceFilter: 0,
-  );
+  final LocationAccuracy accuracy;
+  final int distanceFilter;
 
   @override
   Stream<PositionModel> get positionStream {
     // ! TODO слушать два стрима - позиуии и вкл выкл, эмитить в один контролле. Потому что если запустить прилодение первый раз с выключенным геолокатором, то после включеиня статус вкл не пявится, потому что еще нет разрешения
     final stream = Geolocator.getPositionStream(
-      locationSettings: _locationSettings,
+      locationSettings: LocationSettings(
+        accuracy: accuracy,
+        distanceFilter: distanceFilter,
+      ),
     );
     return stream.transform(
       StreamTransformer.fromHandlers(

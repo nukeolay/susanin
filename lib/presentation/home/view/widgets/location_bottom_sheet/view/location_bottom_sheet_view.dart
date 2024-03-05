@@ -1,6 +1,12 @@
 part of '../location_bottom_sheet.dart';
 
 class _LocationBottomSheetView extends StatefulWidget {
+  const _LocationBottomSheetView({
+    required this.name,
+    required this.latitude,
+    required this.longitude,
+    required this.saveLocation,
+  });
   final String name;
   final String latitude;
   final String longitude;
@@ -9,13 +15,6 @@ class _LocationBottomSheetView extends StatefulWidget {
     required String longitude,
     required String name,
   }) saveLocation;
-
-  const _LocationBottomSheetView({
-    required this.name,
-    required this.latitude,
-    required this.longitude,
-    required this.saveLocation,
-  });
 
   @override
   State<_LocationBottomSheetView> createState() =>

@@ -153,7 +153,7 @@ class PlacesRepositoryImpl extends PlacesRepository {
       _loadAcivePlaceId(),
     ]).then((value) {
       final PlacesEntity result;
-      final places = value[0] as List<PlaceModel>;
+      final places = value[0]! as List<PlaceModel>;
       final activePlaceId = value[1] as String?;
       if (places.isEmpty) {
         result = const PlacesEntity(

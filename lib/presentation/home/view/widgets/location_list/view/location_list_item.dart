@@ -3,14 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 
 class LocationListItem extends StatelessWidget {
-  final PlaceEntity location;
-  final bool isActive;
-  final Animation<double> animation;
-  final VoidCallback? onPress;
-  final VoidCallback? onLongPress;
-  final Function(DismissDirection)? onDismissed;
-  final Future<bool> Function(DismissDirection)? onConfirmDismiss;
-
   const LocationListItem({
     required this.location,
     required this.isActive,
@@ -21,6 +13,13 @@ class LocationListItem extends StatelessWidget {
     required this.onConfirmDismiss,
     required super.key,
   });
+  final PlaceEntity location;
+  final bool isActive;
+  final Animation<double> animation;
+  final VoidCallback? onPress;
+  final VoidCallback? onLongPress;
+  final Function(DismissDirection)? onDismissed;
+  final Future<bool> Function(DismissDirection)? onConfirmDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +63,8 @@ class LocationListItem extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-              DateFormat('date_format'.tr()).format(location.creationTime)),
+            DateFormat('date_format'.tr()).format(location.creationTime),
+          ),
           onTap: onPress,
           onLongPress: onLongPress,
         ),

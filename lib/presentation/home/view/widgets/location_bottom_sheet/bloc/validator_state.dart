@@ -7,11 +7,10 @@ class LocationValidatorState extends Equatable {
     required this.isLongitudeValid,
   });
 
-  static const initial = LocationValidatorState(
-    isNameValid: true,
-    isLatutideValid: true,
-    isLongitudeValid: true,
-  );
+  const LocationValidatorState.initial()
+      : isNameValid = true,
+        isLatutideValid = true,
+        isLongitudeValid = true;
 
   final bool isNameValid;
   final bool isLatutideValid;

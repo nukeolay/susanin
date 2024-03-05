@@ -4,9 +4,9 @@ import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/presentation/home/view/widgets/main_bar/cubit/main_pointer_cubit.dart';
 
 class NoCompassPointer extends StatelessWidget {
-  final MainPointerState state;
-
   const NoCompassPointer({required this.state, super.key});
+
+  final MainPointerState state;
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +57,7 @@ class NoCompassPointer extends StatelessWidget {
               ),
             ),
             Text(
-              'distance_meters'
-                  .tr(args: [state.accuracy.toStringAsFixed(0).toString()]),
+              'distance_meters'.tr(args: [state.accuracy.toStringAsFixed(0)]),
               style: TextStyle(
                 color: Theme.of(context).colorScheme.inversePrimary,
                 fontSize: fontSize * 0.7,

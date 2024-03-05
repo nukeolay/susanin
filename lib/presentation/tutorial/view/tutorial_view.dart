@@ -53,9 +53,11 @@ class _TutorialState extends State<TutorialView> {
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: Theme.of(context).brightness == Brightness.dark
             ? SystemUiOverlayStyle.light.copyWith(
-                statusBarColor: Theme.of(context).scaffoldBackgroundColor)
+                statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+              )
             : SystemUiOverlayStyle.dark.copyWith(
-                statusBarColor: Theme.of(context).scaffoldBackgroundColor),
+                statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+              ),
         child: Container(
           height: size.height,
           width: size.width,
@@ -73,7 +75,6 @@ class _TutorialState extends State<TutorialView> {
           ),
           child: SafeArea(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 5.0),
                 Expanded(

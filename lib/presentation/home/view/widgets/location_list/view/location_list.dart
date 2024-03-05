@@ -30,7 +30,7 @@ class _LocationListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: BlocConsumer<LocationsListCubit, LocationsListState>(
-        listener: ((context, state) {
+        listener: (context, state) {
           if (state.status == LocationsListStatus.editing) {
             _showBottomSheet(context, state as EditPlaceState);
           } else if (state.status == LocationsListStatus.failure) {
@@ -39,11 +39,12 @@ class _LocationListWidget extends StatelessWidget {
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
-        }),
-        builder: ((context, state) {
+        },
+        builder: (context, state) {
           if (state.status == LocationsListStatus.loading) {
             return const SingleChildScrollView(
-                child: CircularProgressIndicator());
+              child: CircularProgressIndicator(),
+            );
           } else if (state.places.isEmpty) {
             return Center(
               child: Padding(
@@ -61,12 +62,15 @@ class _LocationListWidget extends StatelessWidget {
           } else {
             return FilledLocationList(topPadding: topPadding);
           }
-        }),
+        },
       ),
     );
   }
 
-  void _showBottomSheet(BuildContext context, EditPlaceState state) async {
+  Future<void> _showBottomSheet(
+    BuildContext context,
+    EditPlaceState state,
+  ) async {
     final cubit = context.read<LocationsListCubit>();
     await showModalBottomSheet<void>(
       context: context,

@@ -1,3 +1,4 @@
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:susanin/core/services/local_storage.dart';
 import 'package:susanin/features/compass/data/repositories/compass_repository_impl.dart';
@@ -30,7 +31,7 @@ class RepositoryInitializer {
   SettingsRepository get settingsRepository => _settingsRepository;
   WakelockRepository get wakelockRepository => _wakelockRepository;
 
-  void dispose() async {
+  Future<void> dispose() async {
     await _compassRepository.close();
   }
 
@@ -42,7 +43,10 @@ class RepositoryInitializer {
     final localStorage = LocalStorageImpl(sharedPreferences);
 
     // PositionRepository
-    const locationService = LocationServiceImpl();
+    const locationService = LocationServiceImpl(
+      accuracy: LocationAccuracy.best,
+      distanceFilter: 0,
+    );
     const permissionService = PermissionServiceImpl();
     _locationRepository = LocationRepositoryImpl(
       locationService: locationService,

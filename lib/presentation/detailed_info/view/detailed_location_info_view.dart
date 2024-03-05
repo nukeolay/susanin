@@ -40,46 +40,47 @@ class DetailedInfoView extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<DetailedInfoCubit, DetailedInfoState>(
-            builder: (context, state) {
-          if (state.isFailure) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Shimmer.fromColors(
-                  baseColor: Theme.of(context).colorScheme.primary,
-                  highlightColor: Theme.of(context).colorScheme.error,
-                  child: Text(
-                    state.locationServiceStatus.toErrorMessage()?.tr() ?? '',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 60),
+          builder: (context, state) {
+            if (state.isFailure) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Shimmer.fromColors(
+                    baseColor: Theme.of(context).colorScheme.primary,
+                    highlightColor: Theme.of(context).colorScheme.error,
+                    child: Text(
+                      state.locationServiceStatus.toErrorMessage()?.tr() ?? '',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 60),
+                    ),
                   ),
-                ),
-              ],
-            );
-          }
+                ],
+              );
+            }
 
-          if (state.locationServiceStatus.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+            if (state.locationServiceStatus.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          return DetailedLocationInfo(
-            distance: state.distance.toInt().toDistanceString(),
-            angle: state.bearing,
-            hasCompass: state.hasCompass,
-            isScreenAlwaysOn: state.isScreenAlwaysOn,
-            locationLatitude: state.locationLatitude,
-            locationLongitude: state.locationLongitude,
-            locationName: state.locationName,
-            pointerArc: state.pointerArc,
-            accuracy: state.accuracy,
-            radius: radius,
-            userLatitude: state.userLatitude,
-            userLongitude: state.userLongitude,
-            toggleWakelock: () => toggleWakeLock(context),
-          );
-        }),
+            return DetailedLocationInfo(
+              distance: state.distance.toInt().toDistanceString(),
+              angle: state.bearing,
+              hasCompass: state.hasCompass,
+              isScreenAlwaysOn: state.isScreenAlwaysOn,
+              locationLatitude: state.locationLatitude,
+              locationLongitude: state.locationLongitude,
+              locationName: state.locationName,
+              pointerArc: state.pointerArc,
+              accuracy: state.accuracy,
+              radius: radius,
+              userLatitude: state.userLatitude,
+              userLongitude: state.userLongitude,
+              toggleWakelock: () => toggleWakeLock(context),
+            );
+          },
+        ),
       ),
       bottomNavigationBar: HideButton(text: 'button_back_to_locations'.tr()),
     );

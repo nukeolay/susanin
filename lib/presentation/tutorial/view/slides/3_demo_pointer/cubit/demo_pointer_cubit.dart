@@ -50,18 +50,22 @@ class DemoPointerCubit extends Cubit<DemoPointerState> {
   }
 
   void _compassEventHandler(CompassEntity entity) {
-    emit(state.copyWith(
-      hasCompass: entity.status.isSuccess ? true : false,
-      compassNorth: entity.north,
-    ));
+    emit(
+      state.copyWith(
+        hasCompass: entity.status.isSuccess,
+        compassNorth: entity.north,
+      ),
+    );
   }
 
   void _positionEventHandler(PositionEntity entity) {
-    emit(state.copyWith(
-      locationServiceStatus: entity.status,
-      userLatitude: entity.latitude,
-      userLongitude: entity.longitude,
-      accuracy: entity.accuracy,
-    ));
+    emit(
+      state.copyWith(
+        locationServiceStatus: entity.status,
+        userLatitude: entity.latitude,
+        userLongitude: entity.longitude,
+        accuracy: entity.accuracy,
+      ),
+    );
   }
 }

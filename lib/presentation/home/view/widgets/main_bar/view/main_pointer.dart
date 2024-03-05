@@ -33,28 +33,28 @@ class MainPointer extends StatelessWidget {
     final pointerSize = MediaQuery.of(context).size.width * 0.22;
     final fontSize = MediaQuery.of(context).size.width * 0.07;
     return Row(
-      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        isShimmering
-            ? Shimmer.fromColors(
-                baseColor:
-                    shimmerBaseColor ?? Theme.of(context).colorScheme.primary,
-                highlightColor: shimmerHighlightColor ??
-                    Theme.of(context).colorScheme.inversePrimary,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(radius: pointerSize * 0.7),
-                ),
-              )
-            : Pointer(
-                rotateAngle: rotateAngle,
-                arcRadius: accuracyAngle,
-                radius: pointerSize,
-                positionAccuracy: positionAccuracy,
-                foregroundColor: Theme.of(context).colorScheme.secondary,
-                backGroundColor: Theme.of(context).colorScheme.background,
-              ),
+        if (isShimmering)
+          Shimmer.fromColors(
+            baseColor:
+                shimmerBaseColor ?? Theme.of(context).colorScheme.primary,
+            highlightColor: shimmerHighlightColor ??
+                Theme.of(context).colorScheme.inversePrimary,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircleAvatar(radius: pointerSize * 0.7),
+            ),
+          )
+        else
+          Pointer(
+            rotateAngle: rotateAngle,
+            arcRadius: accuracyAngle,
+            radius: pointerSize,
+            positionAccuracy: positionAccuracy,
+            foregroundColor: Theme.of(context).colorScheme.secondary,
+            backGroundColor: Theme.of(context).colorScheme.background,
+          ),
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -81,8 +81,9 @@ class MainPointer extends StatelessWidget {
                   softWrap: true,
                   textAlign: TextAlign.right,
                   style: TextStyle(
-                      fontSize: fontSize * 0.5,
-                      color: Theme.of(context).colorScheme.inversePrimary),
+                    fontSize: fontSize * 0.5,
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
                 ),
               ),
             ],
@@ -107,8 +108,8 @@ class MainPointerLoading extends StatelessWidget {
 }
 
 class MainPointerFailure extends StatelessWidget {
-  final MainPointerState state;
   const MainPointerFailure({required this.state, super.key});
+  final MainPointerState state;
 
   String? _subText(LocationStatus status) {
     switch (status) {
@@ -137,8 +138,9 @@ class MainPointerFailure extends StatelessWidget {
 }
 
 class MainPointerEmpty extends StatelessWidget {
-  final MainPointerState state;
   const MainPointerEmpty({required this.state, super.key});
+
+  final MainPointerState state;
 
   @override
   Widget build(BuildContext context) {
@@ -151,8 +153,9 @@ class MainPointerEmpty extends StatelessWidget {
 }
 
 class MainPointerDefault extends StatelessWidget {
-  final MainPointerState state;
   const MainPointerDefault({required this.state, super.key});
+
+  final MainPointerState state;
 
   @override
   Widget build(BuildContext context) {

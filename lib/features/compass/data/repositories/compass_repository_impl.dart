@@ -27,8 +27,8 @@ class CompassRepositoryImpl implements CompassRepository {
     _streamSubscription ??= _compassStream?.listen(
       (event) {
         final compasEntity = CompassEntity.value(
-          accuracy: event.accuracy!,
-          north: event.heading!,
+          accuracy: event.accuracy,
+          north: event.heading,
         );
         _streamController.add(compasEntity);
       },

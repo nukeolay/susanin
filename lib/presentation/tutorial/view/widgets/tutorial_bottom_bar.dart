@@ -30,12 +30,13 @@ class TutorialBottomBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               for (int i = 0; i < slideQuantity; i++)
-                _PageIndicator(isCurrentPage: currentIndex == i)
+                _PageIndicator(isCurrentPage: currentIndex == i),
             ],
           ),
-          currentIndex != slideQuantity - 1
-              ? _NextButton(onTap: onNext)
-              : _StartButton(onTap: onStart),
+          if (currentIndex != slideQuantity - 1)
+            _NextButton(onTap: onNext)
+          else
+            _StartButton(onTap: onStart),
         ],
       ),
     );
@@ -86,8 +87,9 @@ class _StartButton extends StatelessWidget {
 }
 
 class _PageIndicator extends StatelessWidget {
-  final bool isCurrentPage;
   const _PageIndicator({required this.isCurrentPage});
+
+  final bool isCurrentPage;
 
   @override
   Widget build(BuildContext context) {

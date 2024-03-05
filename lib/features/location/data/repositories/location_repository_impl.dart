@@ -28,7 +28,7 @@ class LocationRepositoryImpl implements LocationRepository {
         longitude: event.longitude,
         latitude: event.latitude,
         accuracy: event.accuracy,
-      ));
+      ),);
     }, onError: (error) {
       if (error is LocationServiceDeniedException) {
         _streamController.add(const PositionEntity.notPermitted());
@@ -37,7 +37,7 @@ class LocationRepositoryImpl implements LocationRepository {
       } else {
         _streamController.add(const PositionEntity.unknownError());
       }
-    });
+    },);
   }
 
   @override

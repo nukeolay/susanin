@@ -32,7 +32,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   StreamSubscription<PositionEntity>? _positionSubscription;
   StreamSubscription<CompassEntity>? _compassSubscription;
 
-  void _init() async {
+  Future<void> _init() async {
     _updateActivePlace();
     _updatePasition();
     _updateCompassStatus();
@@ -49,21 +49,25 @@ class MainPointerCubit extends Cubit<MainPointerState> {
 
   void _updatePasition() {
     _positionSubscription = _locationRepository.positionStream.listen((event) {
-      emit(state.copyWith(
-        locationServiceStatus: event.status,
-        userLatitude: event.latitude,
-        userLongitude: event.longitude,
-        accuracy: event.accuracy,
-      ));
+      emit(
+        state.copyWith(
+          locationServiceStatus: event.status,
+          userLatitude: event.latitude,
+          userLongitude: event.longitude,
+          accuracy: event.accuracy,
+        ),
+      );
     });
   }
 
   void _updateCompassStatus() {
     _compassSubscription = _compassRepository.compassStream.listen((event) {
-      emit(state.copyWith(
-        compassStatus: event.status,
-        compassNorth: event.north,
-      ));
+      emit(
+        state.copyWith(
+          compassStatus: event.status,
+          compassNorth: event.north,
+        ),
+      );
     });
   }
 

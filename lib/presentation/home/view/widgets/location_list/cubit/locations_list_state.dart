@@ -43,11 +43,6 @@ class LocationsListState extends Equatable {
 }
 
 class EditPlaceState extends LocationsListState {
-  final double latitude;
-  final double longitude;
-  final String name;
-  final PlaceEntity place;
-
   const EditPlaceState({
     required this.latitude,
     required this.longitude,
@@ -57,6 +52,10 @@ class EditPlaceState extends LocationsListState {
     required super.activePlaceId,
     required this.place,
   });
+  final double latitude;
+  final double longitude;
+  final String name;
+  final PlaceEntity place;
 
   @override
   EditPlaceState copyWith({

@@ -26,23 +26,25 @@ class SettingsSwitch extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       margin: const EdgeInsets.only(bottom: 12.0),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: isAlert
-              ? Theme.of(context).colorScheme.error
-              : Theme.of(context).cardColor),
+        borderRadius: BorderRadius.circular(10),
+        color: isAlert
+            ? Theme.of(context).colorScheme.error
+            : Theme.of(context).cardColor,
+      ),
       child: isLoading
           ? Shimmer.fromColors(
               baseColor: Theme.of(context).disabledColor,
               highlightColor: Theme.of(context).colorScheme.inversePrimary,
               child: SwitchListTile.adaptive(
-                  contentPadding: const EdgeInsets.all(0),
-                  title: Text(text),
-                  value: false,
-                  onChanged: null),
+                contentPadding: EdgeInsets.zero,
+                title: Text(text),
+                value: false,
+                onChanged: null,
+              ),
             )
           : SwitchListTile.adaptive(
               activeColor: Theme.of(context).primaryColor,
-              contentPadding: const EdgeInsets.all(0),
+              contentPadding: EdgeInsets.zero,
               title: Text(text),
               value: switchValue,
               onChanged: action,

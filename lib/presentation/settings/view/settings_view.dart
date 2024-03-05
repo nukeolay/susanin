@@ -40,9 +40,11 @@ class SettingsView extends StatelessWidget {
         // TODO remove AnnotatedRegion
         value: isDarkTheme
             ? SystemUiOverlayStyle.light.copyWith(
-                statusBarColor: Theme.of(context).scaffoldBackgroundColor)
+                statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+              )
             : SystemUiOverlayStyle.dark.copyWith(
-                statusBarColor: Theme.of(context).scaffoldBackgroundColor),
+                statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+              ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: BlocBuilder<SettingsCubit, SettingsState>(
@@ -67,12 +69,15 @@ class SettingsView extends StatelessWidget {
                   ),
                   if (!Platform.isIOS) HasCompassSwitch(state: state),
                   SettingsButton(
-                      text: 'button_instruction'.tr(),
-                      action: () {
-                        HapticFeedback.heavyImpact();
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            Routes.tutorial, (route) => false);
-                      }),
+                    text: 'button_instruction'.tr(),
+                    action: () {
+                      HapticFeedback.heavyImpact();
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        Routes.tutorial,
+                        (route) => false,
+                      );
+                    },
+                  ),
                   if (Platform.isIOS) const IosCompassSettings(),
                   // SettingsButton(
                   //     text: 'Поставить оценку приложению',

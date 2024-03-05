@@ -13,7 +13,7 @@ class DetailedInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final arguments =
-        ModalRoute.of(context)!.settings.arguments as List<Object>;
+        ModalRoute.of(context)!.settings.arguments! as List<Object>;
     final place = arguments[0] as PlaceEntity;
 
     final compassRepository = context.read<CompassRepository>();

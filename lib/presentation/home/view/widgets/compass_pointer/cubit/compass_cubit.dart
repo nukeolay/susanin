@@ -37,7 +37,7 @@ class CompassCubit extends Cubit<CompassState> {
       status: compassStatus,
       angle: angle,
       accuracy: accuracy,
-    ));
+    ),);
   }
 
   @override

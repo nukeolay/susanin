@@ -14,6 +14,18 @@ class DetailedInfoState extends Equatable with PointerCalculations {
     required this.isScreenAlwaysOn,
   });
 
+  DetailedInfoState.initial(PlaceEntity place)
+      : locationServiceStatus = LocationStatus.loading,
+        hasCompass = true,
+        compassNorth = 0,
+        isScreenAlwaysOn = false,
+        accuracy = 0,
+        locationName = place.name,
+        locationLatitude = place.latitude,
+        locationLongitude = place.longitude,
+        userLatitude = 0,
+        userLongitude = 0;
+
   final LocationStatus locationServiceStatus;
   final bool hasCompass;
   final String locationName;
@@ -30,19 +42,6 @@ class DetailedInfoState extends Equatable with PointerCalculations {
   @override
   final double userLongitude;
   final bool isScreenAlwaysOn;
-
-  static initial(PlaceEntity place) => DetailedInfoState(
-        locationServiceStatus: LocationStatus.loading,
-        hasCompass: true,
-        compassNorth: 0,
-        isScreenAlwaysOn: false,
-        accuracy: 0,
-        locationName: place.name,
-        locationLatitude: place.latitude,
-        locationLongitude: place.longitude,
-        userLatitude: 0,
-        userLongitude: 0,
-      );
 
   DetailedInfoState copyWith({
     LocationStatus? locationServiceStatus,

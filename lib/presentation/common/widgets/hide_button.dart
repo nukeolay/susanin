@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class HideButton extends StatelessWidget {
-  final String text;
   const HideButton({required this.text, super.key});
+  final String text;
 
   @override
   Widget build(BuildContext context) {

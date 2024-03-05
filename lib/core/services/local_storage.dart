@@ -8,8 +8,8 @@ abstract class LocalStorage {
 }
 
 class LocalStorageImpl implements LocalStorage {
-  final SharedPreferences _sharedPreferences;
   const LocalStorageImpl(this._sharedPreferences);
+  final SharedPreferences _sharedPreferences;
 
   @override
   Future<void> save({required String key, required String data}) async {

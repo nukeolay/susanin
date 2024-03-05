@@ -53,7 +53,6 @@ class ServiceDisabledInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         TutorialText(
           'tutorial_settings_disabled'.tr(),
@@ -64,7 +63,7 @@ class ServiceDisabledInfo extends StatelessWidget {
           child: CircularProgressIndicator(
             color: Theme.of(context).colorScheme.error,
           ),
-        )
+        ),
       ],
     );
   }

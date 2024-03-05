@@ -43,19 +43,23 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
   }
 
   void _positionEventHandler(PositionEntity entity) {
-    emit(state.copyWith(
-      locationServiceStatus: entity.status,
-      userLatitude: entity.latitude,
-      userLongitude: entity.longitude,
-      accuracy: entity.accuracy,
-    ));
+    emit(
+      state.copyWith(
+        locationServiceStatus: entity.status,
+        userLatitude: entity.latitude,
+        userLongitude: entity.longitude,
+        accuracy: entity.accuracy,
+      ),
+    );
   }
 
   void _compassEventHandler(CompassEntity entity) {
-    emit(state.copyWith(
-      hasCompass: entity.status.isSuccess ? true : false,
-      compassNorth: entity.north,
-    ));
+    emit(
+      state.copyWith(
+        hasCompass: entity.status.isSuccess,
+        compassNorth: entity.north,
+      ),
+    );
   }
 
   Future<void> toggleWakelock() async {

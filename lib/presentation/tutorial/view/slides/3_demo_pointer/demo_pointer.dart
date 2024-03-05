@@ -76,14 +76,11 @@ class _DemoPointerView extends StatelessWidget {
                     foregroundColor: Theme.of(context).colorScheme.secondary,
                     backGroundColor: Theme.of(context).cardColor,
                   ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 0.0),
-                  child: Text(
-                    state.distance.toInt().toDistanceString(),
-                    style: TextStyle(
-                      fontSize: 40,
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                    ),
+                Text(
+                  state.distance.toInt().toDistanceString(),
+                  style: TextStyle(
+                    fontSize: 40,
+                    color: Theme.of(context).colorScheme.inversePrimary,
                   ),
                 ),
               ],

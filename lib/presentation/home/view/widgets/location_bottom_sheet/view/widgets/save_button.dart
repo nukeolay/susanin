@@ -17,7 +17,8 @@ class _SaveButton extends StatelessWidget {
         backgroundColor:
             MaterialStateProperty.all(Theme.of(context).primaryColor),
         foregroundColor: MaterialStateProperty.all(
-            Theme.of(context).colorScheme.inversePrimary),
+          Theme.of(context).colorScheme.inversePrimary,
+        ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),

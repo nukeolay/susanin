@@ -39,7 +39,7 @@ class MainBarForeground extends StatelessWidget {
               blurRadius: 4.0,
               spreadRadius: 0.5,
               offset: const Offset(-2, 3.0),
-            )
+            ),
           ],
         ),
         child: const _MainBarForeground(),
@@ -54,11 +54,29 @@ class _MainBarForeground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MainPointerCubit, MainPointerState>(
-        builder: (context, state) {
-      if (state.isFailure) {
-        return MainPointerFailure(state: state);
-      }
-      if (state.compassStatus.isFailure) {
+      builder: (context, state) {
+        if (state.isFailure) {
+          return MainPointerFailure(state: state);
+        }
+        if (state.compassStatus.isFailure) {
+          return GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              HapticFeedback.heavyImpact();
+              Navigator.of(context).pushNamed(
+                Routes.detailedLocationInfo,
+                arguments: [state.activePlace],
+              );
+            },
+            child: NoCompassPointer(state: state),
+          );
+        }
+        if (state.isLoading) {
+          return const MainPointerLoading();
+        }
+        if (state.isEmpty) {
+          return MainPointerEmpty(state: state);
+        }
         return GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: () {
@@ -68,26 +86,9 @@ class _MainBarForeground extends StatelessWidget {
               arguments: [state.activePlace],
             );
           },
-          child: NoCompassPointer(state: state),
+          child: MainPointerDefault(state: state),
         );
-      }
-      if (state.isLoading) {
-        return const MainPointerLoading();
-      }
-      if (state.isEmpty) {
-        return MainPointerEmpty(state: state);
-      }
-      return GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () {
-          HapticFeedback.heavyImpact();
-          Navigator.of(context).pushNamed(
-            Routes.detailedLocationInfo,
-            arguments: [state.activePlace],
-          );
-        },
-        child: MainPointerDefault(state: state),
-      );
-    });
+      },
+    );
   }
 }

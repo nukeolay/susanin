@@ -8,9 +8,8 @@ import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locat
 import 'package:susanin/presentation/home/view/widgets/location_list/view/location_list_item.dart';
 
 class FilledLocationList extends StatefulWidget {
-  final double topPadding;
-
   const FilledLocationList({required this.topPadding, super.key});
+  final double topPadding;
 
   @override
   State<FilledLocationList> createState() => _FilledLocationListState();
@@ -77,7 +76,11 @@ class _FilledLocationListState extends State<FilledLocationList> {
     cubit.onLongPressEdit(id: id);
   }
 
-  void _onDismissed(LocationsListCubit cubit, int index, String id) async {
+  Future<void> _onDismissed(
+    LocationsListCubit cubit,
+    int index,
+    String id,
+  ) async {
     animatedListKey.currentState!.removeItem(
       index,
       (_, __) => Container(),
@@ -115,7 +118,6 @@ Future<bool> _showRemoveConfirmationDialog({
 }) async {
   final result = await showDialog<bool>(
         context: context,
-        barrierDismissible: true,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
             title: Text('delete_location'.tr()),

@@ -7,10 +7,6 @@ class CompassEntity extends Equatable {
     required this.status,
   });
 
-  final double? north;
-  final double? accuracy;
-  final CompassStatus status;
-
   const CompassEntity.value({
     required this.north,
     required this.accuracy,
@@ -25,6 +21,10 @@ class CompassEntity extends Equatable {
       : accuracy = null,
         north = null,
         status = CompassStatus.failure;
+
+  final double? north;
+  final double? accuracy;
+  final CompassStatus status;
 
   @override
   List<Object?> get props => [north, accuracy, status];

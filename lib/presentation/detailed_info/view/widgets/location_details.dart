@@ -59,11 +59,12 @@ class LocationDetails extends StatelessWidget {
             onPressed: () async {
               HapticFeedback.heavyImpact();
               await Share.share(
-                  '$pointName https://www.google.com/maps/search/?api=1&query=$pointLatitude,$pointLongitude');
+                '$pointName https://www.google.com/maps/search/?api=1&query=$pointLatitude,$pointLongitude',
+              );
             },
             icon: const Icon(Icons.share_rounded),
           ),
-        )
+        ),
       ],
     );
   }

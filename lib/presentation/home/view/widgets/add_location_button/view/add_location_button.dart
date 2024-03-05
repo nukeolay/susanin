@@ -29,13 +29,13 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AddLocationCubit, AddLocationState>(
-      listenWhen: ((previous, current) {
+      listenWhen: (previous, current) {
         return current.status == AddLocationStatus.editing;
-      }),
-      listener: ((context, state) {
+      },
+      listener: (context, state) {
         _showBottomSheet(context, state);
-      }),
-      builder: ((context, state) {
+      },
+      builder: (context, state) {
         if (state.status == AddLocationStatus.loading) {
           return FloatingActionButton(
             onPressed: null,
@@ -65,11 +65,11 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
             child: const Icon(Icons.add_location_alt_rounded),
           ),
         );
-      }),
+      },
     );
   }
 
-  void _showBottomSheet(BuildContext context, AddLocationState state) async {
+  Future<void> _showBottomSheet(BuildContext context, AddLocationState state) async {
     await showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,

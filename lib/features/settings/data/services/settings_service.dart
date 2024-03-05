@@ -23,7 +23,7 @@ class SettingsServiceImpl implements SettingsService {
       return null;
     }
     try {
-      final Map<String, dynamic> json = jsonDecode(jsonSettings);
+      final json = jsonDecode(jsonSettings) as Map<String, dynamic>;
       final settings = SettingsModel.fromJson(json);
       return settings;
     } catch (error) {

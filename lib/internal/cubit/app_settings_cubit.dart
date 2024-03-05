@@ -21,16 +21,20 @@ class AppSettingsCubit extends Cubit<AppSettingsState> {
   void _init() {
     final stream = _settingsRepository.settingsStream;
     final lastValue = stream.valueOrNull;
-    emit(state.copyWith(
-      isDarkTheme: lastValue?.themeMode.isDark,
-      isFirstTime: lastValue?.isFirstTime,
-      isLoading: false,
-    ));
+    emit(
+      state.copyWith(
+        isDarkTheme: lastValue?.themeMode.isDark,
+        isFirstTime: lastValue?.isFirstTime,
+        isLoading: false,
+      ),
+    );
     _streamSubscription = stream.listen((event) {
-      emit(state.copyWith(
-        isDarkTheme: event.themeMode.isDark,
-        isFirstTime: event.isFirstTime,
-      ));
+      emit(
+        state.copyWith(
+          isDarkTheme: event.themeMode.isDark,
+          isFirstTime: event.isFirstTime,
+        ),
+      );
     });
   }
 
