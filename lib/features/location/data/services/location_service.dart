@@ -6,46 +6,90 @@ import 'package:susanin/features/location/data/models/position_model.dart';
 
 abstract class LocationService {
   Stream<PositionModel> get positionStream;
+  Future<void> close();
 }
 
 class LocationServiceImpl implements LocationService {
-  const LocationServiceImpl({
-    required this.accuracy,
-    required this.distanceFilter,
+  LocationServiceImpl({
+    this.accuracy = LocationAccuracy.best,
+    this.distanceFilter = 0,
   });
 
   final LocationAccuracy accuracy;
   final int distanceFilter;
 
-  @override
-  Stream<PositionModel> get positionStream {
-    // ! TODO слушать два стрима - позиуии и вкл выкл, эмитить в один контролле. Потому что если запустить прилодение первый раз с выключенным геолокатором, то после включеиня статус вкл не пявится, потому что еще нет разрешения
-    final stream = Geolocator.getPositionStream(
+  final StreamController<PositionModel> _positionController =
+      StreamController.broadcast();
+  StreamSubscription<Position>? _positionSubscription;
+  StreamSubscription<ServiceStatus>? _serviceSubscription;
+
+  Future<void> _initPositionSubscription() async {
+    await _positionSubscription?.cancel();
+    _positionSubscription = Geolocator.getPositionStream(
       locationSettings: LocationSettings(
         accuracy: accuracy,
         distanceFilter: distanceFilter,
       ),
-    );
-    return stream.transform(
-      StreamTransformer.fromHandlers(
-        handleData: (event, sink) {
-          final model = PositionModel(
-            longitude: event.longitude,
-            latitude: event.latitude,
-            accuracy: event.accuracy,
-          );
-          sink.add(model);
-        },
-        handleError: (error, stackTrace, sink) {
+    ).listen(
+      (event) {
+        final model = PositionModel(
+          longitude: event.longitude,
+          latitude: event.latitude,
+          accuracy: event.accuracy,
+        );
+        _positionController.add(model);
+      },
+    )..onError(
+        (error) {
           if (error is LocationServiceDisabledException) {
-            sink.addError(susanin.LocationServiceDisabledException());
+            _positionController
+                .addError(susanin.LocationServiceDisabledException());
           } else if (error is PermissionDeniedException) {
-            sink.addError(susanin.LocationServiceDeniedException());
+            _positionController
+                .addError(susanin.LocationServiceDeniedException());
           } else {
-            sink.addError(susanin.LocationServiceUnknownException());
+            _positionController
+                .addError(susanin.LocationServiceUnknownException());
           }
         },
-      ),
+      );
+  }
+
+  Future<void> _onServiceDisabled() async {
+    _positionController.addError(
+      susanin.LocationServiceDisabledException(),
     );
+  }
+
+  @override
+  Stream<PositionModel> get positionStream {
+    Geolocator.isLocationServiceEnabled().then(
+      (isEnabled) {
+        if (isEnabled) {
+          _initPositionSubscription();
+        } else {
+          _onServiceDisabled();
+        }
+      },
+    );
+    _serviceSubscription ??= Geolocator.getServiceStatusStream().listen(
+      (event) {
+        final isEnabled = event == ServiceStatus.enabled;
+        if (isEnabled) {
+          _initPositionSubscription();
+          return;
+        } else {
+          _onServiceDisabled();
+        }
+      },
+    );
+    return _positionController.stream;
+  }
+
+  @override
+  Future<void> close() async {
+    await _positionController.close();
+    await _serviceSubscription?.cancel();
+    await _positionSubscription?.cancel();
   }
 }

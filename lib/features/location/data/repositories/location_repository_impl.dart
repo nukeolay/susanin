@@ -23,21 +23,26 @@ class LocationRepositoryImpl implements LocationRepository {
   void _initHandler() {
     _streamSubscription?.cancel();
     final stream = _locationService.positionStream;
-    _streamSubscription = stream.listen((event) {
-      _streamController.add(PositionEntity.value(
-        longitude: event.longitude,
-        latitude: event.latitude,
-        accuracy: event.accuracy,
-      ),);
-    }, onError: (error) {
-      if (error is LocationServiceDeniedException) {
-        _streamController.add(const PositionEntity.notPermitted());
-      } else if (error is LocationServiceDisabledException) {
-        _streamController.add(const PositionEntity.disabled());
-      } else {
-        _streamController.add(const PositionEntity.unknownError());
-      }
-    },);
+    _streamSubscription = stream.listen(
+      (event) {
+        _streamController.add(
+          PositionEntity.value(
+            longitude: event.longitude,
+            latitude: event.latitude,
+            accuracy: event.accuracy,
+          ),
+        );
+      },
+      onError: (error) {
+        if (error is LocationServiceDeniedException) {
+          _streamController.add(const PositionEntity.notPermitted());
+        } else if (error is LocationServiceDisabledException) {
+          _streamController.add(const PositionEntity.disabled());
+        } else {
+          _streamController.add(const PositionEntity.unknownError());
+        }
+      },
+    );
   }
 
   @override
@@ -63,5 +68,12 @@ class LocationRepositoryImpl implements LocationRepository {
   @override
   Future<bool> checkPermission() {
     return _permissionService.checkPermission();
+  }
+
+  @override
+  Future<void> close() async {
+    await _streamSubscription?.cancel();
+    await _streamController.close();
+    await _locationService.close();
   }
 }
