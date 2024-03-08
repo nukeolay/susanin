@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/internal/repository_initializer.dart';
 import 'package:susanin/internal/cubit/app_settings_cubit.dart';
@@ -22,10 +23,22 @@ class _SusaninAppState extends State<SusaninApp> {
 
   @override
   void initState() {
-    _repositoryInitializer
-        .init()
-        .then((_) => setState(() => _isLoading = false));
+    Future.wait([
+      _uiSetup(),
+      _repositoryInitializer.init(),
+    ]).then((_) => setState(() => _isLoading = false));
     super.initState();
+  }
+
+  Future<void> _uiSetup() async {
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    await SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.edgeToEdge,
+      overlays: [SystemUiOverlay.top],
+    );
   }
 
   @override

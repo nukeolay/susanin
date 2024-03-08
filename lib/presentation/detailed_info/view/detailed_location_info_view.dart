@@ -1,12 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/presentation/common/widgets/hide_button.dart';
 import 'package:susanin/presentation/detailed_info/cubit/detailed_info_cubit.dart';
 import 'package:susanin/presentation/detailed_info/view/widgets/custom_snackbar.dart';
-import 'package:susanin/presentation/detailed_info/view/widgets/detailed_location_info.dart';
+import 'package:susanin/presentation/detailed_info/view/widgets/error_details.dart';
+import 'package:susanin/presentation/detailed_info/view/widgets/loaded_details.dart';
+import 'package:susanin/presentation/detailed_info/view/widgets/loading_details.dart';
 
 class DetailedInfoView extends StatelessWidget {
   const DetailedInfoView({super.key});
@@ -38,51 +39,43 @@ class DetailedInfoView extends StatelessWidget {
     final radius = MediaQuery.of(context).size.width * 0.7;
 
     return Scaffold(
-      body: SafeArea(
-        child: BlocBuilder<DetailedInfoCubit, DetailedInfoState>(
-          builder: (context, state) {
-            if (state.isFailure) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Shimmer.fromColors(
-                    baseColor: Theme.of(context).colorScheme.primary,
-                    highlightColor: Theme.of(context).colorScheme.error,
-                    child: Text(
-                      state.locationServiceStatus.toErrorMessage()?.tr() ?? '',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 60),
-                    ),
-                  ),
-                ],
+      body: Stack(
+        children: [
+          BlocBuilder<DetailedInfoCubit, DetailedInfoState>(
+            builder: (context, state) {
+              if (state.locationServiceStatus.isFailure) {
+                return ErrorDetails(
+                  locationServiceStatus: state.locationServiceStatus,
+                );
+              }
+              if (state.locationServiceStatus.isLoading) {
+                return const LoadingDetails();
+              }
+              return LoadedDetails(
+                distance: state.distance.toInt().toDistanceString(),
+                angle: state.bearing,
+                hasCompass: state.hasCompass,
+                isScreenAlwaysOn: state.isScreenAlwaysOn,
+                locationLatitude: state.locationLatitude,
+                locationLongitude: state.locationLongitude,
+                locationName: state.locationName,
+                pointerArc: state.pointerArc,
+                accuracy: state.accuracy,
+                radius: radius,
+                userLatitude: state.userLatitude,
+                userLongitude: state.userLongitude,
+                toggleWakelock: () => toggleWakeLock(context),
               );
-            }
-
-            if (state.locationServiceStatus.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            return DetailedLocationInfo(
-              distance: state.distance.toInt().toDistanceString(),
-              angle: state.bearing,
-              hasCompass: state.hasCompass,
-              isScreenAlwaysOn: state.isScreenAlwaysOn,
-              locationLatitude: state.locationLatitude,
-              locationLongitude: state.locationLongitude,
-              locationName: state.locationName,
-              pointerArc: state.pointerArc,
-              accuracy: state.accuracy,
-              radius: radius,
-              userLatitude: state.userLatitude,
-              userLongitude: state.userLongitude,
-              toggleWakelock: () => toggleWakeLock(context),
-            );
-          },
-        ),
+            },
+          ),
+          Positioned(
+            bottom: MediaQuery.of(context).viewPadding.bottom,
+            left: 0,
+            right: 0,
+            child: HideButton(text: 'button_back_to_locations'.tr()),
+          ),
+        ],
       ),
-      bottomNavigationBar: HideButton(text: 'button_back_to_locations'.tr()),
     );
   }
 }

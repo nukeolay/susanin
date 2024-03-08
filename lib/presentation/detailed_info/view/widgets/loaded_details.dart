@@ -4,8 +4,8 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:susanin/presentation/common/widgets/pointer.dart';
 import 'package:susanin/presentation/detailed_info/view/widgets/location_details.dart';
 
-class DetailedLocationInfo extends StatelessWidget {
-  const DetailedLocationInfo({
+class LoadedDetails extends StatelessWidget {
+  const LoadedDetails({
     required this.hasCompass,
     required this.angle,
     required this.pointerArc,
@@ -40,6 +40,7 @@ class DetailedLocationInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
+        padding: const EdgeInsets.only(bottom: 112),
         physics: const BouncingScrollPhysics(),
         child: Container(
           alignment: Alignment.center,

@@ -71,8 +71,6 @@ class DetailedInfoState extends Equatable with PointerCalculations {
     );
   }
 
-  bool get isFailure => locationServiceStatus.isFailure;
-
   @override
   List<Object> get props => [
         locationServiceStatus,
