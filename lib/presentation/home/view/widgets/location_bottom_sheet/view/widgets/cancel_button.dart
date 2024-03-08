@@ -5,22 +5,10 @@ class _CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        elevation: MaterialStateProperty.all(0),
-        backgroundColor: MaterialStateProperty.all(
-          Theme.of(context).scaffoldBackgroundColor,
-        ),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-      child: Text('button_cancel'.tr()),
+    return GlassButton(
+      type: ButtonType.secondary,
+      label: 'button_cancel'.tr(),
+      onPressed: () => Navigator.pop(context),
     );
   }
 }

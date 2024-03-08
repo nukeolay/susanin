@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:susanin/internal/cubit/app_settings_cubit.dart';
-import 'package:susanin/presentation/common/widgets/custom_bottom_sheet.dart';
+import 'package:susanin/presentation/common/widgets/glass_bottom_sheet.dart';
 import 'package:susanin/presentation/common/widgets/hide_button.dart';
 import 'package:susanin/presentation/home/view/widgets/compass_pointer/cubit/compass_cubit.dart';
 
@@ -12,7 +12,7 @@ class CalibrateBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomBottomSheet(
+    return GlassBottomSheet(
       child: BlocBuilder<CompassCubit, CompassState>(
         builder: (context, state) {
           final compassAccuracy = state.accuracy * 180 / 3.14;

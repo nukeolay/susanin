@@ -11,22 +11,10 @@ class _SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        elevation: MaterialStateProperty.all(0),
-        backgroundColor:
-            MaterialStateProperty.all(Theme.of(context).primaryColor),
-        foregroundColor: MaterialStateProperty.all(
-          Theme.of(context).colorScheme.inversePrimary,
-        ),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-        ),
-      ),
+    return GlassButton(
+      type: ButtonType.primary,
+      label: 'button_save'.tr(),
       onPressed: isValid ? onSave : null,
-      child: Text('button_save'.tr()),
     );
   }
 }
