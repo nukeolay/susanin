@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:susanin/core/errors/exceptions.dart';
 import 'package:susanin/core/services/local_storage.dart';
 import 'package:susanin/features/places/data/models/place_model.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
@@ -122,15 +121,10 @@ class PlacesRepositoryImpl extends PlacesRepository {
     if (rawData == null) {
       return const [];
     }
-    try {
-      final json =
-          (jsonDecode(rawData) as List<dynamic>).cast<Map<String, dynamic>>();
-      final points =
-          json.map((element) => PlaceModel.fromJson(element)).toList();
-      return points;
-    } catch (error) {
-      throw LoadLocationPointsException();
-    }
+    final json =
+        (jsonDecode(rawData) as List<dynamic>).cast<Map<String, dynamic>>();
+    final points = json.map((element) => PlaceModel.fromJson(element)).toList();
+    return points;
   }
 
   Future<void> _savePlaces(List<PlaceModel> places) async {

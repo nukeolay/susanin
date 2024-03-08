@@ -9,7 +9,6 @@ import 'package:susanin/features/location/domain/repositories/location_repositor
 import 'package:susanin/features/places/data/repositories/places_repository_impl.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/features/settings/data/repositories/settings_repository_impl.dart';
-import 'package:susanin/features/settings/data/services/settings_service.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
 import 'package:susanin/features/wakelock/data/repositories/wakelock_repository_impl.dart';
 import 'package:susanin/features/wakelock/data/services/wakelock_service.dart';
@@ -57,8 +56,7 @@ class RepositoryInitializer {
     _placesRepository = PlacesRepositoryImpl(localStorage);
 
     // SettingsRepository
-    final settingsService = SettingsServiceImpl(sharedPreferences);
-    _settingsRepository = SettingsRepositoryImpl(settingsService);
+    _settingsRepository = SettingsRepositoryImpl(localStorage);
 
     // WakelockRepository
     const wakelockService = WakelockServiceImpl();
