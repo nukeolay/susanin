@@ -47,57 +47,47 @@ class _TutorialState extends State<TutorialView> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      // TODO remove AnnotatedRegion
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: Theme.of(context).brightness == Brightness.dark
-            ? SystemUiOverlayStyle.light.copyWith(
-                statusBarColor: Theme.of(context).scaffoldBackgroundColor,
-              )
-            : SystemUiOverlayStyle.dark.copyWith(
-                statusBarColor: Theme.of(context).scaffoldBackgroundColor,
-              ),
-        child: Container(
-          height: size.height,
-          width: size.width,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Theme.of(context).colorScheme.primary,
-                Theme.of(context).colorScheme.primary,
-                Theme.of(context).scaffoldBackgroundColor,
-                Theme.of(context).scaffoldBackgroundColor,
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+      body: Container(
+        height: size.height,
+        width: size.width,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Theme.of(context).colorScheme.primary,
+              Theme.of(context).colorScheme.primary,
+              Theme.of(context).scaffoldBackgroundColor,
+              Theme.of(context).scaffoldBackgroundColor,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          child: SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: 5.0),
-                Expanded(
-                  child: PageView.builder(
-                    controller: _pageController,
-                    itemCount: _slides.length,
-                    onPageChanged: (value) {
-                      setState(() {
-                        _currentIndex = value;
-                      });
-                    },
-                    itemBuilder: (context, index) {
-                      return SlideTile(
-                        title: _slides[index].title,
-                        topContent: _slides[index].topContent,
-                        bottomContent: _slides[index].bottomContent,
-                        height: size.height,
-                      );
-                    },
-                  ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 5),
+              Expanded(
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: _slides.length,
+                  onPageChanged: (value) {
+                    setState(() {
+                      _currentIndex = value;
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    return SlideTile(
+                      title: _slides[index].title,
+                      topContent: _slides[index].topContent,
+                      bottomContent: _slides[index].bottomContent,
+                      height: size.height,
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -117,6 +107,11 @@ class _TutorialState extends State<TutorialView> {
           _finishTutorial();
           Navigator.of(context).pushReplacementNamed(Routes.home);
         },
+        padding: EdgeInsets.only(
+          left: 40,
+          right: 40,
+          bottom: MediaQuery.of(context).viewPadding.bottom,
+        ),
       ),
     );
   }

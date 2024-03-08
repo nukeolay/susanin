@@ -48,8 +48,11 @@ class _LocationListWidget extends StatelessWidget {
           } else if (state.places.isEmpty) {
             return Center(
               child: Padding(
-                padding:
-                    EdgeInsets.only(top: topPadding, left: 12.0, right: 12.0),
+                padding: EdgeInsets.only(
+                  top: topPadding,
+                  left: 12.0,
+                  right: 12.0,
+                ),
                 child: SingleChildScrollView(
                   child: Text(
                     'empty_locations_list'.tr(),

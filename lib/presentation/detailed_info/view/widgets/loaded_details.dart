@@ -40,7 +40,10 @@ class LoadedDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 112),
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).viewPadding.top,
+          bottom: 112,
+        ),
         physics: const BouncingScrollPhysics(),
         child: Container(
           alignment: Alignment.center,

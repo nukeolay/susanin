@@ -2,37 +2,39 @@ part of 'app_settings_cubit.dart';
 
 class AppSettingsState extends Equatable {
   const AppSettingsState({
-    required this.isDarkTheme,
     required this.isFirstTime,
     required this.isLoading,
+    required this.themeMode,
   });
 
   final bool isLoading;
-  final bool isDarkTheme;
   final bool isFirstTime;
+  final ThemeMode themeMode;
 
   static const initial = AppSettingsState(
     isLoading: true,
-    isDarkTheme: false,
     isFirstTime: true,
+    themeMode: ThemeMode.light,
   );
+
+  bool get isDarkTheme => themeMode == ThemeMode.dark;
 
   AppSettingsState copyWith({
     bool? isLoading,
-    bool? isDarkTheme,
     bool? isFirstTime,
+    ThemeMode? themeMode,
   }) {
     return AppSettingsState(
       isLoading: isLoading ?? this.isLoading,
-      isDarkTheme: isDarkTheme ?? this.isDarkTheme,
       isFirstTime: isFirstTime ?? this.isFirstTime,
+      themeMode: themeMode ?? this.themeMode,
     );
   }
 
   @override
   List<Object> get props => [
         isLoading,
-        isDarkTheme,
         isFirstTime,
+        themeMode,
       ];
 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +7,7 @@ class TutorialBottomBar extends StatelessWidget {
     required this.slideQuantity,
     required this.onNext,
     required this.onStart,
+    required this.padding,
     super.key,
   });
 
@@ -16,28 +15,30 @@ class TutorialBottomBar extends StatelessWidget {
   final int slideQuantity;
   final void Function() onNext;
   final void Function() onStart;
+  final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+    return ColoredBox(
       color: Theme.of(context).scaffoldBackgroundColor,
-      height: Platform.isIOS ? 70.0 : 60.0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              for (int i = 0; i < slideQuantity; i++)
-                _PageIndicator(isCurrentPage: currentIndex == i),
-            ],
-          ),
-          if (currentIndex != slideQuantity - 1)
-            _NextButton(onTap: onNext)
-          else
-            _StartButton(onTap: onStart),
-        ],
+      child: Padding(
+        padding: padding,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for (int i = 0; i < slideQuantity; i++)
+                  _PageIndicator(isCurrentPage: currentIndex == i),
+              ],
+            ),
+            if (currentIndex != slideQuantity - 1)
+              _NextButton(onTap: onNext)
+            else
+              _StartButton(onTap: onStart),
+          ],
+        ),
       ),
     );
   }

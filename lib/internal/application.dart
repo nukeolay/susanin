@@ -23,22 +23,10 @@ class _SusaninAppState extends State<SusaninApp> {
 
   @override
   void initState() {
-    Future.wait([
-      _uiSetup(),
-      _repositoryInitializer.init(),
-    ]).then((_) => setState(() => _isLoading = false));
+    _repositoryInitializer
+        .init()
+        .then((_) => setState(() => _isLoading = false));
     super.initState();
-  }
-
-  Future<void> _uiSetup() async {
-    await SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    await SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.edgeToEdge,
-      overlays: [SystemUiOverlay.top],
-    );
   }
 
   @override
@@ -91,10 +79,35 @@ class _SusaninAppState extends State<SusaninApp> {
 class _App extends StatelessWidget {
   const _App();
 
+  Future<void> _uiSetup(bool isDarkTheme) async {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness:
+            isDarkTheme ? Brightness.light : Brightness.dark, // Android opt
+        statusBarBrightness:
+            isDarkTheme ? Brightness.light : Brightness.dark, // iOS opt
+        systemNavigationBarContrastEnforced: false,
+        systemNavigationBarDividerColor: Colors.transparent,
+        systemNavigationBarIconBrightness:
+            isDarkTheme ? Brightness.light : Brightness.dark,
+        systemNavigationBarColor: Colors.transparent,
+      ),
+    );
+    SystemChrome.setPreferredOrientations(
+      [
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ],
+    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppSettingsCubit, AppSettingsState>(
       builder: (context, state) {
+        _uiSetup(state.isDarkTheme);
         return MaterialApp(
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,

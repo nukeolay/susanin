@@ -26,66 +26,47 @@ class SettingsView extends StatelessWidget {
         title: Text('settings'.tr()),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
-        systemOverlayStyle: SystemUiOverlayStyle(
-          // TODO remove AnnotatedRegion
-          statusBarColor: Theme.of(context).scaffoldBackgroundColor,
-          statusBarIconBrightness: // android status bar
-              isDarkTheme ? Brightness.light : Brightness.dark,
-          statusBarBrightness: isDarkTheme
-              ? Brightness.dark // ios status bar
-              : Brightness.light,
-        ),
       ),
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        // TODO remove AnnotatedRegion
-        value: isDarkTheme
-            ? SystemUiOverlayStyle.light.copyWith(
-                statusBarColor: Theme.of(context).scaffoldBackgroundColor,
-              )
-            : SystemUiOverlayStyle.dark.copyWith(
-                statusBarColor: Theme.of(context).scaffoldBackgroundColor,
-              ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BlocBuilder<SettingsCubit, SettingsState>(
-            builder: (context, state) {
-              return ListView(
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  ThemeSwitch(
-                    isDarkTheme: isDarkTheme,
-                    action: (_) =>
-                        context.read<AppSettingsCubit>().toggleTheme(),
-                  ),
-                  WakelockSwitch(
-                    switchValue: state.isScreenAlwaysOn,
-                    action: (_) =>
-                        context.read<SettingsCubit>().toggleWakelock(),
-                  ),
-                  LocationServiceSwitch(
-                    locationStatus: state.locationServiceStatus,
-                    action: (_) =>
-                        context.read<SettingsCubit>().getPermission(),
-                  ),
-                  if (!Platform.isIOS) HasCompassSwitch(state: state),
-                  SettingsButton(
-                    text: 'button_instruction'.tr(),
-                    action: () {
-                      HapticFeedback.heavyImpact();
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        Routes.tutorial,
-                        (route) => false,
-                      );
-                    },
-                  ),
-                  if (Platform.isIOS) const IosCompassSettings(),
-                  // SettingsButton(
-                  //     text: 'Поставить оценку приложению',
-                  //     action: () {}), // ! TODO add link
-                ],
-              );
-            },
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: BlocBuilder<SettingsCubit, SettingsState>(
+          builder: (context, state) {
+            return ListView(
+              physics: const BouncingScrollPhysics(),
+              children: [
+                ThemeSwitch(
+                  isDarkTheme: isDarkTheme,
+                  action: (_) =>
+                      context.read<AppSettingsCubit>().toggleTheme(),
+                ),
+                WakelockSwitch(
+                  switchValue: state.isScreenAlwaysOn,
+                  action: (_) =>
+                      context.read<SettingsCubit>().toggleWakelock(),
+                ),
+                LocationServiceSwitch(
+                  locationStatus: state.locationServiceStatus,
+                  action: (_) =>
+                      context.read<SettingsCubit>().getPermission(),
+                ),
+                if (!Platform.isIOS) HasCompassSwitch(state: state),
+                SettingsButton(
+                  text: 'button_instruction'.tr(),
+                  action: () {
+                    HapticFeedback.heavyImpact();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      Routes.tutorial,
+                      (route) => false,
+                    );
+                  },
+                ),
+                if (Platform.isIOS) const IosCompassSettings(),
+                // SettingsButton(
+                //     text: 'Поставить оценку приложению',
+                //     action: () {}), // ! TODO add link
+              ],
+            );
+          },
         ),
       ),
     );
