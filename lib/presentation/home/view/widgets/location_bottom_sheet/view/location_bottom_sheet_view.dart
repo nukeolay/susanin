@@ -45,91 +45,89 @@ class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<LocationValidatorBloc>();
-    return SafeArea(
-      child: GlassBottomSheet(
-        child: BlocBuilder<LocationValidatorBloc, LocationValidatorState>(
-          builder: (context, validatorState) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColorDark,
-                    borderRadius: BorderRadius.circular(20.0),
+    return BlocBuilder<LocationValidatorBloc, LocationValidatorState>(
+      builder: (context, validatorState) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColorDark,
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              width: 40,
+              height: 7,
+            ),
+            Form(
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _nameController,
+                    keyboardType: TextInputType.name,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      labelText: context.s.location_name,
+                      errorText: !validatorState.isNameValid
+                          ? context.s.enter_name
+                          : null,
+                    ),
+                    onChanged: (value) {
+                      bloc.add(NameChanged(name: value));
+                    },
                   ),
-                  width: 40,
-                  height: 7,
-                ),
-                Form(
-                  child: Column(
-                    children: [
-                      TextField(
-                        controller: _nameController,
-                        keyboardType: TextInputType.name,
-                        autofocus: true,
-                        decoration: InputDecoration(
-                          labelText: context.s.location_name,
-                          errorText: !validatorState.isNameValid
-                              ? context.s.enter_name
-                              : null,
-                        ),
-                        onChanged: (value) {
-                          bloc.add(NameChanged(name: value));
-                        },
-                      ),
-                      TextField(
-                        controller: _latitudeController,
-                        decoration: InputDecoration(
-                          labelText: context.s.latitude,
-                          errorText: !validatorState.isLatutideValid
-                              ? context.s.incorrect_value
-                              : null,
-                        ),
-                        onChanged: (value) {
-                          bloc.add(LatitudeChanged(latitude: value));
-                        },
-                      ),
-                      TextField(
-                        controller: _longitudeController,
-                        decoration: InputDecoration(
-                          labelText: context.s.longitude,
-                          errorText: !validatorState.isLongitudeValid
-                              ? context.s.incorrect_value
-                              : null,
-                        ),
-                        onChanged: (value) {
-                          bloc.add(LongitudeChanged(longitude: value));
-                        },
-                      ),
-                    ],
+                  TextField(
+                    controller: _latitudeController,
+                    decoration: InputDecoration(
+                      labelText: context.s.latitude,
+                      errorText: !validatorState.isLatutideValid
+                          ? context.s.incorrect_value
+                          : null,
+                    ),
+                    onChanged: (value) {
+                      bloc.add(LatitudeChanged(latitude: value));
+                    },
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const _CancelButton(),
-                      _SaveButton(
-                        isValid: validatorState.isValid,
-                        onSave: () {
-                          widget.saveLocation(
-                            latitude: _latitudeController.text,
-                            longitude: _longitudeController.text,
-                            name: _nameController.text,
-                          );
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
+                  TextField(
+                    controller: _longitudeController,
+                    decoration: InputDecoration(
+                      labelText: context.s.longitude,
+                      errorText: !validatorState.isLongitudeValid
+                          ? context.s.incorrect_value
+                          : null,
+                    ),
+                    onChanged: (value) {
+                      bloc.add(LongitudeChanged(longitude: value));
+                    },
                   ),
+                ],
+              ),
+            ),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const _CancelButton(),
+                    _SaveButton(
+                      isValid: validatorState.isValid,
+                      onSave: () {
+                        widget.saveLocation(
+                          latitude: _latitudeController.text,
+                          longitude: _longitudeController.text,
+                          name: _nameController.text,
+                        );
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            );
-          },
-        ),
-      ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

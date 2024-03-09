@@ -75,11 +75,9 @@ class _LocationListWidget extends StatelessWidget {
     EditPlaceState state,
   ) async {
     final cubit = context.read<LocationsListCubit>();
-    await showModalBottomSheet<void>(
+    await context.showGlassBottomSheet(
       context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
+      builder: (ctx) {
         return LocationBottomSheet(
           model: LocationBottomSheetModel(
             name: state.name,

@@ -8,9 +8,11 @@ class GlassBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const radius = BorderRadius.vertical(top: Radius.circular(12.0));
+    const radius = BorderRadius.vertical(
+      top: Radius.circular(16),
+    );
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ClipRRect(
         borderRadius: radius,
         child: BackdropFilter(

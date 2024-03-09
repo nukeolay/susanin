@@ -5,7 +5,7 @@ class _CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlassButton(
+    return SusaninButton(
       type: ButtonType.secondary,
       label: context.s.button_cancel,
       onPressed: () => Navigator.pop(context),

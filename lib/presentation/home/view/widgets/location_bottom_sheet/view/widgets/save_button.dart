@@ -11,7 +11,7 @@ class _SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlassButton(
+    return SusaninButton(
       type: ButtonType.primary,
       label: context.s.button_save,
       onPressed: isValid ? onSave : null,

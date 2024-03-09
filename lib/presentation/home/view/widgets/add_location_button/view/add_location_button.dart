@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/presentation/home/view/widgets/add_location_button/cubit/add_location_cubit.dart';
@@ -33,7 +34,11 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
         return current.status == AddLocationStatus.editing;
       },
       listener: (context, state) {
-        _showBottomSheet(context, state);
+        _showBottomSheet(
+          context,
+          state,
+          context.read<AddLocationCubit>().onSaveLocation,
+        );
       },
       builder: (context, state) {
         if (state.status == AddLocationStatus.loading) {
@@ -69,21 +74,26 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
     );
   }
 
-  Future<void> _showBottomSheet(BuildContext context, AddLocationState state) async {
-    await showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (BuildContext ctx) {
-        return LocationBottomSheet(
-          model: LocationBottomSheetModel(
-            name: state.name,
-            latitude: state.latitude,
-            longitude: state.longitude,
-            saveLocation: context.read<AddLocationCubit>().onSaveLocation,
-          ),
-        );
-      },
-    );
-  }
+  Future<void> _showBottomSheet(
+    BuildContext context,
+    AddLocationState state,
+    Future<void> Function({
+      required String latitude,
+      required String longitude,
+      required String name,
+    }) onSaveLocation,
+  ) =>
+      context.showGlassBottomSheet(
+        context: context,
+        builder: (ctx) {
+          return LocationBottomSheet(
+            model: LocationBottomSheetModel(
+              name: state.name,
+              latitude: state.latitude,
+              longitude: state.longitude,
+              saveLocation: onSaveLocation,
+            ),
+          );
+        },
+      );
 }

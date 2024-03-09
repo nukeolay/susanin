@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/extensions/extensions.dart';
+import 'package:susanin/presentation/common/widgets/blurred_bar.dart';
 import 'package:susanin/presentation/common/widgets/hide_button.dart';
 import 'package:susanin/presentation/detailed_info/cubit/detailed_info_cubit.dart';
 import 'package:susanin/presentation/detailed_info/view/widgets/custom_snackbar.dart';
@@ -72,6 +73,24 @@ class DetailedInfoView extends StatelessWidget {
             left: 0,
             right: 0,
             child: HideButton(text: context.s.button_back_to_locations),
+          ),
+          // status bar blur
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: BlurredBar(
+              height: MediaQuery.of(context).viewPadding.top,
+            ),
+          ),
+          // navigation bar blur
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: BlurredBar(
+              height: MediaQuery.of(context).viewPadding.bottom,
+            ),
           ),
         ],
       ),
