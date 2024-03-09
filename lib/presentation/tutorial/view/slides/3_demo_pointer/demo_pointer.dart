@@ -22,7 +22,7 @@ class DemoPointer extends StatelessWidget {
         compassRepository: compassRepository,
         locationRepository: locationRepository,
         settingsRepository: settingsRepository,
-      ),
+      )..init(),
       child: const _DemoPointerView(),
     );
   }

@@ -8,6 +8,7 @@ final darkTheme = ThemeData.dark().copyWith(
     background: ThemeData.dark().scaffoldBackgroundColor,
     secondary: Colors.white,
     inversePrimary: Colors.white,
+    error: Colors.red,
   ),
   iconTheme: const IconThemeData(
     color: Colors.grey,

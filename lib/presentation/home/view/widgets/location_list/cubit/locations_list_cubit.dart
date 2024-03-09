@@ -13,19 +13,17 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   LocationsListCubit({
     required PlacesRepository placesRepository,
   })  : _placesRepository = placesRepository,
-        super(LocationsListState.initial) {
-    _init();
-  }
+        super(LocationsListState.initial);
 
   final PlacesRepository _placesRepository;
 
   StreamSubscription<PlacesEntity>? _placesSubscription;
 
-  void _init() {
+  void init() {
     final placesStream = _placesRepository.placesStream;
     final initialPlaces = placesStream.valueOrNull;
     _placesHandler(initialPlaces);
-    _placesSubscription = placesStream.listen(_placesHandler);
+    _placesSubscription ??= placesStream.listen(_placesHandler);
   }
 
   void _placesHandler(PlacesEntity? places) {

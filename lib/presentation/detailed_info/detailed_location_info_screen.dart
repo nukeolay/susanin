@@ -25,7 +25,7 @@ class DetailedInfoScreen extends StatelessWidget {
         locationRepository: locationRepository,
         wakelockRepository: wakelockRepository,
         place: place,
-      ),
+      )..init(),
       child: const DetailedInfoView(),
     );
   }

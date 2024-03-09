@@ -23,9 +23,7 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
   })  : _locationRepository = locationRepository,
         _compassRepository = compassRepository,
         _wakelockRepository = wakelockRepository,
-        super(DetailedInfoState.initial(place)) {
-    _init();
-  }
+        super(DetailedInfoState.initial(place));
 
   final LocationRepository _locationRepository;
   final CompassRepository _compassRepository;
@@ -34,11 +32,11 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
   StreamSubscription<PositionEntity>? _positionSubscription;
   StreamSubscription<CompassEntity>? _compassSubscription;
 
-  void _init() {
+  void init() {
     _updateWakelockStatus();
-    _positionSubscription =
+    _positionSubscription ??=
         _locationRepository.positionStream.listen(_positionEventHandler);
-    _compassSubscription =
+    _compassSubscription ??=
         _compassRepository.compassStream.listen(_compassEventHandler);
   }
 

@@ -29,5 +29,6 @@ final lightTheme = ThemeData(
     background: ThemeData.light().scaffoldBackgroundColor,
     secondary: Colors.green,
     inversePrimary: Colors.white,
-  ).copyWith(error: Colors.red),
+    error: Colors.red,
+  ),
 );

@@ -21,9 +21,7 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   })  : _locationRepository = locationRepository,
         _placesRepository = placesRepository,
         _compassRepository = compassRepository,
-        super(MainPointerState.initial) {
-    _init();
-  }
+        super(MainPointerState.initial);
 
   final LocationRepository _locationRepository;
   final PlacesRepository _placesRepository;
@@ -32,43 +30,53 @@ class MainPointerCubit extends Cubit<MainPointerState> {
   StreamSubscription<PositionEntity>? _positionSubscription;
   StreamSubscription<CompassEntity>? _compassSubscription;
 
-  Future<void> _init() async {
+  Future<void> init() async {
     _updateActivePlace();
     _updatePasition();
-    _updateCompassStatus();
+    _updateCompass();
   }
 
   void _updateActivePlace() {
     final stream = _placesRepository.placesStream;
     final initialEvent = stream.valueOrNull;
     emit(state.copyWith(activePlace: initialEvent?.activePlace));
-    _activePlaceSubscription = stream.listen((event) {
-      emit(state.copyWith(activePlace: event.activePlace));
-    });
+    _activePlaceSubscription ??= stream.listen(
+      (event) {
+        if (event.activePlace == null) {
+          emit(state.copyWith(activePlace: PlaceEntity.empty()));
+        } else {
+          emit(state.copyWith(activePlace: event.activePlace));
+        }
+      },
+    );
   }
 
   void _updatePasition() {
-    _positionSubscription = _locationRepository.positionStream.listen((event) {
-      emit(
-        state.copyWith(
-          locationServiceStatus: event.status,
-          userLatitude: event.latitude,
-          userLongitude: event.longitude,
-          accuracy: event.accuracy,
-        ),
-      );
-    });
+    _positionSubscription ??= _locationRepository.positionStream.listen(
+      (event) {
+        emit(
+          state.copyWith(
+            locationServiceStatus: event.status,
+            userLatitude: event.latitude,
+            userLongitude: event.longitude,
+            accuracy: event.accuracy,
+          ),
+        );
+      },
+    );
   }
 
-  void _updateCompassStatus() {
-    _compassSubscription = _compassRepository.compassStream.listen((event) {
-      emit(
-        state.copyWith(
-          compassStatus: event.status,
-          compassNorth: event.north,
-        ),
-      );
-    });
+  void _updateCompass() {
+    _compassSubscription ??= _compassRepository.compassStream.listen(
+      (event) {
+        emit(
+          state.copyWith(
+            compassStatus: event.status,
+            compassNorth: event.north,
+          ),
+        );
+      },
+    );
   }
 
   @override

@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
+import 'package:susanin/presentation/common/widgets/susanin_button.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/location_list_item.dart';
 
@@ -81,11 +83,11 @@ class _FilledLocationListState extends State<FilledLocationList> {
     int index,
     String id,
   ) async {
+    await cubit.onDeleteLocation(id: id);
     animatedListKey.currentState!.removeItem(
       index,
       (_, __) => Container(),
     );
-    await cubit.onDeleteLocation(id: id);
   }
 
   Future<bool> _onConfirmDismiss({
@@ -96,12 +98,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
   }) async {
     if (dismissDirection == DismissDirection.startToEnd) {
       HapticFeedback.heavyImpact();
-      return _showRemoveConfirmationDialog(
-        context: context,
-        index: index,
-        isActive: isActive,
-        location: place,
-      );
+      return _showRemoveConfirmationDialog(context: context);
     } else {
       HapticFeedback.heavyImpact();
       context.read<LocationsListCubit>().onShare(place);
@@ -112,29 +109,66 @@ class _FilledLocationListState extends State<FilledLocationList> {
 
 Future<bool> _showRemoveConfirmationDialog({
   required BuildContext context,
-  required int index,
-  required PlaceEntity location,
-  required bool isActive,
 }) async {
   final result = await showDialog<bool>(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
-            title: Text(context.s.delete_location),
-            actions: [
-              CupertinoDialogAction(
-                child: Text(context.s.button_yes),
-                onPressed: () {
-                  Navigator.pop(context, true);
-                },
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Theme.of(context)
+                          .scaffoldBackgroundColor
+                          .withOpacity(0.5),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          context.s.delete_location,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: SusaninButton(
+                                type: ButtonType.secondary,
+                                label: context.s.button_no,
+                                onPressed: () {
+                                  Navigator.pop(context, false);
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: SusaninButton(
+                                type: ButtonType.primary,
+                                label: context.s.button_yes,
+                                onPressed: () {
+                                  Navigator.pop(context, true);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              CupertinoDialogAction(
-                child: Text(context.s.button_no),
-                onPressed: () {
-                  Navigator.pop(context, false);
-                },
-              ),
-            ],
+            ),
           );
         },
       ) ??

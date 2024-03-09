@@ -12,15 +12,13 @@ class CompassCubit extends Cubit<CompassState> {
   CompassCubit({
     required CompassRepository compassRepository,
   })  : _compassRepository = compassRepository,
-        super(CompassState.initial) {
-    _init();
-  }
+        super(CompassState.initial);
 
   final CompassRepository _compassRepository;
-  late final StreamSubscription<CompassEntity> _compassSubscription;
+  StreamSubscription<CompassEntity>? _compassSubscription;
 
-  void _init() {
-    _compassSubscription = _compassRepository.compassStream.listen(
+  void init() {
+    _compassSubscription ??= _compassRepository.compassStream.listen(
       _compassHandler,
     );
   }
@@ -33,16 +31,18 @@ class CompassCubit extends Cubit<CompassState> {
         compassNorth != null ? compassNorth * (math.pi / 180) * -1 : null;
     final accuracy =
         compassAccuracy != null ? compassAccuracy * (math.pi / 180) : null;
-    emit(state.copyWith(
-      status: compassStatus,
-      angle: angle,
-      accuracy: accuracy,
-    ),);
+    emit(
+      state.copyWith(
+        status: compassStatus,
+        angle: angle,
+        accuracy: accuracy,
+      ),
+    );
   }
 
   @override
   Future<void> close() async {
-    await _compassSubscription.cancel();
+    await _compassSubscription?.cancel();
     super.close();
   }
 }

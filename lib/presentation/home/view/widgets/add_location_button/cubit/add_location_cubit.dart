@@ -15,16 +15,14 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     required LocationRepository locationRepository,
   })  : _placesRepository = placesRepository,
         _locationRepository = locationRepository,
-        super(AddLocationState.initial) {
-    _init();
-  }
+        super(AddLocationState.initial);
 
   final PlacesRepository _placesRepository;
   final LocationRepository _locationRepository;
-  late final StreamSubscription<PositionEntity> _positionSubscription;
+  StreamSubscription<PositionEntity>? _positionSubscription;
 
-  void _init() {
-    _positionSubscription = _locationRepository.positionStream.listen(
+  void init() {
+    _positionSubscription ??= _locationRepository.positionStream.listen(
       _positionEventHandler,
     );
   }
@@ -54,7 +52,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
 
   @override
   Future<void> close() async {
-    await _positionSubscription.cancel();
+    await _positionSubscription?.cancel();
     super.close();
   }
 

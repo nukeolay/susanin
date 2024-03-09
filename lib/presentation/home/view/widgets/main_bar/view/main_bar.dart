@@ -24,7 +24,7 @@ class MainBar extends StatelessWidget {
               compassRepository: compassRepository,
               locationRepository: locationRepository,
               placesRepository: placesRepository,
-            ),
+            )..init(),
             child: const MainBarForeground(),
           ),
         ],

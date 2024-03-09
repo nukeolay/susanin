@@ -19,9 +19,7 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
   })  : _locationRepository = locationRepository,
         _compassRepository = compassRepository,
         _settingsRepository = settingsRepository,
-        super(TutorialSettingsState.initial) {
-    _init();
-  }
+        super(TutorialSettingsState.initial);
 
   final LocationRepository _locationRepository;
   final CompassRepository _compassRepository;
@@ -30,7 +28,7 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
   StreamSubscription<CompassEntity>? _compassSubscription;
   StreamSubscription<SettingsEntity>? _settingsSubscription;
 
-  void _init() {
+  void init() {
     _updateTheme();
     _updateCompassStatus();
     _updateLocationServiceStatus();
@@ -59,19 +57,19 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
     final settings =
         _settingsRepository.settingsStream.valueOrNull ?? SettingsEntity.empty;
     emit(state.copyWith(isDarkTheme: settings.themeMode.isDark));
-    _settingsSubscription = _settingsRepository.settingsStream.listen((event) {
+    _settingsSubscription ??= _settingsRepository.settingsStream.listen((event) {
       emit(state.copyWith(isDarkTheme: event.themeMode.isDark));
     });
   }
 
   void _updateLocationServiceStatus() {
-    _positionSubscription = _locationRepository.positionStream.listen((event) {
+    _positionSubscription ??= _locationRepository.positionStream.listen((event) {
       emit(state.copyWith(locationStatus: event.status));
     });
   }
 
   void _updateCompassStatus() {
-    _compassSubscription = _compassRepository.compassStream.listen((event) {
+    _compassSubscription ??= _compassRepository.compassStream.listen((event) {
       emit(state.copyWith(compassStatus: event.status));
     });
   }

@@ -70,7 +70,7 @@ class _SusaninAppState extends State<SusaninApp> {
       child: BlocProvider(
         create: (context) => AppSettingsCubit(
           settingsRepository: _repositoryInitializer.settingsRepository,
-        ),
+        )..init(),
         child: const _App(),
       ),
     );

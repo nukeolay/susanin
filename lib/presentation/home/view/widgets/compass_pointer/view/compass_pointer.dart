@@ -19,7 +19,9 @@ class CompassPointer extends StatelessWidget {
   Widget build(BuildContext context) {
     final compassRepository = context.read<CompassRepository>();
     return BlocProvider(
-      create: (_) => CompassCubit(compassRepository: compassRepository),
+      create: (_) => CompassCubit(
+        compassRepository: compassRepository,
+      )..init(),
       child: const _CompassPointerWidget(),
     );
   }

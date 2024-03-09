@@ -19,7 +19,7 @@ class SettingsScreen extends StatelessWidget {
         compassRepository: compassRepository,
         locationRepository: locationRepository,
         wakelockRepository: wakelockRepository,
-      ),
+      )..init(),
       child: const SettingsView(),
     );
   }

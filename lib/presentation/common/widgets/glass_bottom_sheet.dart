@@ -26,7 +26,7 @@ class GlassBottomSheet extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               borderRadius: radius,
-              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
+              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.7),
             ),
             child: child,
           ),

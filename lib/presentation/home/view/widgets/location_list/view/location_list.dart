@@ -16,7 +16,7 @@ class LocationList extends StatelessWidget {
     return BlocProvider(
       create: (_) => LocationsListCubit(
         placesRepository: placesRepository,
-      ),
+      )..init(),
       child: _LocationListWidget(topPadding: topPadding),
     );
   }

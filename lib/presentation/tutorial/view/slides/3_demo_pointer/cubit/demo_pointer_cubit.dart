@@ -21,9 +21,7 @@ class DemoPointerCubit extends Cubit<DemoPointerState> {
   })  : _locationRepository = locationRepository,
         _compassRepository = compassRepository,
         _settingsRepository = settingsRepository,
-        super(DemoPointerState.initial) {
-    _init();
-  }
+        super(DemoPointerState.initial);
 
   final LocationRepository _locationRepository;
   final CompassRepository _compassRepository;
@@ -32,13 +30,13 @@ class DemoPointerCubit extends Cubit<DemoPointerState> {
   StreamSubscription<PositionEntity>? _positionSubscription;
   StreamSubscription<CompassEntity>? _compassSubscription;
 
-  void _init() {
+  void init() {
     final settings =
         _settingsRepository.settingsStream.valueOrNull ?? SettingsEntity.empty;
     emit(state.copyWith(isFirstTime: settings.isFirstTime));
-    _positionSubscription =
+    _positionSubscription ??=
         _locationRepository.positionStream.listen(_positionEventHandler);
-    _compassSubscription =
+    _compassSubscription ??=
         _compassRepository.compassStream.listen(_compassEventHandler);
   }
 

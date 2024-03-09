@@ -109,17 +109,20 @@ class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const _CancelButton(),
-                    _SaveButton(
-                      isValid: validatorState.isValid,
-                      onSave: () {
-                        widget.saveLocation(
-                          latitude: _latitudeController.text,
-                          longitude: _longitudeController.text,
-                          name: _nameController.text,
-                        );
-                        Navigator.pop(context);
-                      },
+                    const Expanded(child: _CancelButton()),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: _SaveButton(
+                        isValid: validatorState.isValid,
+                        onSave: () {
+                          widget.saveLocation(
+                            latitude: _latitudeController.text,
+                            longitude: _longitudeController.text,
+                            name: _nameController.text,
+                          );
+                          Navigator.pop(context);
+                        },
+                      ),
                     ),
                   ],
                 ),

@@ -11,14 +11,12 @@ class AppSettingsCubit extends Cubit<AppSettingsState> {
   AppSettingsCubit({
     required SettingsRepository settingsRepository,
   })  : _settingsRepository = settingsRepository,
-        super(AppSettingsState.initial) {
-    _init();
-  }
+        super(AppSettingsState.initial);
 
   final SettingsRepository _settingsRepository;
   StreamSubscription<SettingsEntity>? _streamSubscription;
 
-  void _init() {
+  void init() {
     final stream = _settingsRepository.settingsStream;
     final lastValue = stream.valueOrNull;
     emit(
@@ -28,7 +26,7 @@ class AppSettingsCubit extends Cubit<AppSettingsState> {
         themeMode: lastValue?.themeMode,
       ),
     );
-    _streamSubscription = stream.listen((event) {
+    _streamSubscription ??= stream.listen((event) {
       emit(
         state.copyWith(
           isFirstTime: event.isFirstTime,

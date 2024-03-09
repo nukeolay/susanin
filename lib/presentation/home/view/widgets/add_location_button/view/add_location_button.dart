@@ -18,7 +18,7 @@ class AddNewLocationButton extends StatelessWidget {
       create: (_) => AddLocationCubit(
         placesRepository: placesRepository,
         locationRepository: locationRepository,
-      ),
+      )..init(),
       child: const _AddNewLocationButtonWidget(),
     );
   }
