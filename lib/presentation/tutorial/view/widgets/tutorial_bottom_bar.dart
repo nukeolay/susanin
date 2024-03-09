@@ -1,5 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 
 class TutorialBottomBar extends StatelessWidget {
   const TutorialBottomBar({
@@ -54,7 +54,7 @@ class _NextButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Text(
-        'button_next'.tr(),
+        context.s.button_next,
         textAlign: TextAlign.end,
         style: TextStyle(
           fontWeight: FontWeight.bold,
@@ -75,7 +75,7 @@ class _StartButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Text(
-        'button_start'.tr(),
+        context.s.button_start,
         textAlign: TextAlign.end,
         style: TextStyle(
           fontWeight: FontWeight.bold,

@@ -1,8 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/location_list_item.dart';
@@ -120,16 +120,16 @@ Future<bool> _showRemoveConfirmationDialog({
         context: context,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
-            title: Text('delete_location'.tr()),
+            title: Text(context.s.delete_location),
             actions: [
               CupertinoDialogAction(
-                child: Text('button_yes'.tr()),
+                child: Text(context.s.button_yes),
                 onPressed: () {
                   Navigator.pop(context, true);
                 },
               ),
               CupertinoDialogAction(
-                child: Text('button_no'.tr()),
+                child: Text(context.s.button_no),
                 onPressed: () {
                   Navigator.pop(context, false);
                 },

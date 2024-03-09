@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
@@ -55,7 +55,7 @@ class ServiceDisabledInfo extends StatelessWidget {
     return Column(
       children: [
         TutorialText(
-          'tutorial_settings_disabled'.tr(),
+          context.s.tutorial_settings_disabled,
           isError: true,
         ),
         const SizedBox(height: 30),
@@ -83,7 +83,7 @@ class ServicePermissionInfo extends StatelessWidget {
           children: [
             if (isFailure)
               TutorialText(
-                'tutorial_settings_permission'.tr(),
+                context.s.tutorial_settings_permission,
                 isError: true,
               ),
             const SizedBox(height: 10),
@@ -97,7 +97,7 @@ class ServicePermissionInfo extends StatelessWidget {
             ),
             if (!Platform.isIOS && state.compassStatus.isFailure)
               TutorialText(
-                'tutorial_settings_no_compass'.tr(),
+                context.s.tutorial_settings_no_compass,
                 isError: true,
               ),
             if (Platform.isIOS) const IosCompassSettings(),

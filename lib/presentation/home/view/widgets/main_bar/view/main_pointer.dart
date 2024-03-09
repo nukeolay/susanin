@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:susanin/core/extensions/extensions.dart';
@@ -111,14 +110,14 @@ class MainPointerFailure extends StatelessWidget {
   const MainPointerFailure({required this.state, super.key});
   final MainPointerState state;
 
-  String? _subText(LocationStatus status) {
+  String? _subText(LocationStatus status, BuildContext context) {
     switch (status) {
       case LocationStatus.notPermitted:
-        return 'error_geolocation_permission_short';
+        return context.s.error_geolocation_permission_short;
       case LocationStatus.disabled:
-        return 'error_geolocation_disabled';
+        return context.s.error_geolocation_disabled;
       case LocationStatus.unknownError:
-        return 'error_unknown';
+        return context.s.error_unknown;
       default:
         return null;
     }
@@ -131,8 +130,8 @@ class MainPointerFailure extends StatelessWidget {
       isShimmering: true,
       shimmerBaseColor: Theme.of(context).colorScheme.error,
       shimmerHighlightColor: Theme.of(context).colorScheme.inversePrimary,
-      mainText: 'error_title'.tr(),
-      subText: _subText(status)?.tr() ?? ' ',
+      mainText: context.s.error_title,
+      subText: _subText(status, context) ?? ' ',
     );
   }
 }
@@ -146,7 +145,7 @@ class MainPointerEmpty extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainPointer(
       positionAccuracy: state.accuracy,
-      mainText: 'empty_locations_list_header'.tr(),
+      mainText: context.s.empty_locations_list_header,
       subText: ' ',
     );
   }
@@ -163,7 +162,7 @@ class MainPointerDefault extends StatelessWidget {
       rotateAngle: state.bearing,
       accuracyAngle: state.pointerArc,
       positionAccuracy: state.accuracy,
-      mainText: state.distance.toInt().toDistanceString(),
+      mainText: state.distance.toInt().toDistanceString(context),
       subText: state.placeName,
     );
   }

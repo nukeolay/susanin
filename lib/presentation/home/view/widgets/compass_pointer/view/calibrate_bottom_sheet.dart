@@ -1,7 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/internal/cubit/app_settings_cubit.dart';
 import 'package:susanin/presentation/common/widgets/glass_bottom_sheet.dart';
 import 'package:susanin/presentation/common/widgets/hide_button.dart';
@@ -38,8 +38,8 @@ class CalibrateBottomSheet extends StatelessWidget {
                       Flexible(
                         child: Text(
                           needCalibration
-                              ? 'low_compass_accuracy'.tr()
-                              : 'normal_compass_accuracy'.tr(),
+                              ? context.s.low_compass_accuracy
+                              : context.s.normal_compass_accuracy,
                           style: const TextStyle(fontSize: 20),
                           textAlign: TextAlign.center,
                           softWrap: true,
@@ -63,7 +63,7 @@ class CalibrateBottomSheet extends StatelessWidget {
                   ],
                 ],
               ),
-              HideButton(text: 'button_hide'.tr()),
+              HideButton(text: context.s.button_hide),
             ],
           );
         },
@@ -104,7 +104,7 @@ class _CalibrationInstruction extends StatelessWidget {
         color: Theme.of(context).cardColor,
       ),
       child: Text(
-        'compass_calibrate_instruction'.tr(),
+        context.s.compass_calibrate_instruction,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 16),
       ),

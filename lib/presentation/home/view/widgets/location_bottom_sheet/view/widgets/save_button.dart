@@ -13,7 +13,7 @@ class _SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GlassButton(
       type: ButtonType.primary,
-      label: 'button_save'.tr(),
+      label: context.s.button_save,
       onPressed: isValid ? onSave : null,
     );
   }

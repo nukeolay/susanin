@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'package:easy_localization/easy_localization.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 
 class SettingsSwitch extends StatelessWidget {
@@ -65,7 +65,7 @@ class ThemeSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SettingsSwitch(
-      text: 'dark_theme'.tr(),
+      text: context.s.dark_theme,
       switchValue: isDarkTheme,
       action: action?.call,
     );
@@ -89,7 +89,7 @@ class LocationServiceSwitch extends StatelessWidget {
     final isSwitchActive = locationStatus.isNotPermitted;
     return SettingsSwitch(
       isLoading: locationStatus.isLoading,
-      text: 'geolocation_permission'.tr(),
+      text: context.s.geolocation_permission,
       switchValue: isAccessGranted,
       isAlert: isAlert,
       action: isSwitchActive ? action : null,

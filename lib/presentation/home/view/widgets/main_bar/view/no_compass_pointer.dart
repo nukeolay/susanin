@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/presentation/home/view/widgets/main_bar/cubit/main_pointer_cubit.dart';
@@ -19,14 +18,14 @@ class NoCompassPointer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'no_compass_distance_to_point'.tr(),
+              context.s.no_compass_distance_to_point,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.inversePrimary,
                 fontSize: fontSize * 0.4,
               ),
             ),
             Text(
-              state.distance.toInt().toDistanceString(),
+              state.distance.toInt().toDistanceString(context),
               style: TextStyle(
                 color: Theme.of(context).colorScheme.inversePrimary,
                 fontSize: fontSize,
@@ -50,14 +49,14 @@ class NoCompassPointer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'no_compass_accuracy'.tr(),
+              context.s.no_compass_accuracy,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.inversePrimary,
                 fontSize: fontSize * 0.4,
               ),
             ),
             Text(
-              'distance_meters'.tr(args: [state.accuracy.toStringAsFixed(0)]),
+              context.s.distance_meters(state.accuracy.toStringAsFixed(0)),
               style: TextStyle(
                 color: Theme.of(context).colorScheme.inversePrimary,
                 fontSize: fontSize * 0.7,

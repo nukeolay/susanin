@@ -26,8 +26,18 @@ class _TutorialState extends State<TutorialView> {
   @override
   void initState() {
     _pageController = PageController();
-    _slides.addAll([WelcomeSlide(), SettingSlide(), DemoPointerSlide()]);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _slides.clear();
+    _slides.addAll([
+      WelcomeSlide(context),
+      SettingSlide(context),
+      DemoPointerSlide(context),
+    ]);
+    super.didChangeDependencies();
   }
 
   @override

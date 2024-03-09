@@ -1,7 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/presentation/detailed_info/view/widgets/copy_button.dart';
 
 class LocationDetails extends StatelessWidget {
@@ -40,11 +40,11 @@ class LocationDetails extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     CopyButton(
-                      title: 'latitude'.tr(),
+                      title: context.s.latitude,
                       value: pointLatitude,
                     ),
                     CopyButton(
-                      title: 'longitude'.tr(),
+                      title: context.s.longitude,
                       value: pointLongitude,
                     ),
                   ],

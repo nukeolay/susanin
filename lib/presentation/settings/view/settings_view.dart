@@ -1,10 +1,10 @@
 import 'dart:io' show Platform;
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/routes/routes.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/internal/cubit/app_settings_cubit.dart';
 import 'package:susanin/presentation/common/widgets/ios_compass_settings.dart';
 import 'package:susanin/presentation/settings/cubit/settings_cubit.dart';
@@ -23,7 +23,7 @@ class SettingsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('settings'.tr()),
+        title: Text(context.s.settings),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
       ),
@@ -51,7 +51,7 @@ class SettingsView extends StatelessWidget {
                 ),
                 if (!Platform.isIOS) HasCompassSwitch(state: state),
                 SettingsButton(
-                  text: 'button_instruction'.tr(),
+                  text: context.s.button_instruction,
                   action: () {
                     HapticFeedback.heavyImpact();
                     Navigator.of(context).pushNamedAndRemoveUntil(

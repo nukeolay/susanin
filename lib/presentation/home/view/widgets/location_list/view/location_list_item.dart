@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:intl/intl.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 
 class LocationListItem extends StatelessWidget {
@@ -63,7 +64,7 @@ class LocationListItem extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            DateFormat('date_format'.tr()).format(location.creationTime),
+            DateFormat(context.s.date_format).format(location.creationTime),
           ),
           onTap: onPress,
           onLongPress: onLongPress,

@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/presentation/detailed_info/view/widgets/custom_snackbar.dart';
 
 class CopyButton extends StatelessWidget {
@@ -43,7 +43,10 @@ class CopyButton extends StatelessWidget {
         onTap: () {
           HapticFeedback.heavyImpact();
           final snackBar = CustomSnackBar(
-            content: Text('copied'.tr(), textAlign: TextAlign.center),
+            content: Text(
+              context.s.copied,
+              textAlign: TextAlign.center,
+            ),
           );
           ScaffoldMessenger.of(context)
             ..removeCurrentSnackBar()

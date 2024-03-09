@@ -5,6 +5,7 @@ import 'package:susanin/presentation/no_compass/no_compass_screen.dart';
 import 'package:susanin/presentation/settings/settings_screen.dart';
 import 'package:susanin/presentation/tutorial/tutorial_screen.dart';
 
+// TODO GoRouter
 abstract class Routes {
   static const home = '/home-screen';
   static const tutorial = '/tutorial-screen';

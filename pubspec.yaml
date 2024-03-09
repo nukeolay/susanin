@@ -11,9 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   equatable: ^2.0.5
   collection: ^1.18.0
-  easy_localization: ^3.0.4
   intl: ^0.18.1
   geolocator: ^11.0.0
   wakelock_plus: ^1.1.6
@@ -44,7 +45,11 @@ flutter_icons:
 
 flutter:
   uses-material-design: true
+  generate: true
   assets:
-    - assets/translations/
     - assets/animations/
     - assets/icon/
+
+flutter_intl:
+  main_locale: en
+  enabled: true

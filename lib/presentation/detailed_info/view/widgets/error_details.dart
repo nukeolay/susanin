@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:susanin/core/extensions/extensions.dart';
@@ -20,7 +19,7 @@ class ErrorDetails extends StatelessWidget {
           baseColor: Theme.of(context).colorScheme.primary,
           highlightColor: Theme.of(context).colorScheme.error,
           child: Text(
-            locationServiceStatus.toErrorMessage()?.tr() ?? '',
+            locationServiceStatus.toErrorMessage(context) ?? '',
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 60),
           ),

@@ -69,9 +69,9 @@ class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
                         keyboardType: TextInputType.name,
                         autofocus: true,
                         decoration: InputDecoration(
-                          labelText: 'location_name'.tr(),
+                          labelText: context.s.location_name,
                           errorText: !validatorState.isNameValid
-                              ? 'enter_name'.tr()
+                              ? context.s.enter_name
                               : null,
                         ),
                         onChanged: (value) {
@@ -81,9 +81,9 @@ class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
                       TextField(
                         controller: _latitudeController,
                         decoration: InputDecoration(
-                          labelText: 'latitude'.tr(),
+                          labelText: context.s.latitude,
                           errorText: !validatorState.isLatutideValid
-                              ? 'incorrect_value'.tr()
+                              ? context.s.incorrect_value
                               : null,
                         ),
                         onChanged: (value) {
@@ -93,9 +93,9 @@ class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
                       TextField(
                         controller: _longitudeController,
                         decoration: InputDecoration(
-                          labelText: 'longitude'.tr(),
+                          labelText: context.s.longitude,
                           errorText: !validatorState.isLongitudeValid
-                              ? 'incorrect_value'.tr()
+                              ? context.s.incorrect_value
                               : null,
                         ),
                         onChanged: (value) {

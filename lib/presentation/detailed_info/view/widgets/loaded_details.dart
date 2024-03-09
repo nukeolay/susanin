@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/presentation/common/widgets/pointer.dart';
 import 'package:susanin/presentation/detailed_info/view/widgets/location_details.dart';
 
@@ -75,15 +75,13 @@ class LoadedDetails extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          'accuracy_details'.tr(),
+                          context.s.accuracy_details,
                           textAlign: TextAlign.center,
                           softWrap: true,
                         ),
                       ),
                       Text(
-                        'distance_meters'.tr(
-                          args: [accuracy.toStringAsFixed(0)],
-                        ),
+                        context.s.distance_meters(accuracy.toStringAsFixed(0)),
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -99,7 +97,7 @@ class LoadedDetails extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   LocationDetails(
-                    pointName: 'current_location'.tr(),
+                    pointName: context.s.current_location,
                     pointLatitude: userLatitude.toStringAsFixed(7),
                     pointLongitude: userLongitude.toStringAsFixed(7),
                   ),
@@ -111,7 +109,7 @@ class LoadedDetails extends StatelessWidget {
                   IconButton(
                     onPressed: toggleWakelock,
                     enableFeedback: true,
-                    tooltip: 'always_on_display'.tr(),
+                    tooltip: context.s.always_on_display,
                     icon: isScreenAlwaysOn
                         ? const Icon(Icons.lightbulb)
                         : const Icon(Icons.lightbulb_outline),

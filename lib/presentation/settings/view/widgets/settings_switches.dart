@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
-
+import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/presentation/common/widgets/settings_switch.dart';
 import 'package:susanin/presentation/settings/cubit/settings_cubit.dart';
 
@@ -13,7 +12,7 @@ class HasCompassSwitch extends StatelessWidget {
     final hasCompass = state.compassStatus.isSuccess;
     return SettingsSwitch(
       isLoading: state.compassStatus.isLoading,
-      text: 'has_compass'.tr(),
+      text: context.s.has_compass,
       switchValue: hasCompass,
       action: null,
     );
@@ -32,7 +31,7 @@ class WakelockSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SettingsSwitch(
-      text: 'always_on_display'.tr(),
+      text: context.s.always_on_display,
       switchValue: switchValue,
       action: action,
     );

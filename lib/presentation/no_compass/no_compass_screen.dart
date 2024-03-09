@@ -1,4 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -9,7 +9,7 @@ class NoCompassScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('compass_not_found'.tr()),
+        title: Text(context.s.compass_not_found),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
       ),
@@ -31,7 +31,7 @@ class NoCompassScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'no_compass_bad_news_title'.tr(),
+                      context.s.no_compass_bad_news_title,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 30,
@@ -39,13 +39,13 @@ class NoCompassScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'no_compass_bad_news_text'.tr(),
+                      context.s.no_compass_bad_news_text,
                       textAlign: TextAlign.left,
                       style: const TextStyle(fontSize: 18),
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      'no_compass_good_news_title'.tr(),
+                      context.s.no_compass_good_news_title,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 30,
@@ -53,7 +53,7 @@ class NoCompassScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'no_compass_good_news_text'.tr(),
+                      context.s.no_compass_good_news_text,
                       textAlign: TextAlign.left,
                       style: const TextStyle(fontSize: 18),
                     ),

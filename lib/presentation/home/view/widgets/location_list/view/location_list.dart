@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/location_bottom_sheet.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
@@ -35,7 +35,7 @@ class _LocationListWidget extends StatelessWidget {
             _showBottomSheet(context, state as EditPlaceState);
           } else if (state.status == LocationsListStatus.failure) {
             final snackBar = SnackBar(
-              content: Text('error_unknown'.tr()),
+              content: Text(context.s.error_unknown),
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
@@ -55,7 +55,7 @@ class _LocationListWidget extends StatelessWidget {
                 ),
                 child: SingleChildScrollView(
                   child: Text(
-                    'empty_locations_list'.tr(),
+                    context.s.empty_locations_list,
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 24),
                   ),

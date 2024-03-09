@@ -7,7 +7,7 @@ class _CancelButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GlassButton(
       type: ButtonType.secondary,
-      label: 'button_cancel'.tr(),
+      label: context.s.button_cancel,
       onPressed: () => Navigator.pop(context),
     );
   }

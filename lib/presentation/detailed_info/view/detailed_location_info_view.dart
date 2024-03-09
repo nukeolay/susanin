@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/extensions/extensions.dart';
@@ -20,11 +19,11 @@ class DetailedInfoView extends StatelessWidget {
       final snackBar = CustomSnackBar(
         content: isScreenAlwaysOn
             ? Text(
-                'always_on_display_on'.tr(),
+                context.s.always_on_display_on,
                 textAlign: TextAlign.center,
               )
             : Text(
-                'always_on_display_off'.tr(),
+                context.s.always_on_display_off,
                 textAlign: TextAlign.center,
               ),
       );
@@ -52,7 +51,7 @@ class DetailedInfoView extends StatelessWidget {
                 return const LoadingDetails();
               }
               return LoadedDetails(
-                distance: state.distance.toInt().toDistanceString(),
+                distance: state.distance.toInt().toDistanceString(context),
                 angle: state.bearing,
                 hasCompass: state.hasCompass,
                 isScreenAlwaysOn: state.isScreenAlwaysOn,
@@ -72,7 +71,7 @@ class DetailedInfoView extends StatelessWidget {
             bottom: MediaQuery.of(context).viewPadding.bottom,
             left: 0,
             right: 0,
-            child: HideButton(text: 'button_back_to_locations'.tr()),
+            child: HideButton(text: context.s.button_back_to_locations),
           ),
         ],
       ),
