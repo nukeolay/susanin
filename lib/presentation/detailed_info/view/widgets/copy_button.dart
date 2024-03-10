@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/presentation/detailed_info/view/widgets/custom_snackbar.dart';
+import 'package:susanin/presentation/common/components/susanin_snackbar.dart';
 
 class CopyButton extends StatelessWidget {
   const CopyButton({
@@ -42,7 +42,7 @@ class CopyButton extends StatelessWidget {
         ),
         onTap: () {
           HapticFeedback.heavyImpact();
-          final snackBar = CustomSnackBar(
+          final snackBar = SusaninSnackBar(
             content: Text(
               context.s.copied,
               textAlign: TextAlign.center,

@@ -6,6 +6,7 @@ class DetailedInfoState extends Equatable with PointerCalculations {
     required this.hasCompass,
     required this.compassNorth,
     required this.accuracy,
+    required this.notes,
     required this.locationName,
     required this.locationLatitude,
     required this.locationLongitude,
@@ -23,12 +24,14 @@ class DetailedInfoState extends Equatable with PointerCalculations {
         locationName = place.name,
         locationLatitude = place.latitude,
         locationLongitude = place.longitude,
+        notes = place.notes,
         userLatitude = 0,
         userLongitude = 0;
 
   final LocationStatus locationServiceStatus;
   final bool hasCompass;
   final String locationName;
+  final String notes;
   @override
   final double compassNorth;
   @override
@@ -49,6 +52,7 @@ class DetailedInfoState extends Equatable with PointerCalculations {
     String? distance,
     double? compassNorth,
     double? accuracy,
+    String? notes,
     String? locationName,
     double? locationLatitude,
     double? locationLongitude,
@@ -62,6 +66,7 @@ class DetailedInfoState extends Equatable with PointerCalculations {
       hasCompass: hasCompass ?? this.hasCompass,
       compassNorth: compassNorth ?? this.compassNorth,
       accuracy: accuracy ?? this.accuracy,
+      notes: notes ?? this.notes,
       locationName: locationName ?? this.locationName,
       locationLatitude: locationLatitude ?? this.locationLatitude,
       locationLongitude: locationLongitude ?? this.locationLongitude,
@@ -77,6 +82,7 @@ class DetailedInfoState extends Equatable with PointerCalculations {
         hasCompass,
         compassNorth,
         accuracy,
+        notes,
         locationName,
         locationLatitude,
         locationLongitude,
