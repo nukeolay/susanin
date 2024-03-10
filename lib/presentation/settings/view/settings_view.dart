@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/internal/cubit/app_settings_cubit.dart';
+import 'package:susanin/presentation/common/components/susanin_button.dart';
 import 'package:susanin/presentation/common/widgets/ios_compass_settings.dart';
 import 'package:susanin/presentation/settings/cubit/settings_cubit.dart';
-import 'package:susanin/presentation/settings/view/widgets/settings_button.dart';
 import 'package:susanin/presentation/common/widgets/settings_switch.dart';
 import 'package:susanin/presentation/settings/view/widgets/settings_switches.dart';
 
@@ -36,23 +36,21 @@ class SettingsView extends StatelessWidget {
               children: [
                 ThemeSwitch(
                   isDarkTheme: isDarkTheme,
-                  action: (_) =>
-                      context.read<AppSettingsCubit>().toggleTheme(),
+                  action: (_) => context.read<AppSettingsCubit>().toggleTheme(),
                 ),
                 WakelockSwitch(
                   switchValue: state.isScreenAlwaysOn,
-                  action: (_) =>
-                      context.read<SettingsCubit>().toggleWakelock(),
+                  action: (_) => context.read<SettingsCubit>().toggleWakelock(),
                 ),
                 LocationServiceSwitch(
                   locationStatus: state.locationServiceStatus,
-                  action: (_) =>
-                      context.read<SettingsCubit>().getPermission(),
+                  action: (_) => context.read<SettingsCubit>().getPermission(),
                 ),
                 if (!Platform.isIOS) HasCompassSwitch(state: state),
-                SettingsButton(
-                  text: context.s.button_instruction,
-                  action: () {
+                SusaninButton(
+                  type: ButtonType.ghost,
+                  label: context.s.button_instruction,
+                  onPressed: () {
                     HapticFeedback.heavyImpact();
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       Routes.tutorial,
@@ -61,9 +59,10 @@ class SettingsView extends StatelessWidget {
                   },
                 ),
                 if (Platform.isIOS) const IosCompassSettings(),
-                // SettingsButton(
-                //     text: 'Поставить оценку приложению',
-                //     action: () {}), // ! TODO add link
+                // SusaninButton(
+                //     type: ButtonType.ghost, 
+                //     label: 'Поставить оценку приложению',
+                //     onPressed: () {}), // ! TODO add link
               ],
             );
           },

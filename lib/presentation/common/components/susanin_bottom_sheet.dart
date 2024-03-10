@@ -28,7 +28,22 @@ class SusaninBottomSheet extends StatelessWidget {
               borderRadius: radius,
               color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.7),
             ),
-            child: child,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColorDark,
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    width: 40,
+                    height: 7,
+                  ),
+                ),
+                child,
+              ],
+            ),
           ),
         ),
       ),

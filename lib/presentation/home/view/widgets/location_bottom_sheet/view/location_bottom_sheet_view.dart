@@ -58,16 +58,6 @@ class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
         return ListView(
           shrinkWrap: true,
           children: <Widget>[
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColorDark,
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                width: 40,
-                height: 7,
-              ),
-            ),
             Form(
               child: Column(
                 children: [
