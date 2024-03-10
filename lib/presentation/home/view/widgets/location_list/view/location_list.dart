@@ -75,7 +75,7 @@ class _LocationListWidget extends StatelessWidget {
     EditPlaceState state,
   ) async {
     final cubit = context.read<LocationsListCubit>();
-    await context.showGlassBottomSheet(
+    await context.showSusaninBottomSheet(
       context: context,
       builder: (ctx) {
         return LocationBottomSheet(
@@ -83,14 +83,17 @@ class _LocationListWidget extends StatelessWidget {
             name: state.name,
             latitude: state.latitude,
             longitude: state.longitude,
+            notes: state.notes,
             saveLocation: ({
               required String latitude,
               required String longitude,
               required String name,
+              required String notes,
             }) =>
                 cubit.onSaveLocation(
               latitude: latitude,
               longitude: longitude,
+              notes: notes,
               newLocationName: name,
               id: state.activePlaceId,
             ),

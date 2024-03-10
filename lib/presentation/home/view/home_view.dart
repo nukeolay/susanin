@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:susanin/presentation/home/view/widgets/add_location_button/view/add_location_button.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/location_list.dart';
 import 'package:susanin/presentation/home/view/widgets/main_bar/view/main_bar.dart';
-import 'package:susanin/presentation/common/widgets/blurred_bar.dart';
+import 'package:susanin/presentation/common/components/blurred_bar.dart';
 import 'package:susanin/presentation/home/view/widgets/side_bar/side_bar.dart';
 
 class HomeView extends StatelessWidget {

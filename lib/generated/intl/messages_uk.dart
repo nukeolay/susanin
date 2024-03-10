@@ -102,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Гарні новини"),
         "normal_compass_accuracy":
             MessageLookupByLibrary.simpleMessage("Точность компаса высокая: "),
+        "notes": MessageLookupByLibrary.simpleMessage("нотатки"),
         "permission_request": MessageLookupByLibrary.simpleMessage(
             "Дозволити застосунку доступ до визначення геолокації?"),
         "settings": MessageLookupByLibrary.simpleMessage("Налаштування"),

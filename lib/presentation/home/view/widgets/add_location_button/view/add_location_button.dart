@@ -77,13 +77,9 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
   Future<void> _showBottomSheet(
     BuildContext context,
     AddLocationState state,
-    Future<void> Function({
-      required String latitude,
-      required String longitude,
-      required String name,
-    }) onSaveLocation,
+    PlaceCallback onSaveLocation,
   ) =>
-      context.showGlassBottomSheet(
+      context.showSusaninBottomSheet(
         context: context,
         builder: (ctx) {
           return LocationBottomSheet(
@@ -92,6 +88,7 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
               latitude: state.latitude,
               longitude: state.longitude,
               saveLocation: onSaveLocation,
+              notes: state.notes,
             ),
           );
         },

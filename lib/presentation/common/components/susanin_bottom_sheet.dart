@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class GlassBottomSheet extends StatelessWidget {
-  const GlassBottomSheet({required this.child, super.key});
+class SusaninBottomSheet extends StatelessWidget {
+  const SusaninBottomSheet({required this.child, super.key});
   final Widget child;
 
   @override
@@ -19,9 +19,9 @@ class GlassBottomSheet extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
           child: Container(
             padding: EdgeInsets.only(
-              top: 8.0,
-              left: 8.0,
-              right: 8.0,
+              top: 8,
+              left: 16,
+              right: 16,
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
             decoration: BoxDecoration(

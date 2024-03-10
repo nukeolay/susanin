@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/presentation/common/widgets/susanin_button.dart';
+import 'package:susanin/presentation/common/components/susanin_button.dart';
 import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/bloc/validator_bloc.dart';
+import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/view/widgets/validator_text_field.dart';
 
 part 'view/location_bottom_sheet_view.dart';
 part 'view/widgets/save_button.dart';
@@ -14,16 +15,14 @@ class LocationBottomSheetModel {
     required this.latitude,
     required this.longitude,
     required this.saveLocation,
+    required this.notes,
   });
 
   final String name;
   final double latitude;
   final double longitude;
-  final Future<void> Function({
-    required String latitude,
-    required String longitude,
-    required String name,
-  }) saveLocation;
+  final String notes;
+  final PlaceCallback saveLocation;
 }
 
 class LocationBottomSheet extends StatelessWidget {
@@ -42,6 +41,7 @@ class LocationBottomSheet extends StatelessWidget {
         latitude: model.latitude.toString(),
         longitude: model.longitude.toString(),
         name: model.name,
+        notes: model.notes,
         saveLocation: model.saveLocation,
       ),
     );

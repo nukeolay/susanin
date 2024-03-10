@@ -1,11 +1,9 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
-import 'package:susanin/presentation/common/widgets/susanin_button.dart';
+import 'package:susanin/presentation/common/components/susanin_dialog.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/location_list_item.dart';
 
@@ -113,62 +111,12 @@ Future<bool> _showRemoveConfirmationDialog({
   final result = await showDialog<bool>(
         context: context,
         builder: (BuildContext context) {
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Theme.of(context)
-                          .scaffoldBackgroundColor
-                          .withOpacity(0.5),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          context.s.delete_location,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: SusaninButton(
-                                type: ButtonType.secondary,
-                                label: context.s.button_no,
-                                onPressed: () {
-                                  Navigator.pop(context, false);
-                                },
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: SusaninButton(
-                                type: ButtonType.primary,
-                                label: context.s.button_yes,
-                                onPressed: () {
-                                  Navigator.pop(context, true);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          return SusaninDialog(
+            text: context.s.delete_location,
+            secondaryButtonLabel: context.s.button_yes,
+            onSecondaryTap: () => Navigator.pop(context, true),
+            primaryButtonLabel: context.s.button_no,
+            onPrimaryTap: () => Navigator.pop(context, false),
           );
         },
       ) ??

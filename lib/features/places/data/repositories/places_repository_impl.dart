@@ -160,8 +160,8 @@ class PlacesRepositoryImpl extends PlacesRepository {
           (element) => element.id == activePlaceId,
         );
         result = PlacesEntity(
-          places: places,
-          activePlace: activePlace,
+          places: places.map((e) => e.toEntity()).toList(),
+          activePlace: activePlace?.toEntity(),
         );
         streamController.add(result);
       }

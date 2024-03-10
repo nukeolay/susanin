@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:susanin/core/constants/pointer_constants.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/generated/l10n.dart';
-import 'package:susanin/presentation/common/widgets/glass_bottom_sheet.dart';
+import 'package:susanin/presentation/common/components/susanin_bottom_sheet.dart';
 
 extension IntExtension on int {
   String toDistanceString(BuildContext context) {
@@ -40,7 +40,7 @@ extension DoubleExtension on double {
 extension ContextExtension on BuildContext {
   S get s => S.of(this);
 
-  Future<void> showGlassBottomSheet({
+  Future<void> showSusaninBottomSheet({
     required BuildContext context,
     required Widget Function(BuildContext context) builder,
   }) async {
@@ -51,7 +51,7 @@ extension ContextExtension on BuildContext {
       useSafeArea: true,
       elevation: 0,
       builder: (context) {
-        return GlassBottomSheet(child: builder(context));
+        return SusaninBottomSheet(child: builder(context));
       },
     );
   }

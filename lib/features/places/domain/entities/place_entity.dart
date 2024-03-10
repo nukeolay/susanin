@@ -7,6 +7,7 @@ class PlaceEntity extends Equatable {
     required this.longitude,
     required this.name,
     required this.creationTime,
+    required this.notes,
   });
 
   PlaceEntity.empty()
@@ -14,12 +15,14 @@ class PlaceEntity extends Equatable {
         latitude = 0,
         longitude = 0,
         name = '',
-        creationTime = DateTime(0);
+        creationTime = DateTime(0),
+        notes = '';
 
   PlaceEntity copyWith({
     double? latitude,
     double? longitude,
     String? name,
+    String? notes,
   }) {
     return PlaceEntity(
       id: id,
@@ -27,6 +30,7 @@ class PlaceEntity extends Equatable {
       longitude: longitude ?? this.longitude,
       name: name ?? this.name,
       creationTime: creationTime,
+      notes: notes ?? this.notes,
     );
   }
 
@@ -35,12 +39,15 @@ class PlaceEntity extends Equatable {
   final double longitude;
   final String name;
   final DateTime creationTime;
+  final String notes;
 
   @override
-  String toString() {
-    return 'PlaceEntity {id: $id, lat: $latitude, lon: $longitude, name: $name, created at: $creationTime}';
-  }
-
-  @override
-  List<Object?> get props => [id, latitude, longitude, name, creationTime];
+  List<Object?> get props => [
+        id,
+        latitude,
+        longitude,
+        name,
+        creationTime,
+        notes,
+      ];
 }

@@ -70,6 +70,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     await _addLocation(
       latitude: state.latitude,
       longitude: state.longitude,
+      notes: state.notes,
       name: _generateName(),
     );
   }
@@ -77,6 +78,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
   Future<void> onSaveLocation({
     required String latitude,
     required String longitude,
+    required String notes,
     required String name,
   }) async {
     emit(state.copyWith(status: AddLocationStatus.loading));
@@ -86,6 +88,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     await _addLocation(
       latitude: doubleLatitude,
       longitude: doubleLongitude,
+      notes: notes,
       name: name,
     );
   }
@@ -93,6 +96,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
   Future<void> _addLocation({
     required double latitude,
     required double longitude,
+    required String notes,
     required String name,
   }) async {
     try {
@@ -100,6 +104,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
         id: 'id_${DateTime.now()}',
         latitude: latitude,
         longitude: longitude,
+        notes: notes,
         name: name,
         creationTime: DateTime.now(),
       );

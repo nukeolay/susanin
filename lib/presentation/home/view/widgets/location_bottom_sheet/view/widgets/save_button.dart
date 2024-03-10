@@ -7,7 +7,7 @@ class _SaveButton extends StatelessWidget {
   });
 
   final bool isValid;
-  final Function() onSave;
+  final VoidCallback onSave;
 
   @override
   Widget build(BuildContext context) {

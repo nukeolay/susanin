@@ -67,6 +67,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
         longitude: place.longitude,
         places: state.places,
         place: place,
+        notes: place.notes,
       ),
     );
   }
@@ -79,6 +80,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     required String id,
     required String latitude,
     required String longitude,
+    required String notes,
     required String newLocationName,
   }) async {
     final doubleLatitude = double.tryParse(latitude);
@@ -88,6 +90,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     final updatedLocation = location.copyWith(
       latitude: doubleLatitude,
       longitude: doubleLongitude,
+      notes: notes,
       name: newLocationName,
     );
     final updateLocationResult = await _placesRepository.update(

@@ -102,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Good news"),
         "normal_compass_accuracy":
             MessageLookupByLibrary.simpleMessage("Good compass accuracy: "),
+        "notes": MessageLookupByLibrary.simpleMessage("notes"),
         "permission_request": MessageLookupByLibrary.simpleMessage(
             "Allow Susanin to access your location?"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),

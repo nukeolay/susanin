@@ -51,10 +51,12 @@ class EditPlaceState extends LocationsListState {
     required super.places,
     required super.activePlaceId,
     required this.place,
+    required this.notes,
   });
   final double latitude;
   final double longitude;
   final String name;
+  final String notes;
   final PlaceEntity place;
 
   @override
@@ -66,6 +68,7 @@ class EditPlaceState extends LocationsListState {
     double? longitude,
     String? name,
     PlaceEntity? place,
+    String? notes,
   }) {
     return EditPlaceState(
       status: status ?? this.status,
@@ -75,6 +78,7 @@ class EditPlaceState extends LocationsListState {
       longitude: longitude ?? this.longitude,
       name: name ?? this.name,
       place: place ?? this.place,
+      notes: notes ?? this.notes,
     );
   }
 
@@ -87,5 +91,6 @@ class EditPlaceState extends LocationsListState {
         places,
         activePlaceId,
         place,
+        notes,
       ];
 }

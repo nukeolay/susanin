@@ -1,12 +1,13 @@
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 
-class PlaceModel extends PlaceEntity {
+class PlaceModel {
   const PlaceModel({
-    required super.id,
-    required super.latitude,
-    required super.longitude,
-    required super.name,
-    required super.creationTime,
+    required this.id,
+    required this.latitude,
+    required this.longitude,
+    required this.notes,
+    required this.name,
+    required this.creationTime,
   });
 
   factory PlaceModel.fromEntity(PlaceEntity entity) {
@@ -14,38 +15,38 @@ class PlaceModel extends PlaceEntity {
       id: entity.id,
       latitude: entity.latitude,
       longitude: entity.longitude,
+      notes: entity.notes,
       name: entity.name,
       creationTime: entity.creationTime,
     );
   }
 
   factory PlaceModel.fromJson(Map<String, dynamic> json) {
-    if (json['id'] == null) {
-      return PlaceModel(
-        id: DateTime.now().toString(),
-        latitude: json['latitude'] as double,
-        longitude: json['longitude'] as double,
-        name: json['pointName'] as String,
-        creationTime:
-            DateTime.fromMillisecondsSinceEpoch(json['creationTime'] as int),
-      );
-    } else {
-      return PlaceModel(
-        id: json['id'] as String,
-        latitude: json['latitude'] as double,
-        longitude: json['longitude'] as double,
-        name: json['pointName'] as String,
-        creationTime:
-            DateTime.fromMillisecondsSinceEpoch(json['creationTime'] as int),
-      );
-    }
+    return PlaceModel(
+      id: json['id'] as String? ?? DateTime.now().toString(),
+      latitude: json['latitude'] as double,
+      longitude: json['longitude'] as double,
+      notes: json['notes'] as String?,
+      name: json['pointName'] as String,
+      creationTime: DateTime.fromMillisecondsSinceEpoch(
+        json['creationTime'] as int,
+      ),
+    );
   }
+
+  final String id;
+  final double latitude;
+  final double longitude;
+  final String? notes;
+  final String name;
+  final DateTime creationTime;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'latitude': latitude,
         'longitude': longitude,
         'pointName': name,
+        'notes': notes,
         'creationTime': creationTime.millisecondsSinceEpoch,
       };
 
@@ -54,6 +55,7 @@ class PlaceModel extends PlaceEntity {
         id: id,
         latitude: latitude,
         longitude: longitude,
+        notes: notes ?? '',
         name: name,
       );
 }

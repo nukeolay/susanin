@@ -1,20 +1,25 @@
 part of '../location_bottom_sheet.dart';
 
+typedef PlaceCallback = Future<void> Function({
+  required String name,
+  required String notes,
+  required String latitude,
+  required String longitude,
+});
+
 class _LocationBottomSheetView extends StatefulWidget {
   const _LocationBottomSheetView({
     required this.name,
     required this.latitude,
     required this.longitude,
+    required this.notes,
     required this.saveLocation,
   });
   final String name;
+  final String notes;
   final String latitude;
   final String longitude;
-  final Future<void> Function({
-    required String latitude,
-    required String longitude,
-    required String name,
-  }) saveLocation;
+  final PlaceCallback saveLocation;
 
   @override
   State<_LocationBottomSheetView> createState() =>
@@ -25,12 +30,14 @@ class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
   late final TextEditingController _nameController;
   late final TextEditingController _latitudeController;
   late final TextEditingController _longitudeController;
+  late final TextEditingController _notesController;
 
   @override
   void initState() {
     _nameController = TextEditingController(text: widget.name);
     _latitudeController = TextEditingController(text: widget.latitude);
     _longitudeController = TextEditingController(text: widget.longitude);
+    _notesController = TextEditingController(text: widget.notes);
     super.initState();
   }
 
@@ -39,6 +46,7 @@ class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
     _nameController.dispose();
     _latitudeController.dispose();
     _longitudeController.dispose();
+    _notesController.dispose();
     super.dispose();
   }
 
@@ -47,65 +55,70 @@ class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
     final bloc = context.read<LocationValidatorBloc>();
     return BlocBuilder<LocationValidatorBloc, LocationValidatorState>(
       builder: (context, validatorState) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+        return ListView(
+          shrinkWrap: true,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColorDark,
-                borderRadius: BorderRadius.circular(20.0),
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColorDark,
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                width: 40,
+                height: 7,
               ),
-              width: 40,
-              height: 7,
             ),
             Form(
               child: Column(
                 children: [
-                  TextField(
+                  ValidatorTextField(
                     controller: _nameController,
-                    keyboardType: TextInputType.name,
+                    isValid: validatorState.isNameValid,
+                    label: context.s.location_name,
                     autofocus: true,
-                    decoration: InputDecoration(
-                      labelText: context.s.location_name,
-                      errorText: !validatorState.isNameValid
-                          ? context.s.enter_name
-                          : null,
-                    ),
                     onChanged: (value) {
                       bloc.add(NameChanged(name: value));
                     },
                   ),
-                  TextField(
-                    controller: _latitudeController,
-                    decoration: InputDecoration(
-                      labelText: context.s.latitude,
-                      errorText: !validatorState.isLatutideValid
-                          ? context.s.incorrect_value
-                          : null,
-                    ),
-                    onChanged: (value) {
-                      bloc.add(LatitudeChanged(latitude: value));
-                    },
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ValidatorTextField(
+                          controller: _latitudeController,
+                          isValid: validatorState.isLatutideValid,
+                          label: context.s.latitude,
+                          onChanged: (value) {
+                            bloc.add(LatitudeChanged(latitude: value));
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: ValidatorTextField(
+                          controller: _longitudeController,
+                          isValid: validatorState.isLongitudeValid,
+                          label: context.s.longitude,
+                          onChanged: (value) {
+                            bloc.add(LongitudeChanged(longitude: value));
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                   TextField(
-                    controller: _longitudeController,
+                    minLines: 3,
+                    maxLines: 3,
+                    controller: _notesController,
                     decoration: InputDecoration(
-                      labelText: context.s.longitude,
-                      errorText: !validatorState.isLongitudeValid
-                          ? context.s.incorrect_value
-                          : null,
+                      labelText: context.s.notes,
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
                     ),
-                    onChanged: (value) {
-                      bloc.add(LongitudeChanged(longitude: value));
-                    },
                   ),
                 ],
               ),
             ),
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(top: 16, bottom: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -119,6 +132,7 @@ class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
                             latitude: _latitudeController.text,
                             longitude: _longitudeController.text,
                             name: _nameController.text,
+                            notes: _notesController.text,
                           );
                           Navigator.pop(context);
                         },
