@@ -7,8 +7,7 @@ Easy to use offline navigator created with Flutter framework. Went to forest? Af
 - Dart
 - Flutter
 - bloc / cubit
-- Clean Architecture (Domain, Data and Presentation layers)
-- GetIt
+- RxDart
 - Geolocation
 
 ## Try it here:

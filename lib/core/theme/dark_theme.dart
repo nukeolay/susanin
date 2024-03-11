@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:susanin/core/routes/custom_route.dart';
 
 final darkTheme = ThemeData.dark().copyWith(
-  useMaterial3: true,
   primaryColor: Colors.green,
   colorScheme: const ColorScheme.dark().copyWith(
     primary: Colors.green,
     background: ThemeData.dark().scaffoldBackgroundColor,
     secondary: Colors.white,
     inversePrimary: Colors.white,
+    error: Colors.red,
   ),
   iconTheme: const IconThemeData(
     color: Colors.grey,
