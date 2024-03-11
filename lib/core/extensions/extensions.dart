@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:susanin/core/constants/pointer_constants.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/generated/l10n.dart';
-import 'package:susanin/presentation/common/components/susanin_bottom_sheet.dart';
+import 'package:susanin/presentation/common/susanin_bottom_sheet.dart';
 
 extension IntExtension on int {
   String toDistanceString(BuildContext context) {

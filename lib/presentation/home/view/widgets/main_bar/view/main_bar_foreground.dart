@@ -65,7 +65,7 @@ class _MainBarForeground extends StatelessWidget {
               HapticFeedback.heavyImpact();
               Navigator.of(context).pushNamed(
                 Routes.detailedLocationInfo,
-                arguments: [state.activePlace],
+                arguments: [state.activePlace.id],
               );
             },
             child: NoCompassPointer(state: state),
@@ -83,7 +83,7 @@ class _MainBarForeground extends StatelessWidget {
             HapticFeedback.heavyImpact();
             Navigator.of(context).pushNamed(
               Routes.detailedLocationInfo,
-              arguments: [state.activePlace],
+              arguments: [state.activePlace.id],
             );
           },
           child: MainPointerDefault(state: state),

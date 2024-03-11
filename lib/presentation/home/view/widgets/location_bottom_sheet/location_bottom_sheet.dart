@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/presentation/common/components/susanin_button.dart';
+import 'package:susanin/presentation/common/susanin_button.dart';
 import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/bloc/validator_bloc.dart';
 import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/view/widgets/validator_text_field.dart';
 

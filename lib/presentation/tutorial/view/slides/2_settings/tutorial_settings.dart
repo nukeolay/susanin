@@ -6,8 +6,8 @@ import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
-import 'package:susanin/presentation/common/widgets/ios_compass_settings.dart';
-import 'package:susanin/presentation/common/widgets/settings_switch.dart';
+import 'package:susanin/presentation/common/ios_compass_settings.dart';
+import 'package:susanin/presentation/common/settings_switch.dart';
 import 'package:susanin/presentation/tutorial/view/slides/2_settings/cubit/tutorial_settings_cubit.dart';
 import 'package:susanin/presentation/tutorial/view/widgets/tutorial_text.dart';
 

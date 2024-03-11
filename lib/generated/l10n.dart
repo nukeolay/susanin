@@ -90,6 +90,16 @@ class S {
     );
   }
 
+  /// `Edit`
+  String get button_edit_location {
+    return Intl.message(
+      'Edit',
+      name: 'button_edit_location',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `latitude`
   String get latitude {
     return Intl.message(
@@ -645,6 +655,16 @@ class S {
     return Intl.message(
       'notes',
       name: 'notes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `location`
+  String get location_default_name {
+    return Intl.message(
+      'location',
+      name: 'location_default_name',
       desc: '',
       args: [],
     );

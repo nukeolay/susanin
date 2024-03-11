@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import 'package:susanin/presentation/common/components/susanin_button.dart';
+import 'package:susanin/presentation/common/susanin_button.dart';
 
 class SusaninDialog extends StatelessWidget {
   const SusaninDialog({

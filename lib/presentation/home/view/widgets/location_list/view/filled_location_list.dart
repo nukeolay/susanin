@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/extensions/extensions.dart';
+import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
-import 'package:susanin/presentation/common/components/susanin_dialog.dart';
+import 'package:susanin/presentation/common/susanin_dialog.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/location_list_item.dart';
 
@@ -50,7 +51,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
               location: places[invertedIndex],
               isActive: place.id == state.activePlaceId,
               animation: animation,
-              onPress: () => _onPressed(cubit, place.id),
+              onPress: () => _onPressed(cubit, place.id, state.activePlaceId),
               onLongPress: () => _onLongPressed(cubit, place.id),
               onDismissed: (_) => _onDismissed(cubit, invertedIndex, place.id),
               onConfirmDismiss: (DismissDirection dismissDirection) =>
@@ -67,9 +68,16 @@ class _FilledLocationListState extends State<FilledLocationList> {
     );
   }
 
-  void _onPressed(LocationsListCubit cubit, String id) {
+  void _onPressed(LocationsListCubit cubit, String id, String activeId) {
     HapticFeedback.heavyImpact();
-    cubit.onPressSetActive(id: id);
+    if (id == activeId) {
+      Navigator.of(context).pushNamed(
+        Routes.detailedLocationInfo,
+        arguments: [activeId],
+      );
+    } else {
+      cubit.onPressed(id: id);
+    }
   }
 
   void _onLongPressed(LocationsListCubit cubit, String id) {

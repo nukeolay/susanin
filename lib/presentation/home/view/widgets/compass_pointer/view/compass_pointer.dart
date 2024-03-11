@@ -8,7 +8,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/presentation/common/widgets/pointer.dart';
+import 'package:susanin/presentation/common/pointer.dart';
 import 'package:susanin/presentation/home/view/widgets/compass_pointer/cubit/compass_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/compass_pointer/view/calibrate_bottom_sheet.dart';
 

@@ -39,6 +39,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("К выбору локаций"),
         "button_cancel": MessageLookupByLibrary.simpleMessage("Отмена"),
         "button_deny": MessageLookupByLibrary.simpleMessage("Запретить"),
+        "button_edit_location":
+            MessageLookupByLibrary.simpleMessage("Редактировать"),
         "button_hide": MessageLookupByLibrary.simpleMessage("Свернуть"),
         "button_instruction":
             MessageLookupByLibrary.simpleMessage("Посмотреть инструкцию"),
@@ -85,6 +87,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Если указатель компаса не вращается при перемещении телефона, необходимо включить калибровку компаса:\nНастройки -> Конфиденциальность -> Службы геолокации -> Системные службы -> Калибровка компаса."),
         "latitude": MessageLookupByLibrary.simpleMessage("широта"),
         "less_than_5_m": MessageLookupByLibrary.simpleMessage("менее 5 м"),
+        "location_default_name":
+            MessageLookupByLibrary.simpleMessage("локация"),
         "location_name":
             MessageLookupByLibrary.simpleMessage("название локации"),
         "longitude": MessageLookupByLibrary.simpleMessage("долгота"),

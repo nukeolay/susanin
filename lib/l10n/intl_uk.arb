@@ -3,6 +3,7 @@
     "accuracy_details": "точність визначення геолокації: ",
     "current_location": "поточне розташування",
     "button_back_to_locations": "До вибору локацій",
+    "button_edit_location": "Редагувати",
     "latitude": "широта",
     "longitude": "довгота",
     "permission_request": "Дозволити застосунку доступ до визначення геолокації?",
@@ -58,5 +59,6 @@
     "always_on_display_on": "Автоматичне вимкнення дисплея вимкнено",
     "always_on_display_off": "Автоматичне вимикання дисплея увімкнено",
     "copied": "Скопійовано",
-    "notes": "нотатки"
+    "notes": "нотатки",
+    "location_default_name": "локація"
 }

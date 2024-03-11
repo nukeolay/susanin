@@ -3,6 +3,7 @@
     "accuracy_details": "location accuracy: ",
     "current_location": "current location",
     "button_back_to_locations": "Back to locations list",
+    "button_edit_location": "Edit",
     "latitude": "latitude",
     "longitude": "longitude",
     "permission_request": "Allow Susanin to access your location?",
@@ -58,5 +59,6 @@
     "always_on_display_on": "Display auto turn off disabled",
     "always_on_display_off": "Display auto turn off enabled",
     "copied": "Copied",
-    "notes": "notes"
+    "notes": "notes",
+    "location_default_name": "location"
 }

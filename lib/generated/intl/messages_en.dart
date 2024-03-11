@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Back to locations list"),
         "button_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "button_deny": MessageLookupByLibrary.simpleMessage("Deny"),
+        "button_edit_location": MessageLookupByLibrary.simpleMessage("Edit"),
         "button_hide": MessageLookupByLibrary.simpleMessage("Hide"),
         "button_instruction":
             MessageLookupByLibrary.simpleMessage("Instruction"),
@@ -84,6 +85,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "If the direction pointer does not rotate when you move your phone, you need to enable compass calibration:\nSettings -> Privacy -> Location Services -> System Services -> Compass Calibration."),
         "latitude": MessageLookupByLibrary.simpleMessage("latitude"),
         "less_than_5_m": MessageLookupByLibrary.simpleMessage("less than 5 m"),
+        "location_default_name":
+            MessageLookupByLibrary.simpleMessage("location"),
         "location_name": MessageLookupByLibrary.simpleMessage("location name"),
         "longitude": MessageLookupByLibrary.simpleMessage("longitude"),
         "low_compass_accuracy":

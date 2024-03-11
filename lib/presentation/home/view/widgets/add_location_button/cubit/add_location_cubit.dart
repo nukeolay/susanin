@@ -56,22 +56,22 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     super.close();
   }
 
-  void onLongPressAdd() {
+  void onLongPressAdd(String pointName) {
     emit(
       state.copyWith(
         status: AddLocationStatus.editing,
-        name: _generateName(),
+        name: _generateName(pointName),
       ),
     );
   }
 
-  Future<void> onPressAdd() async {
+  Future<void> onPressAdd(String pointName) async {
     emit(state.copyWith(status: AddLocationStatus.loading));
     await _addLocation(
       latitude: state.latitude,
       longitude: state.longitude,
       notes: state.notes,
-      name: _generateName(),
+      name: _generateName(pointName),
     );
   }
 
@@ -115,8 +115,8 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     }
   }
 
-  String _generateName() {
+  String _generateName(String pointName) {
     final dateTime = DateTime.now().toString();
-    return 'point ${dateTime.substring(dateTime.length - 6)}';
+    return '$pointName ${dateTime.substring(dateTime.length - 6)}';
   }
 }

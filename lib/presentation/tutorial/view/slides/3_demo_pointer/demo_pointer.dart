@@ -5,7 +5,7 @@ import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
-import 'package:susanin/presentation/common/widgets/pointer.dart';
+import 'package:susanin/presentation/common/pointer.dart';
 import 'package:susanin/presentation/tutorial/view/slides/3_demo_pointer/cubit/demo_pointer_cubit.dart';
 
 class DemoPointer extends StatelessWidget {

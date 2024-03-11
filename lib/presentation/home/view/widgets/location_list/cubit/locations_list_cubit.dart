@@ -51,7 +51,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     }
   }
 
-  Future<void> onPressSetActive({required String id}) async {
+  Future<void> onPressed({required String id}) async {
     await _placesRepository.select(id);
   }
 

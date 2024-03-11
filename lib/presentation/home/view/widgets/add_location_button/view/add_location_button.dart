@@ -58,14 +58,18 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
         return GestureDetector(
           onLongPress: () {
             HapticFeedback.heavyImpact();
-            context.read<AddLocationCubit>().onLongPressAdd();
+            context.read<AddLocationCubit>().onLongPressAdd(
+                  context.s.location_default_name,
+                );
           },
           child: FloatingActionButton(
             backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.inversePrimary,
             onPressed: () {
               HapticFeedback.heavyImpact();
-              context.read<AddLocationCubit>().onPressAdd();
+              context.read<AddLocationCubit>().onPressAdd(
+                    context.s.location_default_name,
+                  );
             },
             child: const Icon(Icons.add_location_alt_rounded),
           ),
