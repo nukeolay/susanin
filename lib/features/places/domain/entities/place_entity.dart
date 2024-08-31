@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:susanin/features/places/domain/entities/icon_entity.dart';
 
 class PlaceEntity extends Equatable {
   const PlaceEntity({
@@ -8,6 +9,7 @@ class PlaceEntity extends Equatable {
     required this.name,
     required this.creationTime,
     required this.notes,
+    required this.icon,
   });
 
   PlaceEntity.empty()
@@ -16,13 +18,15 @@ class PlaceEntity extends Equatable {
         longitude = 0,
         name = '',
         creationTime = DateTime(0),
-        notes = '';
+        notes = '',
+        icon = null;
 
   PlaceEntity copyWith({
     double? latitude,
     double? longitude,
     String? name,
     String? notes,
+    IconEntity? icon,
   }) {
     return PlaceEntity(
       id: id,
@@ -31,6 +35,7 @@ class PlaceEntity extends Equatable {
       name: name ?? this.name,
       creationTime: creationTime,
       notes: notes ?? this.notes,
+      icon: icon ?? this.icon,
     );
   }
 
@@ -40,6 +45,7 @@ class PlaceEntity extends Equatable {
   final String name;
   final DateTime creationTime;
   final String notes;
+  final IconEntity? icon;
 
   @override
   List<Object?> get props => [
@@ -49,5 +55,6 @@ class PlaceEntity extends Equatable {
         name,
         creationTime,
         notes,
+        icon,
       ];
 }
