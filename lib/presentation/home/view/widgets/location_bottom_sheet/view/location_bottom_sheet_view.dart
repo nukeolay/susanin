@@ -9,12 +9,14 @@ typedef PlaceCallback = Future<void> Function({
 
 class _LocationBottomSheetView extends StatefulWidget {
   const _LocationBottomSheetView({
+    required this.id,
     required this.name,
     required this.latitude,
     required this.longitude,
     required this.notes,
     required this.saveLocation,
   });
+  final String? id;
   final String name;
   final String notes;
   final String latitude;
@@ -112,7 +114,19 @@ class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const Expanded(child: _CancelButton()),
+                    if (widget.id != null)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: _RemoveButton(
+                          onRemove: () {
+                            context.read<PlacesRepository>().delete(widget.id!);
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    const Expanded(
+                      child: _CancelButton(),
+                    ),
                     const SizedBox(width: 16),
                     Expanded(
                       child: _SaveButton(

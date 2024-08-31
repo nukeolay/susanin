@@ -80,6 +80,7 @@ class _LocationListWidget extends StatelessWidget {
       builder: (ctx) {
         return LocationBottomSheet(
           model: LocationBottomSheetModel(
+            id: state.place.id,
             name: state.name,
             latitude: state.latitude,
             longitude: state.longitude,

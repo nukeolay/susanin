@@ -16,6 +16,7 @@ class DetailedEditButton extends StatelessWidget {
         builder: (ctx) {
           return LocationBottomSheet(
             model: LocationBottomSheetModel(
+              id: place.id,
               name: place.name,
               latitude: place.latitude,
               longitude: place.longitude,

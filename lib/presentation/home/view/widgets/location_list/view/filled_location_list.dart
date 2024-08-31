@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
-import 'package:susanin/presentation/common/susanin_dialog.dart';
+import 'package:susanin/presentation/common/remove_location_dialog.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/location_list_item.dart';
 
@@ -104,30 +103,11 @@ class _FilledLocationListState extends State<FilledLocationList> {
   }) async {
     if (dismissDirection == DismissDirection.startToEnd) {
       HapticFeedback.heavyImpact();
-      return _showRemoveConfirmationDialog(context: context);
+      return showRemoveConfirmationDialog(context: context);
     } else {
       HapticFeedback.heavyImpact();
       context.read<LocationsListCubit>().onShare(place);
       return false;
     }
   }
-}
-
-Future<bool> _showRemoveConfirmationDialog({
-  required BuildContext context,
-}) async {
-  final result = await showDialog<bool>(
-        context: context,
-        builder: (BuildContext context) {
-          return SusaninDialog(
-            text: context.s.delete_location,
-            secondaryButtonLabel: context.s.button_yes,
-            onSecondaryTap: () => Navigator.pop(context, true),
-            primaryButtonLabel: context.s.button_no,
-            onPrimaryTap: () => Navigator.pop(context, false),
-          );
-        },
-      ) ??
-      false;
-  return result;
 }

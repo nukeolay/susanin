@@ -88,6 +88,7 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
         builder: (ctx) {
           return LocationBottomSheet(
             model: LocationBottomSheetModel(
+              id: null,
               name: state.name,
               latitude: state.latitude,
               longitude: state.longitude,
