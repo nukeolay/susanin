@@ -74,17 +74,21 @@ class _LocationListWidget extends StatelessWidget {
     BuildContext context,
     EditPlaceState state,
   ) async {
+    final activePlace = state.activePlace;
+    if (activePlace == null) {
+      return;
+    }
     final cubit = context.read<LocationsListCubit>();
     await context.showSusaninBottomSheet(
       context: context,
       builder: (ctx) {
         return LocationBottomSheet(
           model: LocationBottomSheetModel(
-            id: state.place.id,
-            name: state.name,
-            latitude: state.latitude,
-            longitude: state.longitude,
-            notes: state.notes,
+            id: activePlace.id,
+            name: activePlace.name,
+            latitude: activePlace.latitude,
+            longitude: activePlace.longitude,
+            notes: activePlace.notes,
             saveLocation: ({
               required String latitude,
               required String longitude,

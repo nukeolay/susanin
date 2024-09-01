@@ -6,6 +6,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 import 'package:susanin/features/places/domain/entities/places_entity.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
+import 'package:collection/collection.dart';
 
 part 'locations_list_state.dart';
 
@@ -56,18 +57,12 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   Future<void> onLongPressEdit({required String id}) async {
-    final place = state.places.firstWhere((location) => location.id == id);
     await _placesRepository.select(id);
     emit(
       EditPlaceState(
         activePlaceId: id,
         status: LocationsListStatus.editing,
-        name: place.name,
-        latitude: place.latitude,
-        longitude: place.longitude,
         places: state.places,
-        place: place,
-        notes: place.notes,
       ),
     );
   }
