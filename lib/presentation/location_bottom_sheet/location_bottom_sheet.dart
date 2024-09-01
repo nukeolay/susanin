@@ -5,8 +5,8 @@ import 'package:susanin/features/places/domain/repositories/places_repository.da
 import 'package:susanin/presentation/common/remove_location_dialog.dart';
 import 'package:susanin/presentation/common/susanin_button.dart';
 import 'package:susanin/presentation/common/susanin_icon_button.dart';
-import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/bloc/validator_bloc.dart';
-import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/view/widgets/validator_text_field.dart';
+import 'package:susanin/presentation/location_bottom_sheet/bloc/validator_bloc.dart';
+import 'package:susanin/presentation/location_bottom_sheet/view/widgets/validator_text_field.dart';
 
 part 'view/location_bottom_sheet_view.dart';
 part 'view/widgets/save_button.dart';

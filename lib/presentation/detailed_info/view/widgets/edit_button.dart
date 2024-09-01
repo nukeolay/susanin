@@ -4,7 +4,7 @@ import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 import 'package:susanin/presentation/common/susanin_button.dart';
 import 'package:susanin/presentation/detailed_info/cubit/detailed_info_cubit.dart';
-import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/location_bottom_sheet.dart';
+import 'package:susanin/presentation/location_bottom_sheet/location_bottom_sheet.dart';
 
 class DetailedEditButton extends StatelessWidget {
   const DetailedEditButton({required this.place, super.key});

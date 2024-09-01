@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
-import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/location_bottom_sheet.dart';
+import 'package:susanin/presentation/location_bottom_sheet/location_bottom_sheet.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/filled_location_list.dart';
 

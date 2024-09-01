@@ -5,7 +5,7 @@ import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/presentation/home/view/widgets/add_location_button/cubit/add_location_cubit.dart';
-import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/location_bottom_sheet.dart';
+import 'package:susanin/presentation/location_bottom_sheet/location_bottom_sheet.dart';
 
 class AddNewLocationButton extends StatelessWidget {
   const AddNewLocationButton({super.key});
