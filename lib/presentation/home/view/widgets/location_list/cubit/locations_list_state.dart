@@ -45,11 +45,3 @@ class LocationsListState extends Equatable {
   @override
   List<Object> get props => [status, places, activePlaceId];
 }
-
-class EditPlaceState extends LocationsListState {
-  const EditPlaceState({
-    required super.status,
-    required super.places,
-    required super.activePlaceId,
-  });
-}

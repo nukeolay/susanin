@@ -59,7 +59,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   Future<void> onLongPressEdit({required String id}) async {
     await _placesRepository.select(id);
     emit(
-      EditPlaceState(
+      state.copyWith(
         activePlaceId: id,
         status: LocationsListStatus.editing,
         places: state.places,
@@ -100,7 +100,8 @@ class LocationsListCubit extends Cubit<LocationsListState> {
 
   Future<bool> onShare(PlaceEntity place) async {
     final shareLink =
-        '${place.name} https://www.google.com/maps/search/?api=1&query=${place.latitude},${place.longitude}';
+        '${place.name} https://www.google.com/maps/search/?api=1&query='
+        '${place.latitude},${place.longitude}';
     await Share.share(shareLink);
     return false;
   }

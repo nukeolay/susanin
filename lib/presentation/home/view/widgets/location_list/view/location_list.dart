@@ -32,7 +32,7 @@ class _LocationListWidget extends StatelessWidget {
       child: BlocConsumer<LocationsListCubit, LocationsListState>(
         listener: (context, state) {
           if (state.status == LocationsListStatus.editing) {
-            _showBottomSheet(context, state as EditPlaceState);
+            _showBottomSheet(context, state);
           } else if (state.status == LocationsListStatus.failure) {
             final snackBar = SnackBar(
               content: Text(context.s.error_unknown),
@@ -72,7 +72,7 @@ class _LocationListWidget extends StatelessWidget {
 
   Future<void> _showBottomSheet(
     BuildContext context,
-    EditPlaceState state,
+    LocationsListState state,
   ) async {
     final activePlace = state.activePlace;
     if (activePlace == null) {
