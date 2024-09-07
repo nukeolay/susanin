@@ -16,12 +16,11 @@ class FilledLocationList extends StatefulWidget {
 }
 
 class _FilledLocationListState extends State<FilledLocationList> {
-  final animatedListKey = GlobalKey<AnimatedListState>();
-  late int initialLength;
+  late final GlobalKey<AnimatedListState> animatedListKey;
 
   @override
   void initState() {
-    initialLength = context.read<LocationsListCubit>().state.places.length;
+    animatedListKey = GlobalKey<AnimatedListState>();
     super.initState();
   }
 
@@ -30,12 +29,11 @@ class _FilledLocationListState extends State<FilledLocationList> {
     return BlocBuilder<LocationsListCubit, LocationsListState>(
       builder: (context, state) {
         final places = state.places;
-        if (places.length > initialLength) {
-          animatedListKey.currentState!.insertItem(0);
-        } else if (places.length < initialLength) {
+        if (state.places.length > state.previousPlaces.length) {
+          animatedListKey.currentState?.insertItem(0);
+        } else if (state.places.length < state.previousPlaces.length) {
           _removeItems(state.removedItems);
         }
-        initialLength = state.places.length;
         return AnimatedList(
           key: animatedListKey,
           physics: const BouncingScrollPhysics(),
@@ -91,7 +89,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
       final cubit = context.read<LocationsListCubit>();
       final index = cubit.state.previousPlaces.indexOf(place);
       final invertedIndex = cubit.state.previousPlaces.length - index - 1;
-      animatedListKey.currentState!.removeItem(
+      animatedListKey.currentState?.removeItem(
         invertedIndex,
         (_, __) => const SizedBox.shrink(),
       );
