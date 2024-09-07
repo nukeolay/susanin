@@ -28,10 +28,12 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   void _placesHandler(PlacesEntity? places) {
+    final previousPlaces = [...state.places];
     emit(
       state.copyWith(
         status: LocationsListStatus.loaded,
         places: places?.places ?? [],
+        previousPlaces: previousPlaces,
         activePlaceId: places?.activePlace?.id,
       ),
     );

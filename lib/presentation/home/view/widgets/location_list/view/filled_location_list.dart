@@ -27,12 +27,13 @@ class _FilledLocationListState extends State<FilledLocationList> {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<LocationsListCubit>();
     return BlocBuilder<LocationsListCubit, LocationsListState>(
       builder: (context, state) {
         final places = state.places;
         if (places.length > initialLength) {
           animatedListKey.currentState!.insertItem(0);
+        } else if (places.length < initialLength) {
+          _removeItems(state.removedItems);
         }
         initialLength = state.places.length;
         return AnimatedList(
@@ -50,9 +51,9 @@ class _FilledLocationListState extends State<FilledLocationList> {
               location: places[invertedIndex],
               isActive: place.id == state.activePlaceId,
               animation: animation,
-              onPress: () => _onPressed(cubit, place.id, state.activePlaceId),
-              onLongPress: () => _onLongPressed(cubit, place.id),
-              onDismissed: (_) => _onDismissed(cubit, invertedIndex, place.id),
+              onPress: () => _onPressed(place.id, state.activePlaceId),
+              onLongPress: () => _onLongPressed(place.id),
+              onDismissed: (_) => _onDismissed(place.id),
               onConfirmDismiss: (DismissDirection dismissDirection) =>
                   _onConfirmDismiss(
                 dismissDirection: dismissDirection,
@@ -67,7 +68,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
     );
   }
 
-  void _onPressed(LocationsListCubit cubit, String id, String activeId) {
+  void _onPressed(String id, String activeId) {
     HapticFeedback.heavyImpact();
     if (id == activeId) {
       Navigator.of(context).pushNamed(
@@ -75,24 +76,33 @@ class _FilledLocationListState extends State<FilledLocationList> {
         arguments: [activeId],
       );
     } else {
+      final cubit = context.read<LocationsListCubit>();
       cubit.onPressed(id: id);
     }
   }
 
-  void _onLongPressed(LocationsListCubit cubit, String id) {
+  void _onLongPressed(String id) {
+    final cubit = context.read<LocationsListCubit>();
     cubit.onLongPressEdit(id: id);
   }
 
+  void _removeItems(List<PlaceEntity> removedPlaces) {
+    for (final place in removedPlaces) {
+      final cubit = context.read<LocationsListCubit>();
+      final index = cubit.state.previousPlaces.indexOf(place);
+      final invertedIndex = cubit.state.previousPlaces.length - index - 1;
+      animatedListKey.currentState!.removeItem(
+        invertedIndex,
+        (_, __) => const SizedBox.shrink(),
+      );
+    }
+  }
+
   Future<void> _onDismissed(
-    LocationsListCubit cubit,
-    int index,
     String id,
   ) async {
+    final cubit = context.read<LocationsListCubit>();
     await cubit.onDeleteLocation(id: id);
-    animatedListKey.currentState!.removeItem(
-      index,
-      (_, __) => Container(),
-    );
   }
 
   Future<bool> _onConfirmDismiss({
