@@ -11,16 +11,14 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const mainBarHeight = 140.0;
-    final viewPadding = MediaQuery.of(context).viewPadding;
+    final viewPadding = MediaQuery.viewPaddingOf(context);
     final mainBarTopPadding = viewPadding.top + 20;
 
     return Scaffold(
       body: Stack(
         children: [
-          Column(
-            children: [
-              LocationList(topPadding: mainBarHeight + mainBarTopPadding),
-            ],
+          LocationList(
+            topPadding: mainBarHeight + mainBarTopPadding + 8,
           ),
           Positioned(
             top: mainBarTopPadding,

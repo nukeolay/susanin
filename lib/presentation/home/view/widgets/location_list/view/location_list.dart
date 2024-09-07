@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
+import 'package:susanin/presentation/home/view/widgets/location_list/view/empty_location_list.dart';
+import 'package:susanin/presentation/home/view/widgets/location_list/view/loading_location_list.dart';
 import 'package:susanin/presentation/location_bottom_sheet/location_bottom_sheet.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/filled_location_list.dart';
@@ -28,45 +30,26 @@ class _LocationListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: BlocConsumer<LocationsListCubit, LocationsListState>(
-        listener: (context, state) {
-          if (state.status == LocationsListStatus.editing) {
-            _showBottomSheet(context, state);
-          } else if (state.status == LocationsListStatus.failure) {
-            final snackBar = SnackBar(
-              content: Text(context.s.error_unknown),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          }
-        },
-        builder: (context, state) {
-          if (state.status == LocationsListStatus.loading) {
-            return const SingleChildScrollView(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state.places.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: topPadding,
-                  left: 12.0,
-                  right: 12.0,
-                ),
-                child: SingleChildScrollView(
-                  child: Text(
-                    context.s.empty_locations_list,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                ),
-              ),
-            );
-          } else {
-            return FilledLocationList(topPadding: topPadding);
-          }
-        },
-      ),
+    return BlocConsumer<LocationsListCubit, LocationsListState>(
+      listener: (context, state) {
+        if (state.status == LocationsListStatus.editing) {
+          _showBottomSheet(context, state);
+        } else if (state.status == LocationsListStatus.failure) {
+          final snackBar = SnackBar(
+            content: Text(context.s.error_unknown),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      },
+      builder: (context, state) {
+        if (state.status == LocationsListStatus.loading) {
+          return const LoadingLocationList();
+        } else if (state.places.isEmpty) {
+          return EmptyLocationList(topPadding: topPadding);
+        } else {
+          return FilledLocationList(topPadding: topPadding);
+        }
+      },
     );
   }
 
