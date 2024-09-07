@@ -21,8 +21,11 @@ class LocationsListState extends Equatable {
   final List<PlaceEntity> places;
   final List<PlaceEntity> previousPlaces;
   final String activePlaceId;
-  List<PlaceEntity> get removedItems =>
-      previousPlaces.where((place) => !places.contains(place)).toList();
+  List<PlaceEntity> get removedItems => previousPlaces
+      .where(
+        (oldPlace) => !places.any((newPlace) => newPlace.id == oldPlace.id),
+      )
+      .toList();
 
   static const initial = LocationsListState(
     status: LocationsListStatus.loading,
