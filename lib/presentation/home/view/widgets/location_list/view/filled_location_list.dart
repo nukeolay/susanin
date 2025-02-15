@@ -25,7 +25,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
 
   @override
   Widget build(BuildContext context) {
-    final appHeight = Scaffold.of(context).appBarMaxHeight;
+    final appHeight = Scaffold.of(context).appBarMaxHeight ?? 0;
     return BlocBuilder<LocationsListCubit, LocationsListState>(
       builder: (context, state) {
         final places = state.places;
@@ -40,7 +40,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
           key: animatedListKey,
           physics: const BouncingScrollPhysics(),
           initialItemCount: places.length,
-          padding: EdgeInsets.only(top: appHeight ?? 0, bottom: 100),
+          padding: EdgeInsets.only(top: appHeight + 8, bottom: 100),
           itemBuilder: (context, index, animation) {
             if (index > places.length - 1) {
               return const SizedBox.shrink();

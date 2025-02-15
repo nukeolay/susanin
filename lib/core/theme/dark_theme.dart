@@ -5,7 +5,7 @@ final darkTheme = ThemeData.dark().copyWith(
   primaryColor: Colors.green,
   colorScheme: const ColorScheme.dark().copyWith(
     primary: Colors.green,
-    background: ThemeData.dark().scaffoldBackgroundColor,
+    surface: ThemeData.dark().scaffoldBackgroundColor,
     secondary: Colors.white,
     inversePrimary: Colors.white,
     error: Colors.red,

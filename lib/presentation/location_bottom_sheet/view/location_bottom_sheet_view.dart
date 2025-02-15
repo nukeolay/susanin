@@ -15,7 +15,7 @@ class _LocationBottomSheetView extends StatefulWidget {
     required this.notes,
     required this.saveLocation,
   });
-  // final String? id;
+  
   final String name;
   final String notes;
   final String latitude;
