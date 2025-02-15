@@ -22,7 +22,6 @@ class BlurredScaffold extends StatelessWidget {
     this.primary = true,
     this.drawerDragStartBehavior = DragStartBehavior.start,
     this.extendBody = false,
-    this.extendBodyBehindAppBar = false,
     this.drawerScrimColor,
     this.drawerEdgeDragWidth,
     this.drawerEnableOpenDragGesture = true,
@@ -49,7 +48,6 @@ class BlurredScaffold extends StatelessWidget {
   final bool primary;
   final DragStartBehavior drawerDragStartBehavior;
   final bool extendBody;
-  final bool extendBodyBehindAppBar;
   final Color? drawerScrimColor;
   final double? drawerEdgeDragWidth;
   final bool drawerEnableOpenDragGesture;
@@ -79,7 +77,7 @@ class BlurredScaffold extends StatelessWidget {
       drawerDragStartBehavior: drawerDragStartBehavior,
       extendBody: extendBody,
       drawerEdgeDragWidth: drawerEdgeDragWidth,
-      extendBodyBehindAppBar: extendBodyBehindAppBar,
+      extendBodyBehindAppBar: true,
       drawerScrimColor: drawerScrimColor,
       drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
       endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:susanin/core/extensions/extensions.dart';
 
 class EmptyLocationList extends StatelessWidget {
-  const EmptyLocationList({required this.topPadding, super.key});
-  final double topPadding;
+  const EmptyLocationList({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appHeight = Scaffold.of(context).appBarMaxHeight;
     return Center(
       child: Padding(
         padding: EdgeInsets.only(
-          top: topPadding,
+          top: appHeight ?? 0,
           left: 12.0,
           right: 12.0,
         ),

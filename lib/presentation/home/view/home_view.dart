@@ -10,34 +10,21 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const mainBarHeight = 140.0;
-    final viewPadding = MediaQuery.viewPaddingOf(context);
-    final mainBarTopPadding = viewPadding.top + 20;
-
-    return BlurredScaffold(
-      body: Stack(
-        children: [
-          LocationList(
-            topPadding: mainBarHeight + mainBarTopPadding + 8,
+    return const BlurredScaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(140),
+        child: SafeArea(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              MainBar(),
+              SideBar(),
+            ],
           ),
-          Positioned(
-            top: mainBarTopPadding,
-            left: 0,
-            right: 0,
-            child: const SizedBox(
-              height: mainBarHeight,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  MainBar(),
-                  SideBar(),
-                ],
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
-      floatingActionButton: const AddNewLocationButton(),
+      body: LocationList(),
+      floatingActionButton: AddNewLocationButton(),
     );
   }
 }

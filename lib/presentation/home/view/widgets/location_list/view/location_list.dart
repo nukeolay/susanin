@@ -9,8 +9,7 @@ import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locat
 import 'package:susanin/presentation/home/view/widgets/location_list/view/filled_location_list.dart';
 
 class LocationList extends StatelessWidget {
-  const LocationList({required this.topPadding, super.key});
-  final double topPadding;
+  const LocationList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +18,13 @@ class LocationList extends StatelessWidget {
       create: (_) => LocationsListCubit(
         placesRepository: placesRepository,
       )..init(),
-      child: _LocationListWidget(topPadding: topPadding),
+      child: const _LocationListWidget(),
     );
   }
 }
 
 class _LocationListWidget extends StatelessWidget {
-  const _LocationListWidget({required this.topPadding});
-  final double topPadding;
+  const _LocationListWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +43,9 @@ class _LocationListWidget extends StatelessWidget {
         if (state.status == LocationsListStatus.loading) {
           return const LoadingLocationList();
         } else if (state.places.isEmpty) {
-          return EmptyLocationList(topPadding: topPadding);
+          return const EmptyLocationList();
         } else {
-          return FilledLocationList(topPadding: topPadding);
+          return const FilledLocationList();
         }
       },
     );

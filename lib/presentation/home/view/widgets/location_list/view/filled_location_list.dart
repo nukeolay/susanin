@@ -8,8 +8,7 @@ import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locat
 import 'package:susanin/presentation/home/view/widgets/location_list/view/location_list_item.dart';
 
 class FilledLocationList extends StatefulWidget {
-  const FilledLocationList({required this.topPadding, super.key});
-  final double topPadding;
+  const FilledLocationList({super.key});
 
   @override
   State<FilledLocationList> createState() => _FilledLocationListState();
@@ -26,6 +25,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
 
   @override
   Widget build(BuildContext context) {
+    final appHeight = Scaffold.of(context).appBarMaxHeight;
     return BlocBuilder<LocationsListCubit, LocationsListState>(
       builder: (context, state) {
         final places = state.places;
@@ -39,7 +39,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
           physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           initialItemCount: places.length,
-          padding: EdgeInsets.only(top: widget.topPadding, bottom: 100),
+          padding: EdgeInsets.only(top: appHeight ?? 0, bottom: 100),
           itemBuilder: (context, index, animation) {
             final invertedIndex = places.length - index - 1;
             final place = places[invertedIndex];
