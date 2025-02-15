@@ -47,8 +47,8 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
     emit(state.copyWith(locationStatus: locationStatus));
   }
 
-  Future<void> toggleTheme() {
-    return _settingsRepository.setTheme(
+  Future<void> toggleTheme() async {
+    await _settingsRepository.setTheme(
       state.isDarkTheme ? ThemeMode.light : ThemeMode.dark,
     );
   }

@@ -36,8 +36,8 @@ class AppSettingsCubit extends Cubit<AppSettingsState> {
     });
   }
 
-  Future<void> toggleTheme() {
-    return _settingsRepository.setTheme(
+  Future<void> toggleTheme() async {
+    await _settingsRepository.setTheme(
       state.isDarkTheme ? ThemeMode.light : ThemeMode.dark,
     );
   }

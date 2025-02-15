@@ -19,10 +19,10 @@ class SusaninIconButton extends StatelessWidget {
     return IconButton(
       icon: Icon(icon),
       style: ButtonStyle(
-        elevation: MaterialStateProperty.all(0),
+        elevation: WidgetStateProperty.all(0),
         // backgroundColor: type.backgroundColor(context),
         foregroundColor: type.foregroundColor(context),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(borderRadius: radius),
         ),
       ),

@@ -59,7 +59,7 @@ class SettingsRepositoryImpl extends SettingsRepository {
   }
 
   Future<void> _saveSettings(SettingsModel settings) async {
-    final jsonLocations = json.encode(settings);
-    await _localStorage.save(key: _settingsKey, data: jsonLocations);
+    final jsonSettings = json.encode(settings);
+    await _localStorage.save(key: _settingsKey, data: jsonSettings);
   }
 }
