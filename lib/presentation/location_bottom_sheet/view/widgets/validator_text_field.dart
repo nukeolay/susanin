@@ -22,22 +22,6 @@ class ValidatorTextField extends StatelessWidget {
       autofocus: autofocus,
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        // border: UnderlineInputBorder(
-        //   borderSide: BorderSide(
-        //     width: 2,
-        //     color: Theme.of(context).colorScheme.onBackground,
-        //   ),
-        // ),
-        // enabledBorder: UnderlineInputBorder(
-        //   borderSide: BorderSide(
-        //     color: Theme.of(context).colorScheme.primary,
-        //   ),
-        // ),
-        // errorBorder: UnderlineInputBorder(
-        //   borderSide: BorderSide(
-        //     color: Theme.of(context).colorScheme.error,
-        //   ),
-        // ),
         suffixIcon: !isValid
             ? Icon(
                 Icons.error_rounded,

@@ -42,37 +42,34 @@ class Pointer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FittedBox(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Transform.rotate(
-          angle: rotateAngle,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
+      child: Transform.rotate(
+        angle: rotateAngle,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            CircleAvatar(
+              radius: radius * 0.7,
+              backgroundColor: backGroundColor,
+            ),
+            if (positionAccuracy != null)
               CircleAvatar(
-                radius: radius * 0.7,
-                backgroundColor: backGroundColor,
+                radius: _getPositionAccuracyRadius(positionAccuracy!),
+                backgroundColor: _isPositionAccuracyMax(positionAccuracy!)
+                    ? Theme.of(context).colorScheme.error
+                    : foregroundColor.withOpacity(0.2),
               ),
-              if (positionAccuracy != null)
-                CircleAvatar(
-                  radius: _getPositionAccuracyRadius(positionAccuracy!),
-                  backgroundColor: _isPositionAccuracyMax(positionAccuracy!)
-                      ? Theme.of(context).colorScheme.error
-                      : foregroundColor.withOpacity(0.2),
-                ),
-              Container(
-                alignment: Alignment.center,
-                transformAlignment: Alignment.center,
-                child: CustomPaint(
-                  painter: CustomArc(
-                    arcRadius: arcRadius,
-                    radius: radius,
-                    color: foregroundColor,
-                  ),
+            Container(
+              alignment: Alignment.center,
+              transformAlignment: Alignment.center,
+              child: CustomPaint(
+                painter: CustomArc(
+                  arcRadius: arcRadius,
+                  radius: radius,
+                  color: foregroundColor,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

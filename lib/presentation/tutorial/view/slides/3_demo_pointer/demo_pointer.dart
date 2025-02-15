@@ -66,13 +66,16 @@ class _DemoPointerView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (state.hasCompass)
-                  Pointer(
-                    rotateAngle: state.bearing,
-                    arcRadius: state.pointerArc,
-                    positionAccuracy: state.accuracy,
-                    radius: radius,
-                    foregroundColor: Theme.of(context).colorScheme.secondary,
-                    backGroundColor: Theme.of(context).cardColor,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Pointer(
+                      rotateAngle: state.bearing,
+                      arcRadius: state.pointerArc,
+                      positionAccuracy: state.accuracy,
+                      radius: radius,
+                      foregroundColor: Theme.of(context).colorScheme.secondary,
+                      backGroundColor: Theme.of(context).cardColor,
+                    ),
                   ),
                 Text(
                   state.distance.toInt().toDistanceString(context),

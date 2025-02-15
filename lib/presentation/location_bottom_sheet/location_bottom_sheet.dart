@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/places/domain/repositories/places_repository.dart';
-import 'package:susanin/presentation/common/remove_location_dialog.dart';
 import 'package:susanin/presentation/common/susanin_button.dart';
-import 'package:susanin/presentation/common/susanin_icon_button.dart';
 import 'package:susanin/presentation/location_bottom_sheet/bloc/validator_bloc.dart';
 import 'package:susanin/presentation/location_bottom_sheet/view/widgets/validator_text_field.dart';
 
 part 'view/location_bottom_sheet_view.dart';
 part 'view/widgets/save_button.dart';
 part 'view/widgets/cancel_button.dart';
-part 'view/widgets/remove_button.dart';
 
 class LocationBottomSheetModel {
   const LocationBottomSheetModel({
@@ -44,7 +40,6 @@ class LocationBottomSheet extends StatelessWidget {
     return BlocProvider(
       create: (context) => LocationValidatorBloc(),
       child: _LocationBottomSheetView(
-        id: model.id,
         latitude: model.latitude.toString(),
         longitude: model.longitude.toString(),
         name: model.name,

@@ -46,13 +46,16 @@ class MainPointer extends StatelessWidget {
             ),
           )
         else
-          Pointer(
-            rotateAngle: rotateAngle,
-            arcRadius: accuracyAngle,
-            radius: pointerSize,
-            positionAccuracy: positionAccuracy,
-            foregroundColor: Theme.of(context).colorScheme.secondary,
-            backGroundColor: Theme.of(context).colorScheme.background,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Pointer(
+              rotateAngle: rotateAngle,
+              arcRadius: accuracyAngle,
+              radius: pointerSize,
+              positionAccuracy: positionAccuracy,
+              foregroundColor: Theme.of(context).colorScheme.secondary,
+              backGroundColor: Theme.of(context).colorScheme.background,
+            ),
           ),
         Expanded(
           child: Column(
