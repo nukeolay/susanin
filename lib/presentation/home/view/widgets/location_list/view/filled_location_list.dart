@@ -29,10 +29,6 @@ class _FilledLocationListState extends State<FilledLocationList> {
     return BlocBuilder<LocationsListCubit, LocationsListState>(
       builder: (context, state) {
         final places = state.places;
-        final isDeleted = state.status == LocationsListStatus.deleted;
-        if (isDeleted) {
-          _removeItems();
-        }
         if (state.places.length > state.previousPlaces.length) {
           animatedListKey.currentState?.insertItem(0);
         }
@@ -83,18 +79,6 @@ class _FilledLocationListState extends State<FilledLocationList> {
   void _onLongPressed(String id) {
     final cubit = context.read<LocationsListCubit>();
     cubit.onLongPressEdit(id: id);
-  }
-
-  void _removeItems() {
-    final cubit = context.read<LocationsListCubit>();
-    final removedPlaces = cubit.state.removedItems;
-    for (final place in removedPlaces) {
-      final index = cubit.state.previousPlaces.indexOf(place);
-      animatedListKey.currentState?.removeItem(
-        index,
-        (_, __) => const SizedBox.shrink(),
-      );
-    }
   }
 
   Future<void> _onDismissed(
