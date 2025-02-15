@@ -29,24 +29,27 @@ class _FilledLocationListState extends State<FilledLocationList> {
     return BlocBuilder<LocationsListCubit, LocationsListState>(
       builder: (context, state) {
         final places = state.places;
+        final isDeleted = state.status == LocationsListStatus.deleted;
+        if (isDeleted) {
+          _removeItems();
+        }
         if (state.places.length > state.previousPlaces.length) {
           animatedListKey.currentState?.insertItem(0);
-        } else if (state.places.length < state.previousPlaces.length) {
-          _removeItems(state.removedItems);
         }
         return AnimatedList(
           key: animatedListKey,
           physics: const BouncingScrollPhysics(),
-          shrinkWrap: true,
           initialItemCount: places.length,
           padding: EdgeInsets.only(top: appHeight ?? 0, bottom: 100),
           itemBuilder: (context, index, animation) {
-            final invertedIndex = places.length - index - 1;
-            final place = places[invertedIndex];
+            if (index > places.length - 1) {
+              return const SizedBox.shrink();
+            }
+            final place = places[index];
             final itemKey = ValueKey(place.id);
             return LocationListItem(
               key: itemKey,
-              location: places[invertedIndex],
+              location: places[index],
               isActive: place.id == state.activePlaceId,
               animation: animation,
               onPress: () => _onPressed(place.id, state.activePlaceId),
@@ -55,9 +58,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
               onConfirmDismiss: (DismissDirection dismissDirection) =>
                   _onConfirmDismiss(
                 dismissDirection: dismissDirection,
-                index: invertedIndex,
                 place: place,
-                isActive: place.id == state.activePlaceId,
               ),
             );
           },
@@ -84,13 +85,13 @@ class _FilledLocationListState extends State<FilledLocationList> {
     cubit.onLongPressEdit(id: id);
   }
 
-  void _removeItems(List<PlaceEntity> removedPlaces) {
+  void _removeItems() {
+    final cubit = context.read<LocationsListCubit>();
+    final removedPlaces = cubit.state.removedItems;
     for (final place in removedPlaces) {
-      final cubit = context.read<LocationsListCubit>();
       final index = cubit.state.previousPlaces.indexOf(place);
-      final invertedIndex = cubit.state.previousPlaces.length - index - 1;
       animatedListKey.currentState?.removeItem(
-        invertedIndex,
+        index,
         (_, __) => const SizedBox.shrink(),
       );
     }
@@ -105,9 +106,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
 
   Future<bool> _onConfirmDismiss({
     required DismissDirection dismissDirection,
-    required int index,
     required PlaceEntity place,
-    required bool isActive,
   }) async {
     if (dismissDirection == DismissDirection.startToEnd) {
       HapticFeedback.heavyImpact();

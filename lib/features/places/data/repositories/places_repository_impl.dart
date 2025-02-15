@@ -28,7 +28,7 @@ class PlacesRepositoryImpl extends PlacesRepository {
     try {
       final model = PlaceModel.fromEntity(place);
       final models = await _loadPlaces();
-      final updatedModels = [...models, model];
+      final updatedModels = [model, ...models];
       await _updateStorage(models: updatedModels, place: place);
       return true;
     } catch (error) {
