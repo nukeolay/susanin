@@ -1,7 +1,10 @@
-part of '../../location_bottom_sheet.dart';
+import 'package:flutter/material.dart';
 
-class _CancelButton extends StatelessWidget {
-  const _CancelButton();
+import 'package:susanin/core/extensions/extensions.dart';
+import 'package:susanin/presentation/common/susanin_button.dart';
+
+class CancelButton extends StatelessWidget {
+  const CancelButton({super.key});
 
   @override
   Widget build(BuildContext context) {

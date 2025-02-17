@@ -1,4 +1,12 @@
-part of '../location_bottom_sheet.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:susanin/core/extensions/extensions.dart';
+import 'package:susanin/presentation/location_bottom_sheet/bloc/validator_bloc.dart';
+import 'package:susanin/presentation/location_bottom_sheet/view/widgets/cancel_button.dart';
+import 'package:susanin/presentation/location_bottom_sheet/view/widgets/icon_selector.dart';
+import 'package:susanin/presentation/location_bottom_sheet/view/widgets/save_button.dart';
+import 'package:susanin/presentation/location_bottom_sheet/view/widgets/validator_text_field.dart';
 
 typedef PlaceCallback = Future<void> Function({
   required String name,
@@ -7,15 +15,16 @@ typedef PlaceCallback = Future<void> Function({
   required String longitude,
 });
 
-class _LocationBottomSheetView extends StatefulWidget {
-  const _LocationBottomSheetView({
+class LocationBottomSheetView extends StatefulWidget {
+  const LocationBottomSheetView({
     required this.name,
     required this.latitude,
     required this.longitude,
     required this.notes,
     required this.saveLocation,
+    super.key,
   });
-  
+
   final String name;
   final String notes;
   final String latitude;
@@ -23,11 +32,11 @@ class _LocationBottomSheetView extends StatefulWidget {
   final PlaceCallback saveLocation;
 
   @override
-  State<_LocationBottomSheetView> createState() =>
+  State<LocationBottomSheetView> createState() =>
       _LocationBottomSheetViewState();
 }
 
-class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
+class _LocationBottomSheetViewState extends State<LocationBottomSheetView> {
   late final TextEditingController _nameController;
   late final TextEditingController _latitudeController;
   late final TextEditingController _longitudeController;
@@ -62,14 +71,32 @@ class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
             Form(
               child: Column(
                 children: [
-                  ValidatorTextField(
-                    controller: _nameController,
-                    isValid: validatorState.isNameValid,
-                    label: context.s.location_name,
-                    autofocus: true,
-                    onChanged: (value) {
-                      bloc.add(NameChanged(name: value));
-                    },
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ValidatorTextField(
+                          controller: _nameController,
+                          isValid: validatorState.isNameValid,
+                          label: context.s.location_name,
+                          autofocus: true,
+                          onChanged: (value) {
+                            bloc.add(NameChanged(name: value));
+                          },
+                        ),
+                      ),
+                      // TODO (nukeolay): icon selector
+                      // CircleAvatar(
+                      //   backgroundColor: Colors.green,
+                      //   child: IconButton(
+                      //     icon: Icon(Icons.location_on_rounded),
+                      //     iconSize: 24,
+                      //     color: Theme.of(context).colorScheme.inversePrimary,
+                      //     onPressed: () {
+                      //       showIconSelectorDialog(context: context);
+                      //     },
+                      //   ),
+                      // ),
+                    ],
                   ),
                   Row(
                     children: [
@@ -114,11 +141,11 @@ class _LocationBottomSheetViewState extends State<_LocationBottomSheetView> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const Expanded(
-                      child: _CancelButton(),
+                      child: CancelButton(),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
-                      child: _SaveButton(
+                      child: SaveButton(
                         isValid: validatorState.isValid,
                         onSave: () {
                           widget.saveLocation(
