@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:susanin/presentation/common/blurred_scaffold.dart';
 import 'package:susanin/presentation/home/view/widgets/add_location_button/view/add_location_button.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/location_list.dart';

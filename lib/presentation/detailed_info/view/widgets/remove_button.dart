@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:susanin/presentation/common/remove_location_dialog.dart';
 
 class RemoveButton extends StatelessWidget {

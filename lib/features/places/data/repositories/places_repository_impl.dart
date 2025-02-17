@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:rxdart/rxdart.dart';
+
 import 'package:susanin/core/services/local_storage.dart';
 import 'package:susanin/features/places/data/models/place_model.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';

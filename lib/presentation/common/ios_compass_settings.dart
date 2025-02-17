@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:susanin/core/extensions/extensions.dart';
 
 class IosCompassSettings extends StatelessWidget {

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 
 class PlacesEntity extends Equatable {

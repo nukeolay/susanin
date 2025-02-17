@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter_compass/flutter_compass.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter_compass/flutter_compass.dart';
+
 import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
+
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/presentation/detailed_info/view/widgets/copy_button.dart';
 

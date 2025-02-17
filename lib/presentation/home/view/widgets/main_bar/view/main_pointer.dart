@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/presentation/common/pointer.dart';

@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
+
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 import 'package:susanin/features/places/domain/entities/places_entity.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
-import 'package:collection/collection.dart';
 
 part 'locations_list_state.dart';
 

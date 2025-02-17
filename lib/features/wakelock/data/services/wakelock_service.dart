@@ -1,5 +1,6 @@
-import 'package:susanin/features/wakelock/domain/entities/wakelock_status.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+
+import 'package:susanin/features/wakelock/domain/entities/wakelock_status.dart';
 
 abstract class WakelockService {
   const WakelockService();

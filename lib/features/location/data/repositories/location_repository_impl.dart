@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
+
 import 'package:susanin/core/errors/exceptions.dart';
 import 'package:susanin/features/location/data/models/position_model.dart';
 import 'package:susanin/features/location/data/services/permission_service.dart';

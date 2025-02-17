@@ -1,6 +1,7 @@
-import 'package:susanin/core/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+
+import 'package:susanin/core/extensions/extensions.dart';
 
 class NoCompassScreen extends StatelessWidget {
   const NoCompassScreen({super.key});

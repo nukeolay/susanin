@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:susanin/presentation/home/home_screen.dart';
 import 'package:susanin/presentation/detailed_info/detailed_location_info_screen.dart';
 import 'package:susanin/presentation/no_compass/no_compass_screen.dart';

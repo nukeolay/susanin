@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
+
 import 'package:susanin/core/errors/exceptions.dart' as susanin;
 import 'package:susanin/features/location/data/models/position_model.dart';
 
