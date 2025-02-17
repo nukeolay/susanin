@@ -4,15 +4,14 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:susanin/core/mixins/pointer_calculations.dart';
 import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/core/mixins/pointer_calculations.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 import 'package:susanin/features/places/domain/entities/places_entity.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
-import 'package:susanin/features/wakelock/domain/entities/wakelock_status.dart';
 import 'package:susanin/features/wakelock/domain/repositories/wakelock_repository.dart';
 
 part 'detailed_info_state.dart';
@@ -105,6 +104,10 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
       name: newLocationName,
     );
     await _placesRepository.update(updatedPlace);
+  }
+
+  Future<void> onDeleteLocation() async {
+    await _placesRepository.delete(state.placeId);
   }
 
   @override

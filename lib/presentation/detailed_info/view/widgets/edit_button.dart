@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
-import 'package:susanin/presentation/common/susanin_button.dart';
 import 'package:susanin/presentation/detailed_info/cubit/detailed_info_cubit.dart';
 import 'package:susanin/presentation/location_bottom_sheet/location_bottom_sheet.dart';
 
@@ -40,13 +40,9 @@ class DetailedEditButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: SusaninButton(
-        label: context.s.button_edit_location,
-        type: ButtonType.primary,
-        onPressed: () => _showBottomSheet(context),
-      ),
+    return IconButton(
+      icon: const Icon(Icons.edit_rounded),
+      onPressed: () => _showBottomSheet(context),
     );
   }
 }

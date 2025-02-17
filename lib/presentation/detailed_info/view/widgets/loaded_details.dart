@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/presentation/common/pointer.dart';
 import 'package:susanin/presentation/detailed_info/cubit/detailed_info_cubit.dart';
 import 'package:susanin/presentation/detailed_info/view/widgets/detailed_notes.dart';
@@ -16,12 +16,12 @@ class LoadedDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final radius = MediaQuery.of(context).size.width * 0.7;
+    final radius = MediaQuery.sizeOf(context).width * 0.7;
     return BlocBuilder<DetailedInfoCubit, DetailedInfoState>(
       builder: (context, state) {
         return Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 112),
+            padding: const EdgeInsets.only(bottom: 76),
             physics: const BouncingScrollPhysics(),
             child: Container(
               alignment: Alignment.center,
@@ -29,7 +29,7 @@ class LoadedDetails extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+                children: [
                   if (state.hasCompass)
                     Stack(
                       children: [
@@ -64,11 +64,12 @@ class LoadedDetails extends StatelessWidget {
                               RemoveButton(
                                 onRemove: () {
                                   context
-                                      .read<PlacesRepository>()
-                                      .delete(state.placeId);
+                                      .read<DetailedInfoCubit>()
+                                      .onDeleteLocation();
                                   Navigator.pop(context);
                                 },
                               ),
+                              DetailedEditButton(place: state.place),
                             ],
                           ),
                         ),
@@ -123,7 +124,6 @@ class LoadedDetails extends StatelessWidget {
                       pointLongitude: state.userLongitude.toStringAsFixed(7),
                     ),
                   ),
-                  DetailedEditButton(place: state.place),
                 ],
               ),
             ),
