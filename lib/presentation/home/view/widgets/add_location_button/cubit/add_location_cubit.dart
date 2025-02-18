@@ -17,7 +17,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
     required LocationRepository locationRepository,
   })  : _placesRepository = placesRepository,
         _locationRepository = locationRepository,
-        super(AddLocationState.initial);
+        super(AddLocationState.initial(PlaceEntity.empty()));
 
   final PlacesRepository _placesRepository;
   final LocationRepository _locationRepository;

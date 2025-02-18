@@ -170,6 +170,16 @@ class S {
     );
   }
 
+  /// `Select`
+  String get button_select {
+    return Intl.message(
+      'Select',
+      name: 'button_select',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Poor compass accuracy: `
   String get low_compass_accuracy {
     return Intl.message(

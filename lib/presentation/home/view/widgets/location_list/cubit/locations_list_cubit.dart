@@ -7,6 +7,7 @@ import 'package:share_plus/share_plus.dart';
 
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 import 'package:susanin/features/places/domain/entities/places_entity.dart';
+import 'package:susanin/features/places/domain/entities/icon_entity.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 
 part 'locations_list_state.dart';
@@ -80,6 +81,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     required String longitude,
     required String notes,
     required String newLocationName,
+    required IconEntity icon,
   }) async {
     final doubleLatitude = double.tryParse(latitude);
     final doubleLongitude = double.tryParse(longitude);
@@ -90,6 +92,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
       longitude: doubleLongitude,
       notes: notes,
       name: newLocationName,
+      icon: icon,
     );
     final updateLocationResult = await _placesRepository.update(
       updatedLocation,

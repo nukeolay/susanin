@@ -1,3 +1,4 @@
+import 'package:susanin/core/constants/icon_constants.dart';
 import 'package:susanin/features/places/data/models/icon_model.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 
@@ -20,8 +21,7 @@ class PlaceModel {
       notes: entity.notes,
       name: entity.name,
       creationTime: entity.creationTime,
-      iconModel:
-          entity.icon == null ? null : IconModel.fromEntity(entity.icon!),
+      iconModel: IconModel.fromEntity(entity.icon),
     );
   }
 
@@ -66,6 +66,6 @@ class PlaceModel {
         longitude: longitude,
         notes: notes ?? '',
         name: name,
-        icon: iconModel?.toEntity(),
+        icon: iconModel?.toEntity() ?? IconConstants.standard,
       );
 }

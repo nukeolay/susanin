@@ -56,8 +56,10 @@ class LocationListItem extends StatelessWidget {
             backgroundColor: isActive
                 ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).disabledColor,
-            foregroundColor: Theme.of(context).colorScheme.inversePrimary,
-            child: const Icon(Icons.location_on_rounded),
+            child: Icon(
+              location.icon.iconData,
+              color: location.icon.color,
+            ),
           ),
           title: Text(
             location.name,

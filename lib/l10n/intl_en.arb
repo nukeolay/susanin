@@ -11,6 +11,7 @@
     "button_allow": "Allow",
     "button_cancel": "Cancel",
     "button_save": "Save",
+    "button_select": "Select",
     "low_compass_accuracy": "Poor compass accuracy: ",
     "normal_compass_accuracy": "Good compass accuracy: ",
     "compass_calibrate_instruction": "Move the phone several times in space as shown on the screen to calibrate compass.",

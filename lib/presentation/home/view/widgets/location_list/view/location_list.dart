@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:susanin/core/extensions/extensions.dart';
+import 'package:susanin/features/places/domain/entities/icon_entity.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/empty_location_list.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/loading_location_list.dart';
@@ -68,6 +69,7 @@ class _LocationListWidget extends StatelessWidget {
           model: LocationBottomSheetModel(
             id: activePlace.id,
             name: activePlace.name,
+            icon: activePlace.icon,
             latitude: activePlace.latitude,
             longitude: activePlace.longitude,
             notes: activePlace.notes,
@@ -76,12 +78,14 @@ class _LocationListWidget extends StatelessWidget {
               required String longitude,
               required String name,
               required String notes,
+              required IconEntity icon,
             }) =>
                 cubit.onSaveLocation(
               latitude: latitude,
               longitude: longitude,
               notes: notes,
               newLocationName: name,
+              icon: icon,
               id: state.activePlaceId,
             ),
           ),

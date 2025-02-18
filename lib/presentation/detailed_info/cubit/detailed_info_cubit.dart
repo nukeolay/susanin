@@ -9,6 +9,7 @@ import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
+import 'package:susanin/features/places/domain/entities/icon_entity.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 import 'package:susanin/features/places/domain/entities/places_entity.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
@@ -93,6 +94,7 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
     required String longitude,
     required String notes,
     required String newLocationName,
+    required IconEntity icon,
   }) async {
     final doubleLatitude = double.tryParse(latitude);
     final doubleLongitude = double.tryParse(longitude);
@@ -102,6 +104,7 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
       longitude: doubleLongitude,
       notes: notes,
       name: newLocationName,
+      icon: icon,
     );
     await _placesRepository.update(updatedPlace);
   }

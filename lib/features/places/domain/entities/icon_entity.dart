@@ -7,7 +7,7 @@ class IconEntity extends Equatable {
     required this.color,
   });
   final IconData iconData;
-  final Color? color;
+  final Color color;
 
   IconEntity copyWith({
     IconData? iconData,
@@ -20,5 +20,5 @@ class IconEntity extends Equatable {
   }
 
   @override
-  List<Object?> get props => [iconData.codePoint, color?.value];
+  List<Object?> get props => [iconData.codePoint, color.value];
 }
