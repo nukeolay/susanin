@@ -1,14 +1,17 @@
 part of 'app_settings_cubit.dart';
 
-sealed class AppSettingsState {
+sealed class AppSettingsState extends Equatable {
   const AppSettingsState();
 }
 
-class AppSettingsInitialState implements AppSettingsState {
+class AppSettingsInitialState extends AppSettingsState {
   const AppSettingsInitialState();
+
+  @override
+  List<Object?> get props => const [];
 }
 
-class AppSettingsLoadedState extends Equatable implements AppSettingsState {
+class AppSettingsLoadedState extends AppSettingsState {
   const AppSettingsLoadedState({
     required this.isFirstTime,
     required this.themeMode,

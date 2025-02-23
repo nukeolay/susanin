@@ -32,6 +32,9 @@ class _LocationListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<LocationsListCubit, LocationsListState>(
       listener: (context, state) {
+        if (state is! LocationsListLoadedState) {
+          return;
+        }
         if (state.status == LocationsListStatus.editing) {
           _showBottomSheet(context, state);
         } else if (state.status == LocationsListStatus.failure) {
@@ -42,9 +45,10 @@ class _LocationListWidget extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state.status == LocationsListStatus.loading) {
+        if (state is! LocationsListLoadedState) {
           return const LoadingLocationList();
-        } else if (state.places.isEmpty) {
+        }
+        if (state.places.isEmpty) {
           return const EmptyLocationList();
         } else {
           return const FilledLocationList();
@@ -55,7 +59,7 @@ class _LocationListWidget extends StatelessWidget {
 
   Future<void> _showBottomSheet(
     BuildContext context,
-    LocationsListState state,
+    LocationsListLoadedState state,
   ) async {
     final activePlace = state.activePlace;
     if (activePlace == null) {
