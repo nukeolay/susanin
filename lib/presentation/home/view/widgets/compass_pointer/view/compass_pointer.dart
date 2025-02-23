@@ -4,9 +4,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'package:susanin/core/routes/routes.dart';
+import 'package:susanin/core/navigation/routes.dart';
 import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/presentation/common/pointer.dart';
@@ -65,7 +66,7 @@ class _CompassPointerWidget extends StatelessWidget {
                 size: 30,
               ),
               onPressed: () =>
-                  Navigator.of(context).pushNamed(Routes.noCompass),
+                  GoRouter.of(context).goNamed(Routes.noCompass.name),
             );
           } else {
             return GestureDetector(

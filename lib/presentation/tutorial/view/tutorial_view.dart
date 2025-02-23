@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:susanin/core/routes/routes.dart';
+import 'package:susanin/core/navigation/routes.dart';
 import 'package:susanin/features/settings/domain/entities/settings.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
 import 'package:susanin/presentation/tutorial/view/models/slide_model.dart';
@@ -116,7 +117,7 @@ class _TutorialState extends State<TutorialView> {
         onStart: () {
           HapticFeedback.heavyImpact();
           _finishTutorial();
-          Navigator.of(context).pushReplacementNamed(Routes.home);
+          GoRouter.of(context).goNamed(Routes.home.name);
         },
         padding: EdgeInsets.only(
           left: 40,

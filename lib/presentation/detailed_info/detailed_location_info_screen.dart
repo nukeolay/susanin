@@ -9,20 +9,18 @@ import 'package:susanin/presentation/detailed_info/cubit/detailed_info_cubit.dar
 import 'package:susanin/presentation/detailed_info/view/detailed_location_info_view.dart';
 
 class DetailedInfoScreen extends StatelessWidget {
-  const DetailedInfoScreen({super.key});
+  const DetailedInfoScreen({required this.id, super.key});
+  final String id;
 
   @override
   Widget build(BuildContext context) {
-    final arguments =
-        ModalRoute.of(context)!.settings.arguments! as List<Object>;
-    final placeId = arguments[0] as String;
     return BlocProvider(
       create: (context) => DetailedInfoCubit(
         placesRepository: context.read<PlacesRepository>(),
         compassRepository: context.read<CompassRepository>(),
         locationRepository: context.read<LocationRepository>(),
         wakelockRepository: context.read<WakelockRepository>(),
-        placeId: placeId,
+        placeId: id,
       )..init(),
       child: const DetailedInfoView(),
     );

@@ -3,8 +3,9 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:susanin/core/routes/routes.dart';
+import 'package:susanin/core/navigation/routes.dart';
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/internal/cubit/app_settings_cubit.dart';
 import 'package:susanin/presentation/common/susanin_button.dart';
@@ -49,10 +50,7 @@ class SettingsView extends StatelessWidget {
                   label: context.s.button_instruction,
                   onPressed: () {
                     HapticFeedback.heavyImpact();
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      Routes.tutorial,
-                      (route) => false,
-                    );
+                    GoRouter.of(context).goNamed(Routes.tutorial.name);
                   },
                 ),
                 if (Platform.isIOS) const IosCompassSettings(),
