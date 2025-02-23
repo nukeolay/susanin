@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/places/domain/entities/icon_entity.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
+import 'package:susanin/presentation/common/state_fade_transition.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/empty_location_list.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/view/loading_location_list.dart';
 import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
@@ -28,10 +29,30 @@ class LocationList extends StatelessWidget {
 class _LocationListWidget extends StatelessWidget {
   const _LocationListWidget();
 
+  Widget _content(LocationsListState state) {
+    if (state is! LocationsListLoadedState) {
+      return const LoadingLocationList(
+        key: ValueKey('LoadingLocationList'),
+      );
+    }
+    if (state.places.isEmpty) {
+      return const EmptyLocationList(
+        key: ValueKey('EmptyLocationList'),
+      );
+    } else {
+      return const FilledLocationList(
+        key: ValueKey('FilledLocationList'),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LocationsListCubit, LocationsListState>(
       listener: (context, state) {
+        if (state is! LocationsListLoadedState) {
+          return;
+        }
         if (state.status == LocationsListStatus.editing) {
           _showBottomSheet(context, state);
         } else if (state.status == LocationsListStatus.failure) {
@@ -42,20 +63,16 @@ class _LocationListWidget extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state.status == LocationsListStatus.loading) {
-          return const LoadingLocationList();
-        } else if (state.places.isEmpty) {
-          return const EmptyLocationList();
-        } else {
-          return const FilledLocationList();
-        }
+        return StateFadeTransition(
+          child: _content(state),
+        );
       },
     );
   }
 
   Future<void> _showBottomSheet(
     BuildContext context,
-    LocationsListState state,
+    LocationsListLoadedState state,
   ) async {
     final activePlace = state.activePlace;
     if (activePlace == null) {

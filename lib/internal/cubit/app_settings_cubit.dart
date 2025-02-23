@@ -12,34 +12,31 @@ class AppSettingsCubit extends Cubit<AppSettingsState> {
   AppSettingsCubit({
     required SettingsRepository settingsRepository,
   })  : _settingsRepository = settingsRepository,
-        super(AppSettingsState.initial);
+        super(const AppSettingsInitialState());
 
   final SettingsRepository _settingsRepository;
   StreamSubscription<SettingsEntity>? _streamSubscription;
 
   void init() {
-    final stream = _settingsRepository.settingsStream;
-    final lastValue = stream.valueOrNull;
-    emit(
-      state.copyWith(
-        isFirstTime: lastValue?.isFirstTime,
-        isLoading: false,
-        themeMode: lastValue?.themeMode,
-      ),
+    _streamSubscription ??= _settingsRepository.settingsStream.listen(
+      (event) {
+        emit(
+          AppSettingsLoadedState(
+            isFirstTime: event.isFirstTime,
+            themeMode: event.themeMode,
+          ),
+        );
+      },
     );
-    _streamSubscription ??= stream.listen((event) {
-      emit(
-        state.copyWith(
-          isFirstTime: event.isFirstTime,
-          themeMode: event.themeMode,
-        ),
-      );
-    });
   }
 
   Future<void> toggleTheme() async {
+    final currentState = state;
+    if (currentState is! AppSettingsLoadedState) {
+      return;
+    }
     await _settingsRepository.setTheme(
-      state.isDarkTheme ? ThemeMode.light : ThemeMode.dark,
+      currentState.isDarkTheme ? ThemeMode.light : ThemeMode.dark,
     );
   }
 

@@ -16,29 +16,41 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   LocationsListCubit({
     required PlacesRepository placesRepository,
   })  : _placesRepository = placesRepository,
-        super(LocationsListState.initial);
+        super(const LocationsListInitialState());
 
   final PlacesRepository _placesRepository;
 
   StreamSubscription<PlacesEntity>? _placesSubscription;
 
   void init() {
-    final placesStream = _placesRepository.placesStream;
-    final initialPlaces = placesStream.valueOrNull;
-    _placesHandler(initialPlaces);
-    _placesSubscription ??= placesStream.listen(_placesHandler);
+    _placesSubscription ??= _placesRepository.placesStream.listen(
+      _placesHandler,
+    );
   }
 
   void _placesHandler(PlacesEntity? places) {
-    final previousPlaces = [...state.places];
-    emit(
-      state.copyWith(
-        status: LocationsListStatus.loaded,
-        places: places?.places ?? [],
-        previousPlaces: previousPlaces,
-        activePlaceId: places?.activePlace?.id,
-      ),
-    );
+    final currentState = state;
+    switch (currentState) {
+      case LocationsListInitialState():
+        emit(
+          LocationsListLoadedState(
+            status: LocationsListStatus.updated,
+            places: places?.places ?? [],
+            previousPlaces: const [],
+            activePlaceId: places?.activePlace?.id ?? '',
+          ),
+        );
+      case LocationsListLoadedState():
+        final previousPlaces = [...currentState.places];
+        emit(
+          currentState.copyWith(
+            status: LocationsListStatus.updated,
+            places: places?.places ?? [],
+            previousPlaces: previousPlaces,
+            activePlaceId: places?.activePlace?.id,
+          ),
+        );
+    }
   }
 
   @override
@@ -48,11 +60,15 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   Future<void> onDeleteLocation({required String id}) async {
+    final currentState = state;
+    if (currentState is! LocationsListLoadedState) {
+      return;
+    }
     final deleteLocationResult = await _placesRepository.delete(id);
     if (deleteLocationResult) {
-      emit(state.copyWith(status: LocationsListStatus.deleted));
+      emit(currentState.copyWith(status: LocationsListStatus.deleted));
     } else {
-      emit(state.copyWith(status: LocationsListStatus.failure));
+      emit(currentState.copyWith(status: LocationsListStatus.failure));
     }
   }
 
@@ -62,17 +78,25 @@ class LocationsListCubit extends Cubit<LocationsListState> {
 
   Future<void> onLongPressEdit({required String id}) async {
     await _placesRepository.select(id);
+    final currentState = state;
+    if (currentState is! LocationsListLoadedState) {
+      return;
+    }
     emit(
-      state.copyWith(
+      currentState.copyWith(
         activePlaceId: id,
         status: LocationsListStatus.editing,
-        places: state.places,
+        places: currentState.places,
       ),
     );
   }
 
   void onBottomSheetClose() {
-    emit(state.copyWith(status: LocationsListStatus.loaded));
+    final currentState = state;
+    if (currentState is! LocationsListLoadedState) {
+      return;
+    }
+    emit(currentState.copyWith(status: LocationsListStatus.updated));
   }
 
   Future<void> onSaveLocation({
@@ -83,10 +107,16 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     required String newLocationName,
     required IconEntity icon,
   }) async {
+    final currentState = state;
+    if (currentState is! LocationsListLoadedState) {
+      return;
+    }
     final doubleLatitude = double.tryParse(latitude);
     final doubleLongitude = double.tryParse(longitude);
     if (doubleLatitude == null || doubleLongitude == null) return;
-    final location = state.places.firstWhere((element) => element.id == id);
+    final location = currentState.places.firstWhere(
+      (element) => element.id == id,
+    );
     final updatedLocation = location.copyWith(
       latitude: doubleLatitude,
       longitude: doubleLongitude,
@@ -98,9 +128,9 @@ class LocationsListCubit extends Cubit<LocationsListState> {
       updatedLocation,
     );
     if (updateLocationResult) {
-      emit(state.copyWith(status: LocationsListStatus.updated));
+      emit(currentState.copyWith(status: LocationsListStatus.updated));
     } else {
-      emit(state.copyWith(status: LocationsListStatus.failure));
+      emit(currentState.copyWith(status: LocationsListStatus.failure));
     }
   }
 

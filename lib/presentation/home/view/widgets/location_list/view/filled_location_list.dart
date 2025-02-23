@@ -29,6 +29,9 @@ class _FilledLocationListState extends State<FilledLocationList> {
     final appHeight = Scaffold.of(context).appBarMaxHeight ?? 0;
     return BlocBuilder<LocationsListCubit, LocationsListState>(
       builder: (context, state) {
+        if (state is! LocationsListLoadedState) {
+          return const SizedBox();
+        }
         final places = state.places;
         if (state.places.length > state.previousPlaces.length) {
           animatedListKey.currentState?.insertItem(0);

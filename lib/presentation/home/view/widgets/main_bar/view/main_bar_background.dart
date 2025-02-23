@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/internal/cubit/app_settings_cubit.dart';
+import 'package:susanin/core/extensions/extensions.dart';
 
 class MainBarBackground extends StatelessWidget {
   const MainBarBackground({super.key});
@@ -28,10 +27,7 @@ class _ThemeIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = context.select<AppSettingsCubit, bool>(
-      (cubit) => cubit.state.isDarkTheme,
-    );
-    if (isDarkTheme) {
+    if (context.isDarkTheme()) {
       return const Icon(
         Icons.light_mode_rounded,
         color: Colors.orange,

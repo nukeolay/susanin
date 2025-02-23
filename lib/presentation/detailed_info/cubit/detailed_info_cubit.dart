@@ -13,6 +13,7 @@ import 'package:susanin/features/places/domain/entities/icon_entity.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 import 'package:susanin/features/places/domain/entities/places_entity.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
+import 'package:susanin/features/wakelock/domain/entities/wakelock_status.dart';
 import 'package:susanin/features/wakelock/domain/repositories/wakelock_repository.dart';
 
 part 'detailed_info_state.dart';
@@ -38,9 +39,9 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
   StreamSubscription<PlacesEntity>? _placesSubscription;
   StreamSubscription<PositionEntity>? _positionSubscription;
   StreamSubscription<CompassEntity>? _compassSubscription;
+  StreamSubscription<WakelockStatus>? _wakelockSubscription;
 
   void init() {
-    _updateWakelockStatus();
     final placesStream = _placesRepository.placesStream;
     final initialPlaces = placesStream.valueOrNull;
     _placesHandler(initialPlaces);
@@ -49,6 +50,8 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
         _locationRepository.positionStream.listen(_positionEventHandler);
     _compassSubscription ??=
         _compassRepository.compassStream.listen(_compassEventHandler);
+    _wakelockSubscription ??=
+        _wakelockRepository.wakelockStream.listen(_wakelockEventHandler);
   }
 
   void _placesHandler(PlacesEntity? places) {
@@ -79,15 +82,11 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
     );
   }
 
-  Future<void> toggleWakelock() async {
-    await _wakelockRepository.toggle();
-    await _updateWakelockStatus();
+  void _wakelockEventHandler(WakelockStatus status) {
+    emit(state.copyWith(isScreenAlwaysOn: status.isEnabled));
   }
 
-  Future<void> _updateWakelockStatus() async {
-    final wakelockStatus = await _wakelockRepository.wakelockStatus;
-    emit(state.copyWith(isScreenAlwaysOn: wakelockStatus.isEnabled));
-  }
+  Future<void> toggleWakelock() => _wakelockRepository.toggle();
 
   Future<void> onSaveLocation({
     required String latitude,
@@ -118,6 +117,7 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
     await _placesSubscription?.cancel();
     await _positionSubscription?.cancel();
     await _compassSubscription?.cancel();
+    await _wakelockSubscription?.cancel();
     super.close();
   }
 }

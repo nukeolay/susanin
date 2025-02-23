@@ -18,10 +18,6 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = context.select<AppSettingsCubit, bool>(
-      (cubit) => cubit.state.isDarkTheme,
-    );
-
     return Scaffold(
       appBar: AppBar(
         title: Text(context.s.settings),
@@ -36,7 +32,7 @@ class SettingsView extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               children: [
                 ThemeSwitch(
-                  isDarkTheme: isDarkTheme,
+                  isDarkTheme: context.isDarkTheme(),
                   action: (_) => context.read<AppSettingsCubit>().toggleTheme(),
                 ),
                 WakelockSwitch(
@@ -61,7 +57,7 @@ class SettingsView extends StatelessWidget {
                 ),
                 if (Platform.isIOS) const IosCompassSettings(),
                 // SusaninButton(
-                //     type: ButtonType.ghost, 
+                //     type: ButtonType.ghost,
                 //     label: 'Поставить оценку приложению',
                 //     onPressed: () {}), // ! TODO add link
               ],
