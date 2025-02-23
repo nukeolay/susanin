@@ -1,9 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:susanin/core/constants/pointer_constants.dart';
 import 'package:susanin/generated/l10n.dart';
+import 'package:susanin/internal/cubit/app_settings_cubit.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/presentation/common/susanin_bottom_sheet.dart';
 
@@ -56,4 +58,12 @@ extension ContextExtension on BuildContext {
       },
     );
   }
+
+  bool isDarkTheme() => select<AppSettingsCubit, bool>((cubit) {
+        final state = cubit.state;
+        if (state is AppSettingsLoadedState) {
+          return state.isDarkTheme;
+        }
+        return false;
+      });
 }
