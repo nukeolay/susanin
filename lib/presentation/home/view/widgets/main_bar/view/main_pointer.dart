@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/presentation/common/pointer.dart';
@@ -46,13 +47,16 @@ class MainPointer extends StatelessWidget {
             ),
           )
         else
-          Pointer(
-            rotateAngle: rotateAngle,
-            arcRadius: accuracyAngle,
-            radius: pointerSize,
-            positionAccuracy: positionAccuracy,
-            foregroundColor: Theme.of(context).colorScheme.secondary,
-            backGroundColor: Theme.of(context).colorScheme.background,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Pointer(
+              rotateAngle: rotateAngle,
+              arcRadius: accuracyAngle,
+              radius: pointerSize,
+              positionAccuracy: positionAccuracy,
+              foregroundColor: Theme.of(context).colorScheme.secondary,
+              backGroundColor: Theme.of(context).colorScheme.surface,
+            ),
           ),
         Expanded(
           child: Column(

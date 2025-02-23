@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/presentation/common/settings_switch.dart';
 import 'package:susanin/presentation/settings/cubit/settings_cubit.dart';

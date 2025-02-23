@@ -1,3 +1,5 @@
+import 'package:susanin/core/constants/icon_constants.dart';
+import 'package:susanin/features/places/data/models/icon_model.dart';
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 
 class PlaceModel {
@@ -8,6 +10,7 @@ class PlaceModel {
     required this.notes,
     required this.name,
     required this.creationTime,
+    required this.iconModel,
   });
 
   factory PlaceModel.fromEntity(PlaceEntity entity) {
@@ -18,6 +21,7 @@ class PlaceModel {
       notes: entity.notes,
       name: entity.name,
       creationTime: entity.creationTime,
+      iconModel: IconModel.fromEntity(entity.icon),
     );
   }
 
@@ -31,6 +35,9 @@ class PlaceModel {
       creationTime: DateTime.fromMillisecondsSinceEpoch(
         json['creationTime'] as int,
       ),
+      iconModel: json['iconModel'] == null
+          ? null
+          : IconModel.fromJson(json['iconModel']! as Map<String, dynamic>),
     );
   }
 
@@ -40,6 +47,7 @@ class PlaceModel {
   final String? notes;
   final String name;
   final DateTime creationTime;
+  final IconModel? iconModel;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -48,6 +56,7 @@ class PlaceModel {
         'pointName': name,
         'notes': notes,
         'creationTime': creationTime.millisecondsSinceEpoch,
+        'iconModel': iconModel?.toJson(),
       };
 
   PlaceEntity toEntity() => PlaceEntity(
@@ -57,5 +66,6 @@ class PlaceModel {
         longitude: longitude,
         notes: notes ?? '',
         name: name,
+        icon: iconModel?.toEntity() ?? IconConstants.standard,
       );
 }

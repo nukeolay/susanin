@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:susanin/features/settings/domain/entities/settings.dart';
 import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
 
@@ -36,8 +37,8 @@ class AppSettingsCubit extends Cubit<AppSettingsState> {
     });
   }
 
-  Future<void> toggleTheme() {
-    return _settingsRepository.setTheme(
+  Future<void> toggleTheme() async {
+    await _settingsRepository.setTheme(
       state.isDarkTheme ? ThemeMode.light : ThemeMode.dark,
     );
   }

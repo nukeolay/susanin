@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
+
 import 'package:susanin/core/errors/exceptions.dart' as susanin;
 import 'package:susanin/features/location/data/models/position_model.dart';
 
@@ -11,12 +12,13 @@ abstract class LocationService {
 
 class LocationServiceImpl implements LocationService {
   LocationServiceImpl({
-    this.accuracy = LocationAccuracy.best,
-    this.distanceFilter = 0,
-  });
+    LocationAccuracy accuracy = LocationAccuracy.best,
+    int distanceFilter = 0,
+  })  : _distanceFilter = distanceFilter,
+        _accuracy = accuracy;
 
-  final LocationAccuracy accuracy;
-  final int distanceFilter;
+  final LocationAccuracy _accuracy;
+  final int _distanceFilter;
 
   final StreamController<PositionModel> _positionController =
       StreamController.broadcast();
@@ -27,8 +29,8 @@ class LocationServiceImpl implements LocationService {
     await _positionSubscription?.cancel();
     _positionSubscription = Geolocator.getPositionStream(
       locationSettings: LocationSettings(
-        accuracy: accuracy,
-        distanceFilter: distanceFilter,
+        accuracy: _accuracy,
+        distanceFilter: _distanceFilter,
       ),
     ).listen(
       (event) {

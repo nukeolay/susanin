@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:susanin/core/services/local_storage.dart';
 import 'package:susanin/features/compass/data/repositories/compass_repository_impl.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';

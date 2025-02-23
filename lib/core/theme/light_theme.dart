@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:susanin/core/routes/custom_route.dart';
 
 final lightTheme = ThemeData(
@@ -26,7 +27,7 @@ final lightTheme = ThemeData(
     },
   ), colorScheme: const ColorScheme.light().copyWith(
     primary: Colors.green,
-    background: ThemeData.light().scaffoldBackgroundColor,
+    surface: ThemeData.light().scaffoldBackgroundColor,
     secondary: Colors.green,
     inversePrimary: Colors.white,
     error: Colors.red,

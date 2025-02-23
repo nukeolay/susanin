@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
-import 'package:susanin/presentation/common/blurred_bar.dart';
 import 'package:susanin/presentation/common/back_bar_button.dart';
+import 'package:susanin/presentation/common/blurred_scaffold.dart';
 import 'package:susanin/presentation/detailed_info/cubit/detailed_info_cubit.dart';
 import 'package:susanin/presentation/detailed_info/view/widgets/error_details.dart';
 import 'package:susanin/presentation/detailed_info/view/widgets/loaded_details.dart';
@@ -18,7 +19,7 @@ class DetailedInfoView extends StatelessWidget {
         context.select<DetailedInfoCubit, LocationStatus>(
       (cubit) => cubit.state.locationServiceStatus,
     );
-    return Scaffold(
+    return BlurredScaffold(
       body: Stack(
         children: [
           if (locationServiceStatus.isFailure)
@@ -35,24 +36,6 @@ class DetailedInfoView extends StatelessWidget {
             right: 0,
             child: BackBarButton(
               text: context.s.button_back_to_locations,
-            ),
-          ),
-          // status bar blur
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: BlurredBar(
-              height: MediaQuery.of(context).viewPadding.top,
-            ),
-          ),
-          // navigation bar blur
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: BlurredBar(
-              height: MediaQuery.of(context).viewPadding.bottom,
             ),
           ),
         ],

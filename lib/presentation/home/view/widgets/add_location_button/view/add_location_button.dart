@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:susanin/core/constants/icon_constants.dart';
 import 'package:susanin/core/extensions/extensions.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 import 'package:susanin/presentation/home/view/widgets/add_location_button/cubit/add_location_cubit.dart';
-import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/location_bottom_sheet.dart';
+import 'package:susanin/presentation/location_bottom_sheet/location_bottom_sheet.dart';
+import 'package:susanin/presentation/location_bottom_sheet/view/location_bottom_sheet_view.dart';
 
 class AddNewLocationButton extends StatelessWidget {
   const AddNewLocationButton({super.key});
@@ -68,7 +71,8 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
             onPressed: () {
               HapticFeedback.heavyImpact();
               context.read<AddLocationCubit>().onPressAdd(
-                    context.s.location_default_name,
+                    pointName: context.s.location_default_name,
+                    icon: IconConstants.standard,
                   );
             },
             child: const Icon(Icons.add_location_alt_rounded),
@@ -88,7 +92,9 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
         builder: (ctx) {
           return LocationBottomSheet(
             model: LocationBottomSheetModel(
+              id: null,
               name: state.name,
+              icon: state.icon,
               latitude: state.latitude,
               longitude: state.longitude,
               saveLocation: onSaveLocation,

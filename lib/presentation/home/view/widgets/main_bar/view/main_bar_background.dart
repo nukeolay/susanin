@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:susanin/internal/cubit/app_settings_cubit.dart';
 
 class MainBarBackground extends StatelessWidget {

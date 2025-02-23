@@ -47,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "button_next": MessageLookupByLibrary.simpleMessage("Далее"),
         "button_no": MessageLookupByLibrary.simpleMessage("Нет"),
         "button_save": MessageLookupByLibrary.simpleMessage("Сохранить"),
+        "button_select": MessageLookupByLibrary.simpleMessage("Выбрать"),
         "button_start": MessageLookupByLibrary.simpleMessage("Начать"),
         "button_yes": MessageLookupByLibrary.simpleMessage("Да"),
         "compass_calibrate_instruction": MessageLookupByLibrary.simpleMessage(

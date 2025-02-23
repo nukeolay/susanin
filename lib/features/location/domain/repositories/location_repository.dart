@@ -1,4 +1,5 @@
 import 'package:rxdart/rxdart.dart';
+
 import 'package:susanin/features/location/domain/entities/position.dart';
 
 abstract class LocationRepository {

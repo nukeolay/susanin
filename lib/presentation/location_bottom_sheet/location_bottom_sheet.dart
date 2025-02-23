@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/presentation/common/susanin_button.dart';
-import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/bloc/validator_bloc.dart';
-import 'package:susanin/presentation/home/view/widgets/location_bottom_sheet/view/widgets/validator_text_field.dart';
 
-part 'view/location_bottom_sheet_view.dart';
-part 'view/widgets/save_button.dart';
-part 'view/widgets/cancel_button.dart';
+import 'package:susanin/features/places/domain/entities/icon_entity.dart';
+import 'package:susanin/presentation/location_bottom_sheet/bloc/validator_bloc.dart';
+import 'package:susanin/presentation/location_bottom_sheet/view/location_bottom_sheet_view.dart';
 
 class LocationBottomSheetModel {
   const LocationBottomSheetModel({
+    required this.id,
     required this.name,
+    required this.icon,
     required this.latitude,
     required this.longitude,
     required this.saveLocation,
     required this.notes,
   });
 
+  final String? id;
   final String name;
+  final IconEntity icon;
   final double latitude;
   final double longitude;
   final String notes;
@@ -37,10 +37,11 @@ class LocationBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => LocationValidatorBloc(),
-      child: _LocationBottomSheetView(
+      child: LocationBottomSheetView(
         latitude: model.latitude.toString(),
         longitude: model.longitude.toString(),
         name: model.name,
+        icon: model.icon,
         notes: model.notes,
         saveLocation: model.saveLocation,
       ),

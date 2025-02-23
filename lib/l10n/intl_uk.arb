@@ -11,6 +11,7 @@
     "button_allow": "Дозволити",
     "button_cancel": "Скасування",
     "button_save": "Зберегти",
+    "button_select": "Вибрати",
     "low_compass_accuracy": "Низька точність компасу: ",
     "normal_compass_accuracy": "Точность компаса высокая: ",
     "compass_calibrate_instruction": "Щоб збільшити точність компаса, кілька разів перемістіть телефон у просторі, як зазначено вище.",

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
+
 import 'package:susanin/core/routes/routes.dart';
 import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
@@ -112,14 +113,17 @@ class _LoadedCompassState extends State<_LoadedCompass> {
 
   @override
   Widget build(BuildContext context) {
-    return Pointer(
-      rotateAngle: widget.state.angle,
-      arcRadius: widget.state.accuracy,
-      radius: 40,
-      foregroundColor: Colors.white,
-      backGroundColor: (widget.state.needCalibration && Platform.isAndroid)
-          ? _color
-          : Colors.grey,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Pointer(
+        rotateAngle: widget.state.angle,
+        arcRadius: widget.state.accuracy,
+        radius: 40,
+        foregroundColor: Colors.white,
+        backGroundColor: (widget.state.needCalibration && Platform.isAndroid)
+            ? _color
+            : Colors.grey,
+      ),
     );
   }
 

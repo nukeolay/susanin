@@ -5,49 +5,49 @@ enum ButtonType {
   secondary,
   ghost;
 
-  MaterialStateProperty<Color?>? foregroundColor(BuildContext context) {
+  WidgetStateProperty<Color?>? foregroundColor(BuildContext context) {
     switch (this) {
       case primary:
-        return MaterialStateProperty.all(
+        return WidgetStateProperty.all(
           Theme.of(context).colorScheme.inversePrimary,
         );
       case secondary:
         return null;
       case ghost:
-        return MaterialStateProperty.all(
+        return WidgetStateProperty.all(
           Theme.of(context).colorScheme.inversePrimary,
         );
     }
   }
 
-  MaterialStateProperty<Color?>? backgroundColor(BuildContext context) {
+  WidgetStateProperty<Color?>? backgroundColor(BuildContext context) {
     switch (this) {
       case primary:
-        return MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.disabled)) {
+        return WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.disabled)) {
             return Theme.of(context).disabledColor;
           }
-          if (states.contains(MaterialState.pressed)) {
+          if (states.contains(WidgetState.pressed)) {
             return Theme.of(context).primaryColor.withOpacity(0.8);
           }
           return Theme.of(context).primaryColor;
         });
       case secondary:
-        return MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.disabled)) {
+        return WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.disabled)) {
             return Theme.of(context).disabledColor;
           }
-          if (states.contains(MaterialState.pressed)) {
+          if (states.contains(WidgetState.pressed)) {
             return Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8);
           }
           return Theme.of(context).scaffoldBackgroundColor;
         });
       case ghost:
-        return MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.disabled)) {
+        return WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.disabled)) {
             return Theme.of(context).disabledColor;
           }
-          if (states.contains(MaterialState.pressed)) {
+          if (states.contains(WidgetState.pressed)) {
             return Theme.of(context).primaryColorDark.withOpacity(0.8);
           }
           return Theme.of(context).primaryColorDark;
@@ -73,10 +73,10 @@ class SusaninButton extends StatelessWidget {
     final radius = BorderRadius.circular(12.0);
     return ElevatedButton(
       style: ButtonStyle(
-        elevation: MaterialStateProperty.all(0),
+        elevation: WidgetStateProperty.all(0),
         backgroundColor: type.backgroundColor(context),
         foregroundColor: type.foregroundColor(context),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(borderRadius: radius),
         ),
       ),

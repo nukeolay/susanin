@@ -1,4 +1,5 @@
 import 'package:rxdart/rxdart.dart';
+
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 import 'package:susanin/features/places/domain/entities/places_entity.dart';
 

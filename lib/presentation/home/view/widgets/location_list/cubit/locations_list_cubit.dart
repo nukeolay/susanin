@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
+
 import 'package:susanin/features/places/domain/entities/place_entity.dart';
 import 'package:susanin/features/places/domain/entities/places_entity.dart';
+import 'package:susanin/features/places/domain/entities/icon_entity.dart';
 import 'package:susanin/features/places/domain/repositories/places_repository.dart';
 
 part 'locations_list_state.dart';
@@ -27,10 +30,12 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   void _placesHandler(PlacesEntity? places) {
+    final previousPlaces = [...state.places];
     emit(
       state.copyWith(
         status: LocationsListStatus.loaded,
         places: places?.places ?? [],
+        previousPlaces: previousPlaces,
         activePlaceId: places?.activePlace?.id,
       ),
     );
@@ -56,18 +61,12 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   Future<void> onLongPressEdit({required String id}) async {
-    final place = state.places.firstWhere((location) => location.id == id);
     await _placesRepository.select(id);
     emit(
-      EditPlaceState(
+      state.copyWith(
         activePlaceId: id,
         status: LocationsListStatus.editing,
-        name: place.name,
-        latitude: place.latitude,
-        longitude: place.longitude,
         places: state.places,
-        place: place,
-        notes: place.notes,
       ),
     );
   }
@@ -82,6 +81,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     required String longitude,
     required String notes,
     required String newLocationName,
+    required IconEntity icon,
   }) async {
     final doubleLatitude = double.tryParse(latitude);
     final doubleLongitude = double.tryParse(longitude);
@@ -92,6 +92,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
       longitude: doubleLongitude,
       notes: notes,
       name: newLocationName,
+      icon: icon,
     );
     final updateLocationResult = await _placesRepository.update(
       updatedLocation,
@@ -105,7 +106,8 @@ class LocationsListCubit extends Cubit<LocationsListState> {
 
   Future<bool> onShare(PlaceEntity place) async {
     final shareLink =
-        '${place.name} https://www.google.com/maps/search/?api=1&query=${place.latitude},${place.longitude}';
+        '${place.name} https://www.google.com/maps/search/?api=1&query='
+        '${place.latitude},${place.longitude}';
     await Share.share(shareLink);
     return false;
   }

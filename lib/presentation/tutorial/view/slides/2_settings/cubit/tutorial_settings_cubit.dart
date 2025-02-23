@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
@@ -47,8 +48,8 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
     emit(state.copyWith(locationStatus: locationStatus));
   }
 
-  Future<void> toggleTheme() {
-    return _settingsRepository.setTheme(
+  Future<void> toggleTheme() async {
+    await _settingsRepository.setTheme(
       state.isDarkTheme ? ThemeMode.light : ThemeMode.dark,
     );
   }
