@@ -7,6 +7,7 @@ import 'package:susanin/features/compass/domain/entities/compass.dart';
 import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
 import 'package:susanin/features/location/domain/entities/position.dart';
 import 'package:susanin/features/location/domain/repositories/location_repository.dart';
+import 'package:susanin/features/wakelock/domain/entities/wakelock_status.dart';
 import 'package:susanin/features/wakelock/domain/repositories/wakelock_repository.dart';
 
 part 'settings_state.dart';
@@ -26,13 +27,15 @@ class SettingsCubit extends Cubit<SettingsState> {
   final WakelockRepository _wakelockRepository;
   StreamSubscription<CompassEntity>? _compassSubscription;
   StreamSubscription<PositionEntity>? _positionSubscription;
+  StreamSubscription<WakelockStatus>? _wakelockSubscription;
 
   void init() {
-    _updateWakelockStatus();
     _compassSubscription ??=
         _compassRepository.compassStream.listen(_compassEventHandler);
     _positionSubscription ??=
         _locationRepository.positionStream.listen(_positionEventHandler);
+    _wakelockSubscription ??=
+        _wakelockRepository.wakelockStream.listen(_wakelockEventHandler);
   }
 
   void _compassEventHandler(CompassEntity entity) {
@@ -43,25 +46,22 @@ class SettingsCubit extends Cubit<SettingsState> {
     emit(state.copyWith(locationServiceStatus: entity.status));
   }
 
+  void _wakelockEventHandler(WakelockStatus status) {
+    emit(state.copyWith(isScreenAlwaysOn: status.isEnabled));
+  }
+
   Future<void> getPermission() async {
     final status = await _locationRepository.requestPermission();
     emit(state.copyWith(locationServiceStatus: status));
   }
 
-  Future<void> toggleWakelock() async {
-    await _wakelockRepository.toggle();
-    await _updateWakelockStatus();
-  }
-
-  Future<void> _updateWakelockStatus() async {
-    final wakelockStatus = await _wakelockRepository.wakelockStatus;
-    emit(state.copyWith(isScreenAlwaysOn: wakelockStatus.isEnabled));
-  }
+  Future<void> toggleWakelock() => _wakelockRepository.toggle();
 
   @override
   Future<void> close() async {
     await _compassSubscription?.cancel();
     await _positionSubscription?.cancel();
+    await _wakelockSubscription?.cancel();
     super.close();
   }
 }
