@@ -65,9 +65,8 @@ class _MainBarForeground extends StatelessWidget {
             behavior: HitTestBehavior.translucent,
             onTap: () {
               HapticFeedback.heavyImpact();
-              GoRouter.of(context).goNamed(
-                Routes.detailedLocationInfo.name,
-                pathParameters: {'id': state.activePlace.id},
+              GoRouter.of(context).go(
+                Routes.location(state.activePlace.id),
               );
             },
             child: NoCompassPointer(state: state),
@@ -83,9 +82,8 @@ class _MainBarForeground extends StatelessWidget {
           behavior: HitTestBehavior.translucent,
           onTap: () {
             HapticFeedback.heavyImpact();
-            GoRouter.of(context).goNamed(
-              Routes.detailedLocationInfo.name,
-              pathParameters: {'id': state.activePlace.id},
+            GoRouter.of(context).go(
+              Routes.location(state.activePlace.id),
             );
           },
           child: MainPointerDefault(state: state),

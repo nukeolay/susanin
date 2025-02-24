@@ -117,7 +117,7 @@ class _TutorialState extends State<TutorialView> {
         onStart: () {
           HapticFeedback.heavyImpact();
           _finishTutorial();
-          GoRouter.of(context).goNamed(Routes.home.name);
+          GoRouter.of(context).go(Routes.home);
         },
         padding: EdgeInsets.only(
           left: 40,

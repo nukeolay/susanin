@@ -63,8 +63,8 @@ class _SusaninAppState extends State<SusaninApp> {
           return;
         }
         _uiSetup(state.isDarkTheme);
-        _router.goNamed(
-          state.isFirstTime ? Routes.tutorial.name : Routes.home.name,
+        _router.go(
+          state.isFirstTime ? Routes.tutorial : Routes.home,
         );
       },
       builder: (context, state) {

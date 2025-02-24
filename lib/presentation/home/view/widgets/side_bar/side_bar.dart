@@ -18,7 +18,7 @@ class SideBar extends StatelessWidget {
           icon: const Icon(Icons.settings),
           onPressed: () {
             HapticFeedback.heavyImpact();
-            GoRouter.of(context).goNamed(Routes.settings.name);
+            GoRouter.of(context).go(Routes.settings);
           },
         ),
       ],

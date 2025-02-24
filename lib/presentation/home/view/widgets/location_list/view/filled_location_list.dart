@@ -71,10 +71,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
   void _onPressed(String id, String activeId) {
     HapticFeedback.heavyImpact();
     if (id == activeId) {
-      GoRouter.of(context).goNamed(
-        Routes.detailedLocationInfo.name,
-        pathParameters: {'id': activeId},
-      );
+      GoRouter.of(context).go(Routes.location(activeId));
     } else {
       final cubit = context.read<LocationsListCubit>();
       cubit.onPressed(id: id);

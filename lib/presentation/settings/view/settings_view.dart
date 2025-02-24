@@ -50,7 +50,7 @@ class SettingsView extends StatelessWidget {
                   label: context.s.button_instruction,
                   onPressed: () {
                     HapticFeedback.heavyImpact();
-                    GoRouter.of(context).goNamed(Routes.tutorial.name);
+                    GoRouter.of(context).go(Routes.tutorial);
                   },
                 ),
                 if (Platform.isIOS) const IosCompassSettings(),

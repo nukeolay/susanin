@@ -65,8 +65,7 @@ class _CompassPointerWidget extends StatelessWidget {
                 color: Colors.grey,
                 size: 30,
               ),
-              onPressed: () =>
-                  GoRouter.of(context).goNamed(Routes.noCompass.name),
+              onPressed: () => GoRouter.of(context).go(Routes.noCompass),
             );
           } else {
             return GestureDetector(
