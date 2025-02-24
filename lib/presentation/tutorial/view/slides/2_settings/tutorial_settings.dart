@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
-import 'package:susanin/presentation/common/ios_compass_settings.dart';
-import 'package:susanin/presentation/common/settings_switch.dart';
-import 'package:susanin/presentation/tutorial/view/slides/2_settings/cubit/tutorial_settings_cubit.dart';
-import 'package:susanin/presentation/tutorial/view/widgets/tutorial_text.dart';
+import '../../../../../core/extensions/extensions.dart';
+import '../../../../../features/compass/domain/repositories/compass_repository.dart';
+import '../../../../../features/location/domain/repositories/location_repository.dart';
+import '../../../../../features/settings/domain/repositories/settings_repository.dart';
+import '../../../../common/ios_compass_settings.dart';
+import '../../../../common/settings_switch.dart';
+import 'cubit/tutorial_settings_cubit.dart';
+import '../../widgets/tutorial_text.dart';
 
 class TutorialSettings extends StatelessWidget {
   const TutorialSettings({super.key});

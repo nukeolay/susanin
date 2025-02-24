@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:susanin/core/constants/icon_constants.dart';
-import 'package:susanin/features/places/domain/entities/icon_entity.dart';
+import '../../../../core/constants/icon_constants.dart';
+import '../../domain/entities/icon_entity.dart';
 
 class IconModel {
   const IconModel({

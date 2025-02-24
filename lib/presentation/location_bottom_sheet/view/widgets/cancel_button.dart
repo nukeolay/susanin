@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/presentation/common/susanin_button.dart';
+import '../../../../core/extensions/extensions.dart';
+import '../../../common/susanin_button.dart';
 
 class CancelButton extends StatelessWidget {
   const CancelButton({super.key});

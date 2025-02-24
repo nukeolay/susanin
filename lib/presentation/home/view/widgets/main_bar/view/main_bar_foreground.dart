@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:susanin/core/navigation/routes.dart';
-import 'package:susanin/internal/cubit/app_settings_cubit.dart';
-import 'package:susanin/presentation/home/view/widgets/main_bar/cubit/main_pointer_cubit.dart';
-import 'package:susanin/presentation/home/view/widgets/main_bar/view/main_pointer.dart';
-import 'package:susanin/presentation/home/view/widgets/main_bar/view/no_compass_pointer.dart';
+import '../../../../../../core/navigation/routes.dart';
+import '../../../../../../internal/cubit/app_settings_cubit.dart';
+import '../cubit/main_pointer_cubit.dart';
+import 'main_pointer.dart';
+import 'no_compass_pointer.dart';
 
 class MainBarForeground extends StatelessWidget {
   const MainBarForeground({super.key});

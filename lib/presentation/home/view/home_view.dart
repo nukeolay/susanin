@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:susanin/presentation/common/blurred_scaffold.dart';
-import 'package:susanin/presentation/home/view/widgets/add_location_button/view/add_location_button.dart';
-import 'package:susanin/presentation/home/view/widgets/location_list/view/location_list.dart';
-import 'package:susanin/presentation/home/view/widgets/main_bar/view/main_bar.dart';
-import 'package:susanin/presentation/home/view/widgets/side_bar/side_bar.dart';
+import '../../common/blurred_scaffold.dart';
+import 'widgets/add_location_button/view/add_location_button.dart';
+import 'widgets/location_list/view/location_list.dart';
+import 'widgets/main_bar/view/main_bar.dart';
+import 'widgets/side_bar/side_bar.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});

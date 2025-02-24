@@ -5,14 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:susanin/core/navigation/routes.dart';
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/internal/cubit/app_settings_cubit.dart';
-import 'package:susanin/presentation/common/susanin_button.dart';
-import 'package:susanin/presentation/common/ios_compass_settings.dart';
-import 'package:susanin/presentation/settings/cubit/settings_cubit.dart';
-import 'package:susanin/presentation/common/settings_switch.dart';
-import 'package:susanin/presentation/settings/view/widgets/settings_switches.dart';
+import '../../../core/navigation/routes.dart';
+import '../../../core/extensions/extensions.dart';
+import '../../../internal/cubit/app_settings_cubit.dart';
+import '../../common/susanin_button.dart';
+import '../../common/ios_compass_settings.dart';
+import '../cubit/settings_cubit.dart';
+import '../../common/settings_switch.dart';
+import 'widgets/settings_switches.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/presentation/common/susanin_snackbar.dart';
+import '../../../../core/extensions/extensions.dart';
+import '../../../common/susanin_snackbar.dart';
 
 class CopyButton extends StatelessWidget {
   const CopyButton({

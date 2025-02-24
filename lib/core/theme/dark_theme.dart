@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:susanin/core/navigation/page_transition.dart';
+import '../navigation/page_transition.dart';
 
 final darkTheme = ThemeData.dark().copyWith(
   primaryColor: Colors.green,

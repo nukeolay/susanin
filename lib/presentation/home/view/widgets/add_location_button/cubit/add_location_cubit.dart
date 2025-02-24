@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/features/location/domain/entities/position.dart';
-import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/places/domain/entities/icon_entity.dart';
-import 'package:susanin/features/places/domain/entities/place_entity.dart';
-import 'package:susanin/features/places/domain/repositories/places_repository.dart';
+import '../../../../../../features/location/domain/entities/position.dart';
+import '../../../../../../features/location/domain/repositories/location_repository.dart';
+import '../../../../../../features/places/domain/entities/icon_entity.dart';
+import '../../../../../../features/places/domain/entities/place_entity.dart';
+import '../../../../../../features/places/domain/repositories/places_repository.dart';
 
 part 'add_location_state.dart';
 

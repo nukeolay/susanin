@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
 
-import 'package:susanin/core/errors/exceptions.dart';
-import 'package:susanin/features/location/data/models/position_model.dart';
-import 'package:susanin/features/location/data/services/permission_service.dart';
-import 'package:susanin/features/location/data/services/location_service.dart';
-import 'package:susanin/features/location/domain/entities/position.dart';
-import 'package:susanin/features/location/domain/repositories/location_repository.dart';
+import '../../../../core/errors/exceptions.dart';
+import '../models/position_model.dart';
+import '../services/permission_service.dart';
+import '../services/location_service.dart';
+import '../../domain/entities/position.dart';
+import '../../domain/repositories/location_repository.dart';
 
 class LocationRepositoryImpl implements LocationRepository {
   LocationRepositoryImpl({

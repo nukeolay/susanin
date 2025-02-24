@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:susanin/presentation/common/susanin_button.dart';
+import 'susanin_button.dart';
 
 class BackBarButton extends StatelessWidget {
   const BackBarButton({required this.text, super.key});

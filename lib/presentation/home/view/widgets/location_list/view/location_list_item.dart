@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/places/domain/entities/place_entity.dart';
+import '../../../../../../core/extensions/extensions.dart';
+import '../../../../../../features/places/domain/entities/place_entity.dart';
 
 class LocationListItem extends StatelessWidget {
   const LocationListItem({

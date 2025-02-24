@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:susanin/presentation/common/susanin_button.dart';
+import 'susanin_button.dart';
 
 class SusaninIconButton extends StatelessWidget {
   const SusaninIconButton({

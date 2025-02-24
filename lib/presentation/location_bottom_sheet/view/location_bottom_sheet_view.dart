@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/places/domain/entities/icon_entity.dart';
-import 'package:susanin/presentation/location_bottom_sheet/bloc/validator_bloc.dart';
-import 'package:susanin/presentation/location_bottom_sheet/view/widgets/cancel_button.dart';
-import 'package:susanin/presentation/location_bottom_sheet/view/widgets/icon_selector/icon_selector.dart';
-import 'package:susanin/presentation/location_bottom_sheet/view/widgets/save_button.dart';
-import 'package:susanin/presentation/location_bottom_sheet/view/widgets/validator_text_field.dart';
+import '../../../core/extensions/extensions.dart';
+import '../../../features/places/domain/entities/icon_entity.dart';
+import '../bloc/validator_bloc.dart';
+import 'widgets/cancel_button.dart';
+import 'widgets/icon_selector/icon_selector.dart';
+import 'widgets/save_button.dart';
+import 'widgets/validator_text_field.dart';
 
 typedef PlaceCallback = Future<void> Function({
   required String name,

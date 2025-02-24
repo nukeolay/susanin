@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/places/domain/repositories/places_repository.dart';
-import 'package:susanin/presentation/home/view/widgets/main_bar/cubit/main_pointer_cubit.dart';
-import 'package:susanin/presentation/home/view/widgets/main_bar/view/main_bar_background.dart';
-import 'package:susanin/presentation/home/view/widgets/main_bar/view/main_bar_foreground.dart';
+import '../../../../../../features/compass/domain/repositories/compass_repository.dart';
+import '../../../../../../features/location/domain/repositories/location_repository.dart';
+import '../../../../../../features/places/domain/repositories/places_repository.dart';
+import '../cubit/main_pointer_cubit.dart';
+import 'main_bar_background.dart';
+import 'main_bar_foreground.dart';
 
 class MainBar extends StatelessWidget {
   const MainBar({super.key});

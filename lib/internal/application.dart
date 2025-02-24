@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:susanin/core/navigation/router.dart';
-import 'package:susanin/core/navigation/routes.dart';
-import 'package:susanin/core/theme/dark_theme.dart';
-import 'package:susanin/core/theme/light_theme.dart';
-import 'package:susanin/internal/cubit/app_settings_cubit.dart';
-import 'package:susanin/generated/l10n.dart';
+import '../core/navigation/router.dart';
+import '../core/navigation/routes.dart';
+import '../core/theme/dark_theme.dart';
+import '../core/theme/light_theme.dart';
+import 'cubit/app_settings_cubit.dart';
+import '../generated/l10n.dart';
 
 class SusaninApp extends StatefulWidget {
   const SusaninApp();

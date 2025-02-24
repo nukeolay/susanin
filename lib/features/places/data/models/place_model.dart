@@ -1,6 +1,6 @@
-import 'package:susanin/core/constants/icon_constants.dart';
-import 'package:susanin/features/places/data/models/icon_model.dart';
-import 'package:susanin/features/places/domain/entities/place_entity.dart';
+import '../../../../core/constants/icon_constants.dart';
+import 'icon_model.dart';
+import '../../domain/entities/place_entity.dart';
 
 class PlaceModel {
   const PlaceModel({

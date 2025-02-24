@@ -1,12 +1,12 @@
 import 'package:go_router/go_router.dart';
 
-import 'package:susanin/core/navigation/routes.dart';
-import 'package:susanin/presentation/detailed_info/detailed_location_info_screen.dart';
-import 'package:susanin/presentation/home/home_screen.dart';
-import 'package:susanin/presentation/no_compass/no_compass_screen.dart';
-import 'package:susanin/presentation/settings/settings_screen.dart';
-import 'package:susanin/presentation/splash/splash_screen.dart';
-import 'package:susanin/presentation/tutorial/tutorial_screen.dart';
+import 'routes.dart';
+import '../../presentation/detailed_info/detailed_location_info_screen.dart';
+import '../../presentation/home/home_screen.dart';
+import '../../presentation/no_compass/no_compass_screen.dart';
+import '../../presentation/settings/settings_screen.dart';
+import '../../presentation/splash/splash_screen.dart';
+import '../../presentation/tutorial/tutorial_screen.dart';
 
 GoRouter createRouter() => GoRouter(
       initialLocation: Routes.splash,

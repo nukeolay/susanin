@@ -1,5 +1,5 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:susanin/features/settings/domain/entities/settings.dart';
+import '../entities/settings.dart';
 
 abstract class SettingsRepository {
   const SettingsRepository();

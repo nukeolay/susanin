@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:susanin/core/extensions/extensions.dart';
+import '../../../../../../core/extensions/extensions.dart';
 
 class EmptyLocationList extends StatelessWidget {
   const EmptyLocationList({super.key});

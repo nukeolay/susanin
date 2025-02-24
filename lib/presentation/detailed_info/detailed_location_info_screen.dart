@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/places/domain/repositories/places_repository.dart';
-import 'package:susanin/features/wakelock/domain/repositories/wakelock_repository.dart';
-import 'package:susanin/presentation/detailed_info/cubit/detailed_info_cubit.dart';
-import 'package:susanin/presentation/detailed_info/view/detailed_location_info_view.dart';
+import '../../features/compass/domain/repositories/compass_repository.dart';
+import '../../features/location/domain/repositories/location_repository.dart';
+import '../../features/places/domain/repositories/places_repository.dart';
+import '../../features/wakelock/domain/repositories/wakelock_repository.dart';
+import 'cubit/detailed_info_cubit.dart';
+import 'view/detailed_location_info_view.dart';
 
 class DetailedInfoScreen extends StatelessWidget {
   const DetailedInfoScreen({required this.id, super.key});
