@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/presentation/tutorial/view/models/slide_model.dart';
-import 'package:susanin/presentation/tutorial/view/slides/2_settings/tutorial_settings.dart';
+import '../../../../../core/extensions/extensions.dart';
+import '../../models/slide_model.dart';
+import 'tutorial_settings.dart';
 
 class SettingSlide extends SlideModel {
   SettingSlide(BuildContext context)

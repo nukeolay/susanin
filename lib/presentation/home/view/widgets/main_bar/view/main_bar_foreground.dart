@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:susanin/core/routes/routes.dart';
-import 'package:susanin/internal/cubit/app_settings_cubit.dart';
-import 'package:susanin/presentation/home/view/widgets/main_bar/cubit/main_pointer_cubit.dart';
-import 'package:susanin/presentation/home/view/widgets/main_bar/view/main_pointer.dart';
-import 'package:susanin/presentation/home/view/widgets/main_bar/view/no_compass_pointer.dart';
+import '../../../../../../core/navigation/routes.dart';
+import '../../../../../../internal/cubit/app_settings_cubit.dart';
+import '../cubit/main_pointer_cubit.dart';
+import 'main_pointer.dart';
+import 'no_compass_pointer.dart';
 
 class MainBarForeground extends StatelessWidget {
   const MainBarForeground({super.key});
@@ -64,9 +65,8 @@ class _MainBarForeground extends StatelessWidget {
             behavior: HitTestBehavior.translucent,
             onTap: () {
               HapticFeedback.heavyImpact();
-              Navigator.of(context).pushNamed(
-                Routes.detailedLocationInfo,
-                arguments: [state.activePlace.id],
+              GoRouter.of(context).go(
+                Routes.location(state.activePlace.id),
               );
             },
             child: NoCompassPointer(state: state),
@@ -82,9 +82,8 @@ class _MainBarForeground extends StatelessWidget {
           behavior: HitTestBehavior.translucent,
           onTap: () {
             HapticFeedback.heavyImpact();
-            Navigator.of(context).pushNamed(
-              Routes.detailedLocationInfo,
-              arguments: [state.activePlace.id],
+            GoRouter.of(context).go(
+              Routes.location(state.activePlace.id),
             );
           },
           child: MainPointerDefault(state: state),

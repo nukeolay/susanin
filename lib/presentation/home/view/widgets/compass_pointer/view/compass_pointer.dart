@@ -4,14 +4,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'package:susanin/core/routes/routes.dart';
-import 'package:susanin/features/compass/domain/entities/compass.dart';
-import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/presentation/common/pointer.dart';
-import 'package:susanin/presentation/home/view/widgets/compass_pointer/cubit/compass_cubit.dart';
-import 'package:susanin/presentation/home/view/widgets/compass_pointer/view/calibrate_bottom_sheet.dart';
+import '../../../../../../core/navigation/routes.dart';
+import '../../../../../../features/compass/domain/entities/compass.dart';
+import '../../../../../../features/compass/domain/repositories/compass_repository.dart';
+import '../../../../../common/pointer.dart';
+import '../cubit/compass_cubit.dart';
+import 'calibrate_bottom_sheet.dart';
 
 class CompassPointer extends StatelessWidget {
   const CompassPointer({super.key});
@@ -64,8 +65,7 @@ class _CompassPointerWidget extends StatelessWidget {
                 color: Colors.grey,
                 size: 30,
               ),
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(Routes.noCompass),
+              onPressed: () => GoRouter.of(context).go(Routes.noCompass),
             );
           } else {
             return GestureDetector(

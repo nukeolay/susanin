@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:susanin/core/constants/icon_constants.dart';
-import 'package:susanin/features/places/domain/entities/icon_entity.dart';
+import '../../../../core/constants/icon_constants.dart';
+import 'icon_entity.dart';
 
 class PlaceEntity extends Equatable {
   const PlaceEntity({

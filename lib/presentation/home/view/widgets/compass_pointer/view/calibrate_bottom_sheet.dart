@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/presentation/common/susanin_bottom_sheet.dart';
-import 'package:susanin/presentation/common/back_bar_button.dart';
-import 'package:susanin/presentation/home/view/widgets/compass_pointer/cubit/compass_cubit.dart';
+import '../../../../../../core/extensions/extensions.dart';
+import '../../../../../common/susanin_bottom_sheet.dart';
+import '../../../../../common/back_bar_button.dart';
+import '../cubit/compass_cubit.dart';
 
 class CalibrateBottomSheet extends StatelessWidget {
   const CalibrateBottomSheet({super.key});

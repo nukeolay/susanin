@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/core/mixins/pointer_calculations.dart';
-import 'package:susanin/features/compass/domain/entities/compass.dart';
-import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/location/domain/entities/position.dart';
-import 'package:susanin/features/location/domain/repositories/location_repository.dart';
+import '../../../../../../core/mixins/pointer_calculations.dart';
+import '../../../../../../features/compass/domain/entities/compass.dart';
+import '../../../../../../features/compass/domain/repositories/compass_repository.dart';
+import '../../../../../../features/location/domain/entities/position.dart';
+import '../../../../../../features/location/domain/repositories/location_repository.dart';
 
 part 'demo_pointer_state.dart';
 

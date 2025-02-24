@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/places/domain/entities/icon_entity.dart';
-import 'package:susanin/features/places/domain/repositories/places_repository.dart';
-import 'package:susanin/presentation/common/state_fade_transition.dart';
-import 'package:susanin/presentation/home/view/widgets/location_list/view/empty_location_list.dart';
-import 'package:susanin/presentation/home/view/widgets/location_list/view/loading_location_list.dart';
-import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
-import 'package:susanin/presentation/home/view/widgets/location_list/view/filled_location_list.dart';
-import 'package:susanin/presentation/location_bottom_sheet/location_bottom_sheet.dart';
+import '../../../../../../core/extensions/extensions.dart';
+import '../../../../../../features/places/domain/entities/icon_entity.dart';
+import '../../../../../../features/places/domain/repositories/places_repository.dart';
+import '../../../../../common/state_fade_transition.dart';
+import 'empty_location_list.dart';
+import 'loading_location_list.dart';
+import '../cubit/locations_list_cubit.dart';
+import 'filled_location_list.dart';
+import '../../../../../location_bottom_sheet/location_bottom_sheet.dart';
 
 class LocationList extends StatelessWidget {
   const LocationList({super.key});

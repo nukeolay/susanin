@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:susanin/core/routes/routes.dart';
-import 'package:susanin/features/places/domain/entities/place_entity.dart';
-import 'package:susanin/presentation/common/remove_location_dialog.dart';
-import 'package:susanin/presentation/home/view/widgets/location_list/cubit/locations_list_cubit.dart';
-import 'package:susanin/presentation/home/view/widgets/location_list/view/location_list_item.dart';
+import '../../../../../../core/navigation/routes.dart';
+import '../../../../../../features/places/domain/entities/place_entity.dart';
+import '../../../../../common/remove_location_dialog.dart';
+import '../cubit/locations_list_cubit.dart';
+import 'location_list_item.dart';
 
 class FilledLocationList extends StatefulWidget {
   const FilledLocationList({super.key});
@@ -70,10 +71,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
   void _onPressed(String id, String activeId) {
     HapticFeedback.heavyImpact();
     if (id == activeId) {
-      Navigator.of(context).pushNamed(
-        Routes.detailedLocationInfo,
-        arguments: [activeId],
-      );
+      GoRouter.of(context).go(Routes.location(activeId));
     } else {
       final cubit = context.read<LocationsListCubit>();
       cubit.onPressed(id: id);

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 
-import 'package:susanin/presentation/detailed_info/cubit/detailed_info_cubit.dart';
+import '../../cubit/detailed_info_cubit.dart';
 
 class DetailedMapButton extends StatelessWidget {
   const DetailedMapButton({super.key});

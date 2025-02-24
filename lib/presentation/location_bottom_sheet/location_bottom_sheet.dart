@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/features/places/domain/entities/icon_entity.dart';
-import 'package:susanin/presentation/location_bottom_sheet/bloc/validator_bloc.dart';
-import 'package:susanin/presentation/location_bottom_sheet/view/location_bottom_sheet_view.dart';
+import '../../features/places/domain/entities/icon_entity.dart';
+import 'bloc/validator_bloc.dart';
+import 'view/location_bottom_sheet_view.dart';
 
 class LocationBottomSheetModel {
   const LocationBottomSheetModel({

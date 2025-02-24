@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:susanin/presentation/tutorial/view/tutorial_view.dart';
+import 'view/tutorial_view.dart';
 
 class TutorialScreen extends StatelessWidget {
   const TutorialScreen({super.key});

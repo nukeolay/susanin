@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/presentation/common/pointer.dart';
-import 'package:susanin/presentation/detailed_info/cubit/detailed_info_cubit.dart';
-import 'package:susanin/presentation/detailed_info/view/widgets/detailed_notes.dart';
-import 'package:susanin/presentation/detailed_info/view/widgets/edit_button.dart';
-import 'package:susanin/presentation/detailed_info/view/widgets/location_details.dart';
-import 'package:susanin/presentation/detailed_info/view/widgets/map_button.dart';
-import 'package:susanin/presentation/detailed_info/view/widgets/remove_button.dart';
-import 'package:susanin/presentation/detailed_info/view/widgets/wakelock_button.dart';
+import '../../../../core/extensions/extensions.dart';
+import '../../../common/pointer.dart';
+import '../../cubit/detailed_info_cubit.dart';
+import 'detailed_notes.dart';
+import 'edit_button.dart';
+import 'location_details.dart';
+import 'map_button.dart';
+import 'remove_button.dart';
+import 'wakelock_button.dart';
 
 class LoadedDetails extends StatelessWidget {
   const LoadedDetails({super.key});

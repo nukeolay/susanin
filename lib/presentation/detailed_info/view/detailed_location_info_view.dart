@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/location/domain/entities/position.dart';
-import 'package:susanin/presentation/common/back_bar_button.dart';
-import 'package:susanin/presentation/common/blurred_scaffold.dart';
-import 'package:susanin/presentation/detailed_info/cubit/detailed_info_cubit.dart';
-import 'package:susanin/presentation/detailed_info/view/widgets/error_details.dart';
-import 'package:susanin/presentation/detailed_info/view/widgets/loaded_details.dart';
-import 'package:susanin/presentation/detailed_info/view/widgets/loading_details.dart';
+import '../../../core/extensions/extensions.dart';
+import '../../../features/location/domain/entities/position.dart';
+import '../../common/back_bar_button.dart';
+import '../../common/blurred_scaffold.dart';
+import '../cubit/detailed_info_cubit.dart';
+import 'widgets/error_details.dart';
+import 'widgets/loaded_details.dart';
+import 'widgets/loading_details.dart';
 
 class DetailedInfoView extends StatelessWidget {
   const DetailedInfoView({super.key});

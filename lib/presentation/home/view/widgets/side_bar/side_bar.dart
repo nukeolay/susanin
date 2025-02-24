@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:susanin/core/routes/routes.dart';
-import 'package:susanin/presentation/home/view/widgets/compass_pointer/view/compass_pointer.dart';
+import '../../../../../core/navigation/routes.dart';
+import '../compass_pointer/view/compass_pointer.dart';
 
 class SideBar extends StatelessWidget {
   const SideBar({super.key});
@@ -17,7 +18,7 @@ class SideBar extends StatelessWidget {
           icon: const Icon(Icons.settings),
           onPressed: () {
             HapticFeedback.heavyImpact();
-            Navigator.of(context).pushNamed(Routes.settings);
+            GoRouter.of(context).go(Routes.settings);
           },
         ),
       ],

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/presentation/common/pointer.dart';
-import 'package:susanin/presentation/tutorial/view/slides/3_demo_pointer/cubit/demo_pointer_cubit.dart';
+import '../../../../../core/extensions/extensions.dart';
+import '../../../../../features/compass/domain/repositories/compass_repository.dart';
+import '../../../../../features/location/domain/repositories/location_repository.dart';
+import '../../../../common/pointer.dart';
+import 'cubit/demo_pointer_cubit.dart';
 
 class DemoPointer extends StatelessWidget {
   const DemoPointer({super.key});

@@ -16,6 +16,8 @@ analyzer:
 # can be found at https://dart-lang.github.io/linter/lints/options/options.html
 linter:
   rules:
+    prefer_relative_imports: true
+    always_use_package_imports: false
     directives_ordering: false
     sort_pub_dependencies: false
     # Util classes are awesome!

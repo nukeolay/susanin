@@ -4,17 +4,17 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:susanin/core/mixins/pointer_calculations.dart';
-import 'package:susanin/features/compass/domain/entities/compass.dart';
-import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/location/domain/entities/position.dart';
-import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/places/domain/entities/icon_entity.dart';
-import 'package:susanin/features/places/domain/entities/place_entity.dart';
-import 'package:susanin/features/places/domain/entities/places_entity.dart';
-import 'package:susanin/features/places/domain/repositories/places_repository.dart';
-import 'package:susanin/features/wakelock/domain/entities/wakelock_status.dart';
-import 'package:susanin/features/wakelock/domain/repositories/wakelock_repository.dart';
+import '../../../core/mixins/pointer_calculations.dart';
+import '../../../features/compass/domain/entities/compass.dart';
+import '../../../features/compass/domain/repositories/compass_repository.dart';
+import '../../../features/location/domain/entities/position.dart';
+import '../../../features/location/domain/repositories/location_repository.dart';
+import '../../../features/places/domain/entities/icon_entity.dart';
+import '../../../features/places/domain/entities/place_entity.dart';
+import '../../../features/places/domain/entities/places_entity.dart';
+import '../../../features/places/domain/repositories/places_repository.dart';
+import '../../../features/wakelock/domain/entities/wakelock_status.dart';
+import '../../../features/wakelock/domain/repositories/wakelock_repository.dart';
 
 part 'detailed_info_state.dart';
 

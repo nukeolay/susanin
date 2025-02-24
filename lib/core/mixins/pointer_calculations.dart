@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:susanin/core/constants/pointer_constants.dart';
-import 'package:susanin/core/extensions/extensions.dart';
+import '../constants/pointer_constants.dart';
+import '../extensions/extensions.dart';
 
 mixin PointerCalculations {
   double get compassNorth;

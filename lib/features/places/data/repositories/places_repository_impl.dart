@@ -4,11 +4,11 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:susanin/core/services/local_storage.dart';
-import 'package:susanin/features/places/data/models/place_model.dart';
-import 'package:susanin/features/places/domain/entities/place_entity.dart';
-import 'package:susanin/features/places/domain/entities/places_entity.dart';
-import 'package:susanin/features/places/domain/repositories/places_repository.dart';
+import '../../../../core/services/local_storage.dart';
+import '../models/place_model.dart';
+import '../../domain/entities/place_entity.dart';
+import '../../domain/entities/places_entity.dart';
+import '../../domain/repositories/places_repository.dart';
 
 class PlacesRepositoryImpl extends PlacesRepository {
   PlacesRepositoryImpl(this._localStorage) {

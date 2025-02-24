@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:susanin/core/routes/routes.dart';
-import 'package:susanin/features/settings/domain/entities/settings.dart';
-import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
-import 'package:susanin/presentation/tutorial/view/models/slide_model.dart';
-import 'package:susanin/presentation/tutorial/view/widgets/slide_tile.dart';
-import 'package:susanin/presentation/tutorial/view/slides/1_welcome/welcome_slide.dart';
-import 'package:susanin/presentation/tutorial/view/slides/2_settings/settings_slide.dart';
-import 'package:susanin/presentation/tutorial/view/slides/3_demo_pointer/demo_pointer_slide.dart';
-import 'package:susanin/presentation/tutorial/view/widgets/tutorial_bottom_bar.dart';
+import '../../../core/navigation/routes.dart';
+import '../../../features/settings/domain/entities/settings.dart';
+import '../../../features/settings/domain/repositories/settings_repository.dart';
+import 'models/slide_model.dart';
+import 'widgets/slide_tile.dart';
+import 'slides/1_welcome/welcome_slide.dart';
+import 'slides/2_settings/settings_slide.dart';
+import 'slides/3_demo_pointer/demo_pointer_slide.dart';
+import 'widgets/tutorial_bottom_bar.dart';
 
 class TutorialView extends StatefulWidget {
   const TutorialView({super.key});
@@ -116,7 +117,7 @@ class _TutorialState extends State<TutorialView> {
         onStart: () {
           HapticFeedback.heavyImpact();
           _finishTutorial();
-          Navigator.of(context).pushReplacementNamed(Routes.home);
+          GoRouter.of(context).go(Routes.home);
         },
         padding: EdgeInsets.only(
           left: 40,

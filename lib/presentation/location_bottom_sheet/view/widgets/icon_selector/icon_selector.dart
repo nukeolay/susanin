@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/core/constants/icon_constants.dart';
-import 'package:susanin/features/places/domain/entities/icon_entity.dart';
-import 'package:susanin/presentation/common/susanin_button.dart';
-import 'package:susanin/presentation/common/susanin_dialog_shell.dart';
-import 'package:susanin/presentation/location_bottom_sheet/view/widgets/icon_selector/selectable_icon.dart';
+import '../../../../../core/extensions/extensions.dart';
+import '../../../../../core/constants/icon_constants.dart';
+import '../../../../../features/places/domain/entities/icon_entity.dart';
+import '../../../../common/susanin_button.dart';
+import '../../../../common/susanin_dialog_shell.dart';
+import 'selectable_icon.dart';
 
 Future<IconEntity> showIconSelectorDialog({
   required BuildContext context,
