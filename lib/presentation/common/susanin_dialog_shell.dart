@@ -3,10 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class SusaninDialogShell extends StatelessWidget {
-  const SusaninDialogShell({
-    required this.child,
-    super.key,
-  });
+  const SusaninDialogShell({required this.child, super.key});
 
   final Widget child;
 
@@ -23,8 +20,9 @@ class SusaninDialogShell extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color:
-                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
+                color: Theme.of(
+                  context,
+                ).scaffoldBackgroundColor.withValues(alpha: 0.5),
               ),
               child: child,
             ),

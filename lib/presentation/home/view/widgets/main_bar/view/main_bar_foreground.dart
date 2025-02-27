@@ -37,7 +37,7 @@ class MainBarForeground extends StatelessWidget {
               : Theme.of(context).colorScheme.primary,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withValues(alpha: 0.5),
               blurRadius: 4.0,
               spreadRadius: 0.5,
               offset: const Offset(-2, 3.0),

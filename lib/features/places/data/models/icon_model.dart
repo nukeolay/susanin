@@ -14,7 +14,7 @@ class IconModel {
     return IconModel(
       codePoint: entity.iconData.codePoint,
       fontFamily: entity.iconData.fontFamily,
-      color: entity.color.value,
+      color: entity.color.toARGB32(),
     );
   }
 
