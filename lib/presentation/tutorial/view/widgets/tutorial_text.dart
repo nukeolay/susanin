@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TutorialText extends StatelessWidget {
-  const TutorialText(
-    this.text, {
-    this.isError = false,
-    super.key,
-  });
+  const TutorialText(this.text, {this.isError = false, super.key});
 
   final String text;
   final bool isError;
@@ -16,9 +12,12 @@ class TutorialText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        color: isError
-            ? Theme.of(context).colorScheme.error
-            : Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.7),
+        color:
+            isError
+                ? Theme.of(context).colorScheme.error
+                : Theme.of(
+                  context,
+                ).textTheme.bodyLarge!.color!.withValues(alpha: 0.7),
         fontSize: fontSize,
         height: 1.1,
       ),

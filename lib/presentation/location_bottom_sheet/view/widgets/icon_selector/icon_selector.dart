@@ -41,7 +41,7 @@ class _IconSelectorState extends State<IconSelector> {
     super.initState();
     _colors = IconConstants.colors;
     final color = _colors.firstWhereOrNull(
-      (color) => color.value == widget.icon.color.value,
+      (color) => color == widget.icon.color,
     );
     _colorIndex = _colors.indexOf(color ?? _colors.first);
     _icons = IconConstants.icons;

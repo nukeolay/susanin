@@ -56,7 +56,7 @@ class Pointer extends StatelessWidget {
                 radius: _getPositionAccuracyRadius(positionAccuracy!),
                 backgroundColor: _isPositionAccuracyMax(positionAccuracy!)
                     ? Theme.of(context).colorScheme.error
-                    : foregroundColor.withOpacity(0.2),
+                    : foregroundColor.withValues(alpha: 0.2),
               ),
             Container(
               alignment: Alignment.center,

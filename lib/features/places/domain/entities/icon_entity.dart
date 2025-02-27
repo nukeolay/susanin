@@ -20,5 +20,5 @@ class IconEntity extends Equatable {
   }
 
   @override
-  List<Object?> get props => [iconData.codePoint, color.value];
+  List<Object?> get props => [iconData.codePoint, color];
 }

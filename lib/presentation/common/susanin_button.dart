@@ -28,7 +28,7 @@ enum ButtonType {
             return Theme.of(context).disabledColor;
           }
           if (states.contains(WidgetState.pressed)) {
-            return Theme.of(context).primaryColor.withOpacity(0.8);
+            return Theme.of(context).primaryColor.withValues(alpha: 0.8);
           }
           return Theme.of(context).primaryColor;
         });
@@ -38,7 +38,9 @@ enum ButtonType {
             return Theme.of(context).disabledColor;
           }
           if (states.contains(WidgetState.pressed)) {
-            return Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8);
+            return Theme.of(
+              context,
+            ).scaffoldBackgroundColor.withValues(alpha: 0.8);
           }
           return Theme.of(context).scaffoldBackgroundColor;
         });
@@ -48,7 +50,7 @@ enum ButtonType {
             return Theme.of(context).disabledColor;
           }
           if (states.contains(WidgetState.pressed)) {
-            return Theme.of(context).primaryColorDark.withOpacity(0.8);
+            return Theme.of(context).primaryColorDark.withValues(alpha: 0.8);
           }
           return Theme.of(context).primaryColorDark;
         });
