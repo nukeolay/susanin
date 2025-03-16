@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,9 +27,15 @@ class _SusaninAppState extends State<SusaninApp> {
   @override
   void initState() {
     super.initState();
-    context.read<ReviewRepository>().incrementLaunches();
-    context.read<ReviewRepository>().checkAndShowReviewPrompt();
     _router = createRouter();
+    // ignore: discarded_futures
+    _onInit().ignore();
+  }
+
+  Future<void> _onInit() async {
+    final reviewRepository = context.read<ReviewRepository>();
+    await reviewRepository.incrementLaunches();
+    await reviewRepository.checkAndShowReviewPrompt();
   }
 
   Future<void> _uiSetup(bool isDarkTheme) async {
@@ -45,11 +53,13 @@ class _SusaninAppState extends State<SusaninApp> {
         systemNavigationBarColor: Colors.transparent,
       ),
     );
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    unawaited(
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]),
+    );
+    unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
   }
 
   @override
@@ -63,7 +73,7 @@ class _SusaninAppState extends State<SusaninApp> {
         if (state is! AppSettingsLoadedState) {
           return;
         }
-        _uiSetup(state.isDarkTheme);
+        unawaited(_uiSetup(state.isDarkTheme));
         _router.go(state.isFirstTime ? Routes.tutorial : Routes.home);
       },
       builder: (context, state) {

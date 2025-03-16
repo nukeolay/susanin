@@ -6,14 +6,15 @@ import 'internal/application.dart';
 import 'internal/cubit/app_settings_cubit.dart';
 import 'features/settings/domain/repositories/settings_repository.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     DiProvider(
       child: BlocProvider(
-        create: (context) => AppSettingsCubit(
-          settingsRepository: context.read<SettingsRepository>(),
-        )..init(),
+        create:
+            (context) => AppSettingsCubit(
+              settingsRepository: context.read<SettingsRepository>(),
+            )..init(),
         child: const SusaninApp(),
       ),
     ),

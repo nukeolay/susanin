@@ -1,4 +1,5 @@
-import 'dart:io' show Platform;
+import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,8 +13,8 @@ import '../../../generated/l10n.dart';
 import '../../../internal/cubit/app_settings_cubit.dart';
 import '../../common/susanin_button.dart';
 import '../../common/ios_compass_settings.dart';
-import '../cubit/settings_cubit.dart';
 import '../../common/settings_switch.dart';
+import '../cubit/settings_cubit.dart';
 import 'widgets/settings_switches.dart';
 
 class SettingsView extends StatelessWidget {
@@ -36,22 +37,40 @@ class SettingsView extends StatelessWidget {
               children: [
                 ThemeSwitch(
                   isDarkTheme: context.isDarkTheme(),
-                  action: (_) => context.read<AppSettingsCubit>().toggleTheme(),
+                  action:
+                      (_) =>
+                          context
+                              .read<AppSettingsCubit>()
+                              // ignore: discarded_futures
+                              .toggleTheme()
+                              .ignore(),
                 ),
                 WakelockSwitch(
                   switchValue: state.isScreenAlwaysOn,
-                  action: (_) => context.read<SettingsCubit>().toggleWakelock(),
+                  action:
+                      (_) =>
+                          context
+                              .read<SettingsCubit>()
+                              // ignore: discarded_futures
+                              .toggleWakelock()
+                              .ignore(),
                 ),
                 LocationServiceSwitch(
                   locationStatus: state.locationServiceStatus,
-                  action: (_) => context.read<SettingsCubit>().getPermission(),
+                  action:
+                      (_) =>
+                          context
+                              .read<SettingsCubit>()
+                              // ignore: discarded_futures
+                              .getPermission()
+                              .ignore(),
                 ),
                 if (!Platform.isIOS) HasCompassSwitch(state: state),
                 SusaninButton(
                   type: ButtonType.ghost,
                   label: context.s.button_instruction,
                   onPressed: () {
-                    HapticFeedback.heavyImpact();
+                    unawaited(HapticFeedback.heavyImpact());
                     GoRouter.of(context).go(Routes.tutorial);
                   },
                 ),
@@ -60,7 +79,11 @@ class SettingsView extends StatelessWidget {
                   type: ButtonType.ghost,
                   label: S.of(context).review_button,
                   onPressed: () {
-                    context.read<ReviewRepository>().showReviewPrompt();
+                    context
+                        .read<ReviewRepository>()
+                        // ignore: discarded_futures
+                        .showReviewPrompt()
+                        .ignore();
                   },
                 ),
               ],
