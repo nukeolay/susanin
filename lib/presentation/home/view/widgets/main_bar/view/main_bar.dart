@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../features/compass/domain/repositories/compass_repository.dart';
 import '../../../../../../features/location/domain/repositories/location_repository.dart';
 import '../../../../../../features/places/domain/repositories/places_repository.dart';
+import '../../../../../common/snackbar_error_handler.dart';
 import '../cubit/main_pointer_cubit.dart';
 import 'main_bar_background.dart';
 import 'main_bar_foreground.dart';
@@ -21,11 +22,13 @@ class MainBar extends StatelessWidget {
         children: [
           const MainBarBackground(),
           BlocProvider(
-            create: (context) => MainPointerCubit(
-              compassRepository: compassRepository,
-              locationRepository: locationRepository,
-              placesRepository: placesRepository,
-            )..init(),
+            create:
+                (context) => MainPointerCubit(
+                  compassRepository: compassRepository,
+                  locationRepository: locationRepository,
+                  placesRepository: placesRepository,
+                  // ignore: discarded_futures
+                )..init().onError(SnackBarErrorHandler(context).onError),
             child: const MainBarForeground(),
           ),
         ],

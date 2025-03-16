@@ -10,6 +10,8 @@ import '../features/location/data/services/permission_service.dart';
 import '../features/location/domain/repositories/location_repository.dart';
 import '../features/places/data/repositories/places_repository_impl.dart';
 import '../features/places/domain/repositories/places_repository.dart';
+import '../features/review/data/review_repository_impl.dart';
+import '../features/review/domain/review_repository.dart';
 import '../features/settings/data/repositories/settings_repository_impl.dart';
 import '../features/settings/domain/repositories/settings_repository.dart';
 import '../features/wakelock/data/repositories/wakelock_repository_impl.dart';
@@ -52,6 +54,16 @@ class DiProvider extends StatelessWidget {
         RepositoryProvider<WakelockRepository>(
           create: (context) => WakelockRepositoryImpl(
             const WakelockServiceImpl(),
+          ),
+        ),
+        RepositoryProvider<ReviewRepository>(
+          create: (context) => ReviewRepositoryImpl(
+            localStrorage: context.read<LocalStorage>(),
+            androidAppId: 'com.qumyz.susanin',
+            iosAppId: 'id1624344201',
+            onError: () {
+              //
+            },
           ),
         ),
       ],

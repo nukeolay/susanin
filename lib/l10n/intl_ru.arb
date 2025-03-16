@@ -48,7 +48,7 @@
     "error_geolocation_permission": "Отсутствует доступ к сервису геолокации.",
     "error_geolocation_disabled": "Cервис геолокации выключен",
     "error_title": "Ошибка",
-    "error_unknown": "Неизвестный сбой",
+    "error_unknown": "Неизвестная ошибка",
     "less_than_5_m": "менее 5 м",
     "error_geolocation_permission_short": "Разрешение не выдано",
     "location_name": "название локации",
@@ -61,5 +61,8 @@
     "always_on_display_off": "Автоматическое выключение дисплея включено",
     "copied": "Скопировано",
     "notes": "заметки",
-    "location_default_name": "локация"
+    "location_default_name": "локация",
+    "review_button": "Оценить приложение",
+    "review_error": "Не удалось открыть магазин приложений",
+    "snack_bar_error_default_text": "Произошла ошибка"
 }

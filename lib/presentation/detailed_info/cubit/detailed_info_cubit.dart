@@ -118,6 +118,6 @@ class DetailedInfoCubit extends Cubit<DetailedInfoState> {
     await _positionSubscription?.cancel();
     await _compassSubscription?.cancel();
     await _wakelockSubscription?.cancel();
-    super.close();
+    return super.close();
   }
 }

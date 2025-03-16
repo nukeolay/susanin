@@ -3,7 +3,7 @@ description: Susanin.
 
 publish_to: 'none'
 
-version: 3.0.1+36
+version: 3.1.0+37
 
 environment:
   sdk: '>=3.7.0 <4.0.0'
@@ -27,13 +27,14 @@ dependencies:
   maps_launcher: ^3.0.0+1
   rxdart: ^0.28.0
   go_router: ^14.8.1
+  in_app_review: ^2.0.10
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   icons_launcher: ^2.1.7
-  # flutter_lints: ^3.0.1
-  lint: ^2.0.0
+  flutter_lints: ^5.0.0
 
 flutter_icons:
   android: true

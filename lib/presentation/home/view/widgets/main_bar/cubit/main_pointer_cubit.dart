@@ -85,6 +85,6 @@ class MainPointerCubit extends Cubit<MainPointerState> {
     await _positionSubscription?.cancel();
     await _compassSubscription?.cancel();
     await _activePlaceSubscription?.cancel();
-    super.close();
+    return super.close();
   }
 }

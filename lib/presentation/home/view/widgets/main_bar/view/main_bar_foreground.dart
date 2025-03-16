@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../../core/navigation/routes.dart';
 import '../../../../../../internal/cubit/app_settings_cubit.dart';
+import '../../../../../common/snackbar_error_handler.dart';
 import '../cubit/main_pointer_cubit.dart';
 import 'main_pointer.dart';
 import 'no_compass_pointer.dart';
@@ -21,8 +24,12 @@ class MainBarForeground extends StatelessWidget {
       key: const ValueKey('main_pointer'),
       direction: DismissDirection.endToStart,
       confirmDismiss: (DismissDirection dismissDirection) {
-        HapticFeedback.heavyImpact();
-        context.read<AppSettingsCubit>().toggleTheme();
+        unawaited(HapticFeedback.heavyImpact());
+        unawaited(
+          context.read<AppSettingsCubit>().toggleTheme().onError(
+            SnackBarErrorHandler(context).onError,
+          ),
+        );
         return Future.value(false);
       },
       child: Container(
@@ -32,9 +39,10 @@ class MainBarForeground extends StatelessWidget {
             topRight: Radius.circular(20),
             bottomRight: Radius.circular(20),
           ),
-          color: isFailure
-              ? Theme.of(context).colorScheme.error
-              : Theme.of(context).colorScheme.primary,
+          color:
+              isFailure
+                  ? Theme.of(context).colorScheme.error
+                  : Theme.of(context).colorScheme.primary,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.5),
@@ -64,10 +72,8 @@ class _MainBarForeground extends StatelessWidget {
           return GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {
-              HapticFeedback.heavyImpact();
-              GoRouter.of(context).go(
-                Routes.location(state.activePlace.id),
-              );
+              unawaited(HapticFeedback.heavyImpact());
+              GoRouter.of(context).go(Routes.location(state.activePlace.id));
             },
             child: NoCompassPointer(state: state),
           );
@@ -81,10 +87,8 @@ class _MainBarForeground extends StatelessWidget {
         return GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: () {
-            HapticFeedback.heavyImpact();
-            GoRouter.of(context).go(
-              Routes.location(state.activePlace.id),
-            );
+            unawaited(HapticFeedback.heavyImpact());
+            GoRouter.of(context).go(Routes.location(state.activePlace.id));
           },
           child: MainPointerDefault(state: state),
         );

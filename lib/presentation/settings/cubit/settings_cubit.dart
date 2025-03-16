@@ -62,6 +62,6 @@ class SettingsCubit extends Cubit<SettingsState> {
     await _compassSubscription?.cancel();
     await _positionSubscription?.cancel();
     await _wakelockSubscription?.cancel();
-    super.close();
+    return super.close();
   }
 }

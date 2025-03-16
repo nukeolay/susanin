@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/navigation/routes.dart';
 import '../../../features/settings/domain/entities/settings.dart';
 import '../../../features/settings/domain/repositories/settings_repository.dart';
+import '../../common/snackbar_error_handler.dart';
 import 'models/slide_model.dart';
 import 'widgets/slide_tile.dart';
 import 'slides/1_welcome/welcome_slide.dart';
@@ -107,16 +110,20 @@ class _TutorialState extends State<TutorialView> {
         currentIndex: _currentIndex,
         slideQuantity: _slides.length,
         onNext: () {
-          HapticFeedback.heavyImpact();
-          _pageController.animateToPage(
-            _currentIndex + 1,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.linear,
+          unawaited(HapticFeedback.heavyImpact());
+          unawaited(
+            _pageController.animateToPage(
+              _currentIndex + 1,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.linear,
+            ),
           );
         },
         onStart: () {
-          HapticFeedback.heavyImpact();
-          _finishTutorial();
+          unawaited(HapticFeedback.heavyImpact());
+          unawaited(
+            _finishTutorial().onError(SnackBarErrorHandler(context).onError),
+          );
           GoRouter.of(context).go(Routes.home);
         },
         padding: EdgeInsets.only(

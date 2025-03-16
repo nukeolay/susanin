@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,8 +10,9 @@ import '../core/navigation/router.dart';
 import '../core/navigation/routes.dart';
 import '../core/theme/dark_theme.dart';
 import '../core/theme/light_theme.dart';
-import 'cubit/app_settings_cubit.dart';
+import '../features/review/domain/review_repository.dart';
 import '../generated/l10n.dart';
+import 'cubit/app_settings_cubit.dart';
 
 class SusaninApp extends StatefulWidget {
   const SusaninApp();
@@ -25,6 +28,14 @@ class _SusaninAppState extends State<SusaninApp> {
   void initState() {
     super.initState();
     _router = createRouter();
+    // ignore: discarded_futures
+    _onInit().ignore();
+  }
+
+  Future<void> _onInit() async {
+    final reviewRepository = context.read<ReviewRepository>();
+    await reviewRepository.incrementLaunches();
+    await reviewRepository.checkAndShowReviewPrompt();
   }
 
   Future<void> _uiSetup(bool isDarkTheme) async {
@@ -42,30 +53,24 @@ class _SusaninAppState extends State<SusaninApp> {
         systemNavigationBarColor: Colors.transparent,
       ),
     );
-    SystemChrome.setPreferredOrientations(
-      [
+    unawaited(
+      SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
-      ],
+      ]),
     );
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppSettingsCubit, AppSettingsState>(
-      listenWhen: (previous, current) {
-        return previous is AppSettingsInitialState &&
-            current is AppSettingsLoadedState;
-      },
       listener: (context, state) {
         if (state is! AppSettingsLoadedState) {
           return;
         }
-        _uiSetup(state.isDarkTheme);
-        _router.go(
-          state.isFirstTime ? Routes.tutorial : Routes.home,
-        );
+        unawaited(_uiSetup(state.isDarkTheme));
+        _router.go(state.isFirstTime ? Routes.tutorial : Routes.home);
       },
       builder: (context, state) {
         final isDark = state is AppSettingsLoadedState && state.isDarkTheme;

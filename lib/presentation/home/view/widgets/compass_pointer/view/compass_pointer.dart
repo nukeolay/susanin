@@ -21,9 +21,7 @@ class CompassPointer extends StatelessWidget {
   Widget build(BuildContext context) {
     final compassRepository = context.read<CompassRepository>();
     return BlocProvider(
-      create: (_) => CompassCubit(
-        compassRepository: compassRepository,
-      )..init(),
+      create: (_) => CompassCubit(compassRepository: compassRepository)..init(),
       child: const _CompassPointerWidget(),
     );
   }
@@ -70,12 +68,13 @@ class _CompassPointerWidget extends StatelessWidget {
           } else {
             return GestureDetector(
               behavior: HitTestBehavior.translucent,
-              onTap: (state.needCalibration && Platform.isAndroid)
-                  ? () {
-                      HapticFeedback.heavyImpact();
-                      _showBottomSheet(context);
-                    }
-                  : null,
+              onTap:
+                  (state.needCalibration && Platform.isAndroid)
+                      ? () {
+                        unawaited(HapticFeedback.heavyImpact());
+                        _showBottomSheet(context);
+                      }
+                      : null,
               child: _LoadedCompass(state: state),
             );
           }
@@ -120,9 +119,10 @@ class _LoadedCompassState extends State<_LoadedCompass> {
         arcRadius: widget.state.accuracy,
         radius: 40,
         foregroundColor: Colors.white,
-        backGroundColor: (widget.state.needCalibration && Platform.isAndroid)
-            ? _color
-            : Colors.grey,
+        backGroundColor:
+            (widget.state.needCalibration && Platform.isAndroid)
+                ? _color
+                : Colors.grey,
       ),
     );
   }

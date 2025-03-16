@@ -1,21 +1,25 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/extensions/extensions.dart';
 import '../../../features/places/domain/entities/icon_entity.dart';
+import '../../common/snackbar_error_handler.dart';
 import '../bloc/validator_bloc.dart';
 import 'widgets/cancel_button.dart';
 import 'widgets/icon_selector/icon_selector.dart';
 import 'widgets/save_button.dart';
 import 'widgets/validator_text_field.dart';
 
-typedef PlaceCallback = Future<void> Function({
-  required String name,
-  required String notes,
-  required String latitude,
-  required String longitude,
-  required IconEntity icon,
-});
+typedef PlaceCallback =
+    Future<void> Function({
+      required String name,
+      required String notes,
+      required String latitude,
+      required String longitude,
+      required IconEntity icon,
+    });
 
 class LocationBottomSheetView extends StatefulWidget {
   const LocationBottomSheetView({
@@ -93,10 +97,7 @@ class _LocationBottomSheetViewState extends State<LocationBottomSheetView> {
                       CircleAvatar(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         child: IconButton(
-                          icon: Icon(
-                            _icon.iconData,
-                            color: _icon.color,
-                          ),
+                          icon: Icon(_icon.iconData, color: _icon.color),
                           iconSize: 24,
                           color: Theme.of(context).colorScheme.inversePrimary,
                           onPressed: () async {
@@ -154,20 +155,22 @@ class _LocationBottomSheetViewState extends State<LocationBottomSheetView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const Expanded(
-                      child: CancelButton(),
-                    ),
+                    const Expanded(child: CancelButton()),
                     const SizedBox(width: 16),
                     Expanded(
                       child: SaveButton(
                         isValid: validatorState.isValid,
                         onSave: () {
-                          widget.saveLocation(
-                            latitude: _latitudeController.text,
-                            longitude: _longitudeController.text,
-                            name: _nameController.text,
-                            notes: _notesController.text,
-                            icon: _icon,
+                          unawaited(
+                            widget
+                                .saveLocation(
+                                  latitude: _latitudeController.text,
+                                  longitude: _longitudeController.text,
+                                  name: _nameController.text,
+                                  notes: _notesController.text,
+                                  icon: _icon,
+                                )
+                                .onError(SnackBarErrorHandler(context).onError),
                           );
                           Navigator.pop(context);
                         },
