@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/navigation/routes.dart';
 import '../../../core/extensions/extensions.dart';
+import '../../../features/review/domain/review_repository.dart';
+import '../../../generated/l10n.dart';
 import '../../../internal/cubit/app_settings_cubit.dart';
 import '../../common/susanin_button.dart';
 import '../../common/ios_compass_settings.dart';
@@ -54,10 +56,13 @@ class SettingsView extends StatelessWidget {
                   },
                 ),
                 if (Platform.isIOS) const IosCompassSettings(),
-                // SusaninButton(
-                //     type: ButtonType.ghost,
-                //     label: 'Поставить оценку приложению',
-                //     onPressed: () {}), // ! TODO add link
+                SusaninButton(
+                  type: ButtonType.ghost,
+                  label: S.of(context).review_button,
+                  onPressed: () {
+                    context.read<ReviewRepository>().showReviewPrompt();
+                  },
+                ),
               ],
             );
           },

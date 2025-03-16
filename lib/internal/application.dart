@@ -8,8 +8,9 @@ import '../core/navigation/router.dart';
 import '../core/navigation/routes.dart';
 import '../core/theme/dark_theme.dart';
 import '../core/theme/light_theme.dart';
-import 'cubit/app_settings_cubit.dart';
+import '../features/review/domain/review_repository.dart';
 import '../generated/l10n.dart';
+import 'cubit/app_settings_cubit.dart';
 
 class SusaninApp extends StatefulWidget {
   const SusaninApp();
@@ -24,6 +25,8 @@ class _SusaninAppState extends State<SusaninApp> {
   @override
   void initState() {
     super.initState();
+    context.read<ReviewRepository>().incrementLaunches();
+    context.read<ReviewRepository>().checkAndShowReviewPrompt();
     _router = createRouter();
   }
 
@@ -42,12 +45,10 @@ class _SusaninAppState extends State<SusaninApp> {
         systemNavigationBarColor: Colors.transparent,
       ),
     );
-    SystemChrome.setPreferredOrientations(
-      [
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ],
-    );
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 
@@ -63,9 +64,7 @@ class _SusaninAppState extends State<SusaninApp> {
           return;
         }
         _uiSetup(state.isDarkTheme);
-        _router.go(
-          state.isFirstTime ? Routes.tutorial : Routes.home,
-        );
+        _router.go(state.isFirstTime ? Routes.tutorial : Routes.home);
       },
       builder: (context, state) {
         final isDark = state is AppSettingsLoadedState && state.isDarkTheme;

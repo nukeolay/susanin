@@ -679,6 +679,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Rate the app`
+  String get review_button {
+    return Intl.message(
+      'Rate the app',
+      name: 'review_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not open app store`
+  String get review_error {
+    return Intl.message(
+      'Could not open app store',
+      name: 'review_error',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

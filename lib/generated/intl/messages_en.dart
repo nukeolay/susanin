@@ -109,6 +109,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "notes": MessageLookupByLibrary.simpleMessage("notes"),
         "permission_request": MessageLookupByLibrary.simpleMessage(
             "Allow Susanin to access your location?"),
+        "review_button": MessageLookupByLibrary.simpleMessage("Rate the app"),
+        "review_error":
+            MessageLookupByLibrary.simpleMessage("Could not open app store"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "title": MessageLookupByLibrary.simpleMessage("Susanin"),
         "tutorial_settings_disabled": MessageLookupByLibrary.simpleMessage(

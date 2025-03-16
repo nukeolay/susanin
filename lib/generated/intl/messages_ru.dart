@@ -112,6 +112,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "notes": MessageLookupByLibrary.simpleMessage("заметки"),
         "permission_request": MessageLookupByLibrary.simpleMessage(
             "Разрешить приложению доступ к определению геолокации?"),
+        "review_button":
+            MessageLookupByLibrary.simpleMessage("Оценить приложение"),
+        "review_error": MessageLookupByLibrary.simpleMessage(
+            "Не удалось открыть магазин приложений"),
         "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
         "title": MessageLookupByLibrary.simpleMessage("Susanin"),
         "tutorial_settings_disabled": MessageLookupByLibrary.simpleMessage(

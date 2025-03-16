@@ -61,5 +61,7 @@
     "always_on_display_off": "Автоматическое выключение дисплея включено",
     "copied": "Скопировано",
     "notes": "заметки",
-    "location_default_name": "локация"
+    "location_default_name": "локация",
+    "review_button": "Оценить приложение",
+    "review_error": "Не удалось открыть магазин приложений"
 }

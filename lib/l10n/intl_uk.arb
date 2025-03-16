@@ -61,5 +61,7 @@
     "always_on_display_off": "Автоматичне вимикання дисплея увімкнено",
     "copied": "Скопійовано",
     "notes": "нотатки",
-    "location_default_name": "локація"
+    "location_default_name": "локація",
+    "review_button": "Оцінити програму",
+    "review_error": "Не вдалося відкрити магазин програм"
 }
