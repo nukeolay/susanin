@@ -53,20 +53,18 @@ class ReviewRepositoryImpl extends ReviewRepository {
     final now = DateTime.now();
     if (launchCount >= _launchesThreshold &&
         (now.difference(lastPromptedDate).inDays >= _daysBetweenPrompts)) {
-      _savePromptedDate();
-      _showReviewPrompt();
+      await _savePromptedDate();
+      await _showReviewPrompt();
     }
   }
 
   Future<void> _showReviewPrompt() async {
+    final isAvailable = await _inAppReview.isAvailable();
+    if (!isAvailable) return;
     try {
-      if (await _inAppReview.isAvailable()) {
-        _inAppReview.requestReview();
-      } else {
-        _openStore();
-      }
-    } catch (e) {
-      _openStore();
+      await _inAppReview.requestReview();
+    } catch (_) {
+      await _openStore();
     }
   }
 
