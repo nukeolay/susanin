@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -107,7 +109,7 @@ class _TutorialState extends State<TutorialView> {
         currentIndex: _currentIndex,
         slideQuantity: _slides.length,
         onNext: () {
-          HapticFeedback.heavyImpact();
+          unawaited(HapticFeedback.heavyImpact());
           _pageController.animateToPage(
             _currentIndex + 1,
             duration: const Duration(milliseconds: 500),
@@ -115,7 +117,7 @@ class _TutorialState extends State<TutorialView> {
           );
         },
         onStart: () {
-          HapticFeedback.heavyImpact();
+          unawaited(HapticFeedback.heavyImpact());
           _finishTutorial();
           GoRouter.of(context).go(Routes.home);
         },

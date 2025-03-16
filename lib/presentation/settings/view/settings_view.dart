@@ -37,33 +37,15 @@ class SettingsView extends StatelessWidget {
               children: [
                 ThemeSwitch(
                   isDarkTheme: context.isDarkTheme(),
-                  action:
-                      (_) =>
-                          context
-                              .read<AppSettingsCubit>()
-                              // ignore: discarded_futures
-                              .toggleTheme()
-                              .ignore(),
+                  action: (_) => context.read<AppSettingsCubit>().toggleTheme(),
                 ),
                 WakelockSwitch(
                   switchValue: state.isScreenAlwaysOn,
-                  action:
-                      (_) =>
-                          context
-                              .read<SettingsCubit>()
-                              // ignore: discarded_futures
-                              .toggleWakelock()
-                              .ignore(),
+                  action: (_) => context.read<SettingsCubit>().toggleWakelock(),
                 ),
                 LocationServiceSwitch(
                   locationStatus: state.locationServiceStatus,
-                  action:
-                      (_) =>
-                          context
-                              .read<SettingsCubit>()
-                              // ignore: discarded_futures
-                              .getPermission()
-                              .ignore(),
+                  action: (_) => context.read<SettingsCubit>().getPermission(),
                 ),
                 if (!Platform.isIOS) HasCompassSwitch(state: state),
                 SusaninButton(
@@ -79,11 +61,7 @@ class SettingsView extends StatelessWidget {
                   type: ButtonType.ghost,
                   label: S.of(context).review_button,
                   onPressed: () {
-                    context
-                        .read<ReviewRepository>()
-                        // ignore: discarded_futures
-                        .showReviewPrompt()
-                        .ignore();
+                    context.read<ReviewRepository>().showReviewPrompt();
                   },
                 ),
               ],

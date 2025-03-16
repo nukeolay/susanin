@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +19,7 @@ class SideBar extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.settings),
           onPressed: () {
-            HapticFeedback.heavyImpact();
+            unawaited(HapticFeedback.heavyImpact());
             GoRouter.of(context).go(Routes.settings);
           },
         ),

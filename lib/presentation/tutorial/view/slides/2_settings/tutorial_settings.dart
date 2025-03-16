@@ -22,11 +22,12 @@ class TutorialSettings extends StatelessWidget {
     final compassRepository = context.read<CompassRepository>();
 
     return BlocProvider(
-      create: (context) => TutorialSettingsCubit(
-        compassRepository: compassRepository,
-        locationRepository: locationRepository,
-        settingsRepository: settingsRepository,
-      )..init(),
+      create:
+          (context) => TutorialSettingsCubit(
+            compassRepository: compassRepository,
+            locationRepository: locationRepository,
+            settingsRepository: settingsRepository,
+          )..init(),
       child: const _TutorialSettingsView(),
     );
   }
@@ -55,10 +56,7 @@ class ServiceDisabledInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TutorialText(
-          context.s.tutorial_settings_disabled,
-          isError: true,
-        ),
+        TutorialText(context.s.tutorial_settings_disabled, isError: true),
         const SizedBox(height: 30),
         Center(
           child: CircularProgressIndicator(

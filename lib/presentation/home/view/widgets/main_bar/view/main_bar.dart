@@ -21,11 +21,12 @@ class MainBar extends StatelessWidget {
         children: [
           const MainBarBackground(),
           BlocProvider(
-            create: (context) => MainPointerCubit(
-              compassRepository: compassRepository,
-              locationRepository: locationRepository,
-              placesRepository: placesRepository,
-            )..init(),
+            create:
+                (context) => MainPointerCubit(
+                  compassRepository: compassRepository,
+                  locationRepository: locationRepository,
+                  placesRepository: placesRepository,
+                )..init(),
             child: const MainBarForeground(),
           ),
         ],

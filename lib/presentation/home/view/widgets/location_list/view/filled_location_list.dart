@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,11 +58,11 @@ class _FilledLocationListState extends State<FilledLocationList> {
               onPress: () => _onPressed(place.id, state.activePlaceId),
               onLongPress: () => _onLongPressed(place.id),
               onDismissed: (_) => _onDismissed(place.id),
-              onConfirmDismiss: (DismissDirection dismissDirection) =>
-                  _onConfirmDismiss(
-                dismissDirection: dismissDirection,
-                place: place,
-              ),
+              onConfirmDismiss:
+                  (DismissDirection dismissDirection) => _onConfirmDismiss(
+                    dismissDirection: dismissDirection,
+                    place: place,
+                  ),
             );
           },
         );
@@ -69,7 +71,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
   }
 
   void _onPressed(String id, String activeId) {
-    HapticFeedback.heavyImpact();
+    unawaited(HapticFeedback.heavyImpact());
     if (id == activeId) {
       GoRouter.of(context).go(Routes.location(activeId));
     } else {
@@ -83,9 +85,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
     cubit.onLongPressEdit(id: id);
   }
 
-  Future<void> _onDismissed(
-    String id,
-  ) async {
+  Future<void> _onDismissed(String id) async {
     final cubit = context.read<LocationsListCubit>();
     await cubit.onDeleteLocation(id: id);
   }

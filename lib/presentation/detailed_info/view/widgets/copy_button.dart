@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -5,11 +7,7 @@ import '../../../../core/extensions/extensions.dart';
 import '../../../common/susanin_snackbar.dart';
 
 class CopyButton extends StatelessWidget {
-  const CopyButton({
-    required this.value,
-    required this.title,
-    super.key,
-  });
+  const CopyButton({required this.value, required this.title, super.key});
 
   final String value;
   final String title;
@@ -26,11 +24,7 @@ class CopyButton extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    value,
-                    textAlign: TextAlign.center,
-                    softWrap: true,
-                  ),
+                  Text(value, textAlign: TextAlign.center, softWrap: true),
                   Text(
                     title,
                     style: const TextStyle(color: Colors.grey),
@@ -42,19 +36,14 @@ class CopyButton extends StatelessWidget {
           ],
         ),
         onTap: () {
-          HapticFeedback.heavyImpact();
+          unawaited(HapticFeedback.heavyImpact());
           final snackBar = SusaninSnackBar(
-            content: Text(
-              context.s.copied,
-              textAlign: TextAlign.center,
-            ),
+            content: Text(context.s.copied, textAlign: TextAlign.center),
           );
           ScaffoldMessenger.of(context)
             ..removeCurrentSnackBar()
             ..showSnackBar(snackBar);
-          Clipboard.setData(
-            ClipboardData(text: value),
-          );
+          unawaited(Clipboard.setData(ClipboardData(text: value)));
         },
       ),
     );
