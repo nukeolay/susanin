@@ -76,7 +76,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "error_geolocation_permission_short":
             MessageLookupByLibrary.simpleMessage("Дозвіл не видано"),
         "error_title": MessageLookupByLibrary.simpleMessage("Помилка"),
-        "error_unknown": MessageLookupByLibrary.simpleMessage("Невідомий збій"),
+        "error_unknown":
+            MessageLookupByLibrary.simpleMessage("Невідома помилка"),
         "geolocation_permission":
             MessageLookupByLibrary.simpleMessage("Доступ до геолокації"),
         "has_compass": MessageLookupByLibrary.simpleMessage(
@@ -115,6 +116,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "review_error": MessageLookupByLibrary.simpleMessage(
             "Не вдалося відкрити магазин програм"),
         "settings": MessageLookupByLibrary.simpleMessage("Налаштування"),
+        "snack_bar_error_default_text":
+            MessageLookupByLibrary.simpleMessage("Сталася помилка"),
         "title": MessageLookupByLibrary.simpleMessage("Susanin"),
         "tutorial_settings_disabled": MessageLookupByLibrary.simpleMessage(
             "СЕРВІС ГЕОЛОКАЦІЇ ВИКЛЮЧЕНО\n\nБудь ласка, увімкніть сервіс геолокації, щоб продовжити."),

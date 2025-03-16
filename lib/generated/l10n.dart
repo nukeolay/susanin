@@ -699,6 +699,16 @@ class S {
       args: [],
     );
   }
+
+  /// `An error occurred`
+  String get snack_bar_error_default_text {
+    return Intl.message(
+      'An error occurred',
+      name: 'snack_bar_error_default_text',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

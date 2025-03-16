@@ -40,7 +40,7 @@ class TutorialSettingsCubit extends Cubit<TutorialSettingsState> {
     await _compassSubscription?.cancel();
     await _positionSubscription?.cancel();
     await _settingsSubscription?.cancel();
-    await super.close();
+    return super.close();
   }
 
   Future<void> getPermission() async {

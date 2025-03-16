@@ -56,7 +56,7 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   @override
   Future<void> close() async {
     await _placesSubscription?.cancel();
-    super.close();
+    return super.close();
   }
 
   Future<void> onDeleteLocation({required String id}) async {

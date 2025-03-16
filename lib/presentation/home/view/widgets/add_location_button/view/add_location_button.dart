@@ -8,6 +8,7 @@ import '../../../../../../core/constants/icon_constants.dart';
 import '../../../../../../core/extensions/extensions.dart';
 import '../../../../../../features/location/domain/repositories/location_repository.dart';
 import '../../../../../../features/places/domain/repositories/places_repository.dart';
+import '../../../../../common/snackbar_error_handler.dart';
 import '../cubit/add_location_cubit.dart';
 import '../../../../../location_bottom_sheet/location_bottom_sheet.dart';
 import '../../../../../location_bottom_sheet/view/location_bottom_sheet_view.dart';
@@ -40,10 +41,12 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
         return current.status == AddLocationStatus.editing;
       },
       listener: (context, state) {
-        _showBottomSheet(
-          context,
-          state,
-          context.read<AddLocationCubit>().onSaveLocation,
+        unawaited(
+          _showBottomSheet(
+            context,
+            state,
+            context.read<AddLocationCubit>().onSaveLocation,
+          ).onError(SnackBarErrorHandler(context).onError),
         );
       },
       builder: (context, state) {
@@ -73,9 +76,14 @@ class _AddNewLocationButtonWidget extends StatelessWidget {
             foregroundColor: Theme.of(context).colorScheme.inversePrimary,
             onPressed: () {
               unawaited(HapticFeedback.heavyImpact());
-              context.read<AddLocationCubit>().onPressAdd(
-                pointName: context.s.location_default_name,
-                icon: IconConstants.standard,
+              unawaited(
+                context
+                    .read<AddLocationCubit>()
+                    .onPressAdd(
+                      pointName: context.s.location_default_name,
+                      icon: IconConstants.standard,
+                    )
+                    .onError(SnackBarErrorHandler(context).onError),
               );
             },
             child: const Icon(Icons.add_location_alt_rounded),

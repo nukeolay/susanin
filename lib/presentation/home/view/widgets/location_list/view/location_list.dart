@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/extensions/extensions.dart';
 import '../../../../../../features/places/domain/entities/icon_entity.dart';
 import '../../../../../../features/places/domain/repositories/places_repository.dart';
+import '../../../../../common/snackbar_error_handler.dart';
 import '../../../../../common/state_fade_transition.dart';
 import 'empty_location_list.dart';
 import 'loading_location_list.dart';
@@ -18,9 +21,8 @@ class LocationList extends StatelessWidget {
   Widget build(BuildContext context) {
     final placesRepository = context.read<PlacesRepository>();
     return BlocProvider(
-      create: (_) => LocationsListCubit(
-        placesRepository: placesRepository,
-      )..init(),
+      create:
+          (_) => LocationsListCubit(placesRepository: placesRepository)..init(),
       child: const _LocationListWidget(),
     );
   }
@@ -31,18 +33,12 @@ class _LocationListWidget extends StatelessWidget {
 
   Widget _content(LocationsListState state) {
     if (state is! LocationsListLoadedState) {
-      return const LoadingLocationList(
-        key: ValueKey('LoadingLocationList'),
-      );
+      return const LoadingLocationList(key: ValueKey('LoadingLocationList'));
     }
     if (state.places.isEmpty) {
-      return const EmptyLocationList(
-        key: ValueKey('EmptyLocationList'),
-      );
+      return const EmptyLocationList(key: ValueKey('EmptyLocationList'));
     } else {
-      return const FilledLocationList(
-        key: ValueKey('FilledLocationList'),
-      );
+      return const FilledLocationList(key: ValueKey('FilledLocationList'));
     }
   }
 
@@ -54,18 +50,19 @@ class _LocationListWidget extends StatelessWidget {
           return;
         }
         if (state.status == LocationsListStatus.editing) {
-          _showBottomSheet(context, state);
-        } else if (state.status == LocationsListStatus.failure) {
-          final snackBar = SnackBar(
-            content: Text(context.s.error_unknown),
+          unawaited(
+            _showBottomSheet(
+              context,
+              state,
+            ).onError(SnackBarErrorHandler(context).onError),
           );
+        } else if (state.status == LocationsListStatus.failure) {
+          final snackBar = SnackBar(content: Text(context.s.error_unknown));
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
       builder: (context, state) {
-        return StateFadeTransition(
-          child: _content(state),
-        );
+        return StateFadeTransition(child: _content(state));
       },
     );
   }
@@ -90,21 +87,21 @@ class _LocationListWidget extends StatelessWidget {
             latitude: activePlace.latitude,
             longitude: activePlace.longitude,
             notes: activePlace.notes,
-            saveLocation: ({
-              required String latitude,
-              required String longitude,
-              required String name,
-              required String notes,
-              required IconEntity icon,
-            }) =>
-                cubit.onSaveLocation(
-              latitude: latitude,
-              longitude: longitude,
-              notes: notes,
-              newLocationName: name,
-              icon: icon,
-              id: state.activePlaceId,
-            ),
+            saveLocation:
+                ({
+                  required String latitude,
+                  required String longitude,
+                  required String name,
+                  required String notes,
+                  required IconEntity icon,
+                }) => cubit.onSaveLocation(
+                  latitude: latitude,
+                  longitude: longitude,
+                  notes: notes,
+                  newLocationName: name,
+                  icon: icon,
+                  id: state.activePlaceId,
+                ),
           ),
         );
       },

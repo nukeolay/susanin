@@ -9,6 +9,7 @@ import '../../../../../features/location/domain/repositories/location_repository
 import '../../../../../features/settings/domain/repositories/settings_repository.dart';
 import '../../../../common/ios_compass_settings.dart';
 import '../../../../common/settings_switch.dart';
+import '../../../../common/snackbar_error_handler.dart';
 import 'cubit/tutorial_settings_cubit.dart';
 import '../../widgets/tutorial_text.dart';
 
@@ -88,11 +89,17 @@ class ServicePermissionInfo extends StatelessWidget {
             const SizedBox(height: 10),
             LocationServiceSwitch(
               locationStatus: state.locationStatus,
-              action: (_) => cubit.getPermission(),
+              action:
+                  (_) async => cubit.getPermission().onError(
+                    SnackBarErrorHandler(context).onError,
+                  ),
             ),
             ThemeSwitch(
               isDarkTheme: state.isDarkTheme,
-              action: (_) => cubit.toggleTheme(),
+              action:
+                  (_) async => cubit.toggleTheme().onError(
+                    SnackBarErrorHandler(context).onError,
+                  ),
             ),
             if (!Platform.isIOS && state.compassStatus.isFailure)
               TutorialText(

@@ -55,7 +55,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
   @override
   Future<void> close() async {
     await _positionSubscription?.cancel();
-    super.close();
+    return super.close();
   }
 
   void onLongPressAdd(String pointName) {

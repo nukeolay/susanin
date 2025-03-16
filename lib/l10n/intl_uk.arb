@@ -48,7 +48,7 @@
     "error_geolocation_permission": "Немає доступу до сервісу геолокації.",
     "error_geolocation_disabled": "Сервіс геолокації вимкнено",
     "error_title": "Помилка",
-    "error_unknown": "Невідомий збій",
+    "error_unknown": "Невідома помилка",
     "less_than_5_m": "менше 5 м",
     "error_geolocation_permission_short": "Дозвіл не видано",
     "location_name": "назва локації",
@@ -63,5 +63,6 @@
     "notes": "нотатки",
     "location_default_name": "локація",
     "review_button": "Оцінити програму",
-    "review_error": "Не вдалося відкрити магазин програм"
+    "review_error": "Не вдалося відкрити магазин програм",
+    "snack_bar_error_default_text": "Сталася помилка"
 }

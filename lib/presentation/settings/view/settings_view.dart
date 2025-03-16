@@ -11,6 +11,7 @@ import '../../../core/extensions/extensions.dart';
 import '../../../features/review/domain/review_repository.dart';
 import '../../../generated/l10n.dart';
 import '../../../internal/cubit/app_settings_cubit.dart';
+import '../../common/snackbar_error_handler.dart';
 import '../../common/susanin_button.dart';
 import '../../common/ios_compass_settings.dart';
 import '../../common/settings_switch.dart';
@@ -37,15 +38,27 @@ class SettingsView extends StatelessWidget {
               children: [
                 ThemeSwitch(
                   isDarkTheme: context.isDarkTheme(),
-                  action: (_) => context.read<AppSettingsCubit>().toggleTheme(),
+                  action:
+                      (_) async => context
+                          .read<AppSettingsCubit>()
+                          .toggleTheme()
+                          .onError(SnackBarErrorHandler(context).onError),
                 ),
                 WakelockSwitch(
                   switchValue: state.isScreenAlwaysOn,
-                  action: (_) => context.read<SettingsCubit>().toggleWakelock(),
+                  action:
+                      (_) async => context
+                          .read<SettingsCubit>()
+                          .toggleWakelock()
+                          .onError(SnackBarErrorHandler(context).onError),
                 ),
                 LocationServiceSwitch(
                   locationStatus: state.locationServiceStatus,
-                  action: (_) => context.read<SettingsCubit>().getPermission(),
+                  action:
+                      (_) async => context
+                          .read<SettingsCubit>()
+                          .getPermission()
+                          .onError(SnackBarErrorHandler(context).onError),
                 ),
                 if (!Platform.isIOS) HasCompassSwitch(state: state),
                 SusaninButton(
@@ -60,9 +73,11 @@ class SettingsView extends StatelessWidget {
                 SusaninButton(
                   type: ButtonType.ghost,
                   label: S.of(context).review_button,
-                  onPressed: () {
-                    context.read<ReviewRepository>().showReviewPrompt();
-                  },
+                  onPressed:
+                      () async => context
+                          .read<ReviewRepository>()
+                          .showReviewPrompt()
+                          .onError(SnackBarErrorHandler(context).onError),
                 ),
               ],
             );

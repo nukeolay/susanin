@@ -113,6 +113,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "review_error":
             MessageLookupByLibrary.simpleMessage("Could not open app store"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "snack_bar_error_default_text":
+            MessageLookupByLibrary.simpleMessage("An error occurred"),
         "title": MessageLookupByLibrary.simpleMessage("Susanin"),
         "tutorial_settings_disabled": MessageLookupByLibrary.simpleMessage(
             "LOCATION SERVICE OFF\n\nPlease turn on the location service to continue."),

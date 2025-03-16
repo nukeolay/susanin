@@ -77,7 +77,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Разрешение не выдано"),
         "error_title": MessageLookupByLibrary.simpleMessage("Ошибка"),
         "error_unknown":
-            MessageLookupByLibrary.simpleMessage("Неизвестный сбой"),
+            MessageLookupByLibrary.simpleMessage("Неизвестная ошибка"),
         "geolocation_permission":
             MessageLookupByLibrary.simpleMessage("Доступ к геолокации"),
         "has_compass": MessageLookupByLibrary.simpleMessage(
@@ -117,6 +117,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "review_error": MessageLookupByLibrary.simpleMessage(
             "Не удалось открыть магазин приложений"),
         "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
+        "snack_bar_error_default_text":
+            MessageLookupByLibrary.simpleMessage("Произошла ошибка"),
         "title": MessageLookupByLibrary.simpleMessage("Susanin"),
         "tutorial_settings_disabled": MessageLookupByLibrary.simpleMessage(
             "СЕРВИС ГЕОЛОКАЦИИ ВЫКЛЮЧЕН\n\nПожалуйста включите сервис геолокации, чтобы продолжить."),

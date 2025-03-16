@@ -94,11 +94,10 @@ class _FilledLocationListState extends State<FilledLocationList> {
     required DismissDirection dismissDirection,
     required PlaceEntity place,
   }) async {
+    unawaited(HapticFeedback.heavyImpact());
     if (dismissDirection == DismissDirection.startToEnd) {
-      HapticFeedback.heavyImpact();
       return showRemoveConfirmationDialog(context: context);
     } else {
-      HapticFeedback.heavyImpact();
       context.read<LocationsListCubit>().onShare(place);
       return false;
     }
