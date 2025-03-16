@@ -65,10 +65,6 @@ class _SusaninAppState extends State<SusaninApp> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppSettingsCubit, AppSettingsState>(
-      listenWhen: (previous, current) {
-        return previous is AppSettingsInitialState &&
-            current is AppSettingsLoadedState;
-      },
       listener: (context, state) {
         if (state is! AppSettingsLoadedState) {
           return;
