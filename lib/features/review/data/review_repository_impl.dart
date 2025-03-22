@@ -1,10 +1,12 @@
 import 'dart:io' show Platform;
 
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/extensions/extensions.dart';
 import '../../../core/services/local_storage.dart';
+import '../../../presentation/common/susanin_dialog.dart';
 import '../domain/review_repository.dart';
 
 class ReviewRepositoryImpl extends ReviewRepository {
@@ -12,23 +14,20 @@ class ReviewRepositoryImpl extends ReviewRepository {
     required LocalStorage localStrorage,
     required String androidAppId,
     required String iosAppId,
-    required VoidCallback onError,
     int launchesThreshold = 3,
     int daysBetweenPrompts = 7,
   }) : _localStorage = localStrorage,
        _androidAppId = androidAppId,
        _iosAppId = iosAppId,
-       _onError = onError,
        _inAppReview = InAppReview.instance,
        _launchesThreshold = launchesThreshold,
        _daysBetweenPrompts = daysBetweenPrompts;
 
   final LocalStorage _localStorage;
   final InAppReview _inAppReview;
-  final VoidCallback _onError;
 
-  static const String _launchesKey = 'launches';
-  static const String _lastPromptedKey = 'lastPrompted';
+  static const _launchesKey = 'launches';
+  static const _lastPromptedKey = 'lastPrompted';
   final int _launchesThreshold;
   final int _daysBetweenPrompts;
   final String _androidAppId;
@@ -44,26 +43,31 @@ class ReviewRepositoryImpl extends ReviewRepository {
   }
 
   @override
-  Future<void> showReviewPrompt() => _showReviewPrompt();
+  Future<void> showReviewPrompt(BuildContext context) =>
+      _showReviewPrompt(context);
 
   @override
-  Future<void> checkAndShowReviewPrompt() async {
+  Future<void> checkAndShowReviewPrompt(BuildContext context) async {
     final launchCount = await _getLaunchCount();
     final lastPromptedDate = await _getLastPromptedDate();
     final now = DateTime.now();
-    if (launchCount >= _launchesThreshold &&
-        (now.difference(lastPromptedDate).inDays >= _daysBetweenPrompts)) {
+    final countCondition = launchCount >= _launchesThreshold;
+    final daysCondition =
+        now.difference(lastPromptedDate).inDays >= _daysBetweenPrompts;
+    if (countCondition && daysCondition) {
       await _savePromptedDate();
-      await _showReviewPrompt();
+      await _showReviewPrompt(context);
     }
   }
 
-  Future<void> _showReviewPrompt() async {
+  Future<void> _showReviewPrompt(BuildContext context) async {
     final isAvailable = await _inAppReview.isAvailable();
     if (!isAvailable) return;
     try {
       await _inAppReview.requestReview();
     } catch (_) {
+      final openStore = await _showReviewDialog(context);
+      if (!openStore) return;
       await _openStore();
     }
   }
@@ -73,6 +77,28 @@ class ReviewRepositoryImpl extends ReviewRepository {
     await _localStorage.save(key: _lastPromptedKey, data: now.toString());
   }
 
+  Future<bool> _showReviewDialog(BuildContext context) async {
+    final result =
+        await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) {
+            return Material(
+              type: MaterialType.transparency,
+              shadowColor: Colors.transparent,
+              child: SusaninDialog(
+                text: context.s.review_dialog_title,
+                secondaryButtonLabel: context.s.button_yes,
+                onSecondaryTap: () => Navigator.pop(context, true),
+                primaryButtonLabel: context.s.button_no,
+                onPrimaryTap: () => Navigator.pop(context, false),
+              ),
+            );
+          },
+        ) ??
+        false;
+    return result;
+  }
+
   Future<void> _openStore() async {
     String url;
     if (Platform.isAndroid) {
@@ -80,14 +106,11 @@ class ReviewRepositoryImpl extends ReviewRepository {
     } else if (Platform.isIOS) {
       url = 'https://apps.apple.com/app/id$_iosAppId';
     } else {
-      _onError();
       return;
     }
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      _onError();
     }
   }
 

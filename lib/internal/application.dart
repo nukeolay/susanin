@@ -35,7 +35,6 @@ class _SusaninAppState extends State<SusaninApp> {
   Future<void> _onInit() async {
     final reviewRepository = context.read<ReviewRepository>();
     await reviewRepository.incrementLaunches();
-    await reviewRepository.checkAndShowReviewPrompt();
   }
 
   Future<void> _uiSetup(bool isDarkTheme) async {
