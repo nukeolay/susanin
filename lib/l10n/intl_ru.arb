@@ -64,5 +64,6 @@
     "location_default_name": "локация",
     "review_button": "Оценить приложение",
     "review_error": "Не удалось открыть магазин приложений",
+    "review_dialog_title": "Оценить приложение?",
     "snack_bar_error_default_text": "Произошла ошибка"
 }

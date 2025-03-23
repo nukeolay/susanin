@@ -64,5 +64,6 @@
     "location_default_name": "location",
     "review_button": "Rate the app",
     "review_error": "Could not open app store",
+    "review_dialog_title": "Rate the app?",
     "snack_bar_error_default_text": "An error occurred"
 }

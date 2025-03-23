@@ -76,7 +76,7 @@ class SettingsView extends StatelessWidget {
                   onPressed:
                       () async => context
                           .read<ReviewRepository>()
-                          .showReviewPrompt()
+                          .showReviewPrompt(context)
                           .onError(SnackBarErrorHandler(context).onError),
                 ),
               ],

@@ -61,9 +61,6 @@ class DiProvider extends StatelessWidget {
             localStrorage: context.read<LocalStorage>(),
             androidAppId: 'com.qumyz.susanin',
             iosAppId: 'id1624344201',
-            onError: () {
-              //
-            },
           ),
         ),
       ],

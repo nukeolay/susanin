@@ -113,6 +113,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Дозволити застосунку доступ до визначення геолокації?"),
         "review_button":
             MessageLookupByLibrary.simpleMessage("Оцінити програму"),
+        "review_dialog_title":
+            MessageLookupByLibrary.simpleMessage("Оцінити програму?"),
         "review_error": MessageLookupByLibrary.simpleMessage(
             "Не вдалося відкрити магазин програм"),
         "settings": MessageLookupByLibrary.simpleMessage("Налаштування"),

@@ -64,5 +64,6 @@
     "location_default_name": "локація",
     "review_button": "Оцінити програму",
     "review_error": "Не вдалося відкрити магазин програм",
+    "review_dialog_title": "Оцінити програму?",
     "snack_bar_error_default_text": "Сталася помилка"
 }

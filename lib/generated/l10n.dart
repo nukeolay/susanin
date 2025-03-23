@@ -700,6 +700,16 @@ class S {
     );
   }
 
+  /// `Rate the app?`
+  String get review_dialog_title {
+    return Intl.message(
+      'Rate the app?',
+      name: 'review_dialog_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `An error occurred`
   String get snack_bar_error_default_text {
     return Intl.message(
