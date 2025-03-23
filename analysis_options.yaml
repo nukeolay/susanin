@@ -1,6 +1,6 @@
 # This file configures the analyzer to use the lint rule set from `package:lint`
 
-include: package:lint/strict.yaml # For production apps
+# include: package:lint/strict.yaml # For production apps
 # include: package:lint/casual.yaml # For code samples, hackathons and other non-production code
 # include: package:lint/package.yaml # Use this for packages with public API
 
@@ -16,14 +16,13 @@ analyzer:
 # can be found at https://dart-lang.github.io/linter/lints/options/options.html
 linter:
   rules:
+    prefer_relative_imports: true
+    always_use_package_imports: false
     directives_ordering: false
     sort_pub_dependencies: false
-    # Util classes are awesome!
+    discarded_futures: true
+    unawaited_futures: true
+    require_trailing_commas: true
     avoid_classes_with_only_static_members: false
-    
-    # Make constructors the first thing in every class
     sort_constructors_first: true
-
-    # Choose wisely, but you don't have to
-    # prefer_double_quotes: true
     prefer_single_quotes: true

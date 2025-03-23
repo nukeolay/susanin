@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:susanin/features/places/domain/entities/place_entity.dart';
-import 'package:susanin/features/places/domain/entities/places_entity.dart';
-import 'package:susanin/features/places/domain/repositories/places_repository.dart';
+
+import '../../../../../../features/places/domain/entities/place_entity.dart';
+import '../../../../../../features/places/domain/entities/places_entity.dart';
+import '../../../../../../features/places/domain/entities/icon_entity.dart';
+import '../../../../../../features/places/domain/repositories/places_repository.dart';
 
 part 'locations_list_state.dart';
 
@@ -13,41 +16,59 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   LocationsListCubit({
     required PlacesRepository placesRepository,
   })  : _placesRepository = placesRepository,
-        super(LocationsListState.initial);
+        super(const LocationsListInitialState());
 
   final PlacesRepository _placesRepository;
 
   StreamSubscription<PlacesEntity>? _placesSubscription;
 
   void init() {
-    final placesStream = _placesRepository.placesStream;
-    final initialPlaces = placesStream.valueOrNull;
-    _placesHandler(initialPlaces);
-    _placesSubscription ??= placesStream.listen(_placesHandler);
+    _placesSubscription ??= _placesRepository.placesStream.listen(
+      _placesHandler,
+    );
   }
 
   void _placesHandler(PlacesEntity? places) {
-    emit(
-      state.copyWith(
-        status: LocationsListStatus.loaded,
-        places: places?.places ?? [],
-        activePlaceId: places?.activePlace?.id,
-      ),
-    );
+    final currentState = state;
+    switch (currentState) {
+      case LocationsListInitialState():
+        emit(
+          LocationsListLoadedState(
+            status: LocationsListStatus.updated,
+            places: places?.places ?? [],
+            previousPlaces: const [],
+            activePlaceId: places?.activePlace?.id ?? '',
+          ),
+        );
+      case LocationsListLoadedState():
+        final previousPlaces = [...currentState.places];
+        emit(
+          currentState.copyWith(
+            status: LocationsListStatus.updated,
+            places: places?.places ?? [],
+            previousPlaces: previousPlaces,
+            activePlaceId: places?.activePlace?.id,
+          ),
+        );
+    }
   }
 
   @override
   Future<void> close() async {
     await _placesSubscription?.cancel();
-    super.close();
+    return super.close();
   }
 
   Future<void> onDeleteLocation({required String id}) async {
+    final currentState = state;
+    if (currentState is! LocationsListLoadedState) {
+      return;
+    }
     final deleteLocationResult = await _placesRepository.delete(id);
     if (deleteLocationResult) {
-      emit(state.copyWith(status: LocationsListStatus.deleted));
+      emit(currentState.copyWith(status: LocationsListStatus.deleted));
     } else {
-      emit(state.copyWith(status: LocationsListStatus.failure));
+      emit(currentState.copyWith(status: LocationsListStatus.failure));
     }
   }
 
@@ -56,24 +77,26 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   Future<void> onLongPressEdit({required String id}) async {
-    final place = state.places.firstWhere((location) => location.id == id);
     await _placesRepository.select(id);
+    final currentState = state;
+    if (currentState is! LocationsListLoadedState) {
+      return;
+    }
     emit(
-      EditPlaceState(
+      currentState.copyWith(
         activePlaceId: id,
         status: LocationsListStatus.editing,
-        name: place.name,
-        latitude: place.latitude,
-        longitude: place.longitude,
-        places: state.places,
-        place: place,
-        notes: place.notes,
+        places: currentState.places,
       ),
     );
   }
 
   void onBottomSheetClose() {
-    emit(state.copyWith(status: LocationsListStatus.loaded));
+    final currentState = state;
+    if (currentState is! LocationsListLoadedState) {
+      return;
+    }
+    emit(currentState.copyWith(status: LocationsListStatus.updated));
   }
 
   Future<void> onSaveLocation({
@@ -82,30 +105,39 @@ class LocationsListCubit extends Cubit<LocationsListState> {
     required String longitude,
     required String notes,
     required String newLocationName,
+    required IconEntity icon,
   }) async {
+    final currentState = state;
+    if (currentState is! LocationsListLoadedState) {
+      return;
+    }
     final doubleLatitude = double.tryParse(latitude);
     final doubleLongitude = double.tryParse(longitude);
     if (doubleLatitude == null || doubleLongitude == null) return;
-    final location = state.places.firstWhere((element) => element.id == id);
+    final location = currentState.places.firstWhere(
+      (element) => element.id == id,
+    );
     final updatedLocation = location.copyWith(
       latitude: doubleLatitude,
       longitude: doubleLongitude,
       notes: notes,
       name: newLocationName,
+      icon: icon,
     );
     final updateLocationResult = await _placesRepository.update(
       updatedLocation,
     );
     if (updateLocationResult) {
-      emit(state.copyWith(status: LocationsListStatus.updated));
+      emit(currentState.copyWith(status: LocationsListStatus.updated));
     } else {
-      emit(state.copyWith(status: LocationsListStatus.failure));
+      emit(currentState.copyWith(status: LocationsListStatus.failure));
     }
   }
 
   Future<bool> onShare(PlaceEntity place) async {
     final shareLink =
-        '${place.name} https://www.google.com/maps/search/?api=1&query=${place.latitude},${place.longitude}';
+        '${place.name} https://www.google.com/maps/search/?api=1&query='
+        '${place.latitude},${place.longitude}';
     await Share.share(shareLink);
     return false;
   }

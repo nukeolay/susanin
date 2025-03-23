@@ -47,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "button_next": MessageLookupByLibrary.simpleMessage("Далее"),
         "button_no": MessageLookupByLibrary.simpleMessage("Нет"),
         "button_save": MessageLookupByLibrary.simpleMessage("Сохранить"),
+        "button_select": MessageLookupByLibrary.simpleMessage("Выбрать"),
         "button_start": MessageLookupByLibrary.simpleMessage("Начать"),
         "button_yes": MessageLookupByLibrary.simpleMessage("Да"),
         "compass_calibrate_instruction": MessageLookupByLibrary.simpleMessage(
@@ -76,7 +77,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Разрешение не выдано"),
         "error_title": MessageLookupByLibrary.simpleMessage("Ошибка"),
         "error_unknown":
-            MessageLookupByLibrary.simpleMessage("Неизвестный сбой"),
+            MessageLookupByLibrary.simpleMessage("Неизвестная ошибка"),
         "geolocation_permission":
             MessageLookupByLibrary.simpleMessage("Доступ к геолокации"),
         "has_compass": MessageLookupByLibrary.simpleMessage(
@@ -111,7 +112,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "notes": MessageLookupByLibrary.simpleMessage("заметки"),
         "permission_request": MessageLookupByLibrary.simpleMessage(
             "Разрешить приложению доступ к определению геолокации?"),
+        "review_button":
+            MessageLookupByLibrary.simpleMessage("Оценить приложение"),
+        "review_dialog_title":
+            MessageLookupByLibrary.simpleMessage("Оценить приложение?"),
+        "review_error": MessageLookupByLibrary.simpleMessage(
+            "Не удалось открыть магазин приложений"),
         "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
+        "snack_bar_error_default_text":
+            MessageLookupByLibrary.simpleMessage("Произошла ошибка"),
         "title": MessageLookupByLibrary.simpleMessage("Susanin"),
         "tutorial_settings_disabled": MessageLookupByLibrary.simpleMessage(
             "СЕРВИС ГЕОЛОКАЦИИ ВЫКЛЮЧЕН\n\nПожалуйста включите сервис геолокации, чтобы продолжить."),

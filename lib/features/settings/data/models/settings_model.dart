@@ -1,4 +1,4 @@
-import 'package:susanin/features/settings/domain/entities/settings.dart';
+import '../../domain/entities/settings.dart';
 
 class SettingsModel {
   const SettingsModel({

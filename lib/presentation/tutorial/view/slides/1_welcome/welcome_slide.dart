@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/presentation/tutorial/view/models/slide_model.dart';
-import 'package:susanin/presentation/tutorial/view/widgets/tutorial_text.dart';
+
+import '../../../../../core/extensions/extensions.dart';
+import '../../models/slide_model.dart';
+import '../../widgets/tutorial_text.dart';
 
 class WelcomeSlide extends SlideModel {
   WelcomeSlide(BuildContext context)

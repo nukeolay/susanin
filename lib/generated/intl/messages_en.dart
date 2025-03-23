@@ -46,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "button_next": MessageLookupByLibrary.simpleMessage("Next"),
         "button_no": MessageLookupByLibrary.simpleMessage("No"),
         "button_save": MessageLookupByLibrary.simpleMessage("Save"),
+        "button_select": MessageLookupByLibrary.simpleMessage("Select"),
         "button_start": MessageLookupByLibrary.simpleMessage("Start"),
         "button_yes": MessageLookupByLibrary.simpleMessage("Yes"),
         "compass_calibrate_instruction": MessageLookupByLibrary.simpleMessage(
@@ -108,7 +109,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "notes": MessageLookupByLibrary.simpleMessage("notes"),
         "permission_request": MessageLookupByLibrary.simpleMessage(
             "Allow Susanin to access your location?"),
+        "review_button": MessageLookupByLibrary.simpleMessage("Rate the app"),
+        "review_dialog_title":
+            MessageLookupByLibrary.simpleMessage("Rate the app?"),
+        "review_error":
+            MessageLookupByLibrary.simpleMessage("Could not open app store"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "snack_bar_error_default_text":
+            MessageLookupByLibrary.simpleMessage("An error occurred"),
         "title": MessageLookupByLibrary.simpleMessage("Susanin"),
         "tutorial_settings_disabled": MessageLookupByLibrary.simpleMessage(
             "LOCATION SERVICE OFF\n\nPlease turn on the location service to continue."),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/places/domain/entities/place_entity.dart';
+
+import '../../../../../../core/extensions/extensions.dart';
+import '../../../../../../features/places/domain/entities/place_entity.dart';
 
 class LocationListItem extends StatelessWidget {
   const LocationListItem({
@@ -55,8 +56,10 @@ class LocationListItem extends StatelessWidget {
             backgroundColor: isActive
                 ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).disabledColor,
-            foregroundColor: Theme.of(context).colorScheme.inversePrimary,
-            child: const Icon(Icons.location_on_rounded),
+            child: Icon(
+              location.icon.iconData,
+              color: location.icon.color,
+            ),
           ),
           title: Text(
             location.name,

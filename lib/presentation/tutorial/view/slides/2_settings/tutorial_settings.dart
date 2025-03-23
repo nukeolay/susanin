@@ -2,14 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
-import 'package:susanin/presentation/common/ios_compass_settings.dart';
-import 'package:susanin/presentation/common/settings_switch.dart';
-import 'package:susanin/presentation/tutorial/view/slides/2_settings/cubit/tutorial_settings_cubit.dart';
-import 'package:susanin/presentation/tutorial/view/widgets/tutorial_text.dart';
+
+import '../../../../../core/extensions/extensions.dart';
+import '../../../../../features/compass/domain/repositories/compass_repository.dart';
+import '../../../../../features/location/domain/repositories/location_repository.dart';
+import '../../../../../features/settings/domain/repositories/settings_repository.dart';
+import '../../../../common/ios_compass_settings.dart';
+import '../../../../common/settings_switch.dart';
+import '../../../../common/snackbar_error_handler.dart';
+import 'cubit/tutorial_settings_cubit.dart';
+import '../../widgets/tutorial_text.dart';
 
 class TutorialSettings extends StatelessWidget {
   const TutorialSettings({super.key});
@@ -21,11 +23,12 @@ class TutorialSettings extends StatelessWidget {
     final compassRepository = context.read<CompassRepository>();
 
     return BlocProvider(
-      create: (context) => TutorialSettingsCubit(
-        compassRepository: compassRepository,
-        locationRepository: locationRepository,
-        settingsRepository: settingsRepository,
-      )..init(),
+      create:
+          (context) => TutorialSettingsCubit(
+            compassRepository: compassRepository,
+            locationRepository: locationRepository,
+            settingsRepository: settingsRepository,
+          )..init(),
       child: const _TutorialSettingsView(),
     );
   }
@@ -54,10 +57,7 @@ class ServiceDisabledInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TutorialText(
-          context.s.tutorial_settings_disabled,
-          isError: true,
-        ),
+        TutorialText(context.s.tutorial_settings_disabled, isError: true),
         const SizedBox(height: 30),
         Center(
           child: CircularProgressIndicator(
@@ -89,11 +89,17 @@ class ServicePermissionInfo extends StatelessWidget {
             const SizedBox(height: 10),
             LocationServiceSwitch(
               locationStatus: state.locationStatus,
-              action: (_) => cubit.getPermission(),
+              action:
+                  (_) async => cubit.getPermission().onError(
+                    SnackBarErrorHandler(context).onError,
+                  ),
             ),
             ThemeSwitch(
               isDarkTheme: state.isDarkTheme,
-              action: (_) => cubit.toggleTheme(),
+              action:
+                  (_) async => cubit.toggleTheme().onError(
+                    SnackBarErrorHandler(context).onError,
+                  ),
             ),
             if (!Platform.isIOS && state.compassStatus.isFailure)
               TutorialText(

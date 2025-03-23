@@ -9,21 +9,25 @@ class AddLocationState extends Equatable {
     required this.longitude,
     required this.notes,
     required this.name,
+    required this.icon,
   });
+
+  AddLocationState.initial(PlaceEntity place)
+      : this(
+          status: AddLocationStatus.loading,
+          latitude: place.latitude,
+          longitude: place.longitude,
+          notes: place.notes,
+          name: place.name,
+          icon: place.icon,
+        );
 
   final AddLocationStatus status;
   final double latitude;
   final double longitude;
   final String notes;
   final String name;
-
-  static const initial = AddLocationState(
-    status: AddLocationStatus.loading,
-    latitude: 0,
-    longitude: 0,
-    notes: '',
-    name: '',
-  );
+  final IconEntity icon;
 
   AddLocationState copyWith({
     AddLocationStatus? status,
@@ -31,6 +35,7 @@ class AddLocationState extends Equatable {
     double? longitude,
     String? notes,
     String? name,
+    IconEntity? icon,
   }) {
     return AddLocationState(
       status: status ?? this.status,
@@ -38,6 +43,7 @@ class AddLocationState extends Equatable {
       longitude: longitude ?? this.longitude,
       notes: notes ?? this.notes,
       name: name ?? this.name,
+      icon: icon ?? this.icon,
     );
   }
 
@@ -48,5 +54,6 @@ class AddLocationState extends Equatable {
         longitude,
         name,
         notes,
+        icon,
       ];
 }

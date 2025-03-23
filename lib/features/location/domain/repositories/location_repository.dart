@@ -1,5 +1,6 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:susanin/features/location/domain/entities/position.dart';
+
+import '../entities/position.dart';
 
 abstract class LocationRepository {
   ValueStream<PositionEntity> get positionStream;

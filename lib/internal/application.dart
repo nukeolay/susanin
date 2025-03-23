@@ -1,84 +1,41 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:susanin/generated/l10n.dart';
-import 'package:susanin/internal/repository_initializer.dart';
-import 'package:susanin/internal/cubit/app_settings_cubit.dart';
-import 'package:susanin/core/routes/routes.dart';
-import 'package:susanin/core/theme/dark_theme.dart';
-import 'package:susanin/core/theme/light_theme.dart';
-import 'package:susanin/presentation/home/home_screen.dart';
-import 'package:susanin/presentation/tutorial/tutorial_screen.dart';
+import 'package:go_router/go_router.dart';
+
+import '../core/navigation/router.dart';
+import '../core/navigation/routes.dart';
+import '../core/theme/dark_theme.dart';
+import '../core/theme/light_theme.dart';
+import '../features/review/domain/review_repository.dart';
+import '../generated/l10n.dart';
+import 'cubit/app_settings_cubit.dart';
 
 class SusaninApp extends StatefulWidget {
-  const SusaninApp({super.key});
+  const SusaninApp();
 
   @override
   State<SusaninApp> createState() => _SusaninAppState();
 }
 
 class _SusaninAppState extends State<SusaninApp> {
-  bool _isLoading = true;
-  final _repositoryInitializer = RepositoryInitializer();
+  late final GoRouter _router;
 
   @override
   void initState() {
-    _repositoryInitializer
-        .init()
-        .then((_) => setState(() => _isLoading = false));
     super.initState();
+    _router = createRouter();
+    // ignore: discarded_futures
+    _onInit().ignore();
   }
 
-  @override
-  void dispose() {
-    _repositoryInitializer.dispose();
-    super.dispose();
+  Future<void> _onInit() async {
+    final reviewRepository = context.read<ReviewRepository>();
+    await reviewRepository.incrementLaunches();
   }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const MaterialApp(
-        home: Scaffold(
-          // TODO impl SplashScreen
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      );
-    }
-
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider.value(
-          value: _repositoryInitializer.compassRepository,
-        ),
-        RepositoryProvider.value(
-          value: _repositoryInitializer.locationRepository,
-        ),
-        RepositoryProvider.value(
-          value: _repositoryInitializer.placesRepository,
-        ),
-        RepositoryProvider.value(
-          value: _repositoryInitializer.settingsRepository,
-        ),
-        RepositoryProvider.value(
-          value: _repositoryInitializer.wakelockRepository,
-        ),
-      ],
-      child: BlocProvider(
-        create: (context) => AppSettingsCubit(
-          settingsRepository: _repositoryInitializer.settingsRepository,
-        )..init(),
-        child: const _App(),
-      ),
-    );
-  }
-}
-
-class _App extends StatelessWidget {
-  const _App();
 
   Future<void> _uiSetup(bool isDarkTheme) async {
     SystemChrome.setSystemUIOverlayStyle(
@@ -95,21 +52,28 @@ class _App extends StatelessWidget {
         systemNavigationBarColor: Colors.transparent,
       ),
     );
-    SystemChrome.setPreferredOrientations(
-      [
+    unawaited(
+      SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
-      ],
+      ]),
     );
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppSettingsCubit, AppSettingsState>(
+    return BlocConsumer<AppSettingsCubit, AppSettingsState>(
+      listener: (context, state) {
+        if (state is! AppSettingsLoadedState) {
+          return;
+        }
+        unawaited(_uiSetup(state.isDarkTheme));
+        _router.go(state.isFirstTime ? Routes.tutorial : Routes.home);
+      },
       builder: (context, state) {
-        _uiSetup(state.isDarkTheme);
-        return MaterialApp(
+        final isDark = state is AppSettingsLoadedState && state.isDarkTheme;
+        return MaterialApp.router(
           localizationsDelegates: const [
             S.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -119,11 +83,10 @@ class _App extends StatelessWidget {
           supportedLocales: S.delegate.supportedLocales,
           debugShowCheckedModeBanner: false,
           title: 'Susanin',
-          themeMode: state.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
+          themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
           darkTheme: darkTheme,
           theme: lightTheme,
-          home: state.isFirstTime ? const TutorialScreen() : const HomeScreen(),
-          onGenerateRoute: Routes.onGenerateRoute,
+          routerConfig: _router,
         );
       },
     );

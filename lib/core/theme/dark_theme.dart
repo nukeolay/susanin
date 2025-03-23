@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:susanin/core/routes/custom_route.dart';
+
+import '../navigation/page_transition.dart';
 
 final darkTheme = ThemeData.dark().copyWith(
   primaryColor: Colors.green,
   colorScheme: const ColorScheme.dark().copyWith(
     primary: Colors.green,
-    background: ThemeData.dark().scaffoldBackgroundColor,
+    surface: ThemeData.dark().scaffoldBackgroundColor,
     secondary: Colors.white,
     inversePrimary: Colors.white,
     error: Colors.red,

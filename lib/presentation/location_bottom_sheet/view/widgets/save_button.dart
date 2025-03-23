@@ -1,9 +1,13 @@
-part of '../../location_bottom_sheet.dart';
+import 'package:flutter/material.dart';
 
-class _SaveButton extends StatelessWidget {
-  const _SaveButton({
+import '../../../../core/extensions/extensions.dart';
+import '../../../common/susanin_button.dart';
+
+class SaveButton extends StatelessWidget {
+  const SaveButton({
     required this.isValid,
     required this.onSave,
+    super.key,
   });
 
   final bool isValid;

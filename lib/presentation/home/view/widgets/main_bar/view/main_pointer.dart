@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/location/domain/entities/position.dart';
-import 'package:susanin/presentation/common/pointer.dart';
-import 'package:susanin/presentation/home/view/widgets/main_bar/cubit/main_pointer_cubit.dart';
+
+import '../../../../../../core/extensions/extensions.dart';
+import '../../../../../../features/location/domain/entities/position.dart';
+import '../../../../../common/pointer.dart';
+import '../cubit/main_pointer_cubit.dart';
 
 class MainPointer extends StatelessWidget {
   const MainPointer({
@@ -46,13 +47,16 @@ class MainPointer extends StatelessWidget {
             ),
           )
         else
-          Pointer(
-            rotateAngle: rotateAngle,
-            arcRadius: accuracyAngle,
-            radius: pointerSize,
-            positionAccuracy: positionAccuracy,
-            foregroundColor: Theme.of(context).colorScheme.secondary,
-            backGroundColor: Theme.of(context).colorScheme.background,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Pointer(
+              rotateAngle: rotateAngle,
+              arcRadius: accuracyAngle,
+              radius: pointerSize,
+              positionAccuracy: positionAccuracy,
+              foregroundColor: Theme.of(context).colorScheme.secondary,
+              backGroundColor: Theme.of(context).colorScheme.surface,
+            ),
           ),
         Expanded(
           child: Column(

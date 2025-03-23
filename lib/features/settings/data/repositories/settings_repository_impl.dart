@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:rxdart/rxdart.dart';
-import 'package:susanin/core/services/local_storage.dart';
-import 'package:susanin/features/settings/data/models/settings_model.dart';
-import 'package:susanin/features/settings/domain/entities/settings.dart';
-import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
+
+import '../../../../core/services/local_storage.dart';
+import '../models/settings_model.dart';
+import '../../domain/entities/settings.dart';
+import '../../domain/repositories/settings_repository.dart';
 
 class SettingsRepositoryImpl extends SettingsRepository {
   SettingsRepositoryImpl(this._localStorage);
@@ -59,7 +60,7 @@ class SettingsRepositoryImpl extends SettingsRepository {
   }
 
   Future<void> _saveSettings(SettingsModel settings) async {
-    final jsonLocations = json.encode(settings);
-    await _localStorage.save(key: _settingsKey, data: jsonLocations);
+    final jsonSettings = json.encode(settings);
+    await _localStorage.save(key: _settingsKey, data: jsonSettings);
   }
 }

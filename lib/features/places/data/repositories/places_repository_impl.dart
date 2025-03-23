@@ -3,32 +3,32 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:susanin/core/services/local_storage.dart';
-import 'package:susanin/features/places/data/models/place_model.dart';
-import 'package:susanin/features/places/domain/entities/place_entity.dart';
-import 'package:susanin/features/places/domain/entities/places_entity.dart';
-import 'package:susanin/features/places/domain/repositories/places_repository.dart';
+
+import '../../../../core/services/local_storage.dart';
+import '../models/place_model.dart';
+import '../../domain/entities/place_entity.dart';
+import '../../domain/entities/places_entity.dart';
+import '../../domain/repositories/places_repository.dart';
 
 class PlacesRepositoryImpl extends PlacesRepository {
-  PlacesRepositoryImpl(this._localStorage);
+  PlacesRepositoryImpl(this._localStorage) {
+    _streamController = _initStreamController();
+  }
 
   final _placesKey = 'savedLocationStorage';
   final _activeLocationKey = 'activeLocationId';
   final LocalStorage _localStorage;
-  BehaviorSubject<PlacesEntity>? _streamController;
+  late BehaviorSubject<PlacesEntity> _streamController;
 
   @override
-  ValueStream<PlacesEntity> get placesStream {
-    final controller = _streamController ??= _initStreamController();
-    return controller.stream;
-  }
+  ValueStream<PlacesEntity> get placesStream => _streamController.stream;
 
   @override
   Future<bool> create(PlaceEntity place) async {
     try {
       final model = PlaceModel.fromEntity(place);
       final models = await _loadPlaces();
-      final updatedModels = [...models, model];
+      final updatedModels = [model, ...models];
       await _updateStorage(models: updatedModels, place: place);
       return true;
     } catch (error) {
@@ -62,8 +62,7 @@ class PlacesRepositoryImpl extends PlacesRepository {
         places: places,
         activePlace: activePlace,
       );
-      final controller = _streamController ??= _initStreamController();
-      controller.add(result);
+      _streamController.add(result);
       return true;
     } catch (error) {
       return false;
@@ -112,8 +111,7 @@ class PlacesRepositoryImpl extends PlacesRepository {
       places: places,
       activePlace: place,
     );
-    final controller = _streamController ??= _initStreamController();
-    controller.add(result);
+    _streamController.add(result);
   }
 
   Future<List<PlaceModel>> _loadPlaces() async {

@@ -3,8 +3,9 @@ import 'dart:math' as math;
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:susanin/features/compass/domain/entities/compass.dart';
-import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
+
+import '../../../../../../features/compass/domain/entities/compass.dart';
+import '../../../../../../features/compass/domain/repositories/compass_repository.dart';
 
 part 'compass_state.dart';
 
@@ -43,6 +44,6 @@ class CompassCubit extends Cubit<CompassState> {
   @override
   Future<void> close() async {
     await _compassSubscription?.cancel();
-    super.close();
+    return super.close();
   }
 }

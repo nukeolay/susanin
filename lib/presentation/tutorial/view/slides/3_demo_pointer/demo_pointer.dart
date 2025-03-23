@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/features/compass/domain/repositories/compass_repository.dart';
-import 'package:susanin/features/location/domain/repositories/location_repository.dart';
-import 'package:susanin/features/settings/domain/repositories/settings_repository.dart';
-import 'package:susanin/presentation/common/pointer.dart';
-import 'package:susanin/presentation/tutorial/view/slides/3_demo_pointer/cubit/demo_pointer_cubit.dart';
+
+import '../../../../../core/extensions/extensions.dart';
+import '../../../../../features/compass/domain/repositories/compass_repository.dart';
+import '../../../../../features/location/domain/repositories/location_repository.dart';
+import '../../../../common/pointer.dart';
+import 'cubit/demo_pointer_cubit.dart';
 
 class DemoPointer extends StatelessWidget {
   const DemoPointer({super.key});
@@ -15,13 +15,11 @@ class DemoPointer extends StatelessWidget {
   Widget build(BuildContext context) {
     final compassRepository = context.read<CompassRepository>();
     final locationRepository = context.read<LocationRepository>();
-    final settingsRepository = context.read<SettingsRepository>();
 
     return BlocProvider(
       create: (context) => DemoPointerCubit(
         compassRepository: compassRepository,
         locationRepository: locationRepository,
-        settingsRepository: settingsRepository,
       )..init(),
       child: const _DemoPointerView(),
     );
@@ -66,13 +64,16 @@ class _DemoPointerView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (state.hasCompass)
-                  Pointer(
-                    rotateAngle: state.bearing,
-                    arcRadius: state.pointerArc,
-                    positionAccuracy: state.accuracy,
-                    radius: radius,
-                    foregroundColor: Theme.of(context).colorScheme.secondary,
-                    backGroundColor: Theme.of(context).cardColor,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Pointer(
+                      rotateAngle: state.bearing,
+                      arcRadius: state.pointerArc,
+                      positionAccuracy: state.accuracy,
+                      radius: radius,
+                      foregroundColor: Theme.of(context).colorScheme.secondary,
+                      backGroundColor: Theme.of(context).cardColor,
+                    ),
                   ),
                 Text(
                   state.distance.toInt().toDistanceString(context),

@@ -170,6 +170,16 @@ class S {
     );
   }
 
+  /// `Select`
+  String get button_select {
+    return Intl.message(
+      'Select',
+      name: 'button_select',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Poor compass accuracy: `
   String get low_compass_accuracy {
     return Intl.message(
@@ -665,6 +675,46 @@ class S {
     return Intl.message(
       'location',
       name: 'location_default_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rate the app`
+  String get review_button {
+    return Intl.message(
+      'Rate the app',
+      name: 'review_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not open app store`
+  String get review_error {
+    return Intl.message(
+      'Could not open app store',
+      name: 'review_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rate the app?`
+  String get review_dialog_title {
+    return Intl.message(
+      'Rate the app?',
+      name: 'review_dialog_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred`
+  String get snack_bar_error_default_text {
+    return Intl.message(
+      'An error occurred',
+      name: 'snack_bar_error_default_text',
       desc: '',
       args: [],
     );

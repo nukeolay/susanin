@@ -11,6 +11,7 @@
     "button_allow": "Разрешить",
     "button_cancel": "Отмена",
     "button_save": "Сохранить",
+    "button_select": "Выбрать",
     "low_compass_accuracy": "Низкая точность компаса: ",
     "normal_compass_accuracy": "Точность компаса высокая: ",
     "compass_calibrate_instruction": "Чтобы увеличить точность компаса, несколько раз переместите телефон в пространстве как указано выше.",
@@ -47,7 +48,7 @@
     "error_geolocation_permission": "Отсутствует доступ к сервису геолокации.",
     "error_geolocation_disabled": "Cервис геолокации выключен",
     "error_title": "Ошибка",
-    "error_unknown": "Неизвестный сбой",
+    "error_unknown": "Неизвестная ошибка",
     "less_than_5_m": "менее 5 м",
     "error_geolocation_permission_short": "Разрешение не выдано",
     "location_name": "название локации",
@@ -60,5 +61,9 @@
     "always_on_display_off": "Автоматическое выключение дисплея включено",
     "copied": "Скопировано",
     "notes": "заметки",
-    "location_default_name": "локация"
+    "location_default_name": "локация",
+    "review_button": "Оценить приложение",
+    "review_error": "Не удалось открыть магазин приложений",
+    "review_dialog_title": "Оценить приложение?",
+    "snack_bar_error_default_text": "Произошла ошибка"
 }

@@ -1,7 +1,9 @@
-import 'package:susanin/features/wakelock/domain/entities/wakelock_status.dart';
+import 'package:rxdart/rxdart.dart';
+
+import '../entities/wakelock_status.dart';
 
 abstract class WakelockRepository {
-  // TODO заменить на stream
-  Future<WakelockStatus> get wakelockStatus;
+  
+  ValueStream<WakelockStatus> get wakelockStream;
   Future<WakelockStatus> toggle();
 }

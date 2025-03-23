@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:susanin/core/routes/custom_route.dart';
+
+import '../navigation/page_transition.dart';
 
 final lightTheme = ThemeData(
   useMaterial3: true,
@@ -24,9 +25,10 @@ final lightTheme = ThemeData(
       TargetPlatform.android: CustomPageTransitionBuilder(),
       TargetPlatform.iOS: CustomPageTransitionBuilder(),
     },
-  ), colorScheme: const ColorScheme.light().copyWith(
+  ),
+  colorScheme: const ColorScheme.light().copyWith(
     primary: Colors.green,
-    background: ThemeData.light().scaffoldBackgroundColor,
+    surface: ThemeData.light().scaffoldBackgroundColor,
     secondary: Colors.green,
     inversePrimary: Colors.white,
     error: Colors.red,

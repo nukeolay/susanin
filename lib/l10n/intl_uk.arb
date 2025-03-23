@@ -11,6 +11,7 @@
     "button_allow": "Дозволити",
     "button_cancel": "Скасування",
     "button_save": "Зберегти",
+    "button_select": "Вибрати",
     "low_compass_accuracy": "Низька точність компасу: ",
     "normal_compass_accuracy": "Точность компаса высокая: ",
     "compass_calibrate_instruction": "Щоб збільшити точність компаса, кілька разів перемістіть телефон у просторі, як зазначено вище.",
@@ -47,7 +48,7 @@
     "error_geolocation_permission": "Немає доступу до сервісу геолокації.",
     "error_geolocation_disabled": "Сервіс геолокації вимкнено",
     "error_title": "Помилка",
-    "error_unknown": "Невідомий збій",
+    "error_unknown": "Невідома помилка",
     "less_than_5_m": "менше 5 м",
     "error_geolocation_permission_short": "Дозвіл не видано",
     "location_name": "назва локації",
@@ -60,5 +61,9 @@
     "always_on_display_off": "Автоматичне вимикання дисплея увімкнено",
     "copied": "Скопійовано",
     "notes": "нотатки",
-    "location_default_name": "локація"
+    "location_default_name": "локація",
+    "review_button": "Оцінити програму",
+    "review_error": "Не вдалося відкрити магазин програм",
+    "review_dialog_title": "Оцінити програму?",
+    "snack_bar_error_default_text": "Сталася помилка"
 }

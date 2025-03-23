@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/presentation/detailed_info/view/widgets/copy_button.dart';
+
+import '../../../../core/extensions/extensions.dart';
+import 'copy_button.dart';
 
 class LocationDetails extends StatelessWidget {
   const LocationDetails({
@@ -39,10 +42,7 @@ class LocationDetails extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    CopyButton(
-                      title: context.s.latitude,
-                      value: pointLatitude,
-                    ),
+                    CopyButton(title: context.s.latitude, value: pointLatitude),
                     CopyButton(
                       title: context.s.longitude,
                       value: pointLongitude,
@@ -57,7 +57,7 @@ class LocationDetails extends StatelessWidget {
           padding: const EdgeInsets.all(12.0),
           child: IconButton(
             onPressed: () async {
-              HapticFeedback.heavyImpact();
+              unawaited(HapticFeedback.heavyImpact());
               await Share.share(
                 '$pointName https://www.google.com/maps/search/?api=1&query=$pointLatitude,$pointLongitude',
               );

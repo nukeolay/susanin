@@ -8,9 +8,7 @@ class SusaninBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const radius = BorderRadius.vertical(
-      top: Radius.circular(16),
-    );
+    const radius = BorderRadius.vertical(top: Radius.circular(16));
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ClipRRect(
@@ -26,7 +24,9 @@ class SusaninBottomSheet extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               borderRadius: radius,
-              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.7),
+              color: Theme.of(
+                context,
+              ).scaffoldBackgroundColor.withValues(alpha: 0.7),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,

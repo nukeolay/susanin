@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:susanin/core/extensions/extensions.dart';
-import 'package:susanin/presentation/home/view/widgets/main_bar/cubit/main_pointer_cubit.dart';
+
+import '../../../../../../core/extensions/extensions.dart';
+import '../cubit/main_pointer_cubit.dart';
 
 class NoCompassPointer extends StatelessWidget {
   const NoCompassPointer({required this.state, super.key});
