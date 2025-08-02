@@ -67,7 +67,7 @@ class _DemoPointerView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Pointer(
-                      rotateAngle: state.bearing,
+                      rotateAngle: state.bearing ?? 0,
                       arcRadius: state.pointerArc,
                       positionAccuracy: state.accuracy,
                       radius: radius,

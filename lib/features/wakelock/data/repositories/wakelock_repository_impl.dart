@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:rxdart/rxdart.dart';
 
 import '../services/wakelock_service.dart';
@@ -18,7 +20,7 @@ class WakelockRepositoryImpl implements WakelockRepository {
 
   BehaviorSubject<WakelockStatus> _initStreamController() {
     final streamController = BehaviorSubject<WakelockStatus>();
-    _wakelockStatus.then(_updateStatus);
+    unawaited(_wakelockStatus.then(_updateStatus));
     return streamController;
   }
 

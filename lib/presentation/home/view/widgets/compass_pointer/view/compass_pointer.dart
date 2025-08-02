@@ -72,7 +72,7 @@ class _CompassPointerWidget extends StatelessWidget {
                   (state.needCalibration && Platform.isAndroid)
                       ? () {
                         unawaited(HapticFeedback.heavyImpact());
-                        _showBottomSheet(context);
+                        unawaited(_showBottomSheet(context));
                       }
                       : null,
               child: _LoadedCompass(state: state),

@@ -76,13 +76,13 @@ class _FilledLocationListState extends State<FilledLocationList> {
       GoRouter.of(context).go(Routes.location(activeId));
     } else {
       final cubit = context.read<LocationsListCubit>();
-      cubit.onPressed(id: id);
+      unawaited(cubit.onPressed(id: id));
     }
   }
 
   void _onLongPressed(String id) {
     final cubit = context.read<LocationsListCubit>();
-    cubit.onLongPressEdit(id: id);
+    unawaited(cubit.onLongPressEdit(id: id));
   }
 
   Future<void> _onDismissed(String id) async {
@@ -98,7 +98,7 @@ class _FilledLocationListState extends State<FilledLocationList> {
     if (dismissDirection == DismissDirection.startToEnd) {
       return showRemoveConfirmationDialog(context: context);
     } else {
-      context.read<LocationsListCubit>().onShare(place);
+      unawaited(context.read<LocationsListCubit>().onShare(place));
       return false;
     }
   }

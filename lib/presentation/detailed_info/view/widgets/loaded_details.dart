@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,12 +36,13 @@ class LoadedDetails extends StatelessWidget {
                     Stack(
                       children: [
                         Pointer(
-                          rotateAngle: state.bearing,
+                          rotateAngle: state.bearing ?? 0,
                           arcRadius: state.pointerArc,
                           positionAccuracy: state.accuracy,
                           radius: radius,
-                          foregroundColor:
-                              Theme.of(context).colorScheme.secondary,
+                          foregroundColor: Theme.of(
+                            context,
+                          ).colorScheme.secondary,
                           backGroundColor: Theme.of(context).cardColor,
                         ),
                         const Positioned(
@@ -63,9 +66,11 @@ class LoadedDetails extends StatelessWidget {
                             children: [
                               RemoveButton(
                                 onRemove: () {
-                                  context
-                                      .read<DetailedInfoCubit>()
-                                      .onDeleteLocation();
+                                  unawaited(
+                                    context
+                                        .read<DetailedInfoCubit>()
+                                        .onDeleteLocation(),
+                                  );
                                   Navigator.pop(context);
                                 },
                               ),
@@ -110,18 +115,17 @@ class LoadedDetails extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: LocationDetails(
-                      pointName: state.locationName,
-                      pointLatitude: state.locationLatitude.toStringAsFixed(7),
-                      pointLongitude:
-                          state.locationLongitude.toStringAsFixed(7),
+                      name: state.locationName,
+                      latitude: state.locationLatitude,
+                      longitude: state.locationLongitude,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: LocationDetails(
-                      pointName: context.s.current_location,
-                      pointLatitude: state.userLatitude.toStringAsFixed(7),
-                      pointLongitude: state.userLongitude.toStringAsFixed(7),
+                      name: context.s.current_location,
+                      latitude: state.userLatitude,
+                      longitude: state.userLongitude,
                     ),
                   ),
                 ],

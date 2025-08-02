@@ -42,10 +42,10 @@ class SettingsRepositoryImpl extends SettingsRepository {
 
   BehaviorSubject<SettingsEntity> _initStreamController() {
     final streamController = BehaviorSubject<SettingsEntity>();
-    _loadSettings().then((value) {
+    unawaited(_loadSettings().then((value) {
       final settings = value?.toEntity() ?? SettingsEntity.empty;
       streamController.add(settings);
-    });
+    }));
     return streamController;
   }
 

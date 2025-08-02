@@ -5,19 +5,20 @@ import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../core/extensions/extensions.dart';
+import '../../../../core/extensions/share.dart';
 import 'copy_button.dart';
 
 class LocationDetails extends StatelessWidget {
   const LocationDetails({
-    required this.pointName,
-    required this.pointLatitude,
-    required this.pointLongitude,
+    required this.name,
+    required this.latitude,
+    required this.longitude,
     super.key,
   });
 
-  final String pointName;
-  final String pointLatitude;
-  final String pointLongitude;
+  final String name;
+  final double latitude;
+  final double longitude;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class LocationDetails extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  pointName,
+                  name,
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 20),
                 ),
@@ -42,10 +43,13 @@ class LocationDetails extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    CopyButton(title: context.s.latitude, value: pointLatitude),
+                    CopyButton(
+                      title: context.s.latitude,
+                      value: latitude.toStringAsFixed(7),
+                    ),
                     CopyButton(
                       title: context.s.longitude,
-                      value: pointLongitude,
+                      value: longitude.toStringAsFixed(7),
                     ),
                   ],
                 ),
@@ -58,8 +62,10 @@ class LocationDetails extends StatelessWidget {
           child: IconButton(
             onPressed: () async {
               unawaited(HapticFeedback.heavyImpact());
-              await Share.share(
-                '$pointName https://www.google.com/maps/search/?api=1&query=$pointLatitude,$pointLongitude',
+              await SharePlus.instance.shareLocation(
+                name: name,
+                latitude: latitude,
+                longitude: longitude,
               );
             },
             icon: const Icon(Icons.share_rounded),

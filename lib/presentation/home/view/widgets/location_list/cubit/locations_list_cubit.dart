@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../../../../core/extensions/share.dart';
 import '../../../../../../features/places/domain/entities/place_entity.dart';
 import '../../../../../../features/places/domain/entities/places_entity.dart';
 import '../../../../../../features/places/domain/entities/icon_entity.dart';
@@ -13,10 +14,9 @@ import '../../../../../../features/places/domain/repositories/places_repository.
 part 'locations_list_state.dart';
 
 class LocationsListCubit extends Cubit<LocationsListState> {
-  LocationsListCubit({
-    required PlacesRepository placesRepository,
-  })  : _placesRepository = placesRepository,
-        super(const LocationsListInitialState());
+  LocationsListCubit({required PlacesRepository placesRepository})
+    : _placesRepository = placesRepository,
+      super(const LocationsListInitialState());
 
   final PlacesRepository _placesRepository;
 
@@ -135,10 +135,11 @@ class LocationsListCubit extends Cubit<LocationsListState> {
   }
 
   Future<bool> onShare(PlaceEntity place) async {
-    final shareLink =
-        '${place.name} https://www.google.com/maps/search/?api=1&query='
-        '${place.latitude},${place.longitude}';
-    await Share.share(shareLink);
+    await SharePlus.instance.shareLocation(
+      name: place.name,
+      latitude: place.latitude,
+      longitude: place.longitude,
+    );
     return false;
   }
 }
