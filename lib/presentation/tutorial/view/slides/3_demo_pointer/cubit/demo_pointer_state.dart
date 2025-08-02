@@ -1,9 +1,8 @@
 part of 'demo_pointer_cubit.dart';
 
-class DemoPointerState extends Equatable with PointerCalculations {
+class DemoPointerState extends Equatable with PointerMixin {
   const DemoPointerState({
     required this.locationServiceStatus,
-    required this.hasCompass,
     required this.accuracy,
     required this.locationLatitude,
     required this.locationLongitude,
@@ -13,8 +12,7 @@ class DemoPointerState extends Equatable with PointerCalculations {
   });
 
   final LocationStatus locationServiceStatus;
-  // ! TODO если сделать compassNorth nullable то можно это свойство убрать
-  final bool hasCompass;
+
   @override
   final double compassNorth;
   @override
@@ -30,7 +28,6 @@ class DemoPointerState extends Equatable with PointerCalculations {
 
   static const initial = DemoPointerState(
     locationServiceStatus: LocationStatus.loading,
-    hasCompass: true,
     accuracy: 0,
     locationLatitude: 34.134057,
     locationLongitude: -118.321569,
@@ -54,7 +51,6 @@ class DemoPointerState extends Equatable with PointerCalculations {
     return DemoPointerState(
       locationServiceStatus:
           locationServiceStatus ?? this.locationServiceStatus,
-      hasCompass: hasCompass ?? this.hasCompass,
       accuracy: accuracy ?? this.accuracy,
       locationLatitude: locationLatitude ?? this.locationLatitude,
       locationLongitude: locationLongitude ?? this.locationLongitude,
@@ -66,20 +62,20 @@ class DemoPointerState extends Equatable with PointerCalculations {
 
   @override
   List<Object> get props => [
-        compassNorth,
-        userLatitude,
-        userLongitude,
-        locationLatitude,
-        locationLongitude,
-        accuracy,
-        // pointerArc // bearing // distance
+    compassNorth,
+    userLatitude,
+    userLongitude,
+    locationLatitude,
+    locationLongitude,
+    accuracy,
 
-        compassNorth,
-        locationServiceStatus,
-        hasCompass,
-        locationLatitude,
-        locationLongitude,
-        userLatitude,
-        userLongitude,
-      ];
+    // pointerArc // bearing // distance
+    compassNorth,
+    locationServiceStatus,
+    hasCompass,
+    locationLatitude,
+    locationLongitude,
+    userLatitude,
+    userLongitude,
+  ];
 }

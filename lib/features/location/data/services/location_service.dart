@@ -65,23 +65,23 @@ class LocationServiceImpl implements LocationService {
 
   @override
   Stream<PositionModel> get positionStream {
-    Geolocator.isLocationServiceEnabled().then(
+    unawaited(Geolocator.isLocationServiceEnabled().then(
       (isEnabled) {
         if (isEnabled) {
-          _initPositionSubscription();
+          unawaited(_initPositionSubscription());
         } else {
-          _onServiceDisabled();
+          unawaited(_onServiceDisabled());
         }
       },
-    );
+    ));
     _serviceSubscription ??= Geolocator.getServiceStatusStream().listen(
       (event) {
         final isEnabled = event == ServiceStatus.enabled;
         if (isEnabled) {
-          _initPositionSubscription();
+          unawaited(_initPositionSubscription());
           return;
         } else {
-          _onServiceDisabled();
+          unawaited(_onServiceDisabled());
         }
       },
     );

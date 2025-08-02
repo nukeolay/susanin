@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../core/mixins/pointer_calculations.dart';
+import '../../../../../../core/mixins/pointer_mixin.dart';
 import '../../../../../../features/compass/domain/entities/compass.dart';
 import '../../../../../../features/compass/domain/repositories/compass_repository.dart';
 import '../../../../../../features/location/domain/entities/position.dart';

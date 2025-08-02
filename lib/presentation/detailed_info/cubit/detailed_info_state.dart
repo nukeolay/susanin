@@ -1,6 +1,6 @@
 part of 'detailed_info_cubit.dart';
 
-class DetailedInfoState extends Equatable with PointerCalculations {
+class DetailedInfoState extends Equatable with PointerMixin {
   const DetailedInfoState({
     required this.placeId,
     required this.place,
@@ -14,14 +14,14 @@ class DetailedInfoState extends Equatable with PointerCalculations {
   });
 
   DetailedInfoState.initial(this.placeId)
-      : locationServiceStatus = LocationStatus.loading,
-        place = PlaceEntity.empty(),
-        hasCompass = true,
-        compassNorth = 0,
-        isScreenAlwaysOn = false,
-        accuracy = 0,
-        userLatitude = 0,
-        userLongitude = 0;
+    : locationServiceStatus = LocationStatus.loading,
+      place = PlaceEntity.empty(),
+      hasCompass = true,
+      compassNorth = 0,
+      isScreenAlwaysOn = false,
+      accuracy = 0,
+      userLatitude = 0,
+      userLongitude = 0;
 
   final String placeId;
   final PlaceEntity place;
@@ -70,14 +70,14 @@ class DetailedInfoState extends Equatable with PointerCalculations {
 
   @override
   List<Object> get props => [
-        placeId,
-        place,
-        locationServiceStatus,
-        hasCompass,
-        compassNorth,
-        accuracy,
-        userLatitude,
-        userLongitude,
-        isScreenAlwaysOn,
-      ];
+    placeId,
+    place,
+    locationServiceStatus,
+    hasCompass,
+    compassNorth,
+    accuracy,
+    userLatitude,
+    userLongitude,
+    isScreenAlwaysOn,
+  ];
 }

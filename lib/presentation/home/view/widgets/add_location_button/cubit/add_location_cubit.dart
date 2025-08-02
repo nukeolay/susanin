@@ -118,7 +118,7 @@ class AddLocationCubit extends Cubit<AddLocationState> {
         creationTime: DateTime.now(),
         icon: icon,
       );
-      _placesRepository.create(newPlace);
+      await _placesRepository.create(newPlace);
       emit(state.copyWith(status: AddLocationStatus.normal));
     } catch (error) {
       emit(state.copyWith(status: AddLocationStatus.failure));

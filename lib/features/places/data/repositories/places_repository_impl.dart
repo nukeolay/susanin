@@ -140,7 +140,7 @@ class PlacesRepositoryImpl extends PlacesRepository {
 
   BehaviorSubject<PlacesEntity> _initStreamController() {
     final streamController = BehaviorSubject<PlacesEntity>();
-    Future.wait([
+    unawaited(Future.wait([
       _loadPlaces(),
       _loadAcivePlaceId(),
     ]).then((value) {
@@ -164,7 +164,7 @@ class PlacesRepositoryImpl extends PlacesRepository {
         streamController.add(result);
       }
       streamController.add(result);
-    });
+    }));
     return streamController;
   }
 }

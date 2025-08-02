@@ -1,6 +1,6 @@
 part of 'main_pointer_cubit.dart';
 
-class MainPointerState extends Equatable with PointerCalculations {
+class MainPointerState extends Equatable with PointerMixin {
   const MainPointerState({
     required this.locationServiceStatus,
     required this.compassStatus,
@@ -75,14 +75,14 @@ class MainPointerState extends Equatable with PointerCalculations {
 
   @override
   List<Object> get props => [
-        locationServiceStatus,
-        compassStatus,
-        compassNorth,
-        accuracy,
-        locationLatitude,
-        locationLongitude,
-        userLatitude,
-        userLongitude,
-        activePlace,
-      ];
+    locationServiceStatus,
+    compassStatus,
+    compassNorth,
+    accuracy,
+    locationLatitude,
+    locationLongitude,
+    userLatitude,
+    userLongitude,
+    activePlace,
+  ];
 }

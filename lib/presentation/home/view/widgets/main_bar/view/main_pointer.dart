@@ -163,7 +163,7 @@ class MainPointerDefault extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainPointer(
-      rotateAngle: state.bearing,
+      rotateAngle: state.bearing ?? 0,
       accuracyAngle: state.pointerArc,
       positionAccuracy: state.accuracy,
       mainText: state.distance.toInt().toDistanceString(context),
