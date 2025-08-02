@@ -1,27 +1,58 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/constants/icon_constants.dart';
-import 'icon_entity.dart';
+import '../../../icons/domain/entities/icon_entity.dart';
+import '../../../tracks/domain/entities/geo_point.dart';
 
 class PlaceEntity extends Equatable {
-  const PlaceEntity({
-    required this.id,
-    required this.latitude,
-    required this.longitude,
+  const PlaceEntity._({
+    required this.point,
     required this.name,
-    required this.creationTime,
     required this.notes,
     required this.icon,
   });
 
+  factory PlaceEntity({
+    required String id,
+    required double latitude,
+    required double longitude,
+    required DateTime creationTime,
+    required String name,
+    required String notes,
+    required IconEntity icon,
+  }) {
+    return PlaceEntity._(
+      point: GeoPoint(
+        id: id,
+        latitude: latitude,
+        longitude: longitude,
+        creationTime: creationTime,
+      ),
+      name: name,
+      notes: notes,
+      icon: icon,
+    );
+  }
+
+  factory PlaceEntity.fromPoint({
+    required GeoPoint point,
+    required String name,
+    required String notes,
+    required IconEntity icon,
+  }) {
+    return PlaceEntity._(point: point, name: name, notes: notes, icon: icon);
+  }
+
   PlaceEntity.empty()
-      : id = '',
-        latitude = 0,
-        longitude = 0,
-        name = '',
-        creationTime = DateTime(0),
-        notes = '',
-        icon = IconConstants.standard;
+    : point = GeoPoint(
+        id: '',
+        latitude: 0,
+        longitude: 0,
+        creationTime: DateTime(0),
+      ),
+      name = '',
+      notes = '',
+      icon = IconConstants.standard;
 
   PlaceEntity copyWith({
     double? latitude,
@@ -41,22 +72,15 @@ class PlaceEntity extends Equatable {
     );
   }
 
-  final String id;
-  final double latitude;
-  final double longitude;
+  final GeoPoint point;
   final String name;
-  final DateTime creationTime;
   final String notes;
   final IconEntity icon;
+  String get id => point.id;
+  double get longitude => point.longitude;
+  double get latitude => point.latitude;
+  DateTime get creationTime => point.creationTime;
 
   @override
-  List<Object?> get props => [
-        id,
-        latitude,
-        longitude,
-        name,
-        creationTime,
-        notes,
-        icon,
-      ];
+  List<Object?> get props => [point, name, notes, icon];
 }

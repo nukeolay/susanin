@@ -1,5 +1,5 @@
 import '../../../../core/constants/icon_constants.dart';
-import 'icon_model.dart';
+import '../../../icons/data/models/icon_model.dart';
 import '../../domain/entities/place_entity.dart';
 
 class PlaceModel {

@@ -3,7 +3,7 @@ import 'package:collection/collection.dart';
 
 import '../../../../../core/extensions/extensions.dart';
 import '../../../../../core/constants/icon_constants.dart';
-import '../../../../../features/places/domain/entities/icon_entity.dart';
+import '../../../../../features/icons/domain/entities/icon_entity.dart';
 import '../../../../common/susanin_button.dart';
 import '../../../../common/susanin_dialog_shell.dart';
 import 'selectable_icon.dart';

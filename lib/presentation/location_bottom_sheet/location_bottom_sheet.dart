@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../features/places/domain/entities/icon_entity.dart';
+import '../../features/icons/domain/entities/icon_entity.dart';
 import 'bloc/validator_bloc.dart';
 import 'view/location_bottom_sheet_view.dart';
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/extensions/extensions.dart';
-import '../../../../../../features/places/domain/entities/icon_entity.dart';
+import '../../../../../../features/icons/domain/entities/icon_entity.dart';
 import '../../../../../../features/places/domain/repositories/places_repository.dart';
 import '../../../../../common/snackbar_error_handler.dart';
 import '../../../../../common/state_fade_transition.dart';

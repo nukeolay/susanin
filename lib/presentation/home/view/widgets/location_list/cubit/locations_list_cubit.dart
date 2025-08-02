@@ -8,7 +8,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../../../../../core/extensions/share.dart';
 import '../../../../../../features/places/domain/entities/place_entity.dart';
 import '../../../../../../features/places/domain/entities/places_entity.dart';
-import '../../../../../../features/places/domain/entities/icon_entity.dart';
+import '../../../../../../features/icons/domain/entities/icon_entity.dart';
 import '../../../../../../features/places/domain/repositories/places_repository.dart';
 
 part 'locations_list_state.dart';

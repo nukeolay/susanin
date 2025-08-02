@@ -9,7 +9,7 @@ import '../../../features/compass/domain/entities/compass.dart';
 import '../../../features/compass/domain/repositories/compass_repository.dart';
 import '../../../features/location/domain/entities/position.dart';
 import '../../../features/location/domain/repositories/location_repository.dart';
-import '../../../features/places/domain/entities/icon_entity.dart';
+import '../../../features/icons/domain/entities/icon_entity.dart';
 import '../../../features/places/domain/entities/place_entity.dart';
 import '../../../features/places/domain/entities/places_entity.dart';
 import '../../../features/places/domain/repositories/places_repository.dart';

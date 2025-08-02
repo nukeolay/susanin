@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../features/places/domain/entities/icon_entity.dart';
+import '../../features/icons/domain/entities/icon_entity.dart';
 
 class IconConstants {
   const IconConstants._();

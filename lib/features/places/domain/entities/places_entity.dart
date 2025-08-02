@@ -3,10 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'place_entity.dart';
 
 class PlacesEntity extends Equatable {
-  const PlacesEntity({
-    required this.places,
-    required this.activePlace,
-  });
+  const PlacesEntity({required this.places, required this.activePlace});
 
   final List<PlaceEntity> places;
   final PlaceEntity? activePlace;
@@ -18,8 +15,9 @@ class PlacesEntity extends Equatable {
   }) {
     return PlacesEntity(
       places: places ?? this.places,
-      activePlace:
-          clearActivePlace == null ? null : activePlace ?? this.activePlace,
+      activePlace: clearActivePlace == null
+          ? null
+          : activePlace ?? this.activePlace,
     );
   }
 
